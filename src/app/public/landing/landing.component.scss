@@ -1,0 +1,91 @@
+#container {
+    // padding: 10px;
+    // background-color: #fff;
+    // color: #61A66A;
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
+    // height: 100vh;
+    // flex-direction: column;
+    // gap:10px;
+    //border: 1px solid red;
+    //box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+
+    h1 {
+        margin: 0px;
+        color: #61A66A;
+    }
+
+    //margin: 40px;
+}
+
+
+.formuser {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    subgroup {
+        display: flex;
+        gap: 10px;
+    }
+}
+
+// button{
+//     background-color: #fff;
+//     color: #61A66A;
+//     border: solid 0.5px;
+//     border-radius: 20px;
+//     font-size: 30px;
+//     padding:10px 20px;
+//     cursor: pointer;
+// }
+.companycard {
+    box-shadow: 0 4px 8px 0 rgb(0, 0, 0, 0.2);
+    transition: 0.3s;
+    padding: 10px;
+
+    .companycard-header {
+        height: auto;
+
+    }
+
+    .companycard-title {
+        border: solid 0.5px;
+    }
+}
+
+.companycard:hover {
+    box-shadow: 0 8px 16px 0 rgb(0, 0, 0, 0.2);
+}
+
+
+#flex-container {
+    border: 1px solid red;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.flex-item {
+    padding: 1em;
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+    display: flex;
+}
+
+.flex-item>div {
+    //border: 1px solid blue;
+    flex: 1 1 auto;
+}

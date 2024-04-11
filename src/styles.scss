@@ -1,1 +1,47 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    //padding: 0px;
+    //margin: 0px;
+    //background: #3569bd;
+    position: relative;
+    font-family: 'Roboto', sans-serif;
+
+    // button {
+    //     background-color: #fff;
+    //     color: #61A66A;
+    //     border: solid 0.5px;
+    //     border-radius: 20px;
+    //     //font-size: 30px;
+    //     padding: 10px 20px;
+    //     cursor: pointer;
+    // }
+
+
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    border-radius: .5rem;
+    background-color: #fff;
+    margin: 1.25rem 1.25rem 0;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+    .card-header {
+        padding: 1rem 1.5rem;
+        border-bottom: solid 0.5px #edf1f7;
+        font: size 1rem;
+        font-weight: 600;
+    }
+
+    .card-body {
+        padding: 1rem 1.5rem;
+    }
+}

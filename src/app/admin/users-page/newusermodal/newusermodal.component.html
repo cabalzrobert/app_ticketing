@@ -1,0 +1,115 @@
+<div class="usermodaloverlay" (click)="generalSerive.showDialog = false"></div>
+<div class="usermodalcontainer">
+    <div class="usermodalheader">
+        <label for=""> Add User</label>
+        <button (click)="generalSerive.showDialog = false" class="fa fa-times"></button>
+    </div>
+    <div class="usermodalcontent">
+        <div class="postionheader">
+            <div class="userheader">
+                <div class="usercard">
+                    <label for="">Department</label>
+                    <div class="usercardcontent">
+                        <select name="" id="">
+                            <option value="">Please Select Nationality</option>
+                            <option value="FIL">Filipino</option>
+                            <option value="CH">Chinese</option>
+                            <option value="SG">Singaporian</option>
+                            <option value="IND">Indonesian</option>
+                            <option value="US">American</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="usercard">
+                    <label for="">Membership TYpe</label>
+                    <div class="usercardcontent">
+                        <select name="" id="">
+                            <option value="">Please Select Membership Type</option>
+                            <option value="1">Administrator</option>
+                            <option value="2">User</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="usercard">
+                    <label for="">Position</label>
+                    <div class="usercardcontent">
+                        <select name="" id="">
+                            <option value="">Please Select Position</option>
+                            <option value="1">CEO</option>
+                            <option value="2">COO</option>
+                            <option value="2">CTO</option>
+                            <option value="2">Admin</option>
+                            <option value="2">HR Manger</option>
+                            <option value="2">Software Developer</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="personaldetailsheader">
+            <div class="userheader">
+                <div class="usercard">
+                    <label for="">First Name</label>
+                    <div class="usercardcontent">
+                        <input type="text" placeholder="First Name">
+                    </div>
+                </div>
+                
+                <div class="usercard">
+                    <label for="">Middle Name</label>
+                    <div class="usercardcontent">
+                        <input type="text" placeholder="Middle Name">
+                    </div>
+                </div>
+                <div class="usercard">
+                    <label for="">Last Name</label>
+                    <div class="usercardcontent">
+                        <input type="text" placeholder="Last Name">
+                    </div>
+                </div>
+                <div class="usercard">
+                    <label for="">Gender</label>
+                    <div class="usercardcontent">
+                        <select name="" id="">
+                            <option value="">Please Gender</option>
+                            <option value="m">Male</option>
+                            <option value="f">Female</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="usercard">
+                    <label for="">Birthday</label>
+                    <div class="usercardcontent">
+                        <input type="date" (ngModel)="today"  type="date" required>
+                    </div>
+                </div>
+                <div class="usercard">
+                    <label for="">Mobile Number</label>
+                    <div class="usercardcontent">
+                        <input type="text" placeholder="0999-999-9999">
+                    </div>
+                </div>
+                <div class="usercard">
+                    <label for="">Address</label>
+                    <div class="usercardcontent">
+                        <input type="text" placeholder="Address">
+                    </div>
+                </div>
+                <div class="uploadprofilepicture">
+                    <img src="assets/image/icon_blank_profile.png" alt="">
+                    <button>Upload</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="cancelbutton">
+            <button (click)="generalSerive.showDialog = false">Cancel</button>
+        </div>
+        <div class="createbutton">
+            <button (click)="generalSerive.showDialog = false">Createt</button>
+        </div>
+    </div>
+</div>

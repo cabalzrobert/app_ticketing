@@ -1,0 +1,76 @@
+.userbody {
+
+    width: 100%;
+    height: calc(100% - 3.313rem);
+    overflow: auto;
+}
+
+.userheader {
+    display: flex;
+    justify-content: space-between;
+    gap: 33px;
+    padding: 0px 30px 0px 30px;
+
+    .headerlabel {
+        display: flex;
+        align-items: center;
+    }
+
+    .hedaersearchtab {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 30px;
+
+        .searchinput {
+            display: flex;
+            gap: 35px;
+            //padding: 0px 15px;
+            .searchicon{
+                display: flex;
+                align-items: center;
+                gap:15px;
+                width: 224px;
+                height: 62px;
+                border: solid 0.5px #9E9E9E;
+                border-radius: 10px;
+                padding:0px 15px;
+                //padding: 10px;
+            }
+            .searchuserinput{
+                height: 60px;
+                outline: none;
+                border: none;
+            }
+        }
+
+        .addbuttontab {
+            display: flex;
+            gap: 35px;
+            //padding: 0px 15px;
+            .useraddbutton{
+                display: flex;
+                align-items: center;
+                gap:15px;
+                //width: 224px;
+                height: 62px;
+                border: solid 0.5px #9E9E9E;
+                border-radius: 10px;
+                padding:0px 15px;
+                background: #3818D9;
+                color: #fff;
+                cursor: pointer;
+                
+                //padding: 10px;
+            }
+            .addbutton{
+                height: 60px;
+                outline: none;
+                border: none;
+                background: none;
+                color: #fff;
+                cursor: pointer;
+            }
+        }
+    }
+}

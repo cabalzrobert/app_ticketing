@@ -1,0 +1,47 @@
+<!-- <div id="container">
+    <div id="cardbox">
+        <h5>Login</h5>
+        <input type="text" formControlName="username" placeholder="Username" />
+        <input type="password" formControlName="password" placeholder="Password" />
+        <button (click)="login()" [disabled]="!form.valid">Login</button>
+    </div>
+</div> -->
+<div class="newusercontainer">
+    <!-- <div>New User? Login Here</div> -->
+    <button class="newuserbutton">New User? Login Here</button>
+</div>
+
+<div class="login_container" [formGroup]="form">
+
+    <div class="logindisplay1">
+        <div class="logindisplay1a">
+            <img class="ticketlogo" src="assets/image/logo.gif" />
+            <div class="ticketlabel"> TikSy</div>
+        </div>
+    </div>
+    <div class="logindisplay2">
+        <div class="logincard">
+            <!-- <div class="text-center">Login</div> -->
+            <!-- <div class="logincard-header">Ticketing System</div> -->
+            <div class="logincard-body">
+                <div class="mb-3">
+                    <label class="loginlabel">Username</label>
+                    <input class="logininput" formControlName="username" type="text" placeholder="0999-999-9999">
+                </div>
+                <div class="mb-3">
+                    <label class="loginlabel">Password</label>
+                    <input class="logininput" formControlName="password" type="password" placeholder="">
+                </div>
+                <div class="loginfooter">
+                    <div class="loginevent">
+                        <button class="forgotpasswordbutton">Forgot Password?</button>
+                        <button class="loginbutton" (click)="login()" [disabled]="!form.valid">Login <img class="logo"
+                                src="assets/image/signin.gif" /></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

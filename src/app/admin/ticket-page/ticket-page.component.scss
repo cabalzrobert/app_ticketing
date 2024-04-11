@@ -1,0 +1,138 @@
+.ticketscontainer {
+    .ticketheader {
+        display: flex;
+        justify-content: space-between;
+        padding: 16px 0px 16px 0px;
+
+    }
+
+    .ticketbody {
+        padding: 16px 40px 60px 0px;
+
+        .bodyheader {
+            display: flex;
+            align-items: center;
+            height: 94px;
+            justify-content: space-between;
+            padding: 16px 0px 16px 0px;
+
+            .bodyheadertab {
+                display: flex;
+                gap: 10px;
+
+                .buttonpending {}
+
+                .buttonresolved {}
+
+                .buttonall {}
+            }
+
+            .searchtab {
+                width: 385px;
+
+                .searchicon {
+                    font-size: 20px;
+                    display: flex;
+                    align-items: center;
+                    height: 62px;
+                    width: 221%;
+                    border: solid 0.5px #9E9E9E;
+                    border-radius: 10px;
+                    gap: 15px;
+                    padding: 15px 50px 15px 15px;
+
+                    .fa {
+                        color: #5f5f5f;
+                    }
+                }
+
+                .filtericon {
+                    display: flex;
+                    width: 104px;
+                    align-items: center;
+                    gap: 15px;
+                }
+
+                .searchinput {
+                    display: flex;
+                    justify-content: flex-end;
+                    gap: 8px;
+
+                    .searchticketinput {
+                        border: none;
+                        font-size: 16px;
+                        font-weight: 500;
+                        line-height: 24px;
+                        width: 100%;
+                        outline: none;
+
+                    }
+
+                    .filterbutton {
+                        color: #5f5f5f;
+                        background: none;
+                        border: none;
+                        font-size: 16px;
+                        font-weight: 500;
+                        line-height: 24px;
+                        cursor: pointer;
+                    }
+                }
+            }
+
+        }
+
+        .bodycontent {}
+    }
+}
+
+.menu-nav {
+    list-style-type: none;
+    margin: 0;
+    padding: 0px 0px 0px 10px;
+    overflow: hidden;
+    background-color: #fff;
+    cursor: pointer;
+
+    .menu-nav-item {
+        display: inline;
+        padding: 0px 10px 0px 10px;
+
+        .menu-nav-link {
+            align-items: center;
+            height: 3rem;
+            color: #000;
+            text-decoration: none;
+            transition: all .3s ease;
+
+            .menu-nav-link-text {
+                margin-left: 1.5rem;
+            }
+        }
+    }
+
+    .menu-nav-item:hover {
+        .menu-nav-link {
+            border-bottom: solid 0.5px #3818D9;
+        }
+    }
+}
+
+.ticketheaderlabel {
+    font-size: 36px;
+    font-weight: 500;
+    line-height: 44px;
+    color: #202020;
+}
+
+.newbutton {
+    background: #3818D9;
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    padding: 10px 20px 10px 20px;
+    border-radius: 5pc;
+    border: none;
+    cursor: pointer;
+}

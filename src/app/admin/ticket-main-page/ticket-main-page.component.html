@@ -1,0 +1,53 @@
+<app-newticketmodal *ngIf="generalSerive.showDialog"></app-newticketmodal>
+<div class="ticketscontainer">
+    <div class="ticketheader">
+        <div class="ticketheaderlabel">
+            Tickets
+        </div>
+        <div class="newticketbutton">
+            <!-- <button class="newbutton" (click)="generalSerive.showDialog = true">New Ticket</button> -->
+            <button class="newbutton" (click)="openpopnewticket()">New Ticket</button>
+        </div>
+    </div>
+    <div class="ticketbody">
+        <div class="bodyheader">
+            <!-- <ul class="menu-nav">
+                <li class="menu-nav-item"><a href="pending" class="menu-nav-link"><span class="meun-nav-link-text">Pending</span></a></li>
+                <li class="menu-nav-item"><a href="resolve" class="menu-nav-link"><span class="meun-nav-link-text">Resolved</span></a></li>
+                <li class="menu-nav-item"><a href="all"  class="menu-nav-link"><span class="meun-nav-link-text">All</span></a></li>
+            </ul> -->
+            <div class="menu-nav-bar">
+                <ul class="menu-nav">
+                    <li class="menu-nav-item" *ngFor="let data of menuData">
+                        <a class="menu-nav-link" [routerLink]="[data.routerLink]" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{exact:true}">
+                            <span class="menu-nav-link-text">{{data.label}}</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+
+            <!-- <div class="bodyheadertab">
+                <button class="buttonpending">Pending</button>
+                <button class="buttonresolved">Resolved</button>
+                <button class="buttonall">All</button>
+            </div> -->
+            <div class="searchtab">
+                <div class="searchinput">
+                    <div class="searchicon">
+                        <i class="fa fa-light fa-search"></i>
+                        <input class="searchticketinput" type="text" placeholder="Seach Ticket">
+                    </div>
+                    <div class="filtericon">
+                        <i class="fa fa-thin fa-filter"></i>
+                        <button class="filterbutton">Filter</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bodycontent">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

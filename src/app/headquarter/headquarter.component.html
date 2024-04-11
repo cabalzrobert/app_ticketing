@@ -1,0 +1,72 @@
+
+<div id="container" [formGroup]="form">
+
+    <div class="container"  [formGroup]="form">
+        <div class="row">
+            <div class="col-lg-6">
+
+                <div class="flex-item">
+                    <div class="card" style="width: 100%;">
+                        <div class="card-header">
+                            <h4 class="card-title">Setup Head Office</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="formuser">
+                                    <input type="text" class="form-control form-control-user" formControlName="HeadOfficeName"
+                                        placeholder="Company Name">
+                                    <textarea type="text" class="form-control form-control-user" formControlName="HeadOfficeAddress"
+                                        placeholder="Address" rows="2"></textarea>
+                                    <input type="text" class="form-control form-control-user" formControlName="HeadOfficeTelephoneNumber"
+                                        placeholder="Tel No.">
+                                    <input type="text" class="form-control form-control-user" formControlName="HeadOfficeEmailAddress"
+                                        placeholder="Email Address">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="flex-item">
+                    <div class="card" style="width: 100%;">
+                        <div class="card-header">
+                            <h4 class="card-title">Authorize Admin</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="formuser">
+                                    <input type="text" class="form-control form-control-user"  formControlName="FirstName"
+                                        placeholder="First Name">
+                                    <input type="text" class="form-control form-control-user"  formControlName="MiddleInitial"
+                                        placeholder="Middle Initial">
+                                    <input type="text" class="form-control form-control-user"  formControlName="LastName"
+                                        placeholder="Last Name">
+                                    <input type="text" class="form-control form-control-user"  formControlName="MobileNumber"
+                                        placeholder="Mobile No.">
+                                    <input type="text" class="form-control form-control-user"  formControlName="EmailAddress" 
+                                        placeholder="Email Address">
+                                    <input type="text" class="form-control form-control-user"  formControlName="Username"
+                                        placeholder="Username">
+                                    <input type="password" class="form-control form-control-user"  formControlName="Password"
+                                        placeholder="Password">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12" style="padding:0 2em;">
+                <button class="btn btn-outline-success"  (click)="SaveHeadOffice()">Save</button>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+</div>
