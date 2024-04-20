@@ -1,0 +1,28 @@
+<div class="modaloverlay" (click)="closeddialogNewDepartment()"></div>
+<div class="modalcontainer" [formGroup]="form">
+    <div class="modalheader">
+        <label for="">Create Department</label>
+        <button class="fa fa-times" (click)="closeddialogNewDepartment()"></button>
+    </div>
+    <div class="modalbody">
+        <div class="deptcard">
+            <label for="">Department Name</label>
+            <div class="deptinput">
+                <input type="text" placeholder="Department Name" formControlName="Departmentname">
+            </div>
+        </div>
+    </div>
+    <div class="modalfooter">
+        <div class="footerbody">
+            <div class="savebutton" (click)="newdialogNewDepartment()">
+                <button>Save</button>
+                <i class="fa fa-plus"></i>
+            </div>
+            <div class="closebutton" (click)="closeddialogNewDepartment()">
+                <button>Close</button>
+                <i class="fa fa-times"></i>
+            </div>
+            
+        </div>
+    </div>
+</div>

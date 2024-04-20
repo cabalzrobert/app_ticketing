@@ -1,0 +1,41 @@
+<app-new-department-modal *ngIf="generalSerive.showDialog"></app-new-department-modal>
+<div class="container">
+    <div class="header">
+        <div class="searchtab">
+            <div class="searchbar">
+                <input type="text">
+                <span>
+                    <button class="fa fa-filter filter"></button>
+                </span>
+            </div>
+
+            <button class="newbutton fa fa-plus" (click)="NewDepartment()">New</button>
+        </div>
+    </div>
+    <div class="body">
+        <div class="content">
+            <!-- <ul>
+                <li *ngFor="let data of departmentlist">
+                    <div>{{data.Departmentname}}</div>
+                </li>
+            </ul> -->
+            <div class="deptheader">Department</div>
+            <div class="contentdetails">
+                <div class="deptdetails" *ngFor="let data of departmentlist">
+                    <div class="deptcard">
+                        <div>
+                            {{data.Departmentname}}
+                        </div>
+                        <div class="deptbutton">
+                            <button class="btnView" (click)="btnView(data)">View</button>
+                            <button class="btnUpdate" (click)="btnUpdate(data)">Update</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>

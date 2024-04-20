@@ -62,7 +62,8 @@ export class AuthService {
   }
   logout() {
     this.session = undefined;
-    localStorage.removeItem('Auth');
+    //localStorage.removeItem('Auth');
+    localStorage.clear();
     this.router.navigateByUrl('/');
   }
   ticketlogin(input: any): any {

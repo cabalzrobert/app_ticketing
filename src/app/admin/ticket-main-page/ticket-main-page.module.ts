@@ -5,7 +5,6 @@ import { TicketMainPageRoutingModule } from './ticket-main-page-routing.module';
 import { TicketpendingComponent } from './ticketpending/ticketpending.component';
 import { TicketresolveComponent } from './ticketresolve/ticketresolve.component';
 import { TicketallComponent } from './ticketall/ticketall.component';
-import { NewticketmodalComponent } from './newticketmodal/newticketmodal.component';
 
 
 @NgModule({

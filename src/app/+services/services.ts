@@ -50,10 +50,12 @@ export const rest = (() => {
     return rest;
     function setBearer(bearer: string) {
         headers['Authorization'] = ('Bearer ' + (authorization = bearer));
+        console.log('setBearer headers[Authorization] = (Bearer  + (authorization = bearer))', headers['Authorization'] = ('Bearer ' + (authorization = bearer)));
         return rest;
     }
     function post(url: string, data: any) {
         console.log('res.service.tsx port', httpLocalhost + endpoint(url));
+        console.log('post headers', headers);
         return Post(httpLocalhost + endpoint(url), data, headers);
     }
     function get(url: string) {

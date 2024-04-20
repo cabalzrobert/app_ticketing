@@ -1,3 +1,4 @@
+import { RouterLink } from "@angular/router";
 import { faWindowClose, faBookBible, faDashboard } from "@fortawesome/free-solid-svg-icons";
 export const navbarData = [
     {
@@ -11,6 +12,11 @@ export const navbarData = [
         label: 'Tickets'
     },
     {
+        routerLink: 'assignedticket',
+        icon: 'fa fa-light fa-ticket-alt',
+        label: "Assigned Tickets"
+    },
+    {
         routerLink: 'users',
         icon: 'fa fa-light fa-user-friends',
         label: 'Users'
@@ -19,5 +25,10 @@ export const navbarData = [
         routerLink: 'chat',
         icon: 'fa fa-light fa-comment',
         label: 'Chat'
+    },
+    {
+        routerLink: 'adminsettings',
+        icon: 'fa fa-cog',
+        label: 'Settings'
     }
 ];

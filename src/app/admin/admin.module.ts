@@ -13,6 +13,7 @@ import { ChatPageComponent } from './chat-page/chat-page.component';
 import { TicketMainPageComponent } from './ticket-main-page/ticket-main-page.component';
 import { NewticketmodalComponent } from './ticket-main-page/newticketmodal/newticketmodal.component';
 import { NewusermodalComponent } from './users-page/newusermodal/newusermodal.component';
+import { SettingMainPageComponent } from './setting-main-page/setting-main-page.component';
 //import { BrowserModule } from '@angular/platform-browser';
 
 
@@ -27,14 +28,15 @@ import { NewusermodalComponent } from './users-page/newusermodal/newusermodal.co
     OverviewPageComponent,
     ChatPageComponent,
     TicketMainPageComponent,
-    NewusermodalComponent
+    NewusermodalComponent,
+    SettingMainPageComponent,
   ],
   imports: [
     CommonModule,
     //BrowserModule,
     //BrowserAnimationsModule,
     AdminRoutingModule,
-    
+
   ]
 })
 export class AdminModule { }
