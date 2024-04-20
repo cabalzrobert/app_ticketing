@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { HeadquarterComponent } from './headquarter/headquarter.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { BodyComponent } from './body/body.component';
+import { AssignedticketpageComponent } from './admin/assignedticketpage/assignedticketpage.component';
 //import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
@@ -16,6 +17,7 @@ import { BodyComponent } from './body/body.component';
     AppComponent,
     LoginComponent,
     HeadquarterComponent,
+    AssignedticketpageComponent,
     //SidenavComponent,
     //BodyComponent
   ],

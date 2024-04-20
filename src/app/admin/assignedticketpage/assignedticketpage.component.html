@@ -1,0 +1,26 @@
+<p>assignedticketpage works!</p>
+<div class="cardticket">
+    <div class="cardticket-body">
+        <ul class="nav nav-tabs nav-tabs-bordered">
+            <li class="nav-item" (click)="hoverview()">
+                <button class="nav-link active">Overview {{overview}}</button>
+            </li>
+            <li class="nav-item" (click)="hEditProfile()">
+                <button class="nav-link active">Edit Profile {{profileedit}}</button>
+            </li>
+            <li class="nav-item" (click)="hSettings()">
+                <button class="nav-link active">Settings {{profilesettings}}</button>
+            </li>
+            <li class="nav-item" (click)="hChangePassword()">
+                <button class="nav-link active">Change Password {{profilechangepassword}}</button>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="tac-content pt-2">
+    <div class="tab-pane fade show active profile-overview" *ngIf="overview" id="profile-overview">Profile {{overview}}</div>
+    <div class="tab-pane fade show active profile-overview" *ngIf="profileedit" id="profile-overview">Profile Edit</div>
+    <div class="tab-pane fade show active profile-overview" *ngIf="profilesettings" id="profile-overview">Profile Settings</div>
+    <div class="tab-pane fade show active profile-overview" *ngIf="profilechangepassword" id="profile-overview">Profile Profile Change Password</div>
+</div>

@@ -1,5 +1,5 @@
 <div class="ticketmodaloverlay" (click)="closedialogNewTicket()"></div>
-<div class="ticektmodalcontainer">
+<div class="ticektmodalcontainer" [formGroup]="form">
     <div class="ticketmodalheader">
         <label for=""> Create Ticket</label>
         <button (click)="closedialogNewTicket()" class="fa fa-times"></button>
@@ -8,7 +8,7 @@
         <div class="categorycard">
             <label for="">Category</label>
             <div class="selectcat">
-                <select name="" id="">
+                <select formControlName="Category" name="" id="">
                     <option value="">Please Select Catgory</option>
                     <option value="1">Sample Category 1</option>
                     <option value="2">Sample Category 2</option>
@@ -21,16 +21,19 @@
         <div class="tickettitlecard">
             <label for="">Ticket Title</label>
             <div class="titleinput">
-                <input type="text" placeholder="Please Enter Ticket Title">
+                <input formControlName="TitleTicket" type="text" placeholder="Please Enter Ticket Title">
             </div>
         </div>
         <div class="ticketdescriptioncard">
             <label for="">Ticket Description</label>
             <div class="desriptintextarea">
-                <textarea name="" id="" cols="30" rows="10" placeholder="Place Enter Ticket Description"></textarea>
+                <textarea formControlName="TicketDescription" name="" id="" cols="30" rows="10"
+                    placeholder="Place Enter Ticket Description"></textarea>
             </div>
         </div>
-        <div class="ticketattachimagecard">
+
+
+        <!-- <div class="ticketattachimagecard">
             <label for="">Attachment</label>
             <div class="attachfile">
                 <div class="attachcard">
@@ -43,12 +46,70 @@
                 <button class="fa fa-regular fa-upload"></button>
                 <label for="">Drop here to attach or upload</label>
                 <label for="">Max size 1M</label>
+
+            </div>
+        </div> -->
+
+        <div class="ticketattachimagecard">
+            <label for="">Attachment</label>
+            <div class="upload-form">
+
+                <label for="file" (dragover)="handleDragOver($event)" (drop)="handleDrop($event)">
+
+                    <div class="fa fa-regular fa-upload"></div>
+                    <span>
+                        <i class="ph ph-upload"></i>
+                        Drop here to attach or
+                        <span>upload</span>
+
+                    </span>
+                    <div>Max size:2M</div>
+
+                </label>
+
+                <input id="file" type="file" multiple="multiple" accept=".png, .jpg, .gif" name="file"
+                    (change)="onFileSelected($event)" />
+
+                <div class="result" [style.display]="outputBoxVisible ? 'flex' : 'none'">
+                    <i class="ph ph-file"></i>
+                    <u>
+                        <li *ngFor="let data of uploaded; index as i">
+                            <div class="file-details">
+                                <div class="filecontent">
+                                    <span><img src={{data.base64}} alt=""></span>
+                                    <!-- <span class="file-name">{{ data.rownum }} </span> -->
+                                    <span class="file-name">{{ data.name }}</span>
+                                    <span class="file-size">{{ data.filesize }}</span>
+                                </div>
+
+                                <ng-container *ngIf="data.uploadstatus === 200 || uploadStatus === undefined">
+                                    <div class="progress-bar">
+                                        <div class="progress" [style.width]="data.progress"></div>
+                                    </div>
+                                    <!-- <span class="file-size">{{ fileSize }}</span> -->
+                                </ng-container>
+                            </div>
+
+                            <div class="upload-result" [style.display]="data.uploadstatus ? 'flex; justify-content: center' : 'none'">
+                                <span>{{ data.uploadResult }}</span>
+                                <ng-container *ngIf="data.uploadStatus === 200; else error">
+                                    <i class="ph ph-check-circle"></i>
+                                </ng-container>
+                                <ng-template #error>
+                                    <i (click)="hRemoveItem(data, i)" class="fa fa-times"></i>
+                                </ng-template>
+                            </div>
+                        </li>
+                    </u>
+
+                </div>
             </div>
         </div>
+
         <div class="categorycard">
             <label for="">Priority Level</label>
             <div class="selectcat">
-                <select name="" id="">
+                <select formControlName="PriorityLevel" name="" id="">
                     <option value="">Please Select Catgory</option>
                     <option value="1">Priority Level 1</option>
                     <option value="2">Priority Level 2</option>
@@ -117,7 +178,7 @@
     </div>
     <div class="actions">
         <div class="actionbutton">
-            <button (click)="closedialogNewTicket()">Create Ticket</button>
+            <button (click)="createNewTicket()">Create Ticket</button>
             <i class="fa fa-plus"></i>
         </div>
     </div>

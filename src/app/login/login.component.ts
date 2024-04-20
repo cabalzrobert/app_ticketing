@@ -96,7 +96,6 @@ export class LoginComponent implements OnInit {
 
     }
     else{
-      alert('Successfully Login');
       console.log('this.account at login.component.ts inside if else statemet', user);
       this.router.navigateByUrl('/dashboard');
     }

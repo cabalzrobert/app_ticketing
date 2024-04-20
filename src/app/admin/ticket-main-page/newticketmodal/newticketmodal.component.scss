@@ -6,7 +6,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.3);
     overflow-x: hidden;
     //align-items: center;
     //justify-content: center;
@@ -37,7 +37,7 @@
     top: 0;
     bottom: 0;
     right: 0;
-    width: fit-content;
+    width: 500px;
     font-family: Arial, Helvetica, sans-serif;
     //height: 600px;
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -178,6 +178,7 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
+            cursor: pointer;
 
             .attachfile {
                 display: flex;
@@ -189,6 +190,9 @@
                 .attachcard {
                     display: flex;
                     gap: 8px;
+                    label{
+                        cursor: pointer;
+                    }
                 }
 
                 input {
@@ -266,3 +270,174 @@ label {
     line-height: 16px;
     color: #403D39;
 }
+
+.upload-form {
+    display: flex;
+    flex-direction: column;
+    //max-width: 29rem;
+    padding: 20px;
+    flex-flow: column;
+    //margin: 100px auto 1rem auto;
+    background-color: #fff; 
+    border: solid 1px #4845D2;
+    //box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.15);
+  }
+  
+  .upload-form h1 {
+    margin: 0;
+    padding: 1rem 0px 0.5rem;
+    font-size: 16px;
+    font-weight: 400;
+    color: #434850;
+    text-align: left;
+  }
+  
+  .upload-form label {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    //border: 1px dashed #e6e8ec;
+    color: #000000;
+    padding: 0.5rem 0.75rem;
+    font-weight: 400;
+    font-size: 16px;
+    margin: 0.5rem 0;
+    //border-radius: 0.25rem;
+    cursor: pointer;
+    gap:10px
+  }
+  
+  .upload-form label i {
+    padding: 0.25rem 0;
+    color: #0c7ce5;
+    font-size: 1.1rem;
+  }
+  
+  .upload-form label span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    word-break: break-all;
+  }
+  
+  .upload-form label span span {
+    color: #0c7ce5;
+    display: inline-block;
+    margin: 0px 2px;
+  }
+  
+  .upload-form label:hover {
+    background-color: #f7f8f9;
+    border: 1px dashed #e3e5ea;
+  }
+  
+  .upload-form input[type="file"] {
+    appearance: none;
+    visibility: hidden;
+    height: 0;
+    width: 0;
+    padding: 0;
+    margin: 0;
+  }
+  .upload-form .filecontent{
+    display: flex;
+    gap:10px;
+    img{
+      height: 40px;
+      width: 40px;
+    }
+  }
+  
+  .upload-form .result {
+    display: flex;
+    background: #ecf6ff;
+    border-radius: 0.25rem;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    height: 200px;
+    overflow: auto;
+    u{
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        list-style-type: none;
+        display: flex;
+        flex-direction: column;
+        gap:10px;
+        text-decoration: none;
+    }
+    li{
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 16px;
+
+        display:flex;
+        gap:10px;
+        height: 50px;
+    }
+  }
+  
+  .upload-form .result * {
+    font-size: 0.7rem;
+  }
+  
+  .upload-form .result .ph-file {
+    font-size: 1.5rem;
+  }
+  
+  .upload-form .result span {
+    display: block;
+  }
+  
+  .upload-form .result .file-details {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 0.25rem;
+    flex: 1;
+    height: 60px;
+  }
+  
+  .upload-form .result .file-details span.file-name {
+    color: #000000;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+  }
+  
+  .upload-form .result .file-details span.file-size {
+    color: #a0aeba;
+  }
+  
+  .upload-form .result .upload-result {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  
+  .upload-form .result .upload-result .ph-check-circle {
+    color: #23c925;
+    font-size: 1rem;
+  }
+  
+  .upload-form .result .upload-result .ph-x-circle {
+    color: #c94647;
+    font-size: 1rem;
+  }
+  
+  .upload-form .result .progress-bar {
+    width: 100%;
+    height: 0.25rem;
+    background-color: #e3e5ea;
+    border-radius: 0.25rem;
+    overflow: hidden;
+  }
+  
+  .upload-form .result .progress-bar .progress {
+    height: 100%;
+    background-color: #0c7ce5;
+  }

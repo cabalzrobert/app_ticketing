@@ -9,7 +9,7 @@
     display: flex;
     justify-content: space-between;
     gap: 33px;
-    padding: 0px 30px 0px 30px;
+    padding: 0px 30px 10px 30px;
 
     .headerlabel {
         display: flex;
@@ -25,19 +25,21 @@
         .searchinput {
             display: flex;
             gap: 35px;
+
             //padding: 0px 15px;
-            .searchicon{
+            .searchicon {
                 display: flex;
                 align-items: center;
-                gap:15px;
+                gap: 15px;
                 width: 224px;
                 height: 62px;
                 border: solid 0.5px #9E9E9E;
                 border-radius: 10px;
-                padding:0px 15px;
+                padding: 0px 15px;
                 //padding: 10px;
             }
-            .searchuserinput{
+
+            .searchuserinput {
                 height: 60px;
                 outline: none;
                 border: none;
@@ -47,23 +49,25 @@
         .addbuttontab {
             display: flex;
             gap: 35px;
+
             //padding: 0px 15px;
-            .useraddbutton{
+            .useraddbutton {
                 display: flex;
                 align-items: center;
-                gap:15px;
+                gap: 15px;
                 //width: 224px;
                 height: 62px;
                 border: solid 0.5px #9E9E9E;
                 border-radius: 10px;
-                padding:0px 15px;
+                padding: 0px 15px;
                 background: #3818D9;
                 color: #fff;
                 cursor: pointer;
-                
+
                 //padding: 10px;
             }
-            .addbutton{
+
+            .addbutton {
                 height: 60px;
                 outline: none;
                 border: none;
@@ -71,6 +75,10 @@
                 color: #fff;
                 cursor: pointer;
             }
+        }
+
+        .useraddbutton:hover {
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         }
     }
 }

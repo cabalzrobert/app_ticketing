@@ -1,8 +1,8 @@
-<div class="usermodaloverlay" (click)="generalSerive.showDialog = false"></div>
+<div class="usermodaloverlay" (click)="closededialogNewUser()"></div>
 <div class="usermodalcontainer">
     <div class="usermodalheader">
         <label for=""> Add User</label>
-        <button (click)="generalSerive.showDialog = false" class="fa fa-times"></button>
+        <button (click)="closededialogNewUser()" class="fa fa-times"></button>
     </div>
     <div class="usermodalcontent">
         <div class="postionheader">
@@ -82,7 +82,7 @@
                 <div class="usercard">
                     <label for="">Birthday</label>
                     <div class="usercardcontent">
-                        <input type="date" (ngModel)="today"  type="date" required>
+                        <input type="date" type="date" required>
                     </div>
                 </div>
                 <div class="usercard">
@@ -106,10 +106,10 @@
     </div>
     <div class="actions">
         <div class="cancelbutton">
-            <button (click)="generalSerive.showDialog = false">Cancel</button>
+            <button (click)="closededialogNewUser()">Cancel</button>
         </div>
         <div class="createbutton">
-            <button (click)="generalSerive.showDialog = false">Createt</button>
+            <button (click)="closededialogNewUser()">Createt</button>
         </div>
     </div>
 </div>
