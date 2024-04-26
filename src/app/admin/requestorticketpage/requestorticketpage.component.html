@@ -1,0 +1,243 @@
+<div class="container" [hidden]="viewRequestorPage">
+    <div class="header">
+        <div class="headerlabel">
+            Tickets
+        </div>
+
+        <div class="newticketbutton">
+            <!-- <button class="newbutton" (click)="generalSerive.showDialog = true">New Ticket</button> -->
+            <button class="newbutton" (click)="openpopnewticket()">New Ticket</button>
+        </div>
+    </div>
+    <div class="ticketbody">
+        <div class="bodyheader">
+            <div class="menu-nav-bar">
+                <ul class="menu-nav">
+                    <li class="menu-nav-item ">
+                        <button [ngClass]="unassigned == true ? 'menu-nav-button1' : 'menu-nav-button'"
+                            (click)="hPending()">Pending
+                            <span class="valueclasspending">20</span></button>
+                    </li>
+                    <li class="menu-nav-item">
+                        <button [ngClass]="assigned == true ? 'menu-nav-button1' : 'menu-nav-button'"
+                            (click)="hResolved()">Resolved
+                            <span class="valueclassresolved">20</span>
+                        </button>
+                    </li>
+                    <li class="menu-nav-item">
+                        <button [ngClass]="all == true ? 'menu-nav-button1' : 'menu-nav-button'" (click)="hAll()">All
+                            <span class="valueclassall">20</span></button>
+                    </li>
+                </ul>
+            </div>
+            <div class="searchtab">
+                <div class="searchinput">
+                    <div class="searchicon">
+                        <i class="fa fa-light fa-search"></i>
+                        <input class="searchticketinput" type="text" placeholder="Seach Ticket">
+                    </div>
+                    <div class="filtericon">
+                        <i class="fa fa-thin fa-filter"></i>
+                        <button class="filterbutton">Filter</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div #tabsContentRef class="bodycontent" [ngSwitch]="selectedTab">
+            <div class="cardcontent" *ngSwitchCase="('pending')">
+                <div class="cardticket" *ngFor="let data of ticketpending ">
+                    <div class="cardticketcontent" (click)="hViewComment(data)">
+                        <div class="cardheader">
+                            <div class="headertitle">{{data.TicketTitle}}</div>
+                            <div class="headerdate">{{data.Date}}</div>
+                        </div>
+                        <div class="cardticketbody">{{data.TicketDescription}}</div>
+                        <div class="cardticketfooter">
+                            <button>Unassigned</button>
+                            <div class="prioritylevel">
+                                {{data.PriorityLevel}}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="cardcontent" *ngSwitchCase="('resolve')">
+                <div class="cardticket" *ngFor="let data of ticketresolved ">
+                    <div class="cardticketcontent">
+                        <div class="cardheader">
+                            <div class="headertitle">{{data.TicketTitle}}</div>
+                            <div class="headerdate">{{data.Date}}</div>
+                        </div>
+                        <div class="cardticketbody">{{data.TicketDescription}}</div>
+                        <!-- <div class="cardticketfooter">
+                            <button>Unassigned</button>
+                            <div class="prioritylevel">
+                                {{data.PriorityLevel}}
+                            </div>
+                        </div> -->
+                    </div>
+
+                </div>
+            </div>
+            <div class="cardcontent" *ngSwitchCase="('all')">
+                <div class="cardticket" *ngFor="let data of ticketall ">
+                    <div class="cardticketcontent">
+                        <div class="cardheader">
+                            <div class="headertitle">{{data.TicketTitle}}</div>
+                            <div class="headerdate">{{data.Date}}</div>
+                        </div>
+                        <div class="cardticketbody">{{data.TicketDescription}}</div>
+                        <!-- <div class="cardticketfooter">
+                            <button>Unassigned</button>
+                            <div class="prioritylevel">
+                                {{data.PriorityLevel}}
+                            </div>
+                        </div> -->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="containercomment" [hidden]="viewTicketComment">
+    <div class="bodycomment">
+        <div class="ticketcomment">
+            <div class="cthcomment">
+                <div class="cth">
+                    <div class="cthtitle">
+                        <div class="cthback fa fa-arrow-left" (click)="hViewRequestorPage()"></div>
+                        <div class="cthdtitle">
+                            <div class="titledetails">{{tickettitle}}</div>
+
+                            <span class="ticketid">{{'#12EEE3'}}</span>
+                        </div>
+                    </div>
+                    <div class="cthtitledetails">{{'Life seasons open have. Air have of. Lights fill after let thirddarkness replenish fruitful let. Wherein set image. Creepeth said above gathered bring.'}}
+                    </div>
+                </div>
+                <div class="cthbody">
+                    <div class="body">
+                        <div class="bodyheader">
+                            <div class="cthbodyheader">
+                                <label for="">Conversation</label>
+                                <mat-icon>more_vert</mat-icon>
+                            </div>
+                        </div>
+                        <div class="bodycontent">
+                            <div class="commentlist" *ngFor="let data of ticketcomment">
+                                <div class="notyourcomment" *ngIf="!data.IsYou && data.isMessage">
+                                    <div class="profpic">
+                                        <img src="assets/image/icon_blank_profile.png" alt="">
+                                    </div>
+                                    <div class="commentcard">
+                                        <div class="message">{{data.Message}}</div>
+                                        <div class="commenter">
+                                            <div>{{data.Name}}</div>
+                                            <label for="">{{data.Date}}</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="isyourcomment" *ngIf="data.IsYou && data.isMessage">
+                                    <div class="yourcommentcard">
+                                        <div class="message">{{data.Message}}</div>
+                                        <div class="commenter">
+                                            <div>{{data.Name}}</div>
+                                            <label for="">{{data.Date}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="profpic">
+                                        <img src="assets/image/icon_blank_profile.png" alt="">
+                                    </div>
+                                </div>
+                                <div class="isforwarded" *ngIf="!data.IsYou && !data.isMessage">
+                                    <div class="forwarded">
+                                        <label for="">Ticket has been forwarde to&nbsp;</label>
+                                        <div class="forwardinfo"> {{data.Department}}&nbsp;>&nbsp;{{data.Name}}</div> 
+                                    </div>
+                                    <div class="messageinfo">
+                                        <div class="message">{{data.Message}}</div>
+                                        <div class="date">{{data.Date}}</div>
+                                    </div>
+                                    
+                                    
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                
+                <div class="cthfooter">
+                    <div class="footerbody">
+                        <div class="commentcontent">
+                            <textarea name="" id="" rows="4"
+                                placeholder="Write  your response for issue"></textarea>
+                        </div>
+                        <div class="buttoncomment">
+                            <button class="attachmentcomment"><span class="fa fa-paperclip"> Attachment</span>
+                            </button>
+                            <button>Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ticketdetails">
+            <div class="requestticketdetail">
+                <!-- <div class="requestercard">
+                    <div class="cardheader">
+                        Request Detail
+                    </div>
+                    <div class="cardbody">
+                        <div class="profpic">
+                            <img src="assets/image/icon_blank_profile.png" alt="">
+                        </div>
+
+                        <div class="detail">
+                            <label class="requestername">Sona Gupta</label>
+                            <label class="requesteremail">sonal123&#64;gmail.com</label>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="ticketcard">
+                    <div class="ticketinfo">Ticket Info</div>
+                    <div class="ticketid"><label for="">Ticket ID: </label><button>#1E233</button></div>
+                    <div class="created"><label class="title" for="">Created: </label><label for="">31 Dec 2023</label>
+                    </div>
+                    <div class="lastmessage"><label class="title" for="">Last message: </label><label for="">31 Dec
+                            2023</label></div>
+                    <div class="status"><label for="">Status </label> <button>Open</button></div>
+                    <div class="priority"><label for="">Pririoty</label> <button>Urgent</button></div>
+                </div>
+                <div class="ticketassigninfo">
+                    <div class="assignedto">Assigned to</div>
+                    <div class="departmentinfo">Department</div>
+                    <div class="departmentheadinfo">
+                        <img src="assets/image/icon_blank_profile.png" alt="">
+                        <div class="headinfo">
+                            <div class="depthead">{{'Team Sneak'}}</div>
+                            <label for="">{{'teamsneak3&#64;gmail.com'}}</label>
+                        </div>
+                    </div>
+                    <div class="personname">{{'Name'}}</div>
+                    <div class="personinchargeinfo">
+                        <div class="profpic">
+                            <img src="assets/image/icon_blank_profile.png" alt="">
+                        </div>
+                        <div class="person">
+                            <div class="name">{{'Sonal Gupta'}}</div>
+                            <label for="">{{'teamsneak3&#64;gmail.com'}}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>

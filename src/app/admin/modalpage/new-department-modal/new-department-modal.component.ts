@@ -1,8 +1,10 @@
-import { Component, NgModule } from '@angular/core';
-import { AuthService } from '../../../../auth.service';
+import { Component, Inject, NgModule, OnInit } from '@angular/core';
+//import { AuthService } from '../../../../auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
-import { rest } from '../../../../+services/services';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { AuthService } from '../../../auth.service';
+//import { rest } from '../../../../+services/services';
+import { rest } from '../../../+services/services';
 
 @Component({
   selector: 'app-new-department-modal',
@@ -10,7 +12,7 @@ import { rest } from '../../../../+services/services';
   styleUrl: './new-department-modal.component.scss'
 })
 
-export class NewDepartmentModalComponent {
+export class NewDepartmentModalComponent implements OnInit {
   newdialogNewDepartment() {
     if(!this.isValidateEntries()) return;
     //console.log('New Department', this.form.value);
@@ -20,7 +22,13 @@ export class NewDepartmentModalComponent {
     Departmentname: ['', Validators.required],
     DepartmentID: ''
   })
-  constructor(private authService: AuthService, private fb: FormBuilder, public diaglogRef: MatDialogRef<NewDepartmentModalComponent>) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public Department: {item:any}, private authService: AuthService, private fb: FormBuilder, public diaglogRef: MatDialogRef<NewDepartmentModalComponent>) { }
+  ngOnInit(): void {
+    //console.log('New Department Modal Component data', this.Department.Departmentname);
+     this.form.patchValue(this.Department.item);
+    //this.form.value.Departmentname = this.Department.item.Departmentname;
+    console.log('this.form.patchValue', this.Department.item);
+  }
   closeddialogNewDepartment(): void {
     this.diaglogRef.close();
   }

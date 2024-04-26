@@ -210,12 +210,14 @@ export class NewticketmodalComponent implements OnInit {
     return stringbase64;
   }
   handleDragOver(event: DragEvent) {
+    console.log('handleDragOVer', event);
     event.preventDefault();
     event.stopPropagation();
   }
 
   handleDrop(event: DragEvent) {
     event.preventDefault();
+    console.log('handleDrop', event.dataTransfer);
     if (event.dataTransfer) {
       const file: File = event.dataTransfer.files[0];
       this.onFileSelected(event);

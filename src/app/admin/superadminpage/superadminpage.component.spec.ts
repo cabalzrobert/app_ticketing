@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TicketMainPageComponent } from './ticket-main-page.component';
+import { SuperadminpageComponent } from './superadminpage.component';
 
-describe('TicketMainPageComponent', () => {
-  let component: TicketMainPageComponent;
-  let fixture: ComponentFixture<TicketMainPageComponent>;
+describe('SuperadminpageComponent', () => {
+  let component: SuperadminpageComponent;
+  let fixture: ComponentFixture<SuperadminpageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TicketMainPageComponent]
+      declarations: [SuperadminpageComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(TicketMainPageComponent);
+    fixture = TestBed.createComponent(SuperadminpageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

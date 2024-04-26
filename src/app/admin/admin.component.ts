@@ -15,6 +15,7 @@ export class AdminComponent {
   onToggleSidvNav(data: SideNavToggle): void {
     this.screenWidth = data.screenWidth;
     this.isSideNavCollapsed = data.collapsed;
+    console.log('onToggleSideNav data', data);
   }
 
 }

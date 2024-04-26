@@ -1,28 +1,27 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { NewDepartmentModalComponent } from './new-department-modal/new-department-modal.component';
-import { GeneralService } from '../../../shared/services/general.service';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { menusettingsbarData } from './menusettingsbarData';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { NewDepartmentModalComponent } from '../modalpage/new-department-modal/new-department-modal.component';
 import { filter } from 'rxjs/operators';
-import { rest } from '../../../+services/services';
-
 
 @Component({
-  selector: 'app-settingsdepartment',
-  templateUrl: './settingsdepartment.component.html',
-  styleUrl: './settingsdepartment.component.scss'
+  selector: 'app-superadminpage',
+  templateUrl: './superadminpage.component.html',
+  styleUrl: './superadminpage.component.scss'
 })
-export class SettingsdepartmentComponent implements OnInit {
-btnUpdate(item: any) {
- alert(`Your Click bntUpdate ` + item.Departmentname);
-}
-btnView(item: any) {
-  alert(`Your Click btnView ` + item.Departmentname);
-}
-  constructor(public dialog: MatDialog, public generalSerive:GeneralService) { }
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
+export class SuperadminpageComponent {
+  menuData = menusettingsbarData;
+  constructor(public dialog: MatDialog) { 
+    this.selectedTab = "department";
   }
   departmentDialogRef?:MatDialogRef<NewDepartmentModalComponent>;
+
+  public selectedTab: "department" | "category" | "position" | "roles" | "useraccess";
+  department: boolean = true;
+  category: boolean = false;
+  position: boolean = false;
+  roles: boolean = false;
+  useraccess: boolean = false;
   departmentlist:any = [
     {
       Departmentname:'Department 1',
@@ -185,32 +184,53 @@ btnView(item: any) {
       DepartmentID: ''
     },
   ]
-  NewDepartment() {
-    /*
-    //this.generalSerive.showDialog=false;
-    this.dialog.open(NewDepartmentModalComponent, {
-      width: 'fit-content',
-      height: 'fit-content'
-    });
-    */
-   this.departmentDialogRef = this.dialog.open(NewDepartmentModalComponent);
-   this.departmentDialogRef.afterClosed().pipe(filter(name => name)).subscribe(name => {
-    //this.departmentlist.push(name);
-    this.departmentlist.unshift(name);
-    this.departmentlist.
-    console.log('New Department After Close name', name);
-    console.log('New Department After Close this.departmentlist', this.departmentlist);
-   })
+
+  hDepartment() {
+    this.department = true;
+    this.category = false;
+    this.position = false;
+    this.roles = false;
+    this.useraccess = false;
+    this.selectedTab = "department";
+  }
+  hCategory() {
+    this.department = false;
+    this.category = true;
+    this.position = false;
+    this.roles = false;
+    this.useraccess = false;
+    this.selectedTab = "category";
+  }
+  hPosition() {
+    this.department = false;
+    this.category = false;
+    this.position = true;
+    this.roles = false;
+    this.useraccess = false;
+    this.selectedTab = "position";
+  }
+  hRoles() {
+    this.department = false;
+    this.category = false;
+    this.position = false;
+    this.roles = true;
+    this.useraccess = false;
+    this.selectedTab = "roles";
+  }
+  hUserAccess() {
+    this.department = false;
+    this.category = false;
+    this.position = false;
+    this.roles = false;
+    this.useraccess = true;
+    this.selectedTab = "useraccess";
   }
 
-  public performLoadDepartment(){
-    try{
-      rest.post('department/list').subscribe(async(res:any) => {
-        if(res.Status == 'ok')
-          this.departmentlist.push(res.department);
-      })
-    }
-    catch{}
+  hNewDepartment(){
+    this.departmentDialogRef=this.dialog.open(NewDepartmentModalComponent);
+    this.departmentDialogRef.afterClosed().pipe(filter(name => name)).subscribe(name => {
+      this.departmentlist.unshift(name);
+    });
   }
 
 }

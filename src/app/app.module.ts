@@ -10,6 +10,11 @@ import { HeadquarterComponent } from './headquarter/headquarter.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { BodyComponent } from './body/body.component';
 import { AssignedticketpageComponent } from './admin/assignedticketpage/assignedticketpage.component';
+import { RequestorticketpageComponent } from './admin/requestorticketpage/requestorticketpage.component';
+import { MatIconModule } from '@angular/material/icon';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { SuperadminpageComponent } from './admin/superadminpage/superadminpage.component';
+//import { SuperadminpageComponent } from './superadminpage/superadminpage.component';
 //import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
@@ -18,6 +23,8 @@ import { AssignedticketpageComponent } from './admin/assignedticketpage/assigned
     LoginComponent,
     HeadquarterComponent,
     AssignedticketpageComponent,
+    RequestorticketpageComponent,
+    //SuperadminpageComponent,
     //SidenavComponent,
     //BodyComponent
   ],
@@ -26,10 +33,12 @@ import { AssignedticketpageComponent } from './admin/assignedticketpage/assigned
     //BrowserAnimationsModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    MatIconModule
   ],
   providers: [
-    provideClientHydration()
+    provideClientHydration(),
+    provideAnimationsAsync()
   ],
   bootstrap: [AppComponent]
 })

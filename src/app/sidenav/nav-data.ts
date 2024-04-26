@@ -17,15 +17,22 @@ export const navbarData = [
         label: "Assigned Tickets"
     },
     {
+        routerLink: 'receivedtickets',
+        icon: 'fa fa-light fa-ticket-alt',
+        label: 'Received Ticket'
+    },
+    {
         routerLink: 'users',
         icon: 'fa fa-light fa-user-friends',
         label: 'Users'
     },
+    /*
     {
         routerLink: 'chat',
         icon: 'fa fa-light fa-comment',
         label: 'Chat'
     },
+    */
     {
         routerLink: 'adminsettings',
         icon: 'fa fa-cog',

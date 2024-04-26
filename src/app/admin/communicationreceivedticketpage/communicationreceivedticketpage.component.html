@@ -1,0 +1,84 @@
+<div class="container">
+    <div class="header">
+        <div class="headerlabel">
+            Tickets
+        </div>
+    </div>
+    <div class="ticketbody">
+        <div class="bodyheader">
+            <div class="menu-nav-bar">
+                <ul class="menu-nav">
+                    <li class="menu-nav-item ">
+                        <button [ngClass]="unassigned == true ? 'menu-nav-button1' : 'menu-nav-button'"
+                            (click)="hUnassigned()">Unassingned
+                            <span class="valueclass">20</span></button>
+                    </li>
+                    <li class="menu-nav-item">
+                        <button [ngClass]="assigned == true ? 'menu-nav-button1' : 'menu-nav-button'"
+                            (click)="hAssigned()">Assingned</button>
+                    </li>
+                    <li class="menu-nav-item">
+                        <button [ngClass]="all == true ? 'menu-nav-button1' : 'menu-nav-button'"
+                            (click)="hAll()">All</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div #tabsContentRef class="bodycontent" [ngSwitch]="selectedTab">
+            <div class="cardcontent" *ngSwitchCase="('unassigned')">
+                <div class="cardticket" *ngFor="let data of ticketunassigned ">
+                    <div class="cardticketcontent">
+                        <div class="cardheader">
+                            <div class="headertitle">{{data.TicketTitle}}</div>
+                            <div class="headerdate">{{data.Date}}</div>
+                        </div>
+                        <div class="cardticketbody">{{data.TicketDescription}}</div>
+                        <div class="cardticketfooter">
+                            <button>Unassigned</button>
+                            <div class="prioritylevel">
+                                {{data.PriorityLevel}}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="cardcontent" *ngSwitchCase="('assigned')">
+                <div class="cardticket" *ngFor="let data of ticketassigned ">
+                    <div class="cardticketcontent">
+                        <div class="cardheader">
+                            <div class="headertitle">{{data.TicketTitle}}</div>
+                            <div class="headerdate">{{data.Date}}</div>
+                        </div>
+                        <div class="cardticketbody">{{data.TicketDescription}}</div>
+                        <!-- <div class="cardticketfooter">
+                            <button>Unassigned</button>
+                            <div class="prioritylevel">
+                                {{data.PriorityLevel}}
+                            </div>
+                        </div> -->
+                    </div>
+
+                </div>
+            </div>
+            <div class="cardcontent" *ngSwitchCase="('all')">
+                <div class="cardticket" *ngFor="let data of ticketall ">
+                    <div class="cardticketcontent">
+                        <div class="cardheader">
+                            <div class="headertitle">{{data.TicketTitle}}</div>
+                            <div class="headerdate">{{data.Date}}</div>
+                        </div>
+                        <div class="cardticketbody">{{data.TicketDescription}}</div>
+                        <!-- <div class="cardticketfooter">
+                            <button>Unassigned</button>
+                            <div class="prioritylevel">
+                                {{data.PriorityLevel}}
+                            </div>
+                        </div> -->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
