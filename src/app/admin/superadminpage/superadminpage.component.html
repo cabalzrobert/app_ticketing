@@ -4,7 +4,7 @@
     </div>
     <div class="pagebody">
         <div class="bodyheader">
-            <div class="menu-nav-bar">
+            <div class="menu-nav-bar" *ngIf="collapsed">
                 <ul class="menu-nav">
                     <li class="menu-nav-item">
                         <button [ngClass]="department == true ? 'menu-nav-button1' : 'menu-nav-button'" (click)="hDepartment()">
@@ -26,13 +26,41 @@
                             Roles
                         </button>
                     </li>
-                    <li class="menu-nav-item">
+                    <!-- <li class="menu-nav-item">
                         <button [ngClass]="useraccess == true ? 'menu-nav-button1' : 'menu-nav-button'" (click)="hUserAccess()">
                             User Access
                         </button>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
+            <button class="hamburger" [matMenuTriggerFor]="menu" [hidden]="collapsed"><mat-icon>menu</mat-icon></button>
+            <mat-menu #menu="matMenu">
+                <div class="menu-nav-bar1" *ngIf="collapsed == false">
+
+                    <ul class="menu-nav1">
+                        <li class="menu-nav-item">
+                            <button [ngClass]="department == true ? 'menu-nav-button1' : 'menu-nav-button'" (click)="hDepartment()">
+                                Department
+                            </button>
+                        </li>
+                        <li class="menu-nav-item">
+                            <button [ngClass]="category == true ? 'menu-nav-button1' : 'menu-nav-button'" (click)="hCategory()">
+                                Category
+                            </button>
+                        </li>
+                        <li class="menu-nav-item">
+                            <button [ngClass]="position == true ? 'menu-nav-button1' : 'menu-nav-button'" (click)="hPosition()">
+                                Position
+                            </button>
+                        </li>
+                        <li class="menu-nav-item">
+                            <button [ngClass]="roles == true ? 'menu-nav-button1' : 'menu-nav-button'" (click)="hRoles()">
+                                Roles
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </mat-menu>
         </div>
         <div #tabsContentRef class="bodycontent" [ngSwitch]="selectedTab">
             <div class="cardcontent" *ngSwitchCase="('department')">
@@ -50,22 +78,124 @@
                 <div class="body">
                     <div class="theader">Department</div>
                     <div class="tabdetails">
+                        
                         <div class="trow" *ngFor="let data of departmentlist, let i = index">
                             <div class="tabcard">
-                                <div class="tabcarddetails">{{data.Departmentname}}</div>
+                                <div class="tabcarddetails">{{data.DepartmentName}}</div>
                                 <div class="tabcardbutton">
-                                    <button class="btnview">View</button>
-                                    <button class="btnUpdate">Update</button>
+                                    <button class="btnview" (click)="btnView(data)">View</button>
+                                    <button class="btnUpdate" (click)="btnUpdate(data, i)">Update</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="cardcontent" *ngSwitchCase="('category')">Category</div>
-            <div class="cardcontent" *ngSwitchCase="('position')">Position</div>
-            <div class="cardcontent" *ngSwitchCase="('roles')">Roles</div>
-            <div class="cardcontent" *ngSwitchCase="('useraccess')">User Access</div>
+            <div class="cardcontent" *ngSwitchCase="('category')">
+                <div class="header">
+                    <div class="searchtab">
+                        <div class="searchbar">
+                            <input type="text">
+                            <span>
+                                <div class="button fa fa-filter filter"></div>
+                            </span>
+                        </div>
+                        <button class="newbutton fa fa-plus" (click)="hNewCategory()">New</button>
+                    </div>
+                </div>
+                <div class="body">
+                    <div class="theader">Category</div>
+                    <div class="tabdetails">
+                        <div class="trow" *ngFor="let data of categorylist, let i = index">
+                            <div class="tabcard">
+                                <div class="tabcarddetails">{{data.Categoryname}}</div>
+                                <div class="tabcardbutton">
+                                    <button class="btnview" (click)="btnViewCategory(data)">View</button>
+                                    <button class="btnUpdate" (click)="btnUpdateCategory(data, i)">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="cardcontent" *ngSwitchCase="('position')">
+                <div class="header">
+                    <div class="searchtab">
+                        <div class="searchbar">
+                            <input type="text">
+                            <span>
+                                <div class="button fa fa-filter filter"></div>
+                            </span>
+                        </div>
+                        <button class="newbutton fa fa-plus" (click)="hNewPosition()">New</button>
+                    </div>
+                </div>
+                <div class="body">
+                    <div class="theader">Position</div>
+                    <div class="tabdetails">
+                        <div class="trow" *ngFor="let data of positionlist, let i = index">
+                            <div class="tabcard">
+                                <div class="tabcarddetails">{{data.Positionname}}</div>
+                                <div class="tabcardbutton">
+                                    <button class="btnview" (click)="btnViewPosition(data)">View</button>
+                                    <button class="btnUpdate" (click)="btnUpdatePosition(data, i)">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div></div>
+            <div class="cardcontent" *ngSwitchCase="('roles')">
+                <div class="header">
+                    <div class="searchtab">
+                        <div class="searchbar">
+                            <input type="text">
+                            <span>
+                                <div class="button fa fa-filter filter"></div>
+                            </span>
+                        </div>
+                        <button class="newbutton fa fa-plus" (click)="hNewRoles()">New</button>
+                    </div>
+                </div>
+                <div class="body">
+                    <div class="theader">Roles</div>
+                    <div class="tabdetails">
+                        <div class="trow" *ngFor="let data of roleslist, let i = index">
+                            <div class="tabcard">
+                                <div class="tabcarddetails">{{data.Rolesname}}</div>
+                                <div class="tabcardbutton">
+                                    <button class="btnview" (click)="btnViewRoles(data)">View</button>
+                                    <button class="btnUpdate" (click)="btnUpdateRoles(data, i)">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div></div>
+            <div class="cardcontent" *ngSwitchCase="('useraccess')">User Access
+                <div class="header">
+                    <div class="searchtab">
+                        <div class="searchbar">
+                            <input type="text">
+                            <span>
+                                <div class="button fa fa-filter filter"></div>
+                            </span>
+                        </div>
+                        <button class="newbutton fa fa-plus" (click)="hNewCategory()">New</button>
+                    </div>
+                </div>
+                <div class="body">
+                    <div class="theader">Category</div>
+                    <div class="tabdetails">
+                        <div class="trow" *ngFor="let data of categorylist, let i = index">
+                            <div class="tabcard">
+                                <div class="tabcarddetails">{{data.Categoryname}}</div>
+                                <div class="tabcardbutton">
+                                    <button class="btnview" (click)="btnViewCategory(data)">View</button>
+                                    <button class="btnUpdate" (click)="btnUpdateCategory(data, i)">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div></div>
 
         </div>
     </div>

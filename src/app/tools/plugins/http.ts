@@ -8,8 +8,8 @@ import { HttpClient, HttpEvent, HttpHeaders } from '@angular/common/http';
 export const http=(()=>{
     //const provider = (device.isBrowser?provider0a:provider0b)();
     const provider = provider0a();
-    console.log('http.tsx prdevice.isBrowserovider', device.isBrowser);
-    console.log('http.tsx provider', provider);
+    //console.log('http.tsx prdevice.isBrowserovider', device.isBrowser);
+    //console.log('http.tsx provider', provider);
     return {
         get:(url:string, params?:any, options:any={})=>provider.get(url,params,options)as Observable<any>,
         post:(url:string, params:any, options:any={})=>provider.post(url,params,options)as Observable<any>,

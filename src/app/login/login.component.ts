@@ -19,19 +19,19 @@ export class LoginComponent implements OnInit {
   constructor(private authService: AuthService, private fb: FormBuilder, private router: Router, public ls: LocalStorageService) { }
   account: any = [];
   ngOnInit(): void {
-    console.log('login.components.ts ngOnit');
+    //console.log('login.components.ts ngOnit');
     //setTimeout(() => this.performCheckDB(), 750);
     this.performCheckDB();
     this.sessionNotEmpty();
   }
   private performCheckDB() {
-    console.log('performCheckDB');
+    //console.log('performCheckDB');
     try {
       rest.post('dashboardticketing', {}).subscribe(async (res: any) => {
-        console.log('performCheckDB', res);
-        console.log('performCheckDB device.isBrowser', device.isBrowser);
+        //console.log('performCheckDB', res);
+        //console.log('performCheckDB device.isBrowser', device.isBrowser);
         if (res.Result == 'ok') {
-          console.log('Session', localStorage.getItem('Auth'));
+          //console.log('Session', localStorage.getItem('Auth'));
           if (this.sessionNotEmpty1()) {
             this.router.navigateByUrl('/dashboard');
           }
@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
       });
     } catch {
       //this.dbIsEmpty(false);
-      console.log('ERROR');
+      //console.log('ERROR');
     }
 
 
@@ -70,18 +70,18 @@ export class LoginComponent implements OnInit {
   }
   sessionNotEmpty() {
     if (this.authService.session) {
-      console.log('SessionNotEmpty', this.authService.session, this.router);
+      //console.log('SessionNotEmpty', this.authService.session, this.router);
       this.router.navigateByUrl('/dashboard');
     }
   }
   sessionNotEmpty1(): boolean {
-    console.log('sessionNotEmpty this.authService.session', this.authService.session);
+    //console.log('sessionNotEmpty this.authService.session', this.authService.session);
     if (this.authService.session) return true;
     console.log('sesseionNotEmpty landing.component.ts line 54');
     return false;
   }
   login = async () => {
-    console.log('You Click Login Button');
+    //console.log('You Click Login Button');
     //var user = this.authService.login(this.form.value.username, this.form.value.password);
     //var user = setTimeout(() => this.authService.login(this.form.value.username, this.form.value.password), 750);
 
@@ -96,7 +96,7 @@ export class LoginComponent implements OnInit {
 
     }
     else{
-      console.log('this.account at login.component.ts inside if else statemet', user);
+      //console.log('this.account at login.component.ts inside if else statemet', user);
       this.router.navigateByUrl('/dashboard');
     }
   }

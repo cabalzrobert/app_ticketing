@@ -4,6 +4,8 @@ const{ Device } = Plugins;
 const{ Object }:any = {};
 
 export const device:any=(()=>{
+    
+    console.log('Device Platform', capacitor);
     var device:any = { 
         ready:ready(),
         isBrowser:(capacitor.platform=='web'),
