@@ -1,4 +1,4 @@
-const{ Proxy }:any = window;
+//const{ Proxy }:any = window;
 
 export const proxy = (object:any, fncs:any)=>{
     return new Proxy({},{ 

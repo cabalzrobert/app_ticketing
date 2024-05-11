@@ -12,10 +12,13 @@ import { BodyComponent } from './body/body.component';
 import { AssignedticketpageComponent } from './admin/assignedticketpage/assignedticketpage.component';
 import { RequestorticketpageComponent } from './admin/requestorticketpage/requestorticketpage.component';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { SuperadminpageComponent } from './admin/superadminpage/superadminpage.component';
 //import { SuperadminpageComponent } from './superadminpage/superadminpage.component';
 //import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import{MatMenuModule} from '@angular/material/menu'
 
 @NgModule({
   declarations: [
@@ -34,7 +37,10 @@ import { SuperadminpageComponent } from './admin/superadminpage/superadminpage.c
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
-    MatIconModule
+    MatIconModule,
+    MatSelectModule,
+    NgxMatSelectSearchModule,
+    MatMenuModule
   ],
   providers: [
     provideClientHydration(),

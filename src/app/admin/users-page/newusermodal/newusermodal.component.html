@@ -1,49 +1,58 @@
 <div class="usermodaloverlay" (click)="closededialogNewUser()"></div>
-<div class="usermodalcontainer">
+<div class="usermodalcontainer" [formGroup]="form">
     <div class="usermodalheader">
-        <label for=""> Add User</label>
+        <label for=""> {{UserAccount.Title}}</label>
         <button (click)="closededialogNewUser()" class="fa fa-times"></button>
     </div>
     <div class="usermodalcontent">
         <div class="postionheader">
             <div class="userheader">
                 <div class="usercard">
-                    <label for="">Department</label>
+                    <label for="">Department <span>*</span></label>
+                    
                     <div class="usercardcontent">
-                        <select name="" id="">
-                            <option value="">Please Select Nationality</option>
-                            <option value="FIL">Filipino</option>
-                            <option value="CH">Chinese</option>
-                            <option value="SG">Singaporian</option>
-                            <option value="IND">Indonesian</option>
-                            <option value="US">American</option>
-                        </select>
+                        <!-- <select>
+                            <option value="">Please select Department</option>
+                            <option *ngFor="let dept of departmentlist asyn" [value]="dept.DepatmentID">{{dept.DepartmentName}}</option>
+                        </select> -->
+                        <mat-select formControlName="DepartmentID" placeholder="Select Department" (selectionChange)="DepartmentSelectedValue($event)">
+                            <!-- <div class="searchinput">
+                                <div class="searchicon">
+                                    <input type="text" class="searchuserinput" placeholder="Search user">
+                                    <i class="fa fa-light fa-search"></i>
+                                </div>
+                            </div> -->
+                            <mat-option *ngFor="let dept of departmentlist asyn"
+                                [value]="dept.DepartmentID"
+                                >{{dept.DepartmentName}}</mat-option>
+                        </mat-select>
                     </div>
                 </div>
-                
+
                 <div class="usercard">
-                    <label for="">Membership TYpe</label>
+                    <label for="">Membership Type <span>*</span></label>
                     <div class="usercardcontent">
-                        <select name="" id="">
-                            <option value="">Please Select Membership Type</option>
-                            <option value="1">Administrator</option>
-                            <option value="2">User</option>
-                        </select>
+                        <mat-select formControlName="RolesID" placeholder="Select Membership Type" (selectionChange)="RoleSelectedValue($event)">
+                            <mat-option *ngFor="let role of roleslist asyn"
+                                [value]="role.RolesID">{{role.Rolesname}}</mat-option>
+                        </mat-select>
                     </div>
                 </div>
-                
+
                 <div class="usercard">
-                    <label for="">Position</label>
+                    <label for="">Position <span>*</span></label>
                     <div class="usercardcontent">
-                        <select name="" id="">
-                            <option value="">Please Select Position</option>
-                            <option value="1">CEO</option>
-                            <option value="2">COO</option>
-                            <option value="2">CTO</option>
-                            <option value="2">Admin</option>
-                            <option value="2">HR Manger</option>
-                            <option value="2">Software Developer</option>
-                        </select>
+                        <mat-select formControlName="PositionID" placeholder="Select Position"
+                            (valueChange)="honDPositionSelectChange()" (selectionChange)="PositionSelectedValue($event)">
+                            <mat-option *ngFor="let pos of positionlist asyn"
+                                [value]="pos.PositionID">{{pos.Positionname}}</mat-option>
+                        </mat-select>
+                    </div>
+                </div>
+                <div class="usercard">
+                    <div class="iscommunication">
+                        <mat-checkbox formControlName="isCommunicator"></mat-checkbox>
+                        <label for="">is Communication</label>
                     </div>
                 </div>
             </div>
@@ -51,55 +60,64 @@
         <div class="personaldetailsheader">
             <div class="userheader">
                 <div class="usercard">
-                    <label for="">First Name</label>
+                    <label for="">First Name <span>*</span></label>
                     <div class="usercardcontent">
-                        <input type="text" placeholder="First Name">
+                        <input type="text" formControlName="Firstname" placeholder="First Name">
                     </div>
                 </div>
-                
+
                 <div class="usercard">
                     <label for="">Middle Name</label>
                     <div class="usercardcontent">
-                        <input type="text" placeholder="Middle Name">
+                        <input type="text" formControlName="Middlename" placeholder="Middle Name">
                     </div>
                 </div>
                 <div class="usercard">
-                    <label for="">Last Name</label>
+                    <label for="">Last Name <span>*</span></label>
                     <div class="usercardcontent">
-                        <input type="text" placeholder="Last Name">
+                        <input type="text" formControlName="Lastname" placeholder="Last Name">
                     </div>
                 </div>
                 <div class="usercard">
                     <label for="">Gender</label>
                     <div class="usercardcontent">
-                        <select name="" id="">
+                        <!-- <select name="" id="">
                             <option value="">Please Gender</option>
                             <option value="m">Male</option>
                             <option value="f">Female</option>
-                        </select>
+                        </select> -->
+                        <mat-select formControlName="Gender" placeholder="Select Gender" #singleSelect  (selectionChange)="GenderSelectedValue($event)">
+                            <mat-option [value]="'m'">Male</mat-option>
+                            <mat-option [value]="'f'">Female</mat-option>
+                        </mat-select>
                     </div>
                 </div>
                 <div class="usercard">
-                    <label for="">Birthday</label>
+                    <label for="">Birthdate</label>
                     <div class="usercardcontent">
-                        <input type="date" type="date" required>
+                        <input type="date" formControlName="Birthdate" type="date" required>
                     </div>
                 </div>
                 <div class="usercard">
-                    <label for="">Mobile Number</label>
+                    <label for="">Mobile Number <span>*</span></label>
                     <div class="usercardcontent">
-                        <input type="text" placeholder="0999-999-9999">
+                        <input type="text" formControlName="MobileNumber" placeholder="0999-999-9999">
                     </div>
                 </div>
                 <div class="usercard">
                     <label for="">Address</label>
                     <div class="usercardcontent">
-                        <input type="text" placeholder="Address">
+                        <input type="text" formControlName="Address" placeholder="Address">
                     </div>
                 </div>
                 <div class="uploadprofilepicture">
-                    <img src="assets/image/icon_blank_profile.png" alt="">
-                    <button>Upload</button>
+                    <!-- <img ngif src="assets/image/icon_blank_profile.png" alt=""> -->
+                    <img *ngIf="base64 == ''" src="assets/image/icon_blank_profile.png" alt="">
+                    <img *ngIf="base64 != ''" src={{base64}} alt="">
+                    <button class="file-upload-button1 fa fa-upload">
+                        <label for="">Upload</label>
+                        <input type="file" #fileInput (change)="onFileSelected($event,fileInput)">
+                    </button>
                 </div>
             </div>
         </div>
@@ -109,7 +127,8 @@
             <button (click)="closededialogNewUser()">Cancel</button>
         </div>
         <div class="createbutton">
-            <button (click)="closededialogNewUser()">Createt</button>
+            <button *ngIf="UserAccount.Title == 'Create User Account'" (click)="CreatedialogNewUser()">Create</button>
+            <button *ngIf="UserAccount.Title == 'Update User Account'" (click)="CreatedialogNewUser()">Update</button>
         </div>
     </div>
 </div>

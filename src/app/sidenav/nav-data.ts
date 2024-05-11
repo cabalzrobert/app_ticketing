@@ -38,4 +38,5 @@ export const navbarData = [
         icon: 'fa fa-cog',
         label: 'Settings'
     }
+    
 ];

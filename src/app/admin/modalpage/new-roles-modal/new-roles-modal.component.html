@@ -1,0 +1,28 @@
+<div class="modaloverlay" (click)="closeddialog()"></div>
+<div class="modalcontainer" [formGroup]="form">
+    <div class="modalheader">
+        <label for="">{{this.Roles.Title}}</label>
+        <button class="fa fa-times" (click)="closeddialog()"></button>
+    </div>
+    <div class="modalbody">
+        <div class="deptcard">
+            <label for="">Roles Name</label>
+            <div class="deptinput">
+                <input type="text" placeholder="Roles Name" formControlName="Rolesname">
+            </div>
+        </div>
+    </div>
+    <div class="modalfooter">
+        <div class="footerbody">
+            <div class="savebutton" (click)="newdialog()">
+                <button>Save</button>
+                <i class="fa fa-plus"></i>
+            </div>
+            <div class="closebutton" (click)="closeddialog()">
+                <button>Close</button>
+                <i class="fa fa-times"></i>
+            </div>
+            
+        </div>
+    </div>
+</div>

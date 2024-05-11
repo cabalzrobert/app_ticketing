@@ -1,14 +1,14 @@
 <div class="modaloverlay" (click)="closeddialogNewDepartment()"></div>
 <div class="modalcontainer" [formGroup]="form">
     <div class="modalheader">
-        <label for="">Create Department</label>
+        <label for="">{{this.Department.Title}}</label>
         <button class="fa fa-times" (click)="closeddialogNewDepartment()"></button>
     </div>
     <div class="modalbody">
         <div class="deptcard">
             <label for="">Department Name</label>
             <div class="deptinput">
-                <input type="text" placeholder="Department Name" formControlName="Departmentname">
+                <input type="text" placeholder="Department Name" formControlName="DepartmentName">
             </div>
         </div>
     </div>

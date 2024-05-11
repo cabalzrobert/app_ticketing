@@ -8,14 +8,17 @@
         <div class="categorycard">
             <label for="">Category</label>
             <div class="selectcat">
-                <select formControlName="Category" name="" id="">
+                <!-- <select formControlName="Category" name="" id="">
                     <option value="">Please Select Catgory</option>
                     <option value="1">Sample Category 1</option>
                     <option value="2">Sample Category 2</option>
                     <option value="3">Sample Category 3</option>
                     <option value="4">Sample Category 4</option>
                     <option value="5">Sample Category 5</option>
-                </select>
+                </select> -->
+                <mat-select formControlName="Category" placeholder="Select Department" (selectionChange)="CategorySelectedValue($event)">
+                    <mat-option *ngFor="let cat of categorylist asyn" [value]="cat.CategoryID">{{cat.Categoryname}}</mat-option>
+                </mat-select>
             </div>
         </div>
         <div class="tickettitlecard">
@@ -54,7 +57,7 @@
             <label for="">Attachment</label>
             <div class="upload-form">
 
-                <label for="file" (dragover)="handleDragOver($event)" (drop)="handleDrop($event)">
+                <label for="file">
 
                     <div class="fa fa-regular fa-upload"></div>
                     <span>
@@ -70,7 +73,7 @@
                 <input id="file" type="file" multiple="multiple" accept=".png, .jpg, .gif" name="file"
                     (change)="onFileSelected($event)" />
 
-                <div class="result" [style.display]="outputBoxVisible ? 'flex' : 'none'">
+                <div class="result" *ngIf="uploaded.length" [style.display]="outputBoxVisible ? 'flex' : 'none'">
                     <i class="ph ph-file"></i>
                     <u>
                         <li *ngFor="let data of uploaded; index as i">
@@ -109,12 +112,17 @@
         <div class="categorycard">
             <label for="">Priority Level</label>
             <div class="selectcat">
-                <select formControlName="PriorityLevel" name="" id="">
+                <!-- <select formControlName="PriorityLevel" name="" id="">
                     <option value="">Please Select Catgory</option>
-                    <option value="Low">Low</option>
-                    <option value="Medium">Medium</option>
-                    <option value="Urgent">Urgent</option>
-                </select>
+                    <option value="0">Low</option>
+                    <option value="1">Medium</option>
+                    <option value="2">Urgent</option>
+                </select> -->
+                <mat-select formControlName="PriorityLevel" placeholder="Select Priority Level" (selectionChange)="PrioritylevelSelectedValue($event)">
+                    <mat-option [value]="'0'">Low</mat-option>
+                    <mat-option [value]="'1'">Medium</mat-option>
+                    <mat-option [value]="'2'">Urgent</mat-option>
+                </mat-select>
             </div>
 
         </div>

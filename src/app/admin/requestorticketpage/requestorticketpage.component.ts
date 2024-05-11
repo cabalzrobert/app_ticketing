@@ -1,8 +1,20 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, Inject, OnInit, Output, PLATFORM_ID, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { NewticketmodalComponent } from '../ticket-main-page/newticketmodal/newticketmodal.component';
-import {MatIconModule} from '@angular/material/icon';
-
+import { jUser, jUserModify } from '../../+app/user-module';
+import { DOCUMENT } from '@angular/common';
+import { Observable, filter } from 'rxjs';
+import { rest } from '../../+services/services';
+import { FormControl, FormGroup } from '@angular/forms';
+import { device } from '../../tools/plugins/device';
+import { LocalStorageService } from '../../tools/plugins/localstorage';
+//import {MatIconModule} from '@angular/material/icon';
+//const{Object1}:any = {};
+//const Object:Window = window;
+interface MenuNavToggle {
+  screenWidth: number;
+  collapsed: boolean;
+}
 
 @Component({
   selector: 'app-requestorticketpage',
@@ -12,20 +24,42 @@ import {MatIconModule} from '@angular/material/icon';
     "tabsContentRef": new ViewChild("tabsContentRef")
   }
 })
-export class RequestorticketpageComponent {
+export class RequestorticketpageComponent implements OnInit {
+
+  
   hViewRequestorPage() {
     this.viewRequestorPage = false;
     this.viewTicketComment = true;
   }
   viewRequestorPage: boolean = false;
   viewTicketComment: boolean = true;
-  tickettitle:string = '';
-  hViewComment(data:any) {
+  tickettitle: string = '';
+  TicketDescription: string = '';
+  TransactionNo: String = ''
+  TicketNo: String = '';
+  CreatedDate: String = '';
+  TicketStatusname: String = '';
+  PriorityLevelname: String = '';
+  isAssigned: boolean = false;
+  AssignedAccountname: String = '';
+  LastMessage: String = '';
+  hViewComment(data: any) {
     this.viewRequestorPage = true;
     this.viewTicketComment = false;
     this.tickettitle = data.TicketTitle;
+    this.TicketDescription = data.TicketDescription;
+    this.TransactionNo = data.TransactionNo;
+    this.TicketNo = data.TicketNo;
+    this.CreatedDate = data.CreatedDate;
+    this.TicketStatusname = data.TicketStatusname;
+    this.PriorityLevelname = data.PriorityLevelname;
+    this.isAssigned = data.isAssigned;
+    this.AssignedAccountname = data.AssignedAccountname;
+    this.LastMessage = data.LastMessage;
+    this.getCommentList(this.TransactionNo);
   }
-  ticketpending: any = [
+  ticketpending: any = [];
+  ticketpending1: any = [
     {
       Category: '',
       TicketTitle: 'Issue with finding order Sample Title',
@@ -913,7 +947,7 @@ export class RequestorticketpageComponent {
       PriorityLevel: 'Urgent'
     }
   ];
-  ticketcomment:any = [
+  ticketcomment1: any = [
     {
       Message: 'Life seasons open have. Air have of. Lights fill after let third darkness replenish fruitful let. Wherein set image. Creepeth said above gathered bring. Life seasons open have. Air have of. Lights fill after let third darkness replenish fruitful let. Wherein set image. Creepeth said above gathered bring. Life seasons open have. Air have of. Lights fill after let third darkness replenish fruitful let. Wherein set image. Creepeth said above gathered bring. Life seasons open have. Air have of. Lights fill after let third darkness replenish fruitful let. Wherein set image. Creepeth said above gathered bring.',
       Name: 'Katherine',
@@ -1282,15 +1316,89 @@ export class RequestorticketpageComponent {
       IsYou: true
     },
   ];
-  constructor(public dialog: MatDialog) {
+  ticketcomment: any = [];
+  constructor(public dialog: MatDialog, @Inject(DOCUMENT) private dom: Document, @Inject(PLATFORM_ID) private platformId: Window, public ls: LocalStorageService) {
     this.selectedTab = "pending"
   }
+
+  subs: any = {};
+  Object: any = window;
+  ngOnInit(): void {
+    //this.screenWidth = window.innerWidth;
+    this.collapsed = true;
+    //this.onToggleSideNav.emit({collapsed:this.collapsed, screenWidth: this.screenWidth});
+    //console.log('onResize', this.screenWidth);
+    //Object1 = window;
+    console.log('RequestTicketPage this.Object', this.Object);
+
+    
+    device.ready(() => setTimeout(() => this.performAuth(), 275));
+
+
+    this.onWindowInitialize();
+    //this.subs.u = jUserModify(async () => this.setState({ u: await jUser() }));
+    this.getTicketPendingList({ Status: 0, num_row: 0, Search: '' })
+
+  }
+  
+  performAuth = async () => {
+    var isSignIn = await this.ls.getItem1('IsSignin')
+    let token: any = this.ls.getItem1('Auth');
+    //console.log('sidenav perfomAuth token.Token', JSON.parse(token).Token);
+    rest.setBearer(JSON.parse(token).Token);
+  }
+  onWindowInitialize() {
+    this.screenWidth = window.innerWidth;
+    if (this.screenWidth <= 768) {
+      this.collapsed = false;
+      this.changeclass = false;
+    }
+    else if (this.screenWidth > 768 && this.screenWidth <= 1300) {
+      this.changeclass = true
+    }
+
+    else {
+
+      this.changeclass = false;
+      this.collapsed = true;
+    }
+  }
+
+  collapsed = false;
+  screenWidth = 0;
+  changeclass = false;
+  @HostListener('window:resize', ['$event'])
+  //@Output() onToggleSideNav: EventEmitter<MenuNavToggle> = new EventEmitter();
+  //screenWidth = 0;
+  onResize(event: any) {
+    this.screenWidth = window.innerWidth;
+    if (this.screenWidth <= 768) {
+      this.collapsed = false;
+      this.changeclass = false;
+    }
+    else if (this.screenWidth > 768 && this.screenWidth <= 1300) {
+      this.changeclass = true
+    }
+
+    else {
+
+      this.changeclass = false;
+      this.collapsed = true;
+    }
+
+
+    console.log('onResize', event, ' this.screenWidth', this.screenWidth);
+  }
+  @Output() onToggleSideNav: EventEmitter<MenuNavToggle> = new EventEmitter();
 
   public selectedTab: "pending" | "resolve" | "all";
   public tabsContentRef!: ElementRef;
   ticketDialogRef?: MatDialogRef<NewticketmodalComponent>;
   openpopnewticket() {
     this.ticketDialogRef = this.dialog.open(NewticketmodalComponent);
+    this.ticketDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
+      this.ticketpending.unshift(o);
+    });
 
   }
 
@@ -1299,6 +1407,7 @@ export class RequestorticketpageComponent {
     this.assigned = false;
     this.all = true;
     this.selectedTab = "all";
+    this.getTicketPendingList({ Status: null, num_row: 0, Search: '' });
     this.scrollTabContentTop();
 
   }
@@ -1307,6 +1416,7 @@ export class RequestorticketpageComponent {
     this.assigned = true;
     this.all = false;
     this.selectedTab = "resolve"
+    this.getTicketPendingList({ Status: 1, num_row: 0, Search: '' });
     this.scrollTabContentTop();
   }
   hPending() {
@@ -1314,8 +1424,11 @@ export class RequestorticketpageComponent {
     this.assigned = false;
     this.all = false;
     this.selectedTab = "pending";
+    this.getTicketPendingList({ Status: 0, num_row: 0, Search: '' });
     this.scrollTabContentTop();
+
   }
+
   unassigned: boolean = true;
   assigned: boolean = false;
   all: boolean = false;
@@ -1324,5 +1437,41 @@ export class RequestorticketpageComponent {
   private scrollTabContentTop(): void {
     //this.tabsContentRef.nativeElement.scrollTo(0,0);
     this.tabsContentRef.nativeElement.scrollTop = 0;
+  }
+
+  getTicketPendingList(item: any): Observable<any> {
+    rest.post('ticket/list', item).subscribe(async (res: any) => {
+      this.ticketpending = res.ticket;
+      return this.ticketpending;
+    });
+    return this.ticketpending;
+  }
+  getCommentList(TransactionNo: String): Observable<any> {
+    rest.post('ticket/commentlist?TransactionNo=' + TransactionNo).subscribe(async (res: any) => {
+      this.ticketcomment = res.Comment;
+      return this.ticketcomment;
+    });
+    return this.ticketcomment;
+  }
+  //Message: FormControl<any>;
+  public commentform = new FormGroup({
+    Message:new FormControl()
+  })
+
+  hSendComment() {
+    console.log('hSendComment', this.commentform.controls["Message"].value);
+    this.performSendComment({TransactionNo: this.TransactionNo, Message: this.commentform.controls["Message"].value, isImage: false, isFile: false, isRead: false, isMessage: true});
+    this.commentform.reset();
+  }
+
+  performSendComment(item:any){
+    rest.post('ticket/msg/send', item).subscribe(async (res:any) => {
+      if(res.Status == 'ok'){
+        this.ticketcomment.push(res.Content);
+      }
+      else{
+        alert(res.Message);
+      }
+    });
   }
 }

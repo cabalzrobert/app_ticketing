@@ -38,9 +38,10 @@ export const rest = (() => {
     device.ready(()=>setTimeout(async()=>{
         //var auth = (await storage.Auth||{});
         var auth = (await localStorage['Auth']||{})
-        console.log('device.ready', auth);
+        let token:any = JSON.parse(auth);
+        //console.log('device.ready', token);
         if(!!auth.Token){
-            rest.setBearer(auth.Token);
+            rest.setBearer(token.Token);
         }/*else{
             auth = await(storage.Auth = {token:'123123123weqewqewq'});
             rest.setBearer(auth.token);
@@ -49,13 +50,14 @@ export const rest = (() => {
     },475));
     return rest;
     function setBearer(bearer: string) {
+        //console.log('setBearer', bearer);
         headers['Authorization'] = ('Bearer ' + (authorization = bearer));
-        console.log('setBearer headers[Authorization] = (Bearer  + (authorization = bearer))', headers['Authorization'] = ('Bearer ' + (authorization = bearer)));
+        //console.log('setBearer headers[Authorization] = (Bearer  + (authorization = bearer))', headers['Authorization'] = ('Bearer ' + (authorization = bearer)));
         return rest;
     }
     function post(url: string, data: any) {
-        console.log('res.service.tsx port', httpLocalhost + endpoint(url));
-        console.log('post headers', headers);
+        //console.log('res.service.tsx port', httpLocalhost + endpoint(url));
+        //console.log('post headers', headers.Authorization);
         return Post(httpLocalhost + endpoint(url), data, headers);
     }
     function get(url: string) {
@@ -67,7 +69,7 @@ export const rest = (() => {
         return (wsLocalhost + url);
     }
     function Post(url:string, data:any={}, headers:any={}){
-        console.log('res.service.tsx Post', url);
+        //console.log('res.service.tsx Post', url);
         //return http.post(url, data, { headers:headers });
         //const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
         return http.post(url,data,{headers:headers});

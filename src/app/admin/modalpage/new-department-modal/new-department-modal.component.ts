@@ -19,10 +19,10 @@ export class NewDepartmentModalComponent implements OnInit {
     this.performSaveDepartment();
   }
   form: FormGroup = this.fb.group({
-    Departmentname: ['', Validators.required],
+    DepartmentName: ['', Validators.required],
     DepartmentID: ''
   })
-  constructor(@Inject(MAT_DIALOG_DATA) public Department: {item:any}, private authService: AuthService, private fb: FormBuilder, public diaglogRef: MatDialogRef<NewDepartmentModalComponent>) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public Department: {item:any, Title:String}, private authService: AuthService, private fb: FormBuilder, public diaglogRef: MatDialogRef<NewDepartmentModalComponent>) { }
   ngOnInit(): void {
     //console.log('New Department Modal Component data', this.Department.Departmentname);
      this.form.patchValue(this.Department.item);
@@ -33,19 +33,22 @@ export class NewDepartmentModalComponent implements OnInit {
     this.diaglogRef.close();
   }
   performSaveDepartment(){
+    /*
     console.log('performSaveDepartment', this.form.value);
     this.diaglogRef.close(this.form.value);
-    /*
-    rest.post('department/new',this.form.value).subscribe(async(res:any) => {
+    */
+    
+    rest.post('department/save',this.form.value).subscribe(async(res:any) => {
       if(res.Status == 'ok'){
+        console.log('performsaveDepartment rest.Content', res.Content);
         this.form.value.DepartmentID = res.Content.DepartmentID
         this.diaglogRef.close(this.form.value);
       }
     })
-    */
+    
   }
   public isValidateEntries():boolean{
-    if(!this.form.value.Departmentname){
+    if(!this.form.value.DepartmentName){
       alert('Please Enter Department Name.');
       return false;
     }

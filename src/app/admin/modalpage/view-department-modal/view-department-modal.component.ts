@@ -17,6 +17,6 @@ export class VIewDepartmentModalComponent implements OnInit {
   })
   constructor(@Inject(MAT_DIALOG_DATA) public Department: { item: any }, private fb: FormBuilder, public diaglogRef: MatDialogRef<VIewDepartmentModalComponent>) { }
   ngOnInit(): void {
-    this.form.patchValue(this.Department.item);
+    //this.form.patchValue(this.Department.item);
   }
 }

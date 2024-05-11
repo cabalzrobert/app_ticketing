@@ -14,8 +14,9 @@ const routes: Routes = [
 
   {
     path: '', component: AdminComponent, children: [
+      { path: '', component: OverviewPageComponent },
       { path: 'overview', component: OverviewPageComponent },
-      { path: 'dashboard', component: OverviewPageComponent },
+      //{ path: 'dashboard', component: OverviewPageComponent },
       { path: 'assignedticket', component:AssignedticketpageComponent},
       { path: 'receivedtickets', component:CommunicationreceivedticketpageComponent},
       //{path:'ticket', component:TicketMainPageComponent},

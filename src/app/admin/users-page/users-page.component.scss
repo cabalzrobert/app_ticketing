@@ -1,3 +1,7 @@
+.container{
+    height: 100%;
+    padding: 30px;
+}
 .userbody {
 
     width: 100%;
@@ -6,7 +10,7 @@
 
     .contentheader {
         display: flex;
-        width: 100%;
+        width: 99%;
         height: 52px;
         align-items: center;
         justify-content: space-between;
@@ -15,34 +19,54 @@
         .headerpic {
             width: 200px;
             color: #fff;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
         }
 
         .headername {
             width: 200px;
             font-size: 16px;
             font-weight: 500;
-            line-height: 2px;
+            line-height: 24px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
         }
 
         .headerdepartment {
             width: 200px;
             font-size: 16px;
             font-weight: 500;
-            line-height: 2px;
+            line-height: 24px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
         }
 
         .headerorle {
             width: 200px;
             font-size: 16px;
             font-weight: 500;
-            line-height: 2px;
+            line-height: 24px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
         }
 
         .headerlastseen {
             width: 250px;
             font-size: 16px;
             font-weight: 500;
-            line-height: 2px;
+            line-height: 24px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
         }
 
 

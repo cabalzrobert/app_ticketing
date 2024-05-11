@@ -1,0 +1,26 @@
+<div class="modaloverlay" (click)="closeddialog()"></div>
+<div class="modalcontainer">
+    <div class="modalheader">
+        <label for="">View Category</label>
+        <button class="fa fa-times" (click)="closeddialog()"></button>
+    </div>
+    <div class="modalbody">
+        <div class="deptcard">
+            <label for="">Category Name</label>
+            <div class="deptinput">
+                <!-- <input type="text" placeholder="Department Name" formControlName="Departmentname"> -->
+                <label for="">{{this.Category.item.Categoryname}}</label>
+            </div>
+        </div>
+    </div>
+    <div class="modalfooter">
+        <div class="footerbody">
+            
+            <div class="closebutton">
+                <button (click)="closeddialog()">Close</button>
+                <i class="fa fa-times"></i>
+            </div>
+            
+        </div>
+    </div>
+</div>

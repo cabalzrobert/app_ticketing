@@ -1,9 +1,12 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, HostListener, OnInit, inject } from '@angular/core';
 import { GeneralService } from '../../../shared/services/general.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../auth.service';
-import { AsyncSubject, Observable, ReplaySubject, filter } from 'rxjs';
+import { AsyncSubject, Observable, ReplaySubject, empty, filter } from 'rxjs';
+import { FileHandle } from 'node:fs/promises';
+import { rest } from '../../../+services/services';
+import { MatSelectChange } from '@angular/material/select';
 
 export interface SelectedFiles {
   name: string;
@@ -20,6 +23,12 @@ export interface SelectedFiles {
   styleUrl: './newticketmodal.component.scss'
 })
 export class NewticketmodalComponent implements OnInit {
+  PrioritylevelSelectedValue($event: MatSelectChange) {
+    this.prioritylevelname = $event.source.triggerValue;
+  }
+  CategorySelectedValue($event: MatSelectChange) {
+    this.categoryname = $event.source.triggerValue;
+  }
   selectedFiles: SelectedFiles[] = [];
   selectedFiles1: SelectedFiles[] = [];
   outputBoxVisible = false;
@@ -28,31 +37,94 @@ export class NewticketmodalComponent implements OnInit {
   fileName = '';
   files: any = {};
   uploaded: any = [];
+  categorylist: any = [];
   fileSize = '';
   uploadStatus: number | undefined;
+  categoryname: String = '';
+  prioritylevelname:String = ''
 
   form: FormGroup = this.fb.group({
     Category: ['', Validators.required],
     TitleTicket: ['', Validators.required],
     TicketDescription: ['', Validators.required],
-    PriorityLevel: ['', Validators.required]
+    PriorityLevel: ['', Validators.required],
+    TicketAttachment: ''
   });
   constructor(public generalSerive: GeneralService, private authService: AuthService, private fb: FormBuilder, public dialogRef: MatDialogRef<NewticketmodalComponent>) { }
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    //console.log('this.form.value.TicketAttachment ', this.form.value.TicketAttachment);
+    this.GetCategoryList({ num_row: 0, Search: '' });
   }
   closedialogNewTicket(): void {
     this.dialogRef.close();
   }
   createNewTicket(): void {
-    console.log('Create New Ticket ', this.form.value);
+    if (!this.isValidEntries()) return;
+    this.performSaveTicket();
   }
+  GetCategoryList(item: any): Observable<any> {
+
+    rest.post('category/list', item).subscribe(async (res: any) => {
+      if (res.Status == 'ok') {
+        this.categorylist = res.category;
+        console.log('GetCategoryList inside subscribe', this.categorylist);
+        return this.categorylist;
+        //this.categorylist;
+      }
+    });
+    console.log('GetCategoryList outside subscribe', this.categorylist);
+    return this.categorylist;
+  }
+  performSaveTicket() {
+    rest.post('ticket/save', this.form.value).subscribe(async (res: any) => {
+      if (res.Status == 'ok') {
+        this.form.value.TransactionNo = res.Content.TransactionNo;
+        this.form.value.TicketNo = res.Content.TransactionNo;
+        this.form.value.IssuedDate = res.Content.IssuedDate;
+        this.form.value.Status = res.Content.Status;
+        this.form.value.Statusname = res.Content.Statusname;
+        this.dialogRef.close(this.form.value);
+      }
+    });
+  }
+
+  public isValidEntries(): boolean {
+    var category = this.form.value.Category;
+    if (!category) {
+      alert('Please Select Category');
+      return false;
+    }
+    var titleticket = this.form.value.TitleTicket;
+    if (!titleticket) {
+      alert('Please Enter Title Ticket');
+      return false;
+    }
+    var ticketdescription = this.form.value.TicketDescription;
+    if (!ticketdescription) {
+      alert('Please Enter Ticket Description');
+      return false;
+    }
+    var prioritylevel = this.form.value.PriorityLevel;
+    if (!prioritylevel) {
+      alert('Please select Priority Level');
+      return false
+    }
+    if (this.uploaded.length == 0)
+      this.form.value.TicketAttachment = '';
+    else if (this.uploaded.length > 0)
+      this.form.value.TicketAttachment = JSON.stringify(this.uploaded);
+    this.form.value.Categoryname = this.categoryname;
+    this.form.value.PriorityLevelname = this.prioritylevelname;
+    return true;
+  }
+
   
-  hRemoveItem = (item:any, idx:number) => {
-   console.log('hRemoveItem idx',idx);
-   console.log('hRemoveItem item',item);
-   this.uploaded.splice(idx,1);
-   console.log('hREmoveItem this.uploaded', this.uploaded);
+
+  hRemoveItem = (item: any, idx: number) => {
+    console.log('hRemoveItem idx', idx);
+    console.log('hRemoveItem item', item);
+    this.uploaded.splice(idx, 1);
+    console.log('hREmoveItem this.uploaded', this.uploaded);
   }
   uploadImage(): void {
 
@@ -82,12 +154,13 @@ export class NewticketmodalComponent implements OnInit {
     }
   }
 
-  public onFileSelected1(files: File[]): Observable<SelectedFiles[]> {
+  public onFileSelected1(files: File[]): Observable<any[]> {
     // this.selectedFiles = []; // clear
-    const result = new AsyncSubject<SelectedFiles[]>();
-    this.toFilesBase64(files, this.selectedFiles).subscribe((res: SelectedFiles[]) => {
+    console.log('onFileSelect1 files', files);
+    const result = new AsyncSubject<any[]>();
+    this.toFilesBase64(files, this.selectedFiles).subscribe((res: any[]) => {
       res.forEach((i: any) => this.selectedFiles1.push({ name: i.name, filesize: i.filesize, file: i.file, base64: i.base64, uploadstatus: i.uploadstatus, progress: i.progress, rownum: i.rownum }));
-      console.log('Result', this.selectedFiles1);
+      console.log('Result selectedFiles1', this.selectedFiles1);
 
       return res;
     });
@@ -145,33 +218,6 @@ export class NewticketmodalComponent implements OnInit {
       this.fileSize = `${(file.size / 1024).toFixed(2)} KB`;
       this.outputBoxVisible = true;
 
-      // const formData = new FormData();
-      // formData.append('file', file);
-
-      // const xhr = new XMLHttpRequest();
-      // xhr.open('POST', '/api/upload', true);
-
-      // xhr.upload.onprogress = (progressEvent) => {
-      //   if (progressEvent.lengthComputable) {
-      //     const progress = (progressEvent.loaded / progressEvent.total) * 100;
-      //     this.progress = `${Math.round(progress)}%`;
-      //   }
-      // };
-
-      // xhr.onreadystatechange = () => {
-      //   if (xhr.readyState === XMLHttpRequest.DONE) {
-      //     if (xhr.status === 200) {
-      //       this.uploadResult = 'Uploaded';
-      //     } else if (xhr.status === 400) {
-      //       this.uploadResult = JSON.parse(xhr.response)!.message;
-      //     } else {
-      //       this.uploadResult = 'File upload failed!';
-      //     }
-      //     this.uploadStatus = xhr.status;
-      //   }
-      // };
-
-      // xhr.send(formData);
     }
     return result
   }
@@ -206,21 +252,29 @@ export class NewticketmodalComponent implements OnInit {
     //   stringbase64 = reader?.result as string;
     // }
     stringbase64 = reader?.result as string;
-    console.log('toFileBase64 stringbase64', stringbase64);
     return stringbase64;
   }
+  @HostListener("dragover", ["$event"])
   handleDragOver(event: DragEvent) {
-    console.log('handleDragOVer', event);
     event.preventDefault();
     event.stopPropagation();
   }
-
-  handleDrop(event: DragEvent) {
+  @HostListener('drop', ['$event'])
+  handleDrop(event: DragEvent): Observable<any> {
+    const result = new AsyncSubject<any[]>();
     event.preventDefault();
-    console.log('handleDrop', event.dataTransfer);
-    if (event.dataTransfer) {
-      const file: File = event.dataTransfer.files[0];
-      this.onFileSelected(event);
+    event.stopPropagation();
+    if (event.dataTransfer != null) {
+      let files = [].slice.call(event.dataTransfer.files);
+      this.files = files;
+      this.onFileSelected1(files);
+      if (this.selectedFiles1) {
+        this.uploaded = this.selectedFiles1
+      }
+      this.outputBoxVisible = true;
+      return this.uploaded
     }
+    return result;
   }
+
 }
