@@ -13,7 +13,11 @@ import { Router } from '@angular/router';
 
 
 export const rest = (() => {
-    const localhost = 'localhost:8090';
+    const localhost = 'localhost:5000';
+    //const localhost = '119.93.89.82:55517';
+    //const localhost = 'localhost:55512';
+    //const localhost = 'localhost:55512';
+
     const path: string = '/app/v1/ticketingdashboard/';
     const httpLocalhost: string = ('http://' + localhost);
     const wsLocalhost: string = ('ws://' + localhost);
@@ -37,10 +41,17 @@ export const rest = (() => {
     }
     device.ready(()=>setTimeout(async()=>{
         //var auth = (await storage.Auth||{});
+        try{
+            var auth = (await localStorage['Auth']||{});
+            let token:any = JSON.parse(auth);
+        }
+        catch(e){
+            return;
+        }
         var auth = (await localStorage['Auth']||{})
         let token:any = JSON.parse(auth);
         //console.log('device.ready', token);
-        if(!!auth.Token){
+        if(!!token.Token){
             rest.setBearer(token.Token);
         }/*else{
             auth = await(storage.Auth = {token:'123123123weqewqewq'});
@@ -64,8 +75,17 @@ export const rest = (() => {
         return http.get(url+ endpoint(url), headers);
     }
     function ws(url:string='', includeBearer:boolean=false){
+        console.log('function ws url:string', url);
+        console.log('function ws headers.Authorization', headers.Authorization);
+        console.log('function ws Authorization', authorization);
+        if(!authorization){
+            //ready();
+            console.log('Token is Empty');
+        }
         var url = endpoint(url);
+        //console.log('Authorization', authorization);
         if(includeBearer) url += ('?token=' + authorization);
+        console.log('Websocket 88', wsLocalhost + url);
         return (wsLocalhost + url);
     }
     function Post(url:string, data:any={}, headers:any={}){

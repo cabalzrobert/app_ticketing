@@ -1,0 +1,119 @@
+.sidenav-container{
+    height: 100%;
+}
+
+.sidenav{
+    width: 362px;
+    // background-color: #3818D9;
+    // padding-inline: 15px;
+}
+
+.sidenav-content{
+    // margin-top:25px;
+    // background: #fff;
+    // margin: 25px 25px 0px 25px;
+    // padding-inline-start: 25px;
+    height: auto;
+}
+
+.section{
+    display: flex;
+    justify-content: center;
+}
+
+mat-nav-list{
+    width: 282px;
+    --mdc-list-list-item-one-line-container-height: 72px;
+}
+
+.list-item{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-size: 20px;
+    mat-icon{
+        height: 32px;
+        width: 32px;
+        font-size: 32px;
+        z-index: 1000;
+    }
+    .label{
+        z-index: 1000;
+    }
+}
+
+.sidenav-header{
+    height: 150px;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    .sub-title-container{
+        width: 282px;
+        padding: 0 16px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+    .logo{
+        height: 50px;
+        width: 50px;
+    }
+    h1{
+        color: #3818D9;
+        font-weight: 500;
+        transform: scale(1.2,1.2);
+    }
+}
+
+
+mat-tab-label{
+    font-size: 20px;
+}
+
+
+.footer{
+    position: fixed;
+    width: 282px;
+    bottom: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .user-img{
+        height:50px;
+        width: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        box-shadow: 1px 5px 15px rgba(128,128,128,0.5);
+        width:20%;
+        .mat-icon{
+            height: auto;
+            width: unset;
+            font-size: xx-large;
+        }
+    }
+    .user-name{
+        width:80%;
+        padding-inline-start: 20px;
+        span{
+            display: block;
+        }
+    }
+    .logout-icon{
+        display: flex;
+        justify-content: flex-end;
+    }
+}
+
+mat-list-item{
+    // z-index: 1000;
+    --mdc-list-list-item-hover-state-layer-color: #3818D9;
+    --mdc-list-list-item-hover-state-layer-opacity: 0.12;
+    border-radius: 8px;
+}
+
+mat-list-item.active{
+    background-color: #3818D9;
+    -webkit-text-fill-color: #fff;
+}

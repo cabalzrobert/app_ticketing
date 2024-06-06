@@ -37,9 +37,9 @@ export class LandingComponent implements OnInit {
   // }
   ngOnInit(): void {
     Object.values(this.subs).map((m: any) => m.unsubscribe());
-    //device.ready(() => this.checkDevice());
+    device.ready(() => this.performCheckDB());
     console.log('Landing Components 41');
-    setTimeout(() => this.performCheckDB(), 750);
+    //setTimeout(() => this.performCheckDB(), 750);
     //this.dbIsEmpty(false);
   }
   dbIsEmpty(_isEmpty: boolean) {

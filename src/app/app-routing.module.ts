@@ -10,7 +10,9 @@ import { UsersPageComponent } from './admin/users-page/users-page.component';
 const routes: Routes = [
   //{ path: '', loadChildren: () => import('./public/public.module').then((m) => m.PublicModule) },
   { path: 'headquarter', loadChildren: () => import('./public/public.module').then((m) => m.PublicModule) },
-  { path: '', component: LoginComponent },
+  
+  { path: '', loadChildren: () => import('./public/public.module').then((m) => m.PublicModule) },
+  //{ path: '', component: LoginComponent },
   {
     path: 'dashboard',
     loadChildren: () =>

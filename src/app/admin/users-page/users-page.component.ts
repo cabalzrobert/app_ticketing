@@ -5,6 +5,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { NewusermodalComponent } from './newusermodal/newusermodal.component';
 import { Observable, filter } from 'rxjs';
 import { rest } from '../../+services/services';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-users-page',
@@ -12,6 +13,7 @@ import { rest } from '../../+services/services';
   styleUrl: './users-page.component.scss'
 })
 export class UsersPageComponent implements OnInit {
+  
 
   usersList1: any = [
     {
@@ -1424,9 +1426,16 @@ export class UsersPageComponent implements OnInit {
     }
   ];
   usersList: any = [];
-  constructor(private authService: AuthService, public dialog: MatDialog, public generalSerive: GeneralService) { }
+  constructor(private authService: AuthService, public dialog: MatDialog, public generalSerive: GeneralService) {
+
+    this.Search = new FormControl();
+  }
+  Search: any = {};
   ngOnInit(): void {
-    this.GetUserAccountList({ num_row: 0, Search: '' });
+    this.GetUserAccountList({ num_row: 0, Search: this.Search.value });
+  }
+  hSearchUsers() {
+    this.GetUserAccountList({ num_row: 0, Search: this.Search.value });
   }
 
   @Input() isExpanded: boolean = false;

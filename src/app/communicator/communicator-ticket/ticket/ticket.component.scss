@@ -1,0 +1,209 @@
+.message-container {
+    height: 100%;
+    // display: grid;
+    // row-gap: 20px;
+}
+
+.message-box{
+    // height: calc(100% - 125px);
+    margin-bottom: 25px;
+}
+
+.message-input{
+    height: 100px;
+}
+
+.message-box-card{
+    // height: 100%;
+}
+
+.message-input-card{
+    // height: 100px;
+    display: grid;
+    align-items: center;
+}
+
+.message-box-content{
+    height: 100%;
+    padding: 16px 25px;
+}
+
+.message-input-content{
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 10px;
+    padding: 16px 25px;
+}
+
+.attach-icon{
+    transform: rotate(30deg);
+}
+
+mat-card {
+    height: 100%;
+    box-shadow: 1px 6px 15px -6px rgba(0, 0, 0, 0.2);
+    margin-bottom: 4px;
+    border-radius: 8px;
+}
+
+.left-message{
+    display: flex;
+    gap: 20px;
+    .icon-img {
+        position: relative;
+        height: 50px;
+        width: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        box-shadow: 1px 5px 15px rgba(128, 128, 128, 0.5);
+
+        mat-icon {
+            position: absolute;
+            height: auto;
+            width: auto;
+            font-size: xx-large;
+        }
+    }
+    .message-area{
+        max-width: calc(100% - 120px);
+        width: fit-content;
+        background: #000;
+        margin-top: 20px;
+        padding: 16px;
+        color: #fff;
+        border-radius: 0px 12px 12px 12px;
+        overflow-wrap: break-word;
+        box-shadow: 0px 0px 5px rgba(128, 128, 128, 0.5);
+    }
+    p {
+        font-size: 15px;
+    }
+}
+
+.right-message{
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 20px;
+    padding-bottom: 5px;
+    .icon-img {
+        position: relative;
+        height: 50px;
+        width: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        box-shadow: 1px 5px 15px rgba(128, 128, 128, 0.5);
+
+        mat-icon {
+            position: absolute;
+            height: auto;
+            width: auto;
+            font-size: xx-large;
+        }
+    }
+    .message-area{
+        max-width: calc(100% - 120px);
+        width: fit-content;
+        background: #fff;
+        margin-top: 20px;
+        padding: 16px;
+        color: #000;
+        border-radius: 12px 0px 12px 12px;
+        overflow-wrap: break-word;
+        box-shadow: 0px 0px 5px rgba(128, 128, 128, 0.5);
+    }
+    p {
+        font-size: 15px;
+    }
+}
+
+.forward-container{
+    display: grid;
+    justify-content: center;
+    margin-inline: 25px;
+    margin-top: 25px;
+    row-gap: 20px;
+    .header{
+        text-align: center;
+    }
+    .header p{
+        font-size: 14px;
+    }
+    .department,.personnel{
+        color: #118DCB;
+        font-style: italic;
+    }
+    .arrow{
+        color: #7E7E7E;
+    }
+    .notification{
+        display: flex;
+        justify-content: center;
+        border: #4845D2 1px solid;
+        border-radius: 15px;
+        padding: 16px;
+        margin: 0px 24px;
+        p{
+            text-align: center;
+            overflow-wrap: break-word;
+        }
+    }
+    .buttons{
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        button{
+            border-radius: 8px;
+        }
+        .btn-change{
+            color: #4845D2;
+            border: #4845D2 1px solid;
+        }
+        .btn-accept{
+            background: #4845D2;
+            color: #fff;
+        }
+    }
+}
+
+.img-container{
+    height: 75px;
+    width: 75px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-attach{
+    width: 125px;
+    color: #7E7E7E;
+}
+
+.btn-send{
+    background: #4845D2;
+    color: #fff;
+}
+
+.message-area{
+    width: 100%;
+    font-size: 16px;
+    outline: none;
+    border: none;
+}
+
+.scrolling-content{
+    height: 100%;
+}
+
+// .msg-container{
+//     height: 100px;
+// }
+
+
+:host ::ng-deep .cdk-virtual-scroll-content-wrapper {
+    position: unset;
+}

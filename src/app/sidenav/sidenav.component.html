@@ -8,17 +8,64 @@
     </div>
     <ul class="sidenav-nav">
         <li class="sidenav-nav-item" *ngFor="let data of navData">
+
             <a class="sidenav-nav-link"  [routerLink]="[data.routerLink]" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
                 <i class="sidenav-link-icon" [class]="data.icon"></i>
-                <span class="sidenav-link-text"  *ngIf="collapsed">{{data.label}}</span>
+                <div class="receivedticketstab" *ngIf="collapsed">
+                    <span class="sidenav-link-text"  >{{data.label}}</span>
+                        <div *ngIf="data.routerLink == 'receivedtickets'" [ngClass]="input.NotificationCount == 0 ? 'receivedtickets1' : 'receivedtickets'">
+                            <div *ngFor="let input of input"></div>
+                            <span *ngIf="collapsed">{{(input.NotificationCount == 0)? '' : input.NotificationCount}}</span>
+                        </div>
+                    
+                </div>
+                
+                
             </a>
+
+            <!-- <a class="sidenav-nav-link" *ngIf="(data.routerLink == 'overview' || data.routerLink == 'ticket') "
+                [routerLink]="[data.routerLink]" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+                <i class="sidenav-link-icon" [class]="data.icon"></i>
+                <span class="sidenav-link-text" *ngIf="collapsed">{{data.label}}</span>
+            </a>
+            <a class="sidenav-nav-link" *ngIf="(data.routerLink == 'assignedticket' && input.isDeptartmentHead == true) "
+                [routerLink]="[data.routerLink]" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+                <i class="sidenav-link-icon" [class]="data.icon"></i>
+                <span class="sidenav-link-text" *ngIf="collapsed">{{data.label}}</span>
+            </a>
+            <a class="sidenav-nav-link" *ngIf="(data.routerLink == 'receivedtickets'  && input.isCommunicator == true) "
+                [routerLink]="[data.routerLink]" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+                <i class="sidenav-link-icon" [class]="data.icon"></i>
+                <span class="sidenav-link-text" *ngIf="collapsed">{{data.label}}</span>
+            </a>
+            <a class="sidenav-nav-link" *ngIf="((data.routerLink == 'users' ||data.routerLink == 'adminsettings' || data.routerLink == 'assignedticket') && (input.ACT_TYP == 1 || input.ACT_TYP == 2)) "
+                [routerLink]="[data.routerLink]" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+                <i class="sidenav-link-icon" [class]="data.icon"></i>
+                <span class="sidenav-link-text" *ngIf="collapsed">{{data.label}}</span>
+            </a> -->
         </li>
-        <li class="sidenav-nav-item">
-            <a class="sidenav-nav-link" (click)="logout()">
+        <!-- <li class="sidenav-nav-item" (click)="logNotify()">
+            <a class="sidenav-nav-link" >
                 <i class="sidenav-link-icon fas fa-sign-out-alt"></i>
                 <span class="sidenav-link-text" *ngIf="collapsed"><label for="">Logout</label></span>
             </a>
-        </li>
+        </li> -->
     </ul>
-    <div *ngIf="collapsed">Requestor</div>
+    <div class = "sidenavfooter">
+        <div [ngClass]="collapsed ? 'userdetails' : 'userdetails1'">
+            <div class="user"  *ngIf="collapsed">
+                <div class="profpic">
+                    <img src="assets/image/icon_blank_profile.png" alt="">
+                </div>
+            </div>
+            <div class="userinfo"  *ngIf="collapsed">
+                <div class="info">
+                    <label for="">{{input.FLL_NM}}</label>
+                    <label for="">{{input.EML_ADD}}</label>
+                </div>
+            </div>
+            
+            <div class="logout" (click)="logout()"><i class="sidenav-link-icon fas fa-sign-out-alt"></i></div>
+        </div>
+    </div>
 </div>

@@ -28,6 +28,9 @@ import { ViewRolesModalComponent } from './modalpage/view-roles-modal/view-roles
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatMenuModule } from '@angular/material/menu';
+import { WebSocketService } from '../web-socket.service';
+import { stomp } from '../+services/stomp.service';
+import { LocalStorageService } from '../tools/plugins/localstorage';
 //import { SettingsdepartmentComponent } from './setting-main-page/settingsdepartment/settingsdepartment.component';
 //import { BrowserModule } from '@angular/platform-browser';
 
@@ -63,9 +66,11 @@ import { MatMenuModule } from '@angular/material/menu';
     MatIconModule,
     MatSelectModule,
     MatCheckboxModule,
-    MatMenuModule
+    MatMenuModule,
+    //SidenavComponent
     
   ],
-  exports:[MatIconModule, MatSelectModule]
+  exports:[MatIconModule, MatSelectModule],
+  providers:[LocalStorageService]
 })
 export class AdminModule { }

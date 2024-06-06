@@ -26,6 +26,7 @@
         </div>
         <div #tabsContentRef class="bodycontent" [ngSwitch]="selectedTab">
             <div class="cardcontent" *ngSwitchCase="('unassigned')">
+                <button (click)="ReadTickets()">Read</button>
                 <div class="cardticket" *ngFor="let data of ticketunassigned ">
                     <div class="cardticketcontent">
                         <div class="cardheader">

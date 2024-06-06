@@ -8,6 +8,9 @@ import { rest } from '../../+services/services';
 import { FormControl, FormGroup } from '@angular/forms';
 import { device } from '../../tools/plugins/device';
 import { LocalStorageService } from '../../tools/plugins/localstorage';
+import { stomp } from '../../+services/stomp.service';
+import { timeout } from '../../tools/plugins/delay';
+import { mtCb } from '../../tools/plugins/static';
 //import {MatIconModule} from '@angular/material/icon';
 //const{Object1}:any = {};
 //const Object:Window = window;
@@ -26,7 +29,8 @@ interface MenuNavToggle {
 })
 export class RequestorticketpageComponent implements OnInit {
 
-  
+
+
   hViewRequestorPage() {
     this.viewRequestorPage = false;
     this.viewTicketComment = true;
@@ -44,6 +48,7 @@ export class RequestorticketpageComponent implements OnInit {
   AssignedAccountname: String = '';
   LastMessage: String = '';
   hViewComment(data: any) {
+    console.log('hViewComment data 49', data);
     this.viewRequestorPage = true;
     this.viewTicketComment = false;
     this.tickettitle = data.TicketTitle;
@@ -58,6 +63,11 @@ export class RequestorticketpageComponent implements OnInit {
     this.LastMessage = data.LastMessage;
     this.getCommentList(this.TransactionNo);
   }
+  pending: string = '';
+  resolve: string = '';
+  allticket: string = '';
+  ticketcount: any = [];
+  ticketlistcount: any = {};
   ticketpending: any = [];
   ticketpending1: any = [
     {
@@ -1319,28 +1329,146 @@ export class RequestorticketpageComponent implements OnInit {
   ticketcomment: any = [];
   constructor(public dialog: MatDialog, @Inject(DOCUMENT) private dom: Document, @Inject(PLATFORM_ID) private platformId: Window, public ls: LocalStorageService) {
     this.selectedTab = "pending"
+    this.stompReceivers();
+    this.Search = new FormControl();
   }
-
+  filter: any = {};
+  Search: any = ''
   subs: any = {};
+  prop: any = {};
   Object: any = window;
-  ngOnInit(): void {
+  input: any = {};
+  async ngOnInit(): Promise<void> {
     //this.screenWidth = window.innerWidth;
     this.collapsed = true;
     //this.onToggleSideNav.emit({collapsed:this.collapsed, screenWidth: this.screenWidth});
     //console.log('onResize', this.screenWidth);
     //Object1 = window;
+
+    this.input = await jUser();
     console.log('RequestTicketPage this.Object', this.Object);
 
-    
+
     device.ready(() => setTimeout(() => this.performAuth(), 275));
 
 
     this.onWindowInitialize();
     //this.subs.u = jUserModify(async () => this.setState({ u: await jUser() }));
-    this.getTicketPendingList({ Status: 0, num_row: 0, Search: '' })
+    this.getTicketCount();
+    //this.ticketlistcount = this.getTicketCount();
+    this.getTicketPendingList({ Status: 0, num_row: 0, Search: '', IsReset: true });
+    console.log('Oninit this.tickectcount', this.ticketlistcount);
+    console.log('Oninit Number of Rows Count', this.ticketpending1.length);
+    //this.stompReceivers();
+
+    this.pending = this.ticketcount.Pending;
+    this.resolve = this.ticketcount.Resolve;
+    this.allticket = this.ticketcount.AllTicket;
+    //this.ticketcount.foreach((o:any) => console.log('foreach', o));
+    //Array.from(this.ticketcount).forEach((o: any) => console.log('Array.from(this.ticketcount).forEach', o));
+
+
+    console.log('Ticket Count arr', this.ticketcount.length, this.ticketcount);
+    console.log('Ticket Count', this.ticketcount);
+    console.log('Ticket Count Status', this.pending, this.resolve, this.allticket);
+
+    console.log('tthis.ticketlistcount', this.ticketlistcount);
+    var tlc = this.ticketlistcount;
+    console.log('var tlc 1367', tlc);
 
   }
-  
+  ticketpendingremove: any = [];
+  hLoadMore(item: any, idx: number) {
+    this.ticketpending.forEach((o: any) => {
+      this.ticketpendingremove.push(this.ListTicketDetails1(o, idx));
+    });
+    console.log('this.ticketpending', this.ticketpendingremove);
+    this.ticketpending = [];
+    this.ticketpending = this.ticketpendingremove.map((o: any) => this.ListTicketDetails(o))
+    this.getTicketPendingList({ Status: 0, num_row: 0, Search: this.Search.value, IsReset: false });
+    this.ticketpendingremove = [];
+    console.log('this.ticketpending', this.ticketpending);
+  }
+  ListTicketDetails1(item: any, idx: number) {
+    return {
+      index: idx,
+      AssignedAccount: item.AssignedAccount,
+      AssignedAccountname: item.AssignedAccountname,
+      Attachment: item.Attachment,
+      Branch_ID: item.Branch_ID,
+      Category: item.Category,
+      Categoryname: item.Categoryname,
+      Company_ID: item.Company_ID,
+      CreatedDate: item.CreatedDate,
+      Num_Row: item.Num_Row,
+      PriorityLevel: item.PriorityLevel,
+      PriorityLevelname: item.PriorityLevelname,
+      RequestorEmail: item.RequestorEmail,
+      RequestorMobileNumber: item.RequestorMobileNumber,
+      RequestorProfPic: item.RequestorProfPic,
+      Requestorname: item.Requestorname,
+      Status: item.Status,
+      Statusname: item.Statusname,
+      TicketDescription: item.TicketDescription,
+      TicketNo: item.TicketNo,
+      TicketStatus: item.TicketStatus,
+      TicketStatusname: item.TicketStatusname,
+      TitleTicket: item.TitleTicket,
+      TransactionNo: item.TransactionNo,
+      isAssigned: item.isAssigned,
+      isRead: item.isRead
+    };
+  }
+
+  private stompReceivers() {
+
+    this.subs.wsConnect = stomp.subscribe('#connect', () => this.connected());
+    //this.subs.ws1 = stomp.subscribe('/ticketrequest/iscommunicator', (json: any) => this.receivedRequestTicketCommunicator(json));
+    this.subs.ws1 = stomp.subscribe('/' + this.input.isCommunicator + '/ticketrequest/iscommunicator', (json: any) => this.receivedRequestTicketCommunicator(json));
+    console.log('stompReceiver this.subs', this.subs);
+    stomp.ready(() => (stomp.refresh(), stomp.connect()));
+  }
+  private connected() {
+    console.log('private connected');
+    this.ping(() => this.testPing());
+  }
+  private stopPing() {
+    const { subs } = this;
+    const { tmPing, ping } = subs;
+    if (tmPing) tmPing.unsubscribe();
+    if (ping) ping.unsubscribe();
+  }
+  private testPing() {
+    const { subs } = this;
+    this.stopPing();
+    //console.log('Ping for websocket', this.subs.ping);
+    this.ping(() => subs.tmPing = timeout(() => this.testPing(), (60000 * 1)));
+    //this.ping(() => subs.tmPing = timeout(() => this.testPing(), (600 * 1)));
+  }
+  private ping(callback: Function) {
+    const { prop, subs } = this;
+    this.stopPing();
+    this.subs.ping = rest.post('ping', {}).subscribe(async (res: any) => {
+
+      //console.log('Ping for websocket res', res);
+      if (res.Status == 'error') {
+        if (res.Type == 'device.session-end') {
+          if (!!prop.IsSessionEnd) return;
+        }
+      }
+      if (!stomp.IsConnected)
+        return;
+      return callback();
+    }, (err: any) => {
+      if (!stomp.IsConnected)
+        return;
+      return callback();
+    });
+  }
+  receivedRequestTicketCommunicator(data: any) {
+    console.log('Received Ticket', data);
+  }
+
   performAuth = async () => {
     var isSignIn = await this.ls.getItem1('IsSignin')
     let token: any = this.ls.getItem1('Auth');
@@ -1398,7 +1526,25 @@ export class RequestorticketpageComponent implements OnInit {
     this.ticketDialogRef = this.dialog.open(NewticketmodalComponent);
     this.ticketDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
       this.ticketpending.unshift(o);
+      this.pending = (parseInt(this.pending) + 1).toString();
+      this.allticket = (parseInt(this.allticket) + 1).toString();
     });
+
+  }
+  hSearchTicket() {
+    console.log('hSearchTicket this.Search.value', this.Search.value);
+    if (this.selectedTab == 'pending') {
+      this.getTicketPendingList({ Status: 0, num_row: 0, Search: this.Search.value });
+      this.scrollTabContentTop();
+    }
+    else if (this.selectedTab == 'resolve') {
+      this.getTicketPendingList({ Status: 1, num_row: 0, Search: this.Search.value });
+      this.scrollTabContentTop();
+    }
+    else if (this.selectedTab == 'all') {
+      this.getTicketPendingList({ Status: null, num_row: 0, Search: this.Search.value });
+      this.scrollTabContentTop();
+    }
 
   }
 
@@ -1407,8 +1553,10 @@ export class RequestorticketpageComponent implements OnInit {
     this.assigned = false;
     this.all = true;
     this.selectedTab = "all";
+    this.ticketpending = [];
     this.getTicketPendingList({ Status: null, num_row: 0, Search: '' });
     this.scrollTabContentTop();
+    console.log('hAll this.this.ticketpending', this.ticketpending);
 
   }
   hResolved() {
@@ -1416,6 +1564,7 @@ export class RequestorticketpageComponent implements OnInit {
     this.assigned = true;
     this.all = false;
     this.selectedTab = "resolve"
+    this.ticketpending = [];
     this.getTicketPendingList({ Status: 1, num_row: 0, Search: '' });
     this.scrollTabContentTop();
   }
@@ -1424,6 +1573,7 @@ export class RequestorticketpageComponent implements OnInit {
     this.assigned = false;
     this.all = false;
     this.selectedTab = "pending";
+    this.ticketpending = [];
     this.getTicketPendingList({ Status: 0, num_row: 0, Search: '' });
     this.scrollTabContentTop();
 
@@ -1432,6 +1582,7 @@ export class RequestorticketpageComponent implements OnInit {
   unassigned: boolean = true;
   assigned: boolean = false;
   all: boolean = false;
+  cntLst: Number = 0;
 
 
   private scrollTabContentTop(): void {
@@ -1439,12 +1590,66 @@ export class RequestorticketpageComponent implements OnInit {
     this.tabsContentRef.nativeElement.scrollTop = 0;
   }
 
-  getTicketPendingList(item: any): Observable<any> {
-    rest.post('ticket/list', item).subscribe(async (res: any) => {
-      this.ticketpending = res.ticket;
-      return this.ticketpending;
+  getTicketPendigListDelay(filter: any, callback: Function = mtCb, delay: number = 175) {
+    if (this.subs.t1) this.subs.t1.unsubscribe();
+    this.prop.IsFiltering = !filter.IsFiltering;
+    this.subs.t1 = timeout(() => this.getTicketPendingList(filter, callback), delay);
+  }
+
+  getTicketPendingList(item: any, callback: Function = mtCb): Observable<any> {
+    //console.log('getTicketPendingList item', item);
+    item.IsReset = false;
+    if (!this.subs) return this.ticketpending;
+    if (this.subs.s1) this.subs.s1.unsubscribe();
+    this.subs.s1 = rest.post('ticket/list', item).subscribe(async (res: any) => {
+      if (res.Status != 'error') {
+
+        if (item.IsReset) this.ticketpending = res.ticket.map((o: any) => this.ListTicketDetails(o));
+        else res.ticket.forEach((o: any) => this.ticketpending.push(this.ListTicketDetails(o)));
+
+        this.prop.IsEmpty = (this.ticketpending.length < 1);
+        if (callback != null) callback();
+        //else res.ticket.foreach((o:any) => this.ticketpending.push(this.ListTicketDetails(o)));
+        //this.ticketpending = res.ticket;
+        //console.log('Oninit Number of Rows Count 1553', this.ticketpending);
+        this.cntLst = this.ticketpending.length;
+        return this.ticketpending;
+      }
+
     });
+
     return this.ticketpending;
+  }
+  ListTicketDetails(item: any) {
+    //console.log('ListTicketDetails item', item);
+    return item;
+  }
+  getTicketCount(): Observable<any> {
+    rest.post('ticket/count').subscribe(async (res: any) => {
+      console.log('tickect/count', res);
+      //this.ticketcount.push(res.TicketCount);
+
+      //Object.assign(this.ticketlistcount, this.ticketcount) ;
+
+      //res.TicketCount.foreach((o:any) => console.log('foreach', 0));
+      this.ticketlistcount = res.TicketCount;
+      //this.ticketlistcount = ({Pending: res.TicketCount.Pending, Resolve: res.TicketCount.Resolve, AllTicketCount: res.TicketCount.AllTicketCount});
+      this.pending = res.TicketCount.Pending;
+      this.resolve = res.TicketCount.Resolve;
+      this.allticket = res.TicketCount.AllTicketCount;
+
+      console.log('this.ticketlistcountt', this.ticketlistcount);
+      return this.ticketlistcount;
+    });
+
+    console.log('this.ticketcountt', this.ticketcount);
+    return this.ticketlistcount;
+  }
+  private ticketcountlist(item: any) {
+    this.pending = item.Pending;
+    this.resolve = item.Resolve;
+    this.allticket = item.AllTicket;
+    return item;
   }
   getCommentList(TransactionNo: String): Observable<any> {
     rest.post('ticket/commentlist?TransactionNo=' + TransactionNo).subscribe(async (res: any) => {
@@ -1455,21 +1660,21 @@ export class RequestorticketpageComponent implements OnInit {
   }
   //Message: FormControl<any>;
   public commentform = new FormGroup({
-    Message:new FormControl()
+    Message: new FormControl()
   })
 
   hSendComment() {
     console.log('hSendComment', this.commentform.controls["Message"].value);
-    this.performSendComment({TransactionNo: this.TransactionNo, Message: this.commentform.controls["Message"].value, isImage: false, isFile: false, isRead: false, isMessage: true});
+    this.performSendComment({ TransactionNo: this.TransactionNo, Message: this.commentform.controls["Message"].value, isImage: false, isFile: false, isRead: false, isMessage: true });
     this.commentform.reset();
   }
 
-  performSendComment(item:any){
-    rest.post('ticket/msg/send', item).subscribe(async (res:any) => {
-      if(res.Status == 'ok'){
+  performSendComment(item: any) {
+    rest.post('ticket/msg/send', item).subscribe(async (res: any) => {
+      if (res.Status == 'ok') {
         this.ticketcomment.push(res.Content);
       }
-      else{
+      else {
         alert(res.Message);
       }
     });

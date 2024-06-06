@@ -14,6 +14,7 @@ import { AuthService } from '../../auth.service';
 import { rest } from '../../+services/services';
 import { timeout } from '../../tools/plugins/delay';
 import { Observable } from 'rxjs';
+import { FormControl } from '@angular/forms';
 
 interface MenuNavToggle {
   screenWidth: number;
@@ -26,31 +27,40 @@ interface MenuNavToggle {
   styleUrl: './superadminpage.component.scss'
 })
 export class SuperadminpageComponent implements OnInit {
+  
 
   menuData = menusettingsbarData;
   constructor(public dialog: MatDialog, private authService: AuthService) {
     this.selectedTab = "department";
+    this.SearchDepartment = new FormControl();
+    this.SearchCategory = new FormControl();
+    this.SearchPosition = new FormControl();
+    this.SearchRoles = new FormControl();
   }
+  SearchDepartment: any = {};
+  SearchCategory: any = {};
+  SearchPosition: any = {};
+  SearchRoles: any = {};
   ngOnInit(): void {
     //this.hCategory();
-    this. onScreenSize();
+    this.onScreenSize();
     this.hDepartment();
   }
 
 
-  onWindowInitialize(){
+  onWindowInitialize() {
     this.screenWidth = window.innerWidth;
-    if (this.screenWidth <= 768){
+    if (this.screenWidth <= 768) {
       this.collapsed = false;
-      this.changeclass=false;
+      this.changeclass = false;
     }
-    else if(this.screenWidth > 768 && this.screenWidth <=1300){
+    else if (this.screenWidth > 768 && this.screenWidth <= 1300) {
       this.changeclass = true
     }
-      
-    else{
-      
-      this.changeclass=false;
+
+    else {
+
+      this.changeclass = false;
       this.collapsed = true;
     }
   }
@@ -61,38 +71,38 @@ export class SuperadminpageComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   //@Output() onToggleSideNav: EventEmitter<MenuNavToggle> = new EventEmitter();
   //screenWidth = 0;
-  onScreenSize(){
+  onScreenSize() {
     this.screenWidth = window.innerWidth;
-    if (this.screenWidth <= 768){
+    if (this.screenWidth <= 768) {
       this.collapsed = false;
-      this.changeclass=false;
+      this.changeclass = false;
     }
-    else if(this.screenWidth > 768 && this.screenWidth <=1300){
+    else if (this.screenWidth > 768 && this.screenWidth <= 1300) {
       this.changeclass = true
     }
-      
-    else{
-      
-      this.changeclass=false;
+
+    else {
+
+      this.changeclass = false;
       this.collapsed = true;
     }
   }
   onResize(event: any) {
     this.screenWidth = window.innerWidth;
-    if (this.screenWidth <= 768){
+    if (this.screenWidth <= 768) {
       this.collapsed = false;
-      this.changeclass=false;
+      this.changeclass = false;
     }
-    else if(this.screenWidth > 768 && this.screenWidth <=1300){
+    else if (this.screenWidth > 768 && this.screenWidth <= 1300) {
       this.changeclass = true
     }
-      
-    else{
-      
-      this.changeclass=false;
+
+    else {
+
+      this.changeclass = false;
       this.collapsed = true;
     }
-      
+
 
     console.log('onResize', event, ' this.screenWidth', this.screenWidth);
   }
@@ -680,7 +690,21 @@ export class SuperadminpageComponent implements OnInit {
   departmentlist: any = [];
   categorylist: any = [];
   positionlist: any = [];
-  roleslist:any = [];
+  roleslist: any = [];
+  hSearchSettings() {
+    if (this.selectedTab == 'department') {
+      this.GetDepartmentList({ num_row: 0, Search: this.SearchDepartment.value });
+    }
+    else if(this.selectedTab == 'category'){
+      this.GetCategoryList({ num_row: 0, Search: this.SearchCategory.value });
+    }
+    else if(this.selectedTab == 'position'){
+      this.GetPositionList({ num_row: 0, Search: this.SearchPosition.value });
+    }
+    else if(this.selectedTab == 'roles'){
+      this.GetRolesList({ num_row: 0, Search: this.SearchRoles.value });
+    }
+  }
 
   async hDepartment(): Promise<Observable<any>> {
     this.department = true;
@@ -732,7 +756,7 @@ export class SuperadminpageComponent implements OnInit {
     this.roles = true;
     this.useraccess = false;
     this.selectedTab = "roles";
-    this.roleslist =this.GetRolesList({ num_row: 0, Search: '' });
+    this.roleslist = this.GetRolesList({ num_row: 0, Search: '' });
   }
   hUserAccess() {
     this.department = false;

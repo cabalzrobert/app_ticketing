@@ -9,6 +9,7 @@ import { AssignedticketpageComponent } from './assignedticketpage/assignedticket
 import { CommunicationreceivedticketpageComponent } from './communicationreceivedticketpage/communicationreceivedticketpage.component';
 import { RequestorticketpageComponent } from './requestorticketpage/requestorticketpage.component';
 import { SuperadminpageComponent } from './superadminpage/superadminpage.component';
+import { SidenavComponent } from '../sidenav/sidenav.component';
 
 const routes: Routes = [
 
@@ -38,6 +39,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule, ReactiveFormsModule]
+  exports: [RouterModule, ReactiveFormsModule, ]
 })
 export class AdminRoutingModule { }
