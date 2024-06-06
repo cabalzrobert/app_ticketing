@@ -10,13 +10,13 @@
     box-shadow: 0.063rem 0 0.15rem 0 #3818D9;
     //border-top: solid 0.5px #3818D9;
 
-    
+
     .logo-container {
         display: flex;
         align-items: center;
         padding: 0.938rem 0.938rem 0 0.938rem;
         width: 100%;
-        
+
 
         .logo {
             background: #fff;
@@ -29,6 +29,7 @@
             font-weight: 900;
             cursor: pointer;
             border: none;
+
             .ticketlogo {
                 height: 50px;
                 width: auto;
@@ -62,11 +63,124 @@
             }
         }
     }
+
+    .sidenavfooter {
+        height: 20%;
+
+        .userdetails {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            height: 100%;
+
+            .user {
+                display: flex;
+                align-items: center;
+                padding: 0px 0px 0px 20px;
+
+                .profpic {
+                    box-shadow: 0px 4px 20px 0px #00000040;
+
+                    border: solid 10px #fff;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    height: 60px;
+                    width: 60px;
+                    border-radius: 50px;
+
+                    img {
+                        height: 60px;
+                        width: 60px;
+                        border-radius: 50px;
+                    }
+                }
+            }
+
+            .userinfo {
+                display: flex;
+                align-items: center;
+                width: 100%;
+                padding: 0px 0px 0px 20px;
+
+                .info {
+                    display: flex;
+                    gap: 5px;
+                    flex-direction: column;
+                }
+            }
+
+            .logout {
+                display: flex;
+                align-items: center;
+                font-size: 22px;
+            }
+            .logout:hover{
+                font-size: 26px;
+                cursor: pointer;
+            }
+        }
+        .userdetails1 {
+            display: flex;
+            justify-content: flex-start;
+            padding: 0.938rem;
+            height: 100%;
+
+            .user {
+                display: flex;
+                align-items: center;
+                padding: 0px 0px 0px 20px;
+
+                .profpic {
+                    box-shadow: 0px 4px 20px 0px #00000040;
+
+                    border: solid 10px #fff;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    height: 60px;
+                    width: 60px;
+                    border-radius: 50px;
+
+                    img {
+                        height: 60px;
+                        width: 60px;
+                        border-radius: 50px;
+                    }
+                }
+            }
+
+            .userinfo {
+                display: flex;
+                align-items: center;
+                width: 100%;
+                padding: 0px 0px 0px 20px;
+
+                .info {
+                    display: flex;
+                    gap: 5px;
+                    flex-direction: column;
+                }
+            }
+
+            .logout {
+                display: flex;
+                align-items: center;
+                font-size: 22px;
+            }
+            .logout:hover{
+                font-size: 26px;
+                cursor: pointer;
+            }
+        }
+    }
+
 }
 
 
 .sidenav-collapsed {
-    width: 16.5325rem;
+    //width: 16.5325rem;
+    width: 362px;
 
 }
 
@@ -78,7 +192,7 @@
     flex-direction: column;
     align-items: center;
     //height: calc(100% - 15.65rem);
-    height: calc(90%);
+    height: calc(100% - (20% + 0.938rem));
     cursor: pointer;
 
     .sidenav-nav-item {
@@ -107,6 +221,25 @@
             .sidenav-link-text {
                 margin-left: 1.5rem;
             }
+            .receivedticketstab{
+                display: flex;
+                gap: 20px; 
+                align-items: center;
+            }
+            .receivedtickets{
+                display: flex; 
+                align-items: center; 
+                justify-content: center; 
+                border: red 1px solid;
+                background: white;
+                color: red;
+                border-radius: 50px; 
+                width: 40px; 
+                height: 40px;
+            }
+            .receivedtickets1{
+                color: white;
+            }
         }
     }
 
@@ -117,6 +250,13 @@
             background-color: #3818D9;
             color: #fff;
             letter-spacing: 3px;
+        }
+        .receivedtickets{
+            background: white;
+        }
+        .receivedtickets{
+            background-color: white;
+            color: red;
         }
     }
 }

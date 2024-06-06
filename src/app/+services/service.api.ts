@@ -7,7 +7,8 @@ import { Observable } from 'rxjs';
 })
 export class ApiserviceService {
     //readonly apiUrl = 'http://localhost:8090/app/v1/tickeingdashboard/';
-    readonly apiUrl = 'http://122.52.219.195:55510/app/v1/stldashboard/';
+    //readonly apiUrl = 'http://122.52.219.195:55510/app/v1/stldashboard/';
+    readonly apiUrl = 'http://localhost:55512/app/v1/stldashboard/';
     readonly photoUrl = "http://localhost:50306/Photos/";
 
     constructor(private http: HttpClient) { }

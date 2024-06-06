@@ -83,6 +83,7 @@ export class NewticketmodalComponent implements OnInit {
         this.form.value.IssuedDate = res.Content.IssuedDate;
         this.form.value.Status = res.Content.Status;
         this.form.value.Statusname = res.Content.Statusname;
+        this.form.value.CreatedDate = res.Content.CreatedDate;
         this.dialogRef.close(this.form.value);
       }
     });

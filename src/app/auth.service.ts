@@ -11,6 +11,8 @@ import { AsyncSubject, Observable, Subject } from 'rxjs';
 import { isPassword } from './tools/global';
 import { device } from './tools/plugins/device';
 import { stomp } from './+services/stomp.service';
+import { timeout } from './tools/plugins/delay';
+import { WebSocketService } from './web-socket.service';
 //const{ Object }:any = window;
 
 //const { ls }: any = LocalStorageService;
@@ -42,6 +44,7 @@ export class AuthService {
   ];
   account: any = [];
   session: any;
+  input: any = {};
   authentication: any;
   retres: any = {};
   departmentlist: any = [];
@@ -49,35 +52,115 @@ export class AuthService {
   positionlist: any = [];
   roleslist: any = [];
   subs: any = {};
-  constructor(private router: Router, public ls: LocalStorageService) {
-    let session: any = localStorage.getItem('Auth');
+  prop: any = {};
+  constructor(private router: Router, public ls: LocalStorageService, private websocketservice:WebSocketService) {
+    //let session: any = localStorage.getItem('Auth');
+    let session: any = this.ls.getItem1('Auth');
     if (session) {
       session = JSON.parse(session);
       device.ready(() => setTimeout(() => this.performAuth(), 275));
+      
+      this.stompWebsocketReceiver();
       //session = session
     }
     this.session = session;
   }
+  
+  
 
   performAuth = async () => {
     var isSignIn = await this.ls.getItem1('IsSignin')
     let token: any = this.ls.getItem1('Auth');
     //console.log('perfomAuth token.Token', token.Token);
     rest.setBearer(JSON.parse(token).Token);
+    this.input = await jUser();
     return setTimeout(() => {
-      if (isSignIn)
+      if (isSignIn){
+        //this.stompWebsocketReceiver();
         this.router.navigateByUrl('/');
+      }
+        
       else
         this.router.navigateByUrl('/login');
     });
 
   }
 
+  private stompWebsocketReceiver() {
+    this.websocketservice.stompWebsocketReceiver();
+    // console.log('stompWebsocketReceiver auth.service.ts');
+    // var iscom = this.input.isCommunicator ? 1 : 0;
+    // this.subs.wsErr = stomp.subscribe('#error', (err: any) => this.error());
+    // this.subs.wsConnect = stomp.subscribe('#connect', () => this.connected());
+    // this.subs.wsDisconnect = stomp.subscribe('#disconnect', () => this.disconnect());
+
+    // //this.subs.ws1 = stomp.subscribe('/test', (json: any) => this.ReceivedTest(json));
+    // this.subs.ws1 = stomp.subscribe('/test/notify', (json: any) => this.receivedNotify(json));
+    // this.subs.ws1 = stomp.subscribe('/ticketrequest/iscommunicator', (json: any) => this.receivedRequestTicketCommunicator(json));
+    // this.subs.ws1 = stomp.subscribe('/'+ iscom + '/ticketrequest/iscommunicator', (json: any) => this.receivedRequestTicketCommunicator(json));
+    // //console.log('stompReceiver this.subs', this.subs);
+    // //stomp.connect();
+    // stomp.ready(() => (stomp.refresh(), stomp.connect()));
+    // console.log('stompWebsocketReceiver aut.service.ts');
+  }
+  receivedRequestTicketCommunicator(data: any) {
+    console.log('Received Ticket of Communicator Account', data);
+  }
+  private error() {
+    this.ping(() => this.testPing());
+  }
+  private ReceivedTest(data: any) {
+    console.log('Received Test', data);
+  }
+  private disconnect() {
+    this.stopPing();
+}
+  private testPing() {
+    const { subs } = this;
+    this.stopPing();
+    this.ping(() => subs.tmPing = timeout(() => this.testPing(), (60000 * 1)));
+  }
+
+  logNotify() {
+    rest.post('ticket/test/notify').subscribe(async (res: any) => {
+      console.log('logNotify res', res);
+    });
+  }
+
+  private ping(callback: Function) {
+    const { prop, subs } = this;
+    this.stopPing();
+    this.subs.ping = rest.post('ping', {}).subscribe(async (res: any) => {
+      if (res.Status == 'error') {
+        if (res.Type == 'device.session-end') {
+          if (!!prop.IsSessionEnd) return;
+        }
+      }
+      if (!stomp.IsConnected)
+        return;
+      return callback();
+    }, (err: any) => {
+      if (!stomp.IsConnected)
+        return;
+      return callback();
+    });
+  }
+  private connected() {
+    this.ping(() => this.testPing());
+  }
+  private stopPing() {
+    const { subs } = this;
+    const { tmPing, ping } = subs;
+    if (tmPing) tmPing.unsubscribe();
+    if (ping) ping.unsubscribe();
+  }
+
   login(username: string, password: string): any {
     let user = this.users.find((u) => u.username === username && u.password === password);
     if (user) {
       this.session = user;
-      localStorage.setItem('Auth', JSON.stringify(this.session));
+      //localStorage.setItem('Auth', JSON.stringify(this.session));
+      this.ls.setItem('Auth', JSON.stringify(this.session));
     }
     return user;
 
@@ -85,8 +168,9 @@ export class AuthService {
   logout() {
     this.session = undefined;
     //localStorage.removeItem('Auth');
-    localStorage.clear();
-    window.localStorage.clear();
+    //localStorage.clear();
+    this.ls.clear();
+    //window.localStorage.clear();
     this.router.navigateByUrl('/');
   }
   ticketlogin(input: any): any {

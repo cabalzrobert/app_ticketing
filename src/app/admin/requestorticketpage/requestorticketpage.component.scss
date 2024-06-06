@@ -665,6 +665,10 @@
             font-weight: 500;
             cursor: pointer;
             background: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap:20px;
         }
 
         .menu-nav-button:hover {
@@ -850,6 +854,10 @@
     width: 170px;
     border: none;
     border-bottom: solid #3818D9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
 }
 
 .menu-nav-button2 {
@@ -890,6 +898,88 @@
             padding: 0px 10px 0px 0px;
         }
 
+        .cardticket1 {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px 1px #91818181;
+            background: #e3e0e0;
+            padding: 0px 10px;
+            .cardticketcontent {
+                display: flex;
+                flex-direction: column;
+                //padding: 0px 0px 20px 0px;
+                gap: 10px;
+                border-bottom: solid 1px #e6e3e3;
+                cursor: pointer;
+
+                .cardheader {
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 20px 0px;
+                    border-bottom: solid 1px #e6e3e3;
+
+                    .headertitle {
+                        font-size: 20px;
+                        font-weight: 700;
+                        line-height: 28px;
+                        color: #202020;
+                    }
+
+                    .headerdate {
+                        font-family: Arial, Helvetica, sans-serif;
+                        font-size: 16px;
+                        font-weight: 700;
+                        line-height: 24px;
+                        color: #202020;
+                    }
+                }
+
+                .cardticketbody {
+                    text-align: justify;
+                    padding: 0px 0px 20px 0px;
+                    font-family: Inter, "Helvetica Neue", sans-serif;
+                    font-size: 14px;
+                    font-weight: 400;
+                    line-height: 24px;
+                }
+
+                .cardticketfooter {
+                    display: flex;
+                    gap: 20px;
+                    padding: 20px 0px;
+                    border-top: solid 1px #e6e3e3;
+
+                    .prioritylevel {
+                        padding: 10px;
+                        border: solid 1px #E2A1A1;
+                        border-radius: 10px;
+                        cursor: pointer;
+                    }
+
+                    .prioritylevel:hover {
+                        box-shadow: 2px 2px 10px 1px #91818181;
+                    }
+
+                    button {
+                        padding: 10px;
+                        background: none;
+                        border: solid 1px #E2A1A1;
+                        border-radius: 10px;
+                        cursor: pointer;
+                    }
+
+                    button:hover {
+                        box-shadow: 2px 2px 10px 1px #91818181;
+
+                    }
+                }
+            }
+
+            // .cardticketcontent:hover {
+            //     background: #F7F5FF;
+            //     cursor: pointer;
+            // }
+        }
         .cardticket {
             width: 100%;
             border-radius: 10px;
@@ -980,6 +1070,17 @@
             border-radius: 10px;
             box-shadow: 2px 2px 10px 1px #91818181;
         }
+
+        .loadmore{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 20px;
+            height: 30px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
     }
 
     .cardticket {
@@ -996,6 +1097,11 @@
     padding: 5px;
     border-radius: 15px;
     font-size: 14px;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
 }
 
@@ -1006,8 +1112,11 @@
     padding: 5px;
     border-radius: 15px;
     font-size: 14px;
-
-
+    height: 30px;
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .valueclassall {
@@ -1016,6 +1125,11 @@
     padding: 5px;
     border-radius: 15px;
     font-size: 14px;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
 
 }

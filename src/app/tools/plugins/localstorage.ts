@@ -4,29 +4,40 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class LocalStorageService {
-  constructor() {}
+  static getItem1(arg0: string): any {
+    throw new Error('Method not implemented.');
+  }
+  constructor() { }
 
   // Set a value in local storage
   setItem(key: string, value: string): void {
-    localStorage.setItem(key, value);
+    if (typeof localStorage !== 'undefined')
+      localStorage.setItem(key, value);
   }
 
   // Get a value from local storage
   static getItem(key: string): string | null {
-    return localStorage.getItem(key);
+
+    if (typeof localStorage !== 'undefined')
+      return localStorage.getItem(key);
+    return null;
   }
-  
+
   public getItem1(key: string): string | null {
-    return localStorage.getItem(key);
+    if (typeof localStorage !== 'undefined')
+      return localStorage.getItem(key);
+    return null;
   }
 
   // Remove a value from local storage
-  static removeItem(key: string): void {
-    localStorage.removeItem(key);
+  public static removeItem(key: string): void {
+    if (typeof localStorage !== 'undefined')
+      localStorage.removeItem(key);
   }
 
   // Clear all items from local storage
-  static clear(): void {
-    localStorage.clear();
+  public clear(): void {
+    if (typeof localStorage !== 'undefined')
+      localStorage.clear();
   }
 }

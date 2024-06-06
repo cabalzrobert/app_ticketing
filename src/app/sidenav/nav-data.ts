@@ -9,7 +9,7 @@ export const navbarData = [
     {
         routerLink: 'ticket',
         icon: 'fa fa-light fa-ticket-alt',
-        label: 'Tickets'
+        label: 'My Tickets'
     },
     {
         routerLink: 'assignedticket',
@@ -19,7 +19,7 @@ export const navbarData = [
     {
         routerLink: 'receivedtickets',
         icon: 'fa fa-light fa-ticket-alt',
-        label: 'Received Ticket'
+        label: 'Cases'
     },
     {
         routerLink: 'users',
@@ -37,6 +37,96 @@ export const navbarData = [
         routerLink: 'adminsettings',
         icon: 'fa fa-cog',
         label: 'Settings'
+    }
+    
+];
+export const navbarDataCommunicator = [
+    {
+        routerLink: 'overview',
+        icon: 'fa fa-th-large',
+        label: 'Overview'
+    },
+    {
+        routerLink: 'ticket',
+        icon: 'fa fa-light fa-ticket-alt',
+        label: 'My Tickets'
+    },
+    {
+        routerLink: 'receivedtickets',
+        icon: 'fa fa-light fa-ticket-alt',
+        label: 'Cases'
+    },
+];
+export const navbarDataDepartmentHead = [
+    {
+        routerLink: 'overview',
+        icon: 'fa fa-th-large',
+        label: 'Overview'
+    },
+    {
+        routerLink: 'ticket',
+        icon: 'fa fa-light fa-ticket-alt',
+        label: 'My Tickets'
+    },
+    {
+        routerLink: 'assignedticket',
+        icon: 'fa fa-light fa-ticket-alt',
+        label: "Assigned Tickets"
+    }
+    
+];
+export const navbarDataCommunicatorDepartmentHead = [
+    {
+        routerLink: 'overview',
+        icon: 'fa fa-th-large',
+        label: 'Overview'
+    },
+    {
+        routerLink: 'ticket',
+        icon: 'fa fa-light fa-ticket-alt',
+        label: 'My Tickets'
+    },
+    {
+        routerLink: 'assignedticket',
+        icon: 'fa fa-light fa-ticket-alt',
+        label: "Assigned Tickets"
+    },
+    {
+        routerLink: 'receivedtickets',
+        icon: 'fa fa-light fa-ticket-alt',
+        label: 'Cases'
+    }
+    
+];
+
+export const navbarDataPersonnel = [
+    {
+        routerLink: 'overview',
+        icon: 'fa fa-th-large',
+        label: 'Overview'
+    },
+    {
+        routerLink: 'ticket',
+        icon: 'fa fa-light fa-ticket-alt',
+        label: 'My Tickets'
+    },
+    {
+        routerLink: 'assignedticket',
+        icon: 'fa fa-light fa-ticket-alt',
+        label: "Assigned Tickets"
+    }
+    
+];
+export const navbarDataUser = [
+    {
+        routerLink: 'overview',
+        icon: 'fa fa-th-large',
+        label: 'Overview'
+    },
+    {
+        routerLink: 'ticket',
+        icon: 'fa fa-light fa-ticket-alt',
+        label: 'My Tickets'
     }
     
 ];

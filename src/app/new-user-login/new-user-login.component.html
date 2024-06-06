@@ -1,0 +1,36 @@
+<div class="toLogin-container">
+    <button class="btn-toLogin" mat-flat-button routerLink="/login" routerLinkActive="active">
+        Existing User? Login Here
+    </button>
+</div>
+<div class="title-container">
+    <div class="sub-title-container">
+        <img class="logo" src="assets/image/logo.gif">
+        <h1>TikSy</h1>
+    </div>
+</div>
+<div class="sub-title">
+    <h4>New User Login</h4>
+</div>
+<form class="form-container" [formGroup]="form">
+    <div class="sub-form-container">
+        <div>
+            <label>
+                Username
+            </label>
+        </div>
+        <div>
+            <input class="input-username" [(ngModel)]="_username" formControlName="username" type="text" >
+        </div>
+        <div class="msg-error-container">
+            <mat-label *ngIf="errorMessage">{{errorMessage}}</mat-label>
+        </div>
+    </div>
+</form>
+<div class="button-container">
+        <button mat-flat-button (click)="onLogin()">
+            Login
+            <!-- <mat-icon iconPositionEnd>login</mat-icon> -->
+            <mat-icon iconPositionEnd>login</mat-icon>
+        </button>
+</div>

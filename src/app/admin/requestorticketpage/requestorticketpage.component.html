@@ -11,22 +11,25 @@
     </div>
     <div class="ticketbody">
         <div class="bodyheader" [ngClass]="changeclass ? 'bodyheader-column' : ''">
-            <div class="menu-nav-bar" *ngIf="collapsed" >
+            <div class="menu-nav-bar" *ngIf="collapsed">
                 <ul class="menu-nav">
                     <li class="menu-nav-item ">
                         <button [ngClass]="unassigned == true ? 'menu-nav-button1' : 'menu-nav-button'"
                             (click)="hPending()">Pending
-                            <span class="valueclasspending">20</span></button>
+                            <span [ngClass]="pending == '0' ? '' : 'valueclasspending'"
+                                [hidden]="pending == '0' ? true : false">{{pending}}</span></button>
                     </li>
                     <li class="menu-nav-item">
                         <button [ngClass]="assigned == true ? 'menu-nav-button1' : 'menu-nav-button'"
                             (click)="hResolved()">Resolved
-                            <span class="valueclassresolved">20</span>
+                            <span [ngClass]="resolve == '0' ? '' : 'valueclassresolved'"
+                                [hidden]="resolve == '0' ? true : false">{{resolve}}</span>
                         </button>
                     </li>
                     <li class="menu-nav-item">
                         <button [ngClass]="all == true ? 'menu-nav-button1' : 'menu-nav-button'" (click)="hAll()">All
-                            <span class="valueclassall">20</span></button>
+                            <span [ngClass]="allticket == '0' ? '' : 'valueclassall'"
+                                [hidden]="allticket == '0' ? true : false">{{allticket}}</span></button>
                     </li>
                 </ul>
             </div>
@@ -38,18 +41,23 @@
                         <li class="menu-nav-item ">
                             <button [ngClass]="unassigned == true ? 'menu-nav-button2' : 'menu-nav-button'"
                                 (click)="hPending()">Pending
-                                <span class="valueclasspending">20</span></button>
+                                <span [ngClass]="pending == '0' ? '' : 'valueclasspending'"
+                                    [hidden]="pending == '0' ? true : false">{{pending}}</span></button>
                         </li>
                         <li class="menu-nav-item">
                             <button [ngClass]="assigned == true ? 'menu-nav-button2' : 'menu-nav-button'"
-                                (click)="hResolved()">Resolved
-                                <span class="valueclassresolved">20</span>
+                                (click)="hResolved()">Resolved<span
+                                    [ngClass]="resolve == '0' ? '' : 'valueclassresolved'"
+                                    [hidden]="resolve == '0' ? true : false">{{resolve}}</span><span
+                                    class="valueclassresolved"
+                                    [hidden]="resolve == '0' ? true : false">{{resolve}}</span>
                             </button>
                         </li>
                         <li class="menu-nav-item">
                             <button [ngClass]="all == true ? 'menu-nav-button2' : 'menu-nav-button'"
                                 (click)="hAll()">All
-                                <span class="valueclassall">20</span></button>
+                                <span [ngClass]="allticket == '0' ? '' : 'valueclassall'"
+                                    [hidden]="allticket == '0' ? true : false">{{allticket}}</span></button>
                         </li>
                     </ul>
                 </div>
@@ -58,21 +66,70 @@
                 <div class="searchinput">
                     <div class="searchicon">
                         <i class="fa fa-light fa-search"></i>
-                        <input class="searchticketinput" type="text" placeholder="Seach Ticket">
+                        <input class="searchticketinput" type="text" placeholder="Seach Ticket" [formControl]="Search"
+                            (change)="hSearchTicket()">
                     </div>
                     <div class="filtericon">
                         <i class="fa fa-thin fa-filter"></i>
-                        <button class="filterbutton">Filter</button>
+                        <button class="filterbutton" (click)="hSearchTicket()">Filter</button>
                     </div>
                 </div>
             </div>
         </div>
         <div #tabsContentRef class="bodycontent" [ngSwitch]="selectedTab">
             <div class="cardcontent" *ngSwitchCase="('pending')">
-                <div class="cardticket" *ngFor="let data of ticketpending ">
-                    <div class="cardticketcontent" (click)="hViewComment(data)">
+                <div *ngFor="let data of ticketpending; index as i">
+                    <div class="cardticket1" *ngIf="!data.isRead">
+                        <div class="cardticketcontent" (click)="hViewComment(data)">
+                            <div class="cardheader">
+                                <div class="headertitle">{{data.TitleTicket}}</div>
+                                <div class="headerdate">{{data.CreatedDate}}</div>
+                            </div>
+                            <div class="cardticketbody">{{data.TicketDescription}}</div>
+                            <div class="cardticketfooter">
+                                <button>{{data.Statusname}}</button>
+                                <div class="prioritylevel">
+                                    {{data.PriorityLevelname}}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="cardticket" *ngIf="data.isRead">
+                        <div class="cardticketcontent" (click)="hViewComment(data)" *ngIf="data.isRead">
+                            <div class="cardheader">
+                                <div class="headertitle">{{data.TicketTitle}}</div>
+                                <div class="headerdate">{{data.CreatedDate}}</div>
+                            </div>
+                            <div class="cardticketbody">{{data.TicketDescription}}</div>
+                            <div class="cardticketfooter">
+                                <button>{{data.Statusname}}</button>
+                                <div class="prioritylevel">
+                                    {{data.PriorityLevelname}}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div *ngIf="data.NextFilter" class="loadmore">
+                        <div (click)="hLoadMore(data, i)">Load More.. {{data.NextFilter.NextFilter}}</div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="cardcontent" *ngSwitchCase="('resolve')">
+                <div class="cardticket" *ngFor="let data of ticketpending; index as i ">
+                    <div class="cardticketcontent">
                         <div class="cardheader">
-                            <div class="headertitle">{{data.TicketTitle}}</div>
+                            <div class="headertitle">{{data.TitleTicket}}</div>
+                            <div class="headerdate">{{data.CreatedDate}}</div>
+                        </div>
+                        <div class="cardticketbody">{{data.TicketDescription}}</div>
+
+
+                        <div class="cardheader">
+                            <div class="headertitle">{{data.TitleTicket}}</div>
                             <div class="headerdate">{{data.CreatedDate}}</div>
                         </div>
                         <div class="cardticketbody">{{data.TicketDescription}}</div>
@@ -82,18 +139,6 @@
                                 {{data.PriorityLevelname}}
                             </div>
                         </div>
-                    </div>
-
-                </div>
-            </div>
-            <div class="cardcontent" *ngSwitchCase="('resolve')">
-                <div class="cardticket" *ngFor="let data of ticketpending ">
-                    <div class="cardticketcontent">
-                        <div class="cardheader">
-                            <div class="headertitle">{{data.TicketTitle}}</div>
-                            <div class="headerdate">{{data.Date}}</div>
-                        </div>
-                        <div class="cardticketbody">{{data.TicketDescription}}</div>
                         <!-- <div class="cardticketfooter">
                             <button>Unassigned</button>
                             <div class="prioritylevel">
@@ -105,22 +150,45 @@
                 </div>
             </div>
             <div class="cardcontent" *ngSwitchCase="('all')">
-                <div class="cardticket" *ngFor="let data of ticketpending ">
-                    <div class="cardticketcontent">
-                        <div class="cardheader">
-                            <div class="headertitle">{{data.TicketTitle}}</div>
-                            <div class="headerdate">{{data.Date}}</div>
-                        </div>
-                        <div class="cardticketbody">{{data.TicketDescription}}</div>
-                        <!-- <div class="cardticketfooter">
-                            <button>Unassigned</button>
-                            <div class="prioritylevel">
-                                {{data.PriorityLevel}}
+                <div *ngFor="let data of ticketpending; index as i ">
+                    <div class="cardticket1" *ngIf="!data.isRead">
+                        <div class="cardticketcontent"  (click)="hViewComment(data)">
+                            <div class="cardheader">
+                                <div class="headertitle">{{data.TitleTicket}}</div>
+                                <div class="headerdate">{{data.CreatedDate}}</div>
                             </div>
-                        </div> -->
-                    </div>
+                            <div class="cardticketbody">{{data.TicketDescription}}</div>
+                            <!-- <div class="cardticketfooter">
+                                <button>Unassigned</button>
+                                <div class="prioritylevel">
+                                    {{data.PriorityLevel}}
+                                </div>
+                            </div> -->
+                        </div>
 
+                    </div>
+                    <div class="cardticket" *ngIf="data.isRead">
+                        <div class="cardticketcontent"  (click)="hViewComment(data)">
+                            <div class="cardheader">
+                                <div class="headertitle">{{data.TitleTicket}}</div>
+                                <div class="headerdate">{{data.CreatedDate}}</div>
+                            </div>
+                            <div class="cardticketbody">{{data.TicketDescription}}</div>
+                            <!-- <div class="cardticketfooter">
+                                <button>Unassigned</button>
+                                <div class="prioritylevel">
+                                    {{data.PriorityLevel}}
+                                </div>
+                            </div> -->
+                        </div>
+
+                    </div>
+                    
+                    <div *ngIf="data.NextFilter" class="loadmore">
+                        <div (click)="hLoadMore(data, i)">Load More.. {{data.NextFilter.NextFilter}}</div>
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -178,7 +246,8 @@
                                 <div class="isforwarded" *ngIf="!data.IsYou && !data.isMessage">
                                     <div class="forwarded">
                                         <label for="">Ticket has been forwarded to&nbsp;</label>
-                                        <div class="forwardinfo"> {{data.Department}}&nbsp;>&nbsp;{{data.DisplayName}}</div>
+                                        <div class="forwardinfo"> {{data.Department}}&nbsp;>&nbsp;{{data.DisplayName}}
+                                        </div>
                                     </div>
                                     <div class="messageinfo">
                                         <div class="message">{{data.Message}}</div>
@@ -196,8 +265,9 @@
 
                 <div class="cthfooter">
                     <div class="footerbody">
-                        <div class="commentcontent" [formGroup]="commentform" >
-                            <textarea formControlName="Message"  name="" id="" rows="4" placeholder="Write  your response for issue"></textarea>
+                        <div class="commentcontent" [formGroup]="commentform">
+                            <textarea formControlName="Message" name="" id="" rows="4"
+                                placeholder="Write  your response for issue"></textarea>
                         </div>
                         <div class="buttoncomment">
                             <button class="attachmentcomment"><span class="fa fa-paperclip"> Attachment</span>
@@ -229,9 +299,11 @@
                 <div class="ticketcard">
                     <div class="ticketinfo">Ticket Info</div>
                     <div class="ticketid"><label for="">Ticket ID: </label><button>#{{TicketNo}}</button></div>
-                    <div class="created"><label class="title" for="">Created: </label><label for="">{{CreatedDate}}</label>
+                    <div class="created"><label class="title" for="">Created: </label><label
+                            for="">{{CreatedDate}}</label>
                     </div>
-                    <div class="lastmessage" *ngIf="LastMessage ==''"><label class="title" for="">Last message: </label><label for="">{{LastMessage}}</label></div>
+                    <div class="lastmessage" *ngIf="LastMessage ==''"><label class="title" for="">Last message:
+                        </label><label for="">{{LastMessage}}</label></div>
                     <div class="status"><label for="">Status </label> <button>{{TicketStatusname}}</button></div>
                     <div class="priority"><label for="">Pririoty</label> <button>{{PriorityLevelname}}</button></div>
                 </div>

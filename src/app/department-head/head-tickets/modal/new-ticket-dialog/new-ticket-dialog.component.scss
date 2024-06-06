@@ -1,0 +1,118 @@
+:host{
+    --mdc-dialog-container-shape: 10px;
+}
+
+.mat-dialog-header{
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    background: #fff;
+    border-bottom: 1px solid rgba(#000,0.1);
+    h3{
+        color: #4845D2;
+    }
+    mat-icon{
+        cursor: pointer;
+    }
+}
+
+.dialog-content{
+    display: grid;
+    row-gap: 10px;
+}
+
+.custom-label{
+    color: #000;
+    margin-bottom: 0px;
+}
+
+.custom-select{
+    height: 32px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    border: #4845D2 1px solid;
+    border-radius: 25px;
+    padding-inline-start: 14px;
+    padding-inline-end: 14px;
+}
+
+.custom-input{
+    height: 32px;
+    width: 100%;
+    padding: 0px 16px;
+    border-radius: 25px;
+    outline: none;
+    border: #4845D2 1px solid;
+}
+
+.custom-textarea{
+    height: 75px;
+    width: 100%;
+    border-radius: 8px;
+    border: #4845D2 1px solid;
+    outline: none;
+    padding: 5px 8px;
+}
+
+mat-chip{
+    margin-top: 5px;
+    display: flex;
+    border: rgba(#0066FD,0.5) 1px solid;
+    .iconPrefix{
+        font-size: 16px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transform: rotate(-60deg);
+        color: grey;
+    }
+}
+
+
+.drop-attachment{
+    position: relative;
+    display: grid;
+    justify-content: center;
+    text-align: center;
+    border: rgba(#0066FD,0.5) 1px solid;
+    border-style: dashed;
+    p{
+        display: flex;
+        justify-content: center;
+        align-items: end;
+    }
+    mat-icon{
+        margin-top: 16px;
+    }
+    span{
+        font-size: 14px;
+    };
+}
+
+.file-dialog{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    opacity: 0;
+
+}
+
+.tp-btn-create-ticket{
+    display: flex;
+    justify-content: center;
+    button{
+        background: #4845D2;
+        color: #fff;
+        border-radius: 8px;
+        font-size: 16px;
+    }
+}
+
+
+:host ::ng-deep .mat-mdc-chip.mdc-evolution-chip--with-trailing-action .mat-mdc-chip-action-label{
+    display: flex;
+    align-items: center;
+}
+
+:host ::ng-deep .mat-mdc-dialog-content { max-height: 70vh; }

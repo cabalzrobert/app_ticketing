@@ -1,0 +1,49 @@
+<mat-sidenav-container class="sidenav-container" autosize>
+    <mat-sidenav class="sidenav" mode="side" opened="true">
+        <div class="sidenav-header">
+            <div class="sub-title-container">
+                <img class="logo" src="assets/image/logo.gif">
+                <h1>TikSy</h1>
+            </div>
+        </div>
+        <div class="section">
+            <mat-nav-list>
+                <mat-list-item [class]="sidenavTab==='overview'?'active':''" (click)="onRouting('overview')">
+                    <div class="list-item">
+                        <mat-icon>grid_view</mat-icon>
+                        <span>Overview</span>
+                    </div>
+                </mat-list-item>
+                <br/>
+                <mat-list-item [class]="sidenavTab==='tickets'?'active':''" (click)="onRouting('tickets')">
+                    <div class="list-item">
+                        <mat-icon>confirmation_number</mat-icon>
+                        <span>Tickets</span>
+                    </div>
+                </mat-list-item>
+                <br/>
+                <mat-list-item [class]="sidenavTab==='users'?'active':''" (click)="sidenavTab = 'users'">
+                    <div class="list-item">
+                        <mat-icon>group</mat-icon>
+                        <span>Users</span>
+                    </div>
+                </mat-list-item>
+            </mat-nav-list>
+            <div class="footer">
+                <div class="user-img">
+                    <mat-icon>flutter_dash</mat-icon>
+                </div>
+                <div class="user-name">
+                    <span>Patotoya</span>
+                    <span>{{'@patotoya'}}</span>
+                </div>
+                <div class="logout-icon">
+                    <mat-icon>logout</mat-icon>
+                </div>
+            </div>
+        </div>
+    </mat-sidenav>
+    <mat-sidenav-content class="sidenav-content">
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>

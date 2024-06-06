@@ -19,6 +19,9 @@ import { SuperadminpageComponent } from './admin/superadminpage/superadminpage.c
 //import { SuperadminpageComponent } from './superadminpage/superadminpage.component';
 //import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import{MatMenuModule} from '@angular/material/menu'
+import { RxStompService } from './tools/plugins/rx-stomp.service';
+import { rxStompServiceFactory } from './tools/plugins/rx-stomp-service-factory';
+import { LocalStorageService } from './tools/plugins/localstorage';
 
 @NgModule({
   declarations: [
@@ -40,11 +43,13 @@ import{MatMenuModule} from '@angular/material/menu'
     MatIconModule,
     MatSelectModule,
     NgxMatSelectSearchModule,
-    MatMenuModule
+    MatMenuModule,
   ],
   providers: [
     provideClientHydration(),
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    LocalStorageService,
+    
   ],
   bootstrap: [AppComponent]
 })

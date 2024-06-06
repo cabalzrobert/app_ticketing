@@ -24,7 +24,7 @@ export const jUser = (() => {
     //var ls:LocalStorageService;
     var jUser: any = {};
     //var Object1:any = window;
-    //console.log('jUser ls', ls);
+    console.log('jUser ls', ls.getItem('UserAccount'));
     //const untilReady = whenReady((ready) => device.ready(async () => (Object.create(jUser, (await ls.getItem('user') || jUser)), ready())), true);
     //const untilReady = whenReady((ready) => device.ready(async () => (Object.rcopy(jUser, (await ls.getItem('user') || jUser)), ready())), true);
     const untilReady = whenReady((ready) => device.ready(async () => (Object.assign(jUser, JSON.parse((await ls.getItem('UserAccount') || jUser))), ready())), true);
@@ -35,10 +35,11 @@ export const jUser = (() => {
             //console.log('if(!user)', jUser);
             return jUser;
         }
-        console.log('jUser 1', user);
+        //console.log('jUser 1', user);
         if (!isMerge){
             //console.log('if(!isMerge)', jUser);
-            return jUser = user;
+            //return jUser = user;
+            Object.assign(jUser, user);
         } 
         else{
             
@@ -50,9 +51,10 @@ export const jUser = (() => {
         //console.log('jUser 3', user);
         //await(localStorage["user"] = jUser);
         //console.log('jUser', Object);
-        await (jUser.ls.setItem('user', jUser));
+        
+        //await (jUser.ls.setItem('UserAccount', jUser));
         timeout(jUserModify);
-        console.log('jUser 4', user);
+        //console.log('jUser 4', user);
         return jUser;
     }
 })();
@@ -68,3 +70,52 @@ export const jUserModify = (() => {
         return subscribe(() => () => delete callbacks[key]);
     }
 })();
+
+export const notificationCount=(()=>{ 
+    const ready = whenReady((ready)=>rest.ready(()=>ready()));
+    console.log('Notification COunt', ready);
+    var subscription:any;
+    return async()=>{
+        if(!await ready()) return;
+        if(subscription) subscription.unsubscribe();
+        console.log('Notification COunt 81', ready);
+        subscription = rest.post('notification/unseen').subscribe(async(res:any)=>{
+            if(res.Status!='error'){
+                return additionalNotification(+res, true);
+            }
+        },(err:any) =>{
+            return additionalNotification(+0, true);
+        });
+   };
+})();
+export const additionalNotification=async(additional:number, isSet:boolean=false)=>{
+   var user = await jUser();
+   if(!user.NotificationCount) user.NotificationCount = 0;
+   if(isSet) user.NotificationCount = additional;
+   else user.NotificationCount += additional;
+   //console.log('additionalNotification user', user);
+   return await jUser(user,true);
+}
+
+export const getLastTransactionNumber=(()=>{ 
+    const ready = whenReady((ready)=>rest.ready(()=>ready()));
+    var subscription:any;
+    return async()=>{
+        if(!await ready()) return;
+        if(subscription) subscription.unsubscribe();
+        subscription = rest.post('lasttransactionno').subscribe(async(res:any)=>{
+            if(res.Status!='error'){
+                return bindLastTransacationNumber(res, true);
+            }
+        },(err:any) =>{
+            return bindLastTransacationNumber('', true);
+        });
+   };
+})();
+export const bindLastTransacationNumber=async(transactionnumber:string, isSet:boolean=false)=>{
+   var user = await jUser();
+   if(!user.LastTransactionNo) user.LastTransactionNo = '';
+   if(isSet) user.LastTransactionNo = transactionnumber;
+   else user.LastTransactionNo = transactionnumber;
+   return await jUser(user,true);
+}

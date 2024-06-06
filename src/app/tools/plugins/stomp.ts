@@ -8,14 +8,16 @@ export const stomp=(url:any)=>{
     var counterID:number = 0;
     const subscribes:any = {};
     const timer:any = {};
+    //console.log('stomp.ts stomp url', url);
     const service = {
         setUrl:(url:any)=>(urlObj=url,service),
-        get IsConnected(){ return isConnected; },
+        get IsConnected(){/*console.log('IsConnected', isConnected, service);*/ return isConnected; },
         connect:()=>(connect()),
         send:(destination:string, headers?:{[key: string]: any;}, body?:string)=>(!!isConnected&&client.send(destination, headers, body)),
         subscribe:(destination:string, callback:Function)=>subscription(destination,callback),
         disconnect:(callback:Function=mtCb)=>disconnect(callback),
     };
+    
     return service;
     function parse(urlObj:any):string{
         var url:any = (typeof(urlObj)=='string'?urlObj:null);
@@ -28,7 +30,12 @@ export const stomp=(url:any)=>{
     }
     function connect(){
         return disconnect(()=>{
+            // if(!urlObj){
+            //     console.log('urlObj is undefined');
+            // }
+            //console.log('function connect urlObj', urlObj);
             client = Stomp.over(()=>new WebSocket(parse(urlObj)));
+            //console.log('function connect', client);
             client.debug = (log:string)=>{};
             client.heartbeat.outgoing = 0; //20000;
             client.heartbeat.incoming = 0;
@@ -65,6 +72,7 @@ export const stomp=(url:any)=>{
         timer.p1 = setTimeout(()=>sendPing(),30000);
     }
     function connected(){
+        //console.log('function connected');
         isConnected = true;
         const destinations = Object.keys(subscribes||{});
         if(!destinations||destinations.length<1) return;

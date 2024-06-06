@@ -1,0 +1,16 @@
+<div class="message-box-container">
+    <div class="progress-container" *ngIf="data.isProgress">
+        <mat-spinner class="spinner"></mat-spinner>
+        <label>Loading please wait...</label>
+    </div>
+    <div class="success-msg" *ngIf="data.isMessage">
+        <div>
+            <mat-icon color="primary">check_circle</mat-icon>
+            <h2>Success</h2>
+            <p>{{data.message}}</p>
+        </div>
+        <button class="btn-close" mat-flat-button mat-dialog-close>
+            Close
+        </button>
+    </div>
+</div>

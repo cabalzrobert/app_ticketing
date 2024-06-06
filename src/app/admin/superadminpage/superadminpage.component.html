@@ -67,7 +67,7 @@
                 <div class="header">
                     <div class="searchtab">
                         <div class="searchbar">
-                            <input type="text">
+                            <input type="text" placeholder="Seach Department" [formControl]="SearchDepartment" (change)="hSearchSettings()">
                             <span>
                                 <div class="button fa fa-filter filter"></div>
                             </span>
@@ -95,7 +95,7 @@
                 <div class="header">
                     <div class="searchtab">
                         <div class="searchbar">
-                            <input type="text">
+                            <input type="text"placeholder="Seach Category" [formControl]="SearchCategory" (change)="hSearchSettings()">
                             <span>
                                 <div class="button fa fa-filter filter"></div>
                             </span>
@@ -122,7 +122,7 @@
                 <div class="header">
                     <div class="searchtab">
                         <div class="searchbar">
-                            <input type="text">
+                            <input type="text" placeholder="Seach Position" [formControl]="SearchPosition" (change)="hSearchSettings()">
                             <span>
                                 <div class="button fa fa-filter filter"></div>
                             </span>
@@ -148,7 +148,7 @@
                 <div class="header">
                     <div class="searchtab">
                         <div class="searchbar">
-                            <input type="text">
+                            <input type="text" placeholder="Seach Roles" [formControl]="SearchRoles" (change)="hSearchSettings()">
                             <span>
                                 <div class="button fa fa-filter filter"></div>
                             </span>
