@@ -156,7 +156,12 @@ export class NewusermodalComponent implements OnInit {
     if(this.form.value.isCommunicator == true){
       iscommunicator = 1;
     }
+    var isDepartment = 0;
+    if(this.form.value.isDepartment == true){
+      isDepartment = 1;
+    }
     this.form.value.isCommunicator = iscommunicator;
+    this.form.value.isDepartment = isDepartment;
     this.form.value.Department = (!this.departmentname ? this.form.value.Department : this.departmentname);
     this.form.value.Role = (!this.rolename ? this.form.value.Role : this.rolename);
     this.form.value.Position = (!this.positionname ? this.form.value.Position : this.positionname);

@@ -8,7 +8,7 @@
 </div> -->
 <div class="newusercontainer">
     <!-- <div>New User? Login Here</div> -->
-    <button class="newuserbutton">New User? Login Here</button>
+    <button class="newuserbutton" routerLink="/newUserLogin">New User? Login Here</button>
 </div>
 
 <div class="login_container" [formGroup]="form">
@@ -34,7 +34,7 @@
                 </div>
                 <div class="loginfooter">
                     <div class="loginevent">
-                        <button class="forgotpasswordbutton">Forgot Password?</button>
+                        <button class="forgotpasswordbutton" (click)="forgotPassword()">Forgot Password?</button>
                         <button class="loginbutton" (click)="login()" [disabled]="!form.valid">Login <img class="logo"
                                 src="assets/image/signin.gif" /></button>
                     </div>

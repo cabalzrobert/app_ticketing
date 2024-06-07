@@ -10,7 +10,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrl: './new-user-login.component.scss'
 })
 export class NewUserLoginComponent {
-  _username = '';
+  // _username = '';
   form: FormGroup = this.fb.group({
     username: ''
   });
@@ -31,9 +31,13 @@ export class NewUserLoginComponent {
   }
 
   onLogin() {
-    const _username = this.form.value.username;
+    let _username = this.form.value.username;
     const data: any = {};
-    rest.post('newUserLogin/?username=' + _username, {})
+    if(!_username.startsWith('09'))
+      this.errorMessage = 'Username doesn\'t exist';
+    if(!isNaN(_username))
+      _username = _username.substring(1,_username.length);
+    rest.post(`newUserLogin?username=${_username}`, {})
       .subscribe(async (res: any) => {
         if (res.Status === 'ok') {
           console.log(res);

@@ -111,4 +111,18 @@ export class LoginComponent implements OnInit {
       //window.location.reload();
     }
   }
+
+  forgotPassword(){
+    const storageData = localStorage.getItem('SetPassword');
+    if(storageData){
+      localStorage.removeItem('SetPassword');
+      return;
+    }
+
+    const data = {
+      forgotToken: btoa('forgotpassword')
+    }
+    localStorage.setItem('SetPassword', JSON.stringify(data));
+    this.router.navigate(['otp']);
+  }
 }
