@@ -22,6 +22,13 @@ import{MatMenuModule} from '@angular/material/menu'
 import { RxStompService } from './tools/plugins/rx-stomp.service';
 import { rxStompServiceFactory } from './tools/plugins/rx-stomp-service-factory';
 import { LocalStorageService } from './tools/plugins/localstorage';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { NgOtpInputModule } from 'ng-otp-input';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { NewUserLoginComponent } from './new-user-login/new-user-login.component';
+import { OtpComponent } from './otp/otp.component';
+import { SetPasswordComponent } from './set-password/set-password.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +37,9 @@ import { LocalStorageService } from './tools/plugins/localstorage';
     HeadquarterComponent,
     AssignedticketpageComponent,
     RequestorticketpageComponent,
+    NewUserLoginComponent,
+    OtpComponent,
+    SetPasswordComponent
     //SuperadminpageComponent,
     //SidenavComponent,
     //BodyComponent
@@ -44,6 +54,10 @@ import { LocalStorageService } from './tools/plugins/localstorage';
     MatSelectModule,
     NgxMatSelectSearchModule,
     MatMenuModule,
+    MatButtonModule,
+    MatInputModule,
+    NgOtpInputModule,
+    MatToolbarModule
   ],
   providers: [
     provideClientHydration(),

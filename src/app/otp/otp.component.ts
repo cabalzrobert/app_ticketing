@@ -94,7 +94,7 @@ export class OtpComponent {
 
   startTimer() {
     // this.generateOtp();
-    this._timer = 20;
+    this._timer = 300;
     timer(1000, 1000)
       .pipe(takeUntil(timerDone))
       .subscribe({

@@ -8,7 +8,7 @@ import { stomp } from './+services/stomp.service';
 
 export const authGuard: CanActivateFn = (route, state) => {
 
-  console.log('Auth Guard');
+  const router = inject(Router);
   if (inject(AuthService).session) {
     let auth: any = inject(AuthService).session;
     device.ready(() => rest.setBearer(auth.Token)) ;
@@ -16,13 +16,75 @@ export const authGuard: CanActivateFn = (route, state) => {
     //stomp.ready(() => (stomp.refresh(), stomp.connect()));
     return true;
   }
+  else if(route.url.toString() === 'newUserLogin'){
+    return true;
+  }
+  else if(route.url.toString() === 'otp'){
+    if(inject(AuthService).session){
+      router.navigate(['dashboard']);
+      return false;
+    }
+    const storageData = localStorage.getItem('SetPassword');
+    // if(!storageData) return router.navigate(['login']);
+    if(storageData)
+      return true;
+    else{
+      router.navigate(['login']);
+      return false;
+    }
+  }
+  else if(route.url.toString() === 'setPassword'){
+    if(inject(AuthService).session){
+      router.navigate(['dashboard']);
+      return false;
+    }
+    const storageData = localStorage.getItem('SetPassword');
+    if(storageData){
+      if(JSON.parse(storageData).successOtp)
+        return true;
+      else{
+        return false;
+      }
+    }
+    else{
+      router.navigate(['login']);
+      return false;
+    }
+  }
+  else if(route.url.toString() === 'head'){
+    router.navigate(['head/dashboard','overview']);
+    return true;
+  }
+  else if(route.url.toString() === 'communicator'){
+    // alert('communicator');
+    router.navigate(['communicator/dashboard','overview']);
+    return true;
+  }
+  else if(inject(AuthService).session){
+    console.log('authGuard inject(AuthService).session', inject(AuthService).session);
+    return true;
+  } 
+  else{
+    stomp.ready(() => (stomp.refresh(), stomp.connect()))
+    inject(Router).navigateByUrl('/');
+    return false;
+  }
   
-  stomp.ready(() => (stomp.refresh(), stomp.connect()))
-  inject(Router).navigateByUrl('/');
+  // console.log('Auth Guard');
+  // if (inject(AuthService).session) {
+  //   let auth: any = inject(AuthService).session;
+  //   device.ready(() => rest.setBearer(auth.Token)) ;
+  //   console.log('Auth Guard', auth);
+  //   //stomp.ready(() => (stomp.refresh(), stomp.connect()));
+  //   return true;
+  // }
+  
+  // stomp.ready(() => (stomp.refresh(), stomp.connect()))
+  // inject(Router).navigateByUrl('/');
   
 
   
-  return false;
+  // return false;
 };
 
 
