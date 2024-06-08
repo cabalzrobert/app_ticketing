@@ -31,6 +31,23 @@ import { MatMenuModule } from '@angular/material/menu';
 import { WebSocketService } from '../web-socket.service';
 import { stomp } from '../+services/stomp.service';
 import { LocalStorageService } from '../tools/plugins/localstorage';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { MatRippleModule } from '@angular/material/core';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { FormsModule } from '@angular/forms';
+import { CommunicatorTicketComponent } from './communicator-ticket/communicator-ticket.component';
+import { CommunicatorTicketModule } from './communicator-ticket/communicator-ticket.module';
+import { TicketComponent } from './communicator-ticket/ticket/ticket.component';
 //import { SettingsdepartmentComponent } from './setting-main-page/settingsdepartment/settingsdepartment.component';
 //import { BrowserModule } from '@angular/platform-browser';
 
@@ -56,7 +73,9 @@ import { LocalStorageService } from '../tools/plugins/localstorage';
     NewPositionModalComponent,
     ViewPositionModalComponent,
     NewRolesModalComponent,
-    ViewRolesModalComponent
+    ViewRolesModalComponent,
+    CommunicatorTicketComponent,
+    // TicketComponent
   ],
   imports: [
     CommonModule,
@@ -67,6 +86,21 @@ import { LocalStorageService } from '../tools/plugins/localstorage';
     MatSelectModule,
     MatCheckboxModule,
     MatMenuModule,
+    MatSidenavModule,
+    MatListModule,
+    MatButtonModule,
+    MatTabsModule,
+    MatBadgeModule,
+    MatCardModule,
+    MatChipsModule,
+    ScrollingModule,
+    MatRippleModule,
+    MatStepperModule,
+    MatToolbarModule,
+    MatDialogModule,
+    MatProgressSpinnerModule,
+    FormsModule,
+    CommunicatorTicketModule
     //SidenavComponent
     
   ],

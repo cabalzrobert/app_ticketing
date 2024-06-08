@@ -1,0 +1,45 @@
+.message-box-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+}
+
+.progress-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    .spinner{
+        max-height: 50px;
+        max-width: 50px;
+    }
+}
+
+.success-msg{
+    display: grid;
+    justify-items: center;
+    padding: 16px 16px 10px 16px;
+    row-gap: 45px;
+    text-align: center;
+    h2{
+        color: #4CAF50;
+    }
+    button{
+        background: #4845D2;
+        color: white;
+        border: none;
+        border-radius: 25px;
+        font-size: 18px;
+        width: 50%;
+    }
+    p{
+        color: rgba(#000,0.5);
+        font-size: 18px;
+    }
+    mat-icon{
+        height: auto;
+        width: auto;
+        font-size: 100px;
+    }
+}
