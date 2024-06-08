@@ -35,8 +35,10 @@ export class NewUserLoginComponent {
     const data: any = {};
     if(!_username.startsWith('09'))
       this.errorMessage = 'Username doesn\'t exist';
-    if(!isNaN(_username))
+    if(!isNaN(_username)||_username.startsWith('+639')){
+      _username = _username.replace('+63','0');
       _username = _username.substring(1,_username.length);
+    }
     rest.post(`newUserLogin?username=${_username}`, {})
       .subscribe(async (res: any) => {
         if (res.Status === 'ok') {

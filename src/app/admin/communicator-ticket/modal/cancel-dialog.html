@@ -1,0 +1,20 @@
+<mat-toolbar class="mat-dialog-header">
+    <h3>Decline Ticket Forwarding</h3>
+    <!-- <mat-icon mat-dialog-close>close</mat-icon> -->
+</mat-toolbar>
+<mat-dialog-content>
+    <div class="dialog-content">
+        <div class="tp-ticket-description">
+            <p class="custom-label">Decline Remarks</p>
+            <textarea  placeholder="Remarks" class="custom-textarea" #remarks (change)="setRemarks(remarks.value)"></textarea>
+        </div>
+        <div class="footer">
+            <button class="btn-close" mat-button cdkFocusInitial mat-dialog-close>
+                Close
+            </button>
+            <button class="btn-confirm" mat-flat-button (click)="onConfirm()">
+                Confirm
+            </button>
+        </div>
+    </div>
+</mat-dialog-content>

@@ -10,6 +10,8 @@ import { CommunicationreceivedticketpageComponent } from './communicationreceive
 import { RequestorticketpageComponent } from './requestorticketpage/requestorticketpage.component';
 import { SuperadminpageComponent } from './superadminpage/superadminpage.component';
 import { SidenavComponent } from '../sidenav/sidenav.component';
+import { CommunicatorTicketComponent } from './communicator-ticket/communicator-ticket.component';
+// import { CommunicatorTicketComponent } from '../communicator/communicator-ticket/communicator-ticket.component';
 
 const routes: Routes = [
 
@@ -19,7 +21,7 @@ const routes: Routes = [
       { path: 'overview', component: OverviewPageComponent },
       //{ path: 'dashboard', component: OverviewPageComponent },
       { path: 'assignedticket', component:AssignedticketpageComponent},
-      { path: 'receivedtickets', component:CommunicationreceivedticketpageComponent},
+      { path: 'receivedtickets', component:CommunicatorTicketComponent, loadChildren: () => import('./communicator-ticket/communicator-ticket.module').then(m=>m.CommunicatorTicketModule)},
       //{path:'ticket', component:TicketMainPageComponent},
       //{ path: 'adminsettings', loadChildren:()=> import('./setting-main-page/setting-main-page.module').then((m) =>m.SettingMainPageModule)},
       // {
