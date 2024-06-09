@@ -113,7 +113,7 @@ export class LoginComponent implements OnInit {
   }
 
   forgotPassword(){
-    const storageData = localStorage.getItem('SetPassword');
+    const storageData = this.ls.getItem1('SetPassword');
     if(storageData){
       localStorage.removeItem('SetPassword');
       return;
@@ -122,7 +122,7 @@ export class LoginComponent implements OnInit {
     const data = {
       forgotToken: btoa('forgotpassword')
     }
-    localStorage.setItem('SetPassword', JSON.stringify(data));
+    this.ls.setItem('SetPassword', JSON.stringify(data));
     this.router.navigate(['otp']);
   }
 }

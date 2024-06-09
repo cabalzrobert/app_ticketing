@@ -62,7 +62,10 @@ export class NewusermodalComponent implements OnInit {
     Address: ['', Validators.required],
     ProfilePicture: '',
     LastSeen: '',
-    isCommunicator: 0
+    isCommunicator: 0,
+    isDeptartmentHead:0,
+    //isComm:false,
+    //isDeptartment: false
   });
 
   constructor(@Inject(MAT_DIALOG_DATA) public UserAccount: { item: any, Title: String }, private authService: AuthService, private fb: FormBuilder, public dialogRef: MatDialogRef<NewusermodalComponent>, private _cdr: ChangeDetectorRef) { }
@@ -85,6 +88,9 @@ export class NewusermodalComponent implements OnInit {
   rolename:string = ''
   positionname:string = ''
   gendername:string = '';
+  
+  iscommunicator: boolean = false;
+  isdepthead: boolean = false;
   private _state: any = {};
   setState(item: any) {
     for (const key of Object.keys(item)) {
@@ -95,6 +101,17 @@ export class NewusermodalComponent implements OnInit {
   @ViewChild('singleSelect') singleSelect: MatSelect | undefined;
   ngOnInit(): void {
     this.form.patchValue(this.UserAccount.item);
+    //this.form.value.isComm = this.form.value.isCommunicator;
+    //this.form.value.isDeptartment = this.form.value.isDeptartmentHead;
+    //this.form.value.isDepartment = this.form.value.isDeptartmentHead;
+    this.iscommunicator = (this.form.value.isCommunicator == 1) ? true : false;
+    this.isdepthead = (this.form.value.isDeptartmentHead == 1) ? true : false;
+    //this.form.value.isComm = (this.form.value.isCommunicator == 1) ? true : false;
+    //this.form.value.isDeptartment = (this.form.value.isDeptartmentHead == 1) ? true : false;
+    console.log('Checked ', this.iscommunicator, this.isdepthead);
+    console.log('ngOnit newusermodal this.form', this.form.value);
+
+    //this.form.setValue(this.UserAccount.item);
     this.GetDepartmentList({ num_row: 0, Search: '' });
     this.GetRolesList({ num_row: 0, Search: '' });
     this.GetPositionList({ num_row: 0, Search: '' });
@@ -103,6 +120,18 @@ export class NewusermodalComponent implements OnInit {
   closededialogNewUser(): void {
     this.form.value.ProfilePicture = this.base64;
     this.dialogRef.close();
+  }
+  onChangeCommunitcator(event:any):void{
+    console.log('onClick event.checked ' + event.checked);
+    //this.form.value.isDepartment = this.isdepthead;
+    this.form.value.isCommunicator =  (event.checked) ? 1 : 0;
+    console.log('onClick this.form.value.isCommunicator ', this.form.value);
+  }
+  onChangeDeptHead(event:any):void{
+    console.log('onClick event.checked ' + event.checked);
+    this.form.value.isDeptartmentHead =  (event.checked) ? 1 : 0;
+    console.log('onClick event.checked ' + event.checked);
+    console.log('onClick this.form.value.isDeptartmentHead ', this.form.value);
   }
   CreatedialogNewUser(): void {
     this.form.value.ProfilePicture = this.base64;
@@ -152,20 +181,22 @@ export class NewusermodalComponent implements OnInit {
         return false;
       }
     }
-    var iscommunicator = 0;
-    if(this.form.value.isCommunicator == true){
-      iscommunicator = 1;
+    //var iscommunicator = 0;
+    var is_communicator = 0
+    if(this.form.value.isCommunicator == 1){
+      is_communicator = 1;
     }
-    var isDepartment = 0;
-    if(this.form.value.isDepartment == true){
-      isDepartment = 1;
+    var is_Department = 0;
+    if(this.form.value.isDeptartmentHead == 1){
+      is_Department = 1;
     }
-    this.form.value.isCommunicator = iscommunicator;
-    this.form.value.isDepartment = isDepartment;
+    this.form.value.isCommunicator = is_communicator;
+    this.form.value.isDeptartmentHead = is_Department;
     this.form.value.Department = (!this.departmentname ? this.form.value.Department : this.departmentname);
     this.form.value.Role = (!this.rolename ? this.form.value.Role : this.rolename);
     this.form.value.Position = (!this.positionname ? this.form.value.Position : this.positionname);
     this.form.value.Gendername = (!this.gendername ? this.form.value.Gendername : this.gendername);
+    console.log('isValidEntries this.form', this.form.value);
     return true
   }
   GetDepartmentList(item: any): Observable<any[]> {

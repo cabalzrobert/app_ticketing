@@ -34,8 +34,7 @@
                 </ul>
             </div>
             <button class="hamburger" [matMenuTriggerFor]="menu" [hidden]="collapsed"><mat-icon>menu</mat-icon></button>
-            <mat-menu #menu="matMenu">
-                <div class="menu-nav-bar1" *ngIf="collapsed == false">
+            <mat-menu #menu="matMenu" class="custom">
 
                     <ul class="menu-nav1">
                         <li class="menu-nav-item ">
@@ -46,10 +45,8 @@
                         </li>
                         <li class="menu-nav-item">
                             <button [ngClass]="assigned == true ? 'menu-nav-button2' : 'menu-nav-button'"
-                                (click)="hResolved()">Resolved<span
-                                    [ngClass]="resolve == '0' ? '' : 'valueclassresolved'"
-                                    [hidden]="resolve == '0' ? true : false">{{resolve}}</span><span
-                                    class="valueclassresolved"
+                                (click)="hResolved()">Resolved
+                                <span [ngClass]="resolve == '0' ? '' : 'valueclassresolved'"
                                     [hidden]="resolve == '0' ? true : false">{{resolve}}</span>
                             </button>
                         </li>
@@ -60,7 +57,7 @@
                                     [hidden]="allticket == '0' ? true : false">{{allticket}}</span></button>
                         </li>
                     </ul>
-                </div>
+                
             </mat-menu>
             <div class="searchtab">
                 <div class="searchinput">
@@ -152,7 +149,7 @@
             <div class="cardcontent" *ngSwitchCase="('all')">
                 <div *ngFor="let data of ticketpending; index as i ">
                     <div class="cardticket1" *ngIf="!data.isRead">
-                        <div class="cardticketcontent"  (click)="hViewComment(data)">
+                        <div class="cardticketcontent" (click)="hViewComment(data)">
                             <div class="cardheader">
                                 <div class="headertitle">{{data.TitleTicket}}</div>
                                 <div class="headerdate">{{data.CreatedDate}}</div>
@@ -168,7 +165,7 @@
 
                     </div>
                     <div class="cardticket" *ngIf="data.isRead">
-                        <div class="cardticketcontent"  (click)="hViewComment(data)">
+                        <div class="cardticketcontent" (click)="hViewComment(data)">
                             <div class="cardheader">
                                 <div class="headertitle">{{data.TitleTicket}}</div>
                                 <div class="headerdate">{{data.CreatedDate}}</div>
@@ -183,7 +180,7 @@
                         </div>
 
                     </div>
-                    
+
                     <div *ngIf="data.NextFilter" class="loadmore">
                         <div (click)="hLoadMore(data, i)">Load More.. {{data.NextFilter.NextFilter}}</div>
                     </div>

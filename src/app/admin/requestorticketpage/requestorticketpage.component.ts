@@ -1601,6 +1601,9 @@ export class RequestorticketpageComponent implements OnInit {
     item.IsReset = false;
     if (!this.subs) return this.ticketpending;
     if (this.subs.s1) this.subs.s1.unsubscribe();
+    console.log('item.IsReset', item.IsReset);
+    console.log('this.subs.s1', this.subs.s1);
+
     this.subs.s1 = rest.post('ticket/list', item).subscribe(async (res: any) => {
       if (res.Status != 'error') {
 

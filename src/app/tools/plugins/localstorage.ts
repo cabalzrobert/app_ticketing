@@ -4,9 +4,6 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class LocalStorageService {
-  static getItem1(arg0: string): any {
-    throw new Error('Method not implemented.');
-  }
   constructor() { }
 
   // Set a value in local storage

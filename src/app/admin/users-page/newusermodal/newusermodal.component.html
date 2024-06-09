@@ -59,13 +59,13 @@
                 </div>
                 <div class="usercard">
                     <div class="iscommunication">
-                        <mat-checkbox formControlName="isCommunicator"></mat-checkbox>
+                        <mat-checkbox [checked]="iscommunicator" (change)="onChangeCommunitcator($event)"></mat-checkbox>
                         <label for="">is Communication</label>
                     </div>
                 </div>
                 <div class="usercard">
                     <div class="iscommunication">
-                        <mat-checkbox formControlName="isDeptartmentHead"></mat-checkbox>
+                        <mat-checkbox [checked]="isdepthead" (change)="onChangeDeptHead($event)"></mat-checkbox>
                         <label for="">is Dept Head</label>
                     </div>
                 </div>
@@ -117,7 +117,7 @@
                 <div class="usercard">
                     <label for="">Birthdate</label>
                     <div class="usercardcontent">
-                        <input type="date" formControlName="Birthdate" type="date" required>
+                        <input type="date" formControlName="Birthdate" required>
                     </div>
                 </div>
                 <div class="usercard">

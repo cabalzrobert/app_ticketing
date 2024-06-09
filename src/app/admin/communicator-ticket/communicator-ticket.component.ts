@@ -5,6 +5,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { rest } from '../../+services/services';
 import { NewTicketDialogComponent } from './modal/new-ticket-dialog/new-ticket-dialog.component';
 import moment from 'moment';
+import { additionalNotification, bindLastTransacationNumber, jUser } from '../../+app/user-module';
+import { stomp } from '../../+services/stomp.service';
+import { timeout } from '../../tools/plugins/delay';
+import { device } from '../../tools/plugins/device';
+import { Observable, filter } from 'rxjs';
+import { mtCb } from '../../tools/plugins/static';
 
 export interface DialogData {
   isProgress: boolean,
@@ -24,6 +30,7 @@ export class CommunicatorTicketComponent {
   height = 'height: calc(100% - 100px)';
   isTicketContentShow = false;
   collections: any = [];
+  collectionreceived: any = [];
   ticketTitle = '';
   ticketDetail: any;
   // categories = [
@@ -47,21 +54,165 @@ export class CommunicatorTicketComponent {
   departments: any = [];
   tab = 0;
   messageHandler: any = [];
+  input: any = {};
+  subs: any = {};
+  prop: any = {};
+  collectioncount: any = {};
+  unassigned: number = 0;
+  assigned: number = 0;
+  allticket: number = 0;
+
 
   ngOnInit() {
     // alert('Yeeee');
-    this.onTabChange(0);
+    this.onTabChange({ tab: 0, IsReset: true });
+    this.getTicketCount();
+    device.ready(() => this.stompWebsocketReceiver());
   }
 
+  getTicketCount(): Observable<any> {
+    rest.post('communicator/count').subscribe(async (res: any) => {
+      console.log('communicator/count', res);
+      //this.ticketcount.push(res.TicketCount);
+
+      //Object.assign(this.ticketlistcount, this.ticketcount) ;
+
+      //res.TicketCount.foreach((o:any) => console.log('foreach', 0));
+      this.collectioncount = res.TicketCount;
+      //this.ticketlistcount = ({Pending: res.TicketCount.Pending, Resolve: res.TicketCount.Resolve, AllTicketCount: res.TicketCount.AllTicketCount});
+      this.unassigned = res.TicketCount.UnAssigned;
+      this.assigned = res.TicketCount.Assigned;
+      this.allticket = res.TicketCount.AllTicketCount;
+
+      console.log('this.ticketlistcountt', this.collectioncount);
+      return this.collectioncount;
+    });
+
+    console.log('this.ticketcountt', this.collectioncount);
+    return this.collectioncount;
+  }
+
+  private async stompWebsocketReceiver() {
+    //this.webSocketService.connect();
+    this.input = await jUser();
+    var iscom = (this.input.isCommunicator == true) ? 1 : 0;
+    this.subs.wsErr = stomp.subscribe('#error', (err: any) => this.error());
+    this.subs.wsConnect = stomp.subscribe('#connect', () => this.connected());
+    this.subs.wsDisconnect = stomp.subscribe('#disconnect', () => this.disconnect());
+    this.subs.ws1 = stomp.subscribe('/' + iscom + '/ticketrequest/iscommunicator', (json: any) => this.receivedRequestTicketCommunicator(json));
+    console.log('Communicator Component', iscom);
+    stomp.ready(() => (stomp.refresh(), stomp.connect()));
+  }
+  receivedRequestTicketCommunicator(data: any) {
+
+
+    var content = data.content;
+    //this.TicketNo = content.TicketNo;
+    console.log('Communication Page', data.content);
+    //this.collections.push(data.content);
+
+    this.collections.forEach((o: any) => {
+      this.collectionreceived.push(this.collectionListDetails(o));
+    });
+    this.collections = [];
+    this.collectionreceived.unshift(data.content);
+
+    //this.collections = this.collectionreceived.map((o: any) => this.collectionListDetails(o));
+    this.collectionreceived.forEach((o: any) => {
+      this.collections.push(this.collectionListDetails(o));
+    })
+    this.collectionreceived = [];
+    return this.collections;
+
+    //this.collections.unshift(data.content);
+
+    //console.log('this.collection Websocket', this.collections);
+    // if (this.input.LastTransactionNo == content.TransactionNo) return;
+
+    // //console.log('this.TicketNo 299', content.TransactionNo);
+    // bindLastTransacationNumber(content.TransactionNo);
+    // additionalNotification(1);
+    // this.refreshData();
+    // return this.input.NotificationCount;
+  }
+
+  receiveTicket(item: any): Observable<any> {
+    return this.collections;
+  }
+  private async refreshData() {
+    //jUserModify();
+    this.input = await jUser();
+  }
+  private error() {
+    this.ping(() => this.testPing());
+  }
+  private ReceivedTest(data: any) {
+    //console.log('Received Test', data);
+  }
+  private disconnect() {
+    this.stopPing();
+  }
+  private testPing() {
+    const { subs } = this;
+    this.stopPing();
+    this.ping(() => subs.tmPing = timeout(() => this.testPing(), (60000 * 1)));
+  }
+
+  private ping(callback: Function) {
+    const { prop, subs } = this;
+    this.stopPing();
+    this.subs.ping = rest.post('ping', {}).subscribe(async (res: any) => {
+      if (res.Status == 'error') {
+        if (res.Type == 'device.session-end') {
+          if (!!prop.IsSessionEnd) return;
+        }
+      }
+      if (!stomp.IsConnected)
+        return;
+      return callback();
+    }, (err: any) => {
+      if (!stomp.IsConnected)
+        return;
+      return callback();
+    });
+  }
+  private connected() {
+    this.ping(() => this.testPing());
+  }
+  private stopPing() {
+    const { subs } = this;
+    const { tmPing, ping } = subs;
+    if (tmPing) tmPing.unsubscribe();
+    if (ping) ping.unsubscribe();
+  }
+
+
+
+
+
+
+
+
+
+
   onTabChange(val: any) {
-    this.tab = val;
-    rest.post(`communicator/tickets?tab=${val}`).subscribe((res: any) => {
+    this.tab = val.tab;
+    val.IsReset = false;
+    if (!this.subs) return this.collections;
+    if (this.subs.s1) this.subs.s1.unsubscribe();
+    console.log('val.IsReset', val.IsReset);
+    console.log('this.subs.s1', this.subs.s1);
+    rest.post(`communicator/tickets?tab=${val.tab}`).subscribe((res: any) => {
       if (res != null) {
-        console.log(res);
+        console.log('onTabChange result', res);
+        if (!val.IsReset) this.collections = res.map((o: any) => this.collectionListDetails(o));
+        else res.forEach((o: any) => this.collections.push(this.collectionListDetails(o)));
+        /*
         this.collections = res;
         this.collections.forEach((e: any) => {
           // e.dateCreated = moment(e.dateCreated).format('DD MMM yyyy');
         });
+        */
         return;
       }
       alert('Failed');
@@ -70,22 +221,26 @@ export class CommunicatorTicketComponent {
     })
   }
 
-  dateFormatted(isList:boolean, date: any){
-    if(isList){
+  collectionListDetails(item: any) {
+    return item;
+  }
+
+  dateFormatted(isList: boolean, date: any) {
+    if (isList) {
       const formattedDate = moment(date).format('D MMM');
       let splitDate = formattedDate.split(' ');
-      if(splitDate[0]==='1'||splitDate[0]==='21'||splitDate[0]==='31')
+      if (splitDate[0] === '1' || splitDate[0] === '21' || splitDate[0] === '31')
         splitDate[0] = splitDate[0] + 'st';
-      else if(splitDate[0]==='2'||splitDate[0]==='22')
+      else if (splitDate[0] === '2' || splitDate[0] === '22')
         splitDate[0] = splitDate[0] + 'nd';
-      else if(splitDate[0]==='3'||splitDate[0]==='23')
+      else if (splitDate[0] === '3' || splitDate[0] === '23')
         splitDate[0] = splitDate[0] + 'rd';
       else
         splitDate[0] = splitDate[0] + 'th';
-  
+
       return `${splitDate[0]} ${splitDate[1]}`;
     }
-    else{
+    else {
       return moment(date).format('DD MMM yyyy');
     }
   }
@@ -93,22 +248,49 @@ export class CommunicatorTicketComponent {
 
 
 
-  next(item: any) {
+  next (item: any, idx: number) {
     // if(item.departmentId) return;
+    console.log('next idx', idx, item);
     this.router.navigate([item.ticketNo], { relativeTo: this.route });
     // this.router.navigateByUrl('/head/dashboard/tickets/sample');
     this.ticketTitle = item.title;
     this.ticketDetail = item;
     this.stepper.next();
-    if(!item.departmentId)
+    if (!item.departmentId)
       setTimeout(() => this.getDepartmentList());
-    else if(item.isAssigned)
-      setTimeout(()=>this.performGetTicketComments());
-    else return;
-}
+    else if (item.isAssigned)
+      setTimeout(() => this.performGetTicketComments());
+    //else return;
+    // return this.performCommunicatorSeenTicket(item.NotificationID, (err: any) => {
+    //   if (!err) {
+    //     return additionalNotification(-1);
+    //   }
+    //   item.IsOpen = false;
+
+    // });
+    //item.pipe(filter(o => o)).subscribe()
+    //this.collections[idx] = o;
+    if(item.S_OPN) return;
+    this.performCommunicatorSeenTicket(item.transactionNo);
+    this.collections[idx] = item;
+    item.S_OPN = true;
+    additionalNotification(-1);
+    console.log('next ths.collections', this.collections);
+
+  }
+
+  performCommunicatorSeenTicket(transactionNo: any) {
+    console.log('performCommunicatorsSeenTicket transactionNo', transactionNo)
+    this.subs.s2 = rest.post('ticket/communicator/' + transactionNo + '/seen').subscribe(async (res: any) => {
+      if ((res || {}).status != 'error') {
+        //if (callback != null) callback();
+        return;
+      }
+    });
+  }
 
   performGetTicketComments = async () => {
-    rest.post(`communicator/ticket/comments?transactionNo=${this.ticketDetail.transactionNo}`,{}).subscribe((res: any) => {
+    rest.post(`communicator/ticket/comments?transactionNo=${this.ticketDetail.transactionNo}`, {}).subscribe((res: any) => {
       if (res) {
         // this.messageHandler = [...this.messageHandler,res];
         this.ticketDetail.messageHandler = res;
@@ -163,17 +345,17 @@ export class CommunicatorTicketComponent {
   spinner = false;
 
   onForwardTicket() {
-    if(!this.ticketDetail.assignedDepartment) return;
-    const dialogRef = this.showMessageBox(true, false,null);
+    if (!this.ticketDetail.assignedDepartment) return;
+    const dialogRef = this.showMessageBox(true, false, null);
     this.ticketDetail.status = 2;
     setTimeout(() => this.onSubmitForwardTicket(dialogRef), 725);
   }
 
   onSubmitForwardTicket(ref: MatDialogRef<MessageBoxDialog>) {
-    rest.post('communicator/ticket/forward',this.ticketDetail).subscribe((res:any)=>{
-      if(res.Status === 'ok'){
+    rest.post('communicator/ticket/forward', this.ticketDetail).subscribe((res: any) => {
+      if (res.Status === 'ok') {
         ref.close();
-        const dialogRef = this.showMessageBox(false,true,'Ticket has been forwarded');
+        const dialogRef = this.showMessageBox(false, true, 'Ticket has been forwarded');
         dialogRef.afterClosed().subscribe(() => {
           this.goBack();
           this.onTabChange(this.tab);
@@ -182,7 +364,7 @@ export class CommunicatorTicketComponent {
       }
       alert('Failed');
       ref.close()
-    },(err: any)=>{
+    }, (err: any) => {
       alert('System Error!');
       ref.close();
     });
@@ -191,7 +373,7 @@ export class CommunicatorTicketComponent {
   showMessageBox(isProgress: boolean, isMessage: boolean, message: any): any {
     return this.dialog.open(MessageBoxDialog, {
       disableClose: true,
-      width: isMessage?'20%':'auto',
+      width: isMessage ? '20%' : 'auto',
       data: { isProgress: isProgress, isMessage: isMessage, message: message }
     });
   }

@@ -2,9 +2,9 @@
     <mat-step class="mat-step-container">
         <div class="header">
             <h1>Tickets</h1>
-            <button class="btn-newTicket" mat-flat-button (click)="openDialog()">
+            <!-- <button class="btn-newTicket" mat-flat-button (click)="openDialog()">
                 New Ticket
-            </button>
+            </button> -->
         </div>
         <div class="filter-container">
             <div class="txt-search">
@@ -16,33 +16,35 @@
                 <span>Filter</span>
             </div>
         </div>
-        <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" #tabRef (selectedTabChange)="onTabChange(tabRef.selectedIndex)">
+        <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" #tabRef (selectedTabChange)="onTabChange({tab:tabRef.selectedIndex, IsReset: true})">
             <mat-tab class="tab-container">
                 <ng-template class="tab-label" mat-tab-label>
                     <span style="font-size: 20px;">Unassigned</span>
-                    <span class="mat-badge-icon" matBadge="1" matBadgeColor="accent"></span>
+                    <span class="mat-badge-icon" matBadge={{unassigned}} matBadgeColor="accent"></span>
                 </ng-template>
                 <ng-template class="tab-content" matTabContent>
                     <div class="ticket-list-container">
                         <cdk-virtual-scroll-viewport class="scrolling-container" itemSize>
-                            <mat-card *cdkVirtualFor="let item of collections" matRipple (click)="next(item)">
-                                <mat-card-header>
-                                    <mat-card-title>{{item.title}}</mat-card-title>
-                                    <span style="font-size: 18px;">{{dateFormatted(true,item.dateCreated)}}</span>
-                                </mat-card-header>
-                                <mat-card-content>
-                                    <p>{{item.description}}</p>
-                                </mat-card-content>
-                                <mat-card-footer>
-                                    <mat-card-actions class="card-section">
-                                        <div class="action-unassign">
-                                            <label>Unassigned</label>
-                                        </div>
-                                        <div [class]="'action-'+item.priorityName.toLowerCase()">
-                                            <label>{{item.priorityName}}</label>
-                                        </div>
-                                    </mat-card-actions>
-                                </mat-card-footer>
+                            <mat-card *cdkVirtualFor="let item of collections; index as i" matRipple (click)="next(item, i)" [ngClass]="item.S_OPN ? '' : 'isnotOpen'">
+                                
+                                    <mat-card-header>
+                                        <mat-card-title>{{item.title}}</mat-card-title>
+                                        <span style="font-size: 18px;">{{dateFormatted(true,item.dateCreated)}}</span>
+                                    </mat-card-header>
+                                    <mat-card-content>
+                                        <p>{{item.description}}</p>
+                                    </mat-card-content>
+                                    <mat-card-footer>
+                                        <mat-card-actions class="card-section">
+                                            <div class="action-unassign">
+                                                <label>Unassigned</label>
+                                            </div>
+                                            <div [class]="'action-'+item.priorityName.toLowerCase()">
+                                                <label>{{item.priorityName}}</label>
+                                            </div>
+                                        </mat-card-actions>
+                                    </mat-card-footer>
+                                
                             </mat-card>
                         </cdk-virtual-scroll-viewport>
                     </div>
@@ -51,12 +53,12 @@
             <mat-tab>
                 <ng-template mat-tab-label matBadgeColor="accent">
                     <span style="font-size: 20px;">Assigned</span>
-                    <span class="mat-badge-icon" matBadge="1" matBadgeColor="accent"></span>
+                    <span class="mat-badge-icon" matBadge={{assigned}} matBadgeColor="accent"></span>
                 </ng-template>
                 <ng-template class="tab-content" matTabContent>
                     <div class="ticket-list-container">
                         <cdk-virtual-scroll-viewport class="scrolling-container" itemSize>
-                            <mat-card *cdkVirtualFor="let item of collections" (click)="next(item)">
+                            <mat-card *cdkVirtualFor="let item of collections index as i" (click)="next(item, i)">
                                 <mat-card-header>
                                     <mat-card-title>{{item.title}}</mat-card-title>
                                     <span style="font-size: 18px;">{{dateFormatted(true,item.dateCreated)}}</span>
@@ -87,12 +89,12 @@
             <mat-tab>
                 <ng-template mat-tab-label>
                     <span style="font-size: 20px;">All</span>
-                    <span class="mat-badge-icon" matBadge="1" matBadgeColor="accent"></span>
+                    <span class="mat-badge-icon" matBadge={{allticket}} matBadgeColor="accent"></span>
                 </ng-template>
                 <ng-template class="tab-content" matTabContent>
                     <div class="ticket-list-container">
                         <cdk-virtual-scroll-viewport class="scrolling-container" itemSize>
-                            <mat-card *cdkVirtualFor="let item of collections" (click)="next(item)">
+                            <mat-card *cdkVirtualFor="let item of collections index as i" (click)="next(item, i)">
                                 <mat-card-header>
                                     <mat-card-title>{{item.title}}</mat-card-title>
                                     <span style="font-size: 18px;">{{dateFormatted(true,item.dateCreated)}}</span>

@@ -16,6 +16,10 @@
     .ticketbody {
         padding: 16px 0px 16px 0px;
 
+        .mat-menu-panel {
+            background: darkgrey;
+        }
+
         .bodyheader {
             display: flex;
             align-items: center;
@@ -668,7 +672,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap:20px;
+            gap: 20px;
         }
 
         .menu-nav-button:hover {
@@ -757,6 +761,9 @@
             background: none;
             text-align: left;
             padding: 0px 0px 0px 20px;
+            display: flex;
+            align-items: center;
+            gap:10px;
         }
 
         .menu-nav-button:hover {
@@ -876,6 +883,9 @@
     border-bottom: solid #3818D9;
     text-align: left;
     padding: 0px 0px 0px 20px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
 }
 
 
@@ -904,6 +914,7 @@
             box-shadow: 2px 2px 10px 1px #91818181;
             background: #e3e0e0;
             padding: 0px 10px;
+
             .cardticketcontent {
                 display: flex;
                 flex-direction: column;
@@ -980,6 +991,7 @@
             //     cursor: pointer;
             // }
         }
+
         .cardticket {
             width: 100%;
             border-radius: 10px;
@@ -1071,7 +1083,7 @@
             box-shadow: 2px 2px 10px 1px #91818181;
         }
 
-        .loadmore{
+        .loadmore {
             display: flex;
             align-items: center;
             justify-content: center;

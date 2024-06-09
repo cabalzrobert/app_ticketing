@@ -5,6 +5,7 @@ import { rest } from './+services/services';
 import { jUser } from './+app/user-module';
 import { device } from './tools/plugins/device';
 import { stomp } from './+services/stomp.service';
+import { LocalStorageService } from './tools/plugins/localstorage';
 
 export const authGuard: CanActivateFn = (route, state) => {
 
@@ -24,7 +25,7 @@ export const authGuard: CanActivateFn = (route, state) => {
       router.navigate(['dashboard']);
       return false;
     }
-    const storageData = localStorage.getItem('SetPassword');
+    const storageData = LocalStorageService.getItem('SetPassword');
     // if(!storageData) return router.navigate(['login']);
     if(storageData)
       return true;
@@ -38,7 +39,7 @@ export const authGuard: CanActivateFn = (route, state) => {
       router.navigate(['dashboard']);
       return false;
     }
-    const storageData = localStorage.getItem('SetPassword');
+    const storageData = LocalStorageService.getItem('SetPassword');
     if(storageData){
       if(JSON.parse(storageData).successOtp)
         return true;
