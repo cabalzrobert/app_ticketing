@@ -110,6 +110,8 @@ export class CommunicatorTicketComponent {
     //this.TicketNo = content.TicketNo;
     console.log('Communication Page', data.content);
     //this.collections.push(data.content);
+    let ticketexist = this.collections.find((o:any) => o.ticketNo == data.ticketNo);
+    if(ticketexist) return;
 
     this.collections.forEach((o: any) => {
       this.collectionreceived.push(this.collectionListDetails(o));
