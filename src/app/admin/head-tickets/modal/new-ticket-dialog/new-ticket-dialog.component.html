@@ -1,0 +1,78 @@
+<!-- <h2 mat-dialog-title>Favorite Animal</h2>
+<mat-dialog-content>
+  My favorite animal is:
+  <ul>
+    <li>
+      @if (data.animal === 'panda') {
+        <span>&#10003;</span>
+      } Panda
+    </li>
+    <li>
+      @if (data.animal === 'unicorn') {
+        <span>&#10003;</span>
+      } Unicorn
+    </li>
+    <li>
+      @if (data.animal === 'lion') {
+        <span>&#10003;</span>
+      } Lion
+    </li>
+  </ul>
+</mat-dialog-content> -->
+<mat-toolbar class="mat-dialog-header">
+    <h3>Create Ticket</h3>
+    <mat-icon mat-dialog-close>close</mat-icon>
+</mat-toolbar>
+<mat-dialog-content>
+    <div class="dialog-content">
+        <div class="tp-category">
+            <p class="custom-label">Catergory</p>
+            <div class="custom-select">
+                <mat-select (valueChange)="selectCategory($event)">
+                    <mat-option [value]="item.id" *ngFor="let item of category">{{item.name}}</mat-option>
+                </mat-select>
+            </div>
+        </div>
+        <div class="tp-ticket-title">
+            <p class="custom-label">Ticket Title</p>
+            <input class="custom-input" type="text" #title (change)="setTitle(title.value)">
+        </div>
+        <div class="tp-ticket-description">
+            <p class="custom-label">Ticket Description</p>
+            <textarea class="custom-textarea" #description (change)="setDescription(description.value)"></textarea>
+        </div>
+        <div class="tp-attachment">
+            <mat-chip style="background: rgb(72 69 210 / 10%);" *ngFor="let file of files; let i = index">
+                <mat-icon class="iconPrefix">attachment</mat-icon>
+                {{file?.name}} <span style="font-size: small;">&nbsp;{{formatBytes(file?.size)}}</span>
+                <span matChipRemove style="font-size: small;">&nbsp;{{file.progress}}%</span>
+                <button matChipRemove (click)="onFileDelete(i)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </mat-chip>
+        </div>
+        <div class="drop-attachment">
+            <input class="file-dialog" type="file" multiple (change)="onFileUpload($event)">
+            <p><mat-icon>upload</mat-icon></p>
+            <p>Drop here to attach or upload</p>
+            <p><span>Max size: 25MB</span></p>
+        </div>
+        <div class="tp-priority-level">
+            <p class="custom-label">Priority Level</p>
+            <div class="custom-select">
+                <mat-select (valueChange)="selectPriorityLevel($event)">
+                    <mat-option value="0">Low</mat-option>
+                    <mat-option value="1">Medium</mat-option>
+                    <mat-option value="2">Urgent</mat-option>
+                </mat-select>
+            </div>
+        </div>
+        <br/>
+        <div class="tp-btn-create-ticket">
+            <button class="btn-create-ticket" mat-flat-button (click)="onCreateTicket()">
+                Create Ticket
+                <mat-icon iconPositionEnd>add</mat-icon>
+            </button>
+        </div>
+    </div>
+</mat-dialog-content>

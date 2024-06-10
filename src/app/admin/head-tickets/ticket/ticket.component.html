@@ -1,0 +1,67 @@
+<div class="message-container" *ngIf="detail.isAssigned">
+    <div class="message-box">
+        <mat-card class="message-box-card">
+            <mat-card-content class="message-box-content">
+                <cdk-virtual-scroll-viewport class="scrolling-content" itemSize #Scroll>
+                    <div *cdkVirtualFor="let message of messageHandler">
+                        <!-- <div class="right-message">
+                            <div class="img-container">
+                                <div class="icon-img">
+                                    <mat-icon>flutter_dash</mat-icon>
+                                </div>
+                            </div>
+                            <div class="message-area">
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris turpis sapien, pellentesque et nisl nec, convallis blandit magna. Vivamus id nisl purus. Quisque vehicula dignissim mi ac tempus. Aenean quis tristique arcu.</p>
+                            </div>
+                        </div> -->
+                        <div [class]="message.senderId===userId?'left-message':'right-message'" *ngIf="message.isMessage">
+                            <div class="img-container">
+                                <div class="icon-img">
+                                    <mat-icon>flutter_dash</mat-icon>
+                                </div>
+                            </div>
+                            <div class="message-area">
+                                <p>{{message.message}}</p>
+                            </div>
+                        </div>
+                        <div class="forward-container" *ngIf="!message.isMessage">
+                            <div class="header">
+                                <p *ngIf="message.permissionStatus===1||message.permissionStatus===null">Forwarding to <span class="department">&emsp;{{message.forwardDepartmentName}}&emsp;</span> <span class="arrow">></span> <span class="personnel">&emsp;{{message.forwardPersonnelName}}</span></p>
+                                <p *ngIf="message.permissionStatus===0">Ticket forwarding has been declined</p>
+                            </div>
+                            <div class="notification">
+                                <p>{{message.message}}</p>
+                            </div>
+                            <!-- <div class="buttons">
+                                <button mat-flat-button color="warn">Decline</button>
+                                <button class="btn-change" mat-stroked-button>Change</button>
+                                <button class="btn-accept" mat-flat-button>Accept</button>
+                            </div> -->
+                        </div>
+                    </div>
+                </cdk-virtual-scroll-viewport>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div class="message-input" *ngIf="detail.status!==6">
+        <mat-card class="message-input-card">
+            <mat-card-content class="message-input-content">
+                <textarea [class]="detail.isForwarded?'message-area disabled':'message-area'" placeholder="Type a message" [(ngModel)]="_message" [readonly]="detail.ticketStatus==='Closed'||detail.ticketStatus==='Cancel'||detail.isForwarded"></textarea>
+                <button [class]="detail.isForwarded?'btn-attach disabled':'btn-attach'" mat-stroked-button [disabled]="detail.ticketStatus==='Closed'||detail.ticketStatus==='Cancel'||detail.isForwarded">
+                    <mat-icon class="attach-icon">attach_file</mat-icon>
+                    Attach
+                </button>
+                <button [class]="detail.isForwarded?'btn-send disabled':'btn-send'" mat-flat-button (click)="sendMessage()" [disabled]="detail.ticketStatus==='Closed'||detail.ticketStatus==='Cancel'||detail.isForwarded">
+                    Send
+                </button>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div class="acknowledgment-container" *ngIf="detail.status===6">
+        <div class="content">
+            <p>This ticket is closing</p>
+            <p class="a">Wait for the requester to confirm to finalize</p>
+            <p >or <span class="b" (click)="cancel()">cancel closure</span></p>
+        </div>
+    </div>
+</div>
