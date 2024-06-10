@@ -11,6 +11,7 @@ import { RequestorticketpageComponent } from './requestorticketpage/requestortic
 import { SuperadminpageComponent } from './superadminpage/superadminpage.component';
 import { SidenavComponent } from '../sidenav/sidenav.component';
 import { CommunicatorTicketComponent } from './communicator-ticket/communicator-ticket.component';
+import { HeadTicketsComponent } from './head-tickets/head-tickets.component';
 // import { CommunicatorTicketComponent } from '../communicator/communicator-ticket/communicator-ticket.component';
 
 const routes: Routes = [
@@ -20,7 +21,7 @@ const routes: Routes = [
       { path: '', component: OverviewPageComponent },
       { path: 'overview', component: OverviewPageComponent },
       //{ path: 'dashboard', component: OverviewPageComponent },
-      { path: 'assignedticket', component:AssignedticketpageComponent},
+      { path: 'assignedticket', component:HeadTicketsComponent, loadChildren: () => import('./head-tickets/head-tickets.module').then(m=>m.HeadTicketsModule)},
       { path: 'receivedtickets', component:CommunicatorTicketComponent, loadChildren: () => import('./communicator-ticket/communicator-ticket.module').then(m=>m.CommunicatorTicketModule)},
       //{path:'ticket', component:TicketMainPageComponent},
       //{ path: 'adminsettings', loadChildren:()=> import('./setting-main-page/setting-main-page.module').then((m) =>m.SettingMainPageModule)},

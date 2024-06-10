@@ -2,9 +2,9 @@
     <mat-step class="mat-step-container">
         <div class="header">
             <h1>Tickets</h1>
-            <!-- <button class="btn-newTicket" mat-flat-button (click)="openDialog()">
+            <button class="btn-newTicket" mat-flat-button (click)="openDialog()">
                 New Ticket
-            </button> -->
+            </button>
         </div>
         <div class="filter-container">
             <div class="txt-search">
@@ -16,49 +16,16 @@
                 <span>Filter</span>
             </div>
         </div>
-        <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" #tabRef (selectedTabChange)="onTabChange({tab:tabRef.selectedIndex, IsReset: true})">
+        <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" #tabRef (selectedTabChange)="onTabChange(tabRef.selectedIndex)">
             <mat-tab class="tab-container">
                 <ng-template class="tab-label" mat-tab-label>
                     <span style="font-size: 20px;">Unassigned</span>
-                    <span class="mat-badge-icon" matBadge={{unassigned}} matBadgeColor="accent"></span>
+                    <span class="mat-badge-icon" matBadge="1" matBadgeColor="accent"></span>
                 </ng-template>
                 <ng-template class="tab-content" matTabContent>
                     <div class="ticket-list-container">
                         <cdk-virtual-scroll-viewport class="scrolling-container" itemSize>
-                            <mat-card *cdkVirtualFor="let item of collections; index as i" matRipple (click)="next(item, i)" [ngClass]="item.S_OPN ? '' : 'isnotOpen'">
-                                
-                                    <mat-card-header>
-                                        <mat-card-title>{{item.title}}</mat-card-title>
-                                        <span style="font-size: 18px;">{{dateFormatted(true,item.dateCreated)}}</span>
-                                    </mat-card-header>
-                                    <mat-card-content>
-                                        <p>{{item.description}}</p>
-                                    </mat-card-content>
-                                    <mat-card-footer>
-                                        <mat-card-actions class="card-section">
-                                            <div class="action-unassign">
-                                                <label>Unassigned</label>
-                                            </div>
-                                            <div [class]="'action-'+item.priorityName.toLowerCase()">
-                                                <label>{{item.priorityName}}</label>
-                                            </div>
-                                        </mat-card-actions>
-                                    </mat-card-footer>
-                                
-                            </mat-card>
-                        </cdk-virtual-scroll-viewport>
-                    </div>
-                </ng-template>
-            </mat-tab>
-            <mat-tab>
-                <ng-template mat-tab-label matBadgeColor="accent">
-                    <span style="font-size: 20px;">Assigned</span>
-                    <span class="mat-badge-icon" matBadge={{assigned}} matBadgeColor="accent"></span>
-                </ng-template>
-                <ng-template class="tab-content" matTabContent>
-                    <div class="ticket-list-container">
-                        <cdk-virtual-scroll-viewport class="scrolling-container" itemSize>
-                            <mat-card *cdkVirtualFor="let item of collections index as i" (click)="next(item, i)">
+                            <mat-card *cdkVirtualFor="let item of collections" matRipple (click)="next(item)">
                                 <mat-card-header>
                                     <mat-card-title>{{item.title}}</mat-card-title>
                                     <span style="font-size: 18px;">{{dateFormatted(true,item.dateCreated)}}</span>
@@ -69,12 +36,38 @@
                                 <mat-card-footer>
                                     <mat-card-actions class="card-section">
                                         <div class="action-unassign">
-                                            <label>
-                                                {{
-                                                    !!item.assignedId?item.assignedName
-                                                    :item.departmentName
-                                                }}
-                                            </label>
+                                            <label>Unassigned</label>
+                                        </div>
+                                        <div [class]="'action-'+item.priorityName.toLowerCase()">
+                                            <label>{{item.priorityName}}</label>
+                                        </div>
+                                    </mat-card-actions>
+                                </mat-card-footer>
+                            </mat-card>
+                        </cdk-virtual-scroll-viewport>
+                    </div>
+                </ng-template>
+            </mat-tab>
+            <mat-tab>
+                <ng-template mat-tab-label matBadgeColor="accent">
+                    <span style="font-size: 20px;">Assigned</span>
+                    <span class="mat-badge-icon" matBadge="1" matBadgeColor="accent"></span>
+                </ng-template>
+                <ng-template class="tab-content" matTabContent>
+                    <div class="ticket-list-container">
+                        <cdk-virtual-scroll-viewport class="scrolling-container" itemSize>
+                            <mat-card *cdkVirtualFor="let item of collections" (click)="next(item)">
+                                <mat-card-header>
+                                    <mat-card-title>{{item.title}}</mat-card-title>
+                                    <span style="font-size: 18px;">{{dateFormatted(true,item.dateCreated)}}</span>
+                                </mat-card-header>
+                                <mat-card-content>
+                                    <p>{{item.description}}</p>
+                                </mat-card-content>
+                                <mat-card-footer>
+                                    <mat-card-actions class="card-section">
+                                        <div class="action-unassign">
+                                            <label>{{item.assignedName}}</label>
                                         </div>
                                         <div [class]="'action-'+item.priorityName.toLowerCase()">
                                             <label>{{item.priorityName}}</label>
@@ -89,12 +82,12 @@
             <mat-tab>
                 <ng-template mat-tab-label>
                     <span style="font-size: 20px;">All</span>
-                    <span class="mat-badge-icon" matBadge={{allticket}} matBadgeColor="accent"></span>
+                    <span class="mat-badge-icon" matBadge="1" matBadgeColor="accent"></span>
                 </ng-template>
                 <ng-template class="tab-content" matTabContent>
                     <div class="ticket-list-container">
                         <cdk-virtual-scroll-viewport class="scrolling-container" itemSize>
-                            <mat-card *cdkVirtualFor="let item of collections index as i" (click)="next(item, i)">
+                            <mat-card *cdkVirtualFor="let item of collections" (click)="next(item)">
                                 <mat-card-header>
                                     <mat-card-title>{{item.title}}</mat-card-title>
                                     <span style="font-size: 18px;">{{dateFormatted(true,item.dateCreated)}}</span>
@@ -105,13 +98,7 @@
                                 <mat-card-footer>
                                     <mat-card-actions class="card-section">
                                         <div class="action-unassign">
-                                            <label>
-                                                {{
-                                                    !!item.assignedId?item.assignedName
-                                                    :!!item.departmentId?item.departmentName
-                                                    :'Unassigned'
-                                                }}
-                                            </label>
+                                            <label>{{item.isAssigned?item.assignedName:'Unassigned'}}</label>
                                         </div>
                                         <div [class]="'action-'+item.priorityName.toLowerCase()">
                                             <label>{{item.priorityName}}</label>
@@ -140,7 +127,7 @@
                 </div>
                 <div class="ticket-comment">
                     <!-- <router-outlet></router-outlet> -->
-                    <app-ticket [detail]="ticketDetail" [messageHandler]="ticketDetail.messageHandler"></app-ticket>
+                    <app-ticket [detail]="ticketDetail"></app-ticket>
                 </div>
             </div>
             <div class="side-info-content">
@@ -154,12 +141,14 @@
                                 <mat-icon>flutter_dash</mat-icon>
                             </div>
                             <div class="requester-name">
-                                <span>{{ticketDetail?.requestName}}</span>
+                                <span>{{ticketDetail?.requestName??'Arnold Schwarzenegger'}}</span>
                                 <span class="username">&#64;{{ticketDetail?.requestUsername??'terminator'}}</span>
+                                <!-- <span>Arnold Schwarzenegger</span><br>
+                                <span class="username">{{'\@terminator'}}</span> -->
                             </div>
                         </mat-card-content>
-                        <!-- <mat-card-footer>
-                        </mat-card-footer> -->
+                        <mat-card-footer>
+                        </mat-card-footer>
                     </mat-card>
                     <mat-card class="card-ticket-info">
                         <mat-card-header>
@@ -170,7 +159,7 @@
                                 <p>Ticket ID:&emsp;<span class="ticketno">#{{ticketDetail?.ticketNo}}</span></p>
                             </label>
                             <label>
-                                <p>Created:&emsp;<span>{{dateFormatted(false,ticketDetail?.dateCreated)}}</span></p>
+                                <p>Created:&emsp;<span>{{ticketDetail?.dateCreated}}</span></p>
                             </label>
                             <label>
                                 <p>Last message:&emsp;<span>#1E233</span></p>
@@ -184,7 +173,7 @@
                         </mat-card-content>
                         <mat-card-footer></mat-card-footer>
                     </mat-card>
-                    <mat-card class="assignedTo-info" *ngIf="ticketDetail?.departmentId">
+                    <mat-card class="assignedTo-info" *ngIf="ticketDetail?.isAssigned">
                         <mat-card-header>
                             <mat-card-title>Assigned-To</mat-card-title>
                         </mat-card-header>
@@ -199,8 +188,8 @@
                                     <span class="username">&#64;{{ticketDetail?.departmentName.toLowerCase().replace(' ','')}}</span>
                                 </div>
                             </div>
-                            <span *ngIf="ticketDetail?.isAssigned"><h4>Name</h4></span>
-                            <div class="detail" *ngIf="ticketDetail?.isAssigned">
+                            <span *ngIf="ticketDetail?.assignedId"><h4>Name</h4></span>
+                            <div class="detail" *ngIf="ticketDetail?.assignedId">
                                 <div class="icon-img">
                                     <mat-icon>flutter_dash</mat-icon>
                                 </div>
@@ -211,39 +200,44 @@
                             </div>
                         </mat-card-content>
                     </mat-card>
-                    <div class="footer-inner-container" *ngIf="!ticketDetail?.departmentId">
+                    <div class="forward-resolve-container" *ngIf="ticketDetail?.assignedId===userDetail.USR_ID&&ticketDetail?.ticketStatus==='Open'">
+                        <div [class]="ticketDetail?.isForwarded||ticketDetail?.status===6?'footer-buttons disabled':'footer-buttons'">
+                            <button class="btn-forward" mat-flat-button (click)="forwardingTicket()" [disabled]="ticketDetail?.isForwarded||ticketDetail?.status===6">
+                                <mat-icon iconPositionEnd>east</mat-icon>
+                                Forward
+                            </button>
+                        </div>
+                        <div [class]="ticketDetail?.isForwarded||ticketDetail?.status===6?'footer-buttons disabled':'footer-buttons'">
+                            <button class="btn-resolve" mat-flat-button (click)="onResolvingTicket()" [disabled]="ticketDetail?.isForwarded||ticketDetail?.status===6">
+                                Resolve
+                                <mat-icon iconPositionEnd>check</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="footer-inner-container" *ngIf="!ticketDetail?.isAssigned">
                         <div class="inner-content">
                             <div class="assign-to">
-                                <div class="searchbar">
-                                    <div class="select-label"><mat-label>Category</mat-label></div>
-                                    <div class="custom-select">
-                                        <mat-select [value]="ticketDetail?.categoryId" *ngIf="ticketDetail?.categoryId" disabled>
-                                            <mat-option [value]="ticketDetail?.categoryId">{{ticketDetail?.categoryName}}</mat-option>
-                                        </mat-select>
-                                    </div>
+                                <div>
+                                    <h2>Assign To</h2>
                                 </div>
                                 <div class="searchbar">
-                                    <div class="select-label"><mat-label>Department</mat-label></div>
+                                    <div class="select-label"><mat-label>Name</mat-label></div>
                                     <div class="custom-select">
-                                        <mat-select [value]="this.ticketDetail?.assignedDepartment">
-                                            <mat-option *ngFor="let department of departments" [value]="department.DepartmentID" (click)="selectedDepartment(department)">{{department?.DepartmentName}}</mat-option>
-                                        </mat-select>
-                                    </div>
-                                </div>
-                                <div class="searchbar">
-                                    <div class="select-label"><mat-label>Priority</mat-label></div>
-                                    <div class="custom-select">
-                                        <mat-select [value]="ticketDetail?.priorityLevel.toString()" disabled>
-                                            <mat-option value="0">Low</mat-option>
-                                            <mat-option value="1">Medium</mat-option>
-                                            <mat-option value="2">Urgent</mat-option>
+                                        <mat-select>
+                                            <mat-option (click)="onSelectAssignee(personnel)" *ngFor="let personnel of personnels" [value]="personnel.userId">{{personnel.name}}</mat-option>
                                         </mat-select>
                                     </div>
                                 </div>
                                 <div class="footer-buttons">
-                                    <button class="btn-assign" mat-flat-button (click)="onForwardTicket()">
-                                        Forward
-                                        <mat-icon iconPositionEnd>east</mat-icon>
+                                    <button class="btn-return" mat-flat-button (click)="onReturningTicket()">
+                                        <mat-icon>west</mat-icon>
+                                        Return
+                                    </button>
+                                </div>
+                                <div class="footer-buttons">
+                                    <button class="btn-assign" mat-flat-button (click)="onAssigningTicket()">
+                                        Asssign
+                                        <mat-icon iconPositionEnd>edit_square</mat-icon>
                                     </button>
                                 </div>
                             </div>

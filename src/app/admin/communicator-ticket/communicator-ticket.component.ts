@@ -11,6 +11,7 @@ import { timeout } from '../../tools/plugins/delay';
 import { device } from '../../tools/plugins/device';
 import { Observable, filter } from 'rxjs';
 import { mtCb } from '../../tools/plugins/static';
+import { LocalStorageService } from '../../tools/plugins/localstorage';
 
 export interface DialogData {
   isProgress: boolean,
@@ -24,15 +25,19 @@ export interface DialogData {
   styleUrl: './communicator-ticket.component.scss'
 })
 export class CommunicatorTicketComponent {
-  constructor(private route: ActivatedRoute, private router: Router, private dialog: MatDialog) { }
+  constructor(private route: ActivatedRoute, private router: Router, private dialog: MatDialog, private ls: LocalStorageService) { 
+    this.userDetail = this.ls.getItem1('UserAccount');
+  }
   @ViewChild('stepper') stepper!: MatStepper;
-
+  userDetail: any;
   height = 'height: calc(100% - 100px)';
   isTicketContentShow = false;
   collections: any = [];
+  backupCollections: any = [];
   collectionreceived: any = [];
   ticketTitle = '';
   ticketDetail: any;
+  searchValue: any;
   // categories = [
   //   {
   //     id: '0001',
@@ -194,10 +199,14 @@ export class CommunicatorTicketComponent {
 
 
 
-
-
+  searchTicket(val: string){
+    this.collections = this.backupCollections;
+    this.collections = this.collections.filter((i:any)=>i.title.includes(val));
+    console.log(this.collections);
+  }
 
   onTabChange(val: any) {
+    this.searchValue = null;
     this.tab = val.tab;
     val.IsReset = false;
     if (!this.subs) return this.collections;

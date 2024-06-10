@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -48,6 +48,8 @@ import { FormsModule } from '@angular/forms';
 import { CommunicatorTicketComponent } from './communicator-ticket/communicator-ticket.component';
 import { CommunicatorTicketModule } from './communicator-ticket/communicator-ticket.module';
 import { TicketComponent } from './communicator-ticket/ticket/ticket.component';
+import { HeadTicketsModule } from './head-tickets/head-tickets.module';
+import { HeadTicketsComponent } from './head-tickets/head-tickets.component';
 //import { SettingsdepartmentComponent } from './setting-main-page/settingsdepartment/settingsdepartment.component';
 //import { BrowserModule } from '@angular/platform-browser';
 
@@ -75,6 +77,7 @@ import { TicketComponent } from './communicator-ticket/ticket/ticket.component';
     NewRolesModalComponent,
     ViewRolesModalComponent,
     CommunicatorTicketComponent,
+    HeadTicketsComponent
     // TicketComponent
   ],
   imports: [
@@ -100,10 +103,12 @@ import { TicketComponent } from './communicator-ticket/ticket/ticket.component';
     MatDialogModule,
     MatProgressSpinnerModule,
     FormsModule,
-    CommunicatorTicketModule
+    CommunicatorTicketModule,
+    HeadTicketsModule
     //SidenavComponent
     
   ],
+  schemas:[CUSTOM_ELEMENTS_SCHEMA],
   exports:[MatIconModule, MatSelectModule],
   providers:[LocalStorageService]
 })
