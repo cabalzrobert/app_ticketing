@@ -5,7 +5,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { AuthService } from '../auth.service';
 import { rest } from '../+services/services';
 import { timeout } from '../tools/plugins/delay';
-import { jUser, jUserModify, additionalNotification, notificationCount, getLastTransactionNumber, bindLastTransacationNumber } from '../+app/user-module';
+import { jUser, jUserModify, additionalNotification, notificationCount, getLastTransactionNumber, bindLastTransacationNumber, bindLastForwardTransactionNumber } from '../+app/user-module';
 import { device } from '../tools/plugins/device';
 import { LocalStorageService } from '../tools/plugins/localstorage';
 import { stomp } from '../+services/stomp.service';
@@ -17,6 +17,7 @@ import { WebSocketSubject } from 'rxjs/internal/observable/dom/WebSocketSubject'
 import { subscribe } from 'diagnostics_channel';
 import { RxStomp } from '@stomp/rx-stomp';
 import React from 'react';
+import { json } from 'stream/consumers';
 //import { WebSocketSubject } from 'rxjs/internal/observable/dom/WebSocketSubject';
 //const { Object }: any = window;
 interface SideNavToggle {
@@ -90,6 +91,8 @@ export class SidenavComponent implements OnInit {
   input: any = {};
   receivedMessages: any = [];
   TicketNo: string = '';
+  ticketNo:string = '';
+  
   async ngOnInit(): Promise<void> {
     //this.webSocketService.token();
     //this.webSocketService.stompWebsocketReceiver();
@@ -98,7 +101,7 @@ export class SidenavComponent implements OnInit {
     //this.navData = navbarData;
 
     //device.ready(() => this.stompWebsocketReceiver());
-    this.webSocketService.stompWebsocketReceiver();
+    //this.webSocketService.stompWebsocketReceiver();
     this.input = await jUser();
     console.log('this.input 96', this.input);
     device.ready(() => notificationCount());
@@ -261,9 +264,10 @@ export class SidenavComponent implements OnInit {
   }
 
   private async stompWebsocketReceiver() {
-    //this.webSocketService.connect();
+    this.webSocketService.connect();
     this.input = await jUser();
     var iscom = (this.input.isCommunicator == true) ? 1 : 0;
+    var isdepthead = (this.input.isDeptartmentHead == true) ? 1 : 0;
     console.log('stompWebsocketReceiver');
     this.subs.wsErr = stomp.subscribe('#error', (err: any) => this.error());
     this.subs.wsConnect = stomp.subscribe('#connect', () => this.connected());
@@ -273,6 +277,7 @@ export class SidenavComponent implements OnInit {
 
     //this.subs.ws1 = stomp.subscribe('/1/ticketrequest/iscommunicator', (json: any) => this.receivedRequestTicketCommunicator(json));
     this.subs.ws1 = stomp.subscribe('/' + iscom + '/ticketrequest/iscommunicator', (json: any) => this.receivedRequestTicketCommunicator(json));
+    this.subs.ws1 = stomp.subscribe('/forwardticket/depthead/' + isdepthead, (json:any) => this.receivedforwardedTicket(json));
     stomp.ready(() => (stomp.refresh(), stomp.connect()));
     console.log('stompWebsocketReceiver 250 sidenav.components', this.subs);
   }
@@ -315,6 +320,13 @@ export class SidenavComponent implements OnInit {
     additionalNotification(1);
     this.refreshData();
     return this.input.NotificationCount;
+  }
+  receivedforwardedTicket(data:any){
+    var content = data.content;
+    this.ticketNo = content.ticketNo;
+    if(this.input.LastForwardTransactionNo = content.transactionNo) return;
+    bindLastForwardTransactionNumber(content.transactionNo);
+
   }
   private async refreshData() {
     //jUserModify();

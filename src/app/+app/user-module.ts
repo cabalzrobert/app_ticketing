@@ -119,3 +119,34 @@ export const bindLastTransacationNumber=async(transactionnumber:string, isSet:bo
    else user.LastTransactionNo = transactionnumber;
    return await jUser(user,true);
 }
+
+export const additionalDepartmentHeadNotification=async(additional:number, isSet:boolean=false)=>{
+    var user = await jUser();
+    if(!user.DepartmentHeadNotificationCount) user.DepartmentHeadNotificationCount = 0;
+    if(isSet) user.DepartmentHeadNotificationCount = additional;
+    else user.DepartmentHeadNotificationCount += additional;
+    //console.log('additionalNotification user', user);
+    return await jUser(user,true);
+ }
+export const getLastForwardTransactionNumber=(()=>{ 
+    const ready = whenReady((ready)=>rest.ready(()=>ready()));
+    var subscription:any;
+    return async()=>{
+        if(!await ready()) return;
+        if(subscription) subscription.unsubscribe();
+        subscription = rest.post('lastforwardtransactionno').subscribe(async(res:any)=>{
+            if(res.Status!='error'){
+                return bindLastForwardTransactionNumber(res, true);
+            }
+        },(err:any) =>{
+            return bindLastForwardTransactionNumber('', true);
+        });
+   };
+})();
+export const bindLastForwardTransactionNumber=async(LastForwardTransactionNo:string, isSet:boolean=false)=>{
+   var user = await jUser();
+   if(!user.LastForwardTransactionNo) user.LastForwardTransactionNo = '';
+   if(isSet) user.LastForwardTransactionNo = LastForwardTransactionNo;
+   else user.LastForwardTransactionNo = LastForwardTransactionNo;
+   return await jUser(user,true);
+}

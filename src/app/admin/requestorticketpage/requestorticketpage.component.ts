@@ -11,6 +11,7 @@ import { LocalStorageService } from '../../tools/plugins/localstorage';
 import { stomp } from '../../+services/stomp.service';
 import { timeout } from '../../tools/plugins/delay';
 import { mtCb } from '../../tools/plugins/static';
+import moment from 'moment';
 //import {MatIconModule} from '@angular/material/icon';
 //const{Object1}:any = {};
 //const Object:Window = window;
@@ -42,6 +43,7 @@ export class RequestorticketpageComponent implements OnInit {
   TransactionNo: String = ''
   TicketNo: String = '';
   CreatedDate: String = '';
+  TicketStatus:Number = 0;
   TicketStatusname: String = '';
   PriorityLevelname: String = '';
   isAssigned: boolean = false;
@@ -56,6 +58,7 @@ export class RequestorticketpageComponent implements OnInit {
     this.TransactionNo = data.TransactionNo;
     this.TicketNo = data.TicketNo;
     this.CreatedDate = data.CreatedDate;
+    this.TicketStatus = data.TicketStatus;
     this.TicketStatusname = data.TicketStatusname;
     this.PriorityLevelname = data.PriorityLevelname;
     this.isAssigned = data.isAssigned;
@@ -1377,6 +1380,25 @@ export class RequestorticketpageComponent implements OnInit {
     console.log('var tlc 1367', tlc);
 
   }
+  dateFormatted(isList:boolean, date: any){
+    if(isList){
+      const formattedDate = moment(date).format('D MMM');
+      let splitDate = formattedDate.split(' ');
+      if(splitDate[0]==='1'||splitDate[0]==='21'||splitDate[0]==='31')
+        splitDate[0] = splitDate[0] + 'st';
+      else if(splitDate[0]==='2'||splitDate[0]==='22')
+        splitDate[0] = splitDate[0] + 'nd';
+      else if(splitDate[0]==='3'||splitDate[0]==='23')
+        splitDate[0] = splitDate[0] + 'rd';
+      else
+        splitDate[0] = splitDate[0] + 'th';
+  
+      return `${splitDate[0]} ${splitDate[1]}`;
+    }
+    else{
+      return moment(date).format('DD MMM yyyy');
+    }
+  }
   ticketpendingremove: any = [];
   hLoadMore(item: any, idx: number) {
     this.ticketpending.forEach((o: any) => {
@@ -1534,6 +1556,7 @@ export class RequestorticketpageComponent implements OnInit {
   hSearchTicket() {
     console.log('hSearchTicket this.Search.value', this.Search.value);
     if (this.selectedTab == 'pending') {
+      this.ticketpending = [];
       this.getTicketPendingList({ Status: 0, num_row: 0, Search: this.Search.value });
       this.scrollTabContentTop();
     }

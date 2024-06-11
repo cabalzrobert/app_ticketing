@@ -6,16 +6,16 @@ export const navbarData = [
         icon: 'fa fa-th-large',
         label: 'Overview'
     },
-    {
-        routerLink: 'ticket',
-        icon: 'fa fa-light fa-ticket-alt',
-        label: 'My Tickets'
-    },
-    {
-        routerLink: 'assignedticket',
-        icon: 'fa fa-light fa-ticket-alt',
-        label: "Assigned Tickets"
-    },
+    // {
+    //     routerLink: 'ticket',
+    //     icon: 'fa fa-light fa-ticket-alt',
+    //     label: 'My Tickets'
+    // },
+    // {
+    //     routerLink: 'assignedticket',
+    //     icon: 'fa fa-light fa-ticket-alt',
+    //     label: "Assigned Tickets"
+    // },
     {
         routerLink: 'receivedtickets',
         icon: 'fa fa-light fa-ticket-alt',
@@ -127,6 +127,11 @@ export const navbarDataUser = [
         routerLink: 'ticket',
         icon: 'fa fa-light fa-ticket-alt',
         label: 'My Tickets'
-    }
+    },
+     {
+        routerLink: 'assignedticket',
+        icon: 'fa fa-light fa-ticket-alt',
+        label: "Assigned Tickets"
+    },
     
 ];

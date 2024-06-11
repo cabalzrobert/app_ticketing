@@ -9,6 +9,7 @@ import { tick } from '@angular/core/testing';
 import moment from 'moment';
 import { LocalStorageService } from '../../tools/plugins/localstorage';
 import { empty } from 'rxjs';
+import { jUser } from '../../+app/user-module';
 
 export interface DialogData {
   Type: string,
@@ -48,20 +49,21 @@ export class HeadTicketsComponent {
   //   }
   // ];
   userId = '';
-  userDetail: any;
+  userDetail: any = {};
   searchValue: any;
 
   tab = 0;
 
-  ngOnInit() {
+  async ngOnInit() {
 
+    this.userDetail = await jUser();
     this.onTabChange(0);
   }
 
   onTabChange(val: any) {
     this.searchValue = null;
     this.tab = val;
-    rest.post(`head/tickets?id=${'00103'}&tab=${val}`).subscribe((res: any) => {
+    rest.post(`head/tickets?id=${this.userDetail.DEPT_ID}&tab=${val}`).subscribe((res: any) => {
       if (res != null) {
         console.log(res);
         this.collections = res;

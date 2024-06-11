@@ -80,7 +80,7 @@
                         <div class="cardticketcontent" (click)="hViewComment(data)">
                             <div class="cardheader">
                                 <div class="headertitle">{{data.TitleTicket}}</div>
-                                <div class="headerdate">{{data.CreatedDate}}</div>
+                                <div class="headerdate">{{dateFormatted(true, data.CreatedDate)}}</div>
                             </div>
                             <div class="cardticketbody">{{data.TicketDescription}}</div>
                             <div class="cardticketfooter">
@@ -95,8 +95,8 @@
                     <div class="cardticket" *ngIf="data.isRead">
                         <div class="cardticketcontent" (click)="hViewComment(data)" *ngIf="data.isRead">
                             <div class="cardheader">
-                                <div class="headertitle">{{data.TicketTitle}}</div>
-                                <div class="headerdate">{{data.CreatedDate}}</div>
+                                <div class="headertitle">{{data.TitleTicket}}</div>
+                                <div class="headerdate">{{dateFormatted(true, data.CreatedDate)}}</div>
                             </div>
                             <div class="cardticketbody">{{data.TicketDescription}}</div>
                             <div class="cardticketfooter">
@@ -120,14 +120,14 @@
                     <div class="cardticketcontent">
                         <div class="cardheader">
                             <div class="headertitle">{{data.TitleTicket}}</div>
-                            <div class="headerdate">{{data.CreatedDate}}</div>
+                            <div class="headerdate">{{dateFormatted(true, data.CreatedDate)}}</div>
                         </div>
                         <div class="cardticketbody">{{data.TicketDescription}}</div>
 
 
                         <div class="cardheader">
                             <div class="headertitle">{{data.TitleTicket}}</div>
-                            <div class="headerdate">{{data.CreatedDate}}</div>
+                            <div class="headerdate">{{dateFormatted(true, data.CreatedDate)}}</div>
                         </div>
                         <div class="cardticketbody">{{data.TicketDescription}}</div>
                         <div class="cardticketfooter">
@@ -152,7 +152,7 @@
                         <div class="cardticketcontent" (click)="hViewComment(data)">
                             <div class="cardheader">
                                 <div class="headertitle">{{data.TitleTicket}}</div>
-                                <div class="headerdate">{{data.CreatedDate}}</div>
+                                <div class="headerdate">{{dateFormatted(true, data.CreatedDate)}}</div>
                             </div>
                             <div class="cardticketbody">{{data.TicketDescription}}</div>
                             <!-- <div class="cardticketfooter">
@@ -168,7 +168,7 @@
                         <div class="cardticketcontent" (click)="hViewComment(data)">
                             <div class="cardheader">
                                 <div class="headertitle">{{data.TitleTicket}}</div>
-                                <div class="headerdate">{{data.CreatedDate}}</div>
+                                <div class="headerdate">{{dateFormatted(true, data.CreatedDate)}}</div>
                             </div>
                             <div class="cardticketbody">{{data.TicketDescription}}</div>
                             <!-- <div class="cardticketfooter">
@@ -260,7 +260,7 @@
 
                 </div>
 
-                <div class="cthfooter">
+                <div class="cthfooter" *ngIf="TicketStatus != 4 ">
                     <div class="footerbody">
                         <div class="commentcontent" [formGroup]="commentform">
                             <textarea formControlName="Message" name="" id="" rows="4"
