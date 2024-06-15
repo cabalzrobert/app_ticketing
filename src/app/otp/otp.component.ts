@@ -66,6 +66,7 @@ export class OtpComponent {
   }
 
   sendOtp = async () => {
+    console.log('otp');
     const _mobileNumber = '+63' + this.form.value.mobileNumber
     const input = { UserId: this.getLocalStorage(), MobileNumber: _mobileNumber };
     rest.post('otp', input).subscribe(async (res: any) => {

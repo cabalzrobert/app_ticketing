@@ -9,9 +9,11 @@ import { additionalNotification, bindLastTransacationNumber, jUser } from '../..
 import { stomp } from '../../+services/stomp.service';
 import { timeout } from '../../tools/plugins/delay';
 import { device } from '../../tools/plugins/device';
-import { Observable, filter } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, filter, takeUntil } from 'rxjs';
 import { mtCb } from '../../tools/plugins/static';
 import { LocalStorageService } from '../../tools/plugins/localstorage';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+const batchDone = new Subject<boolean>();
 
 export interface DialogData {
   isProgress: boolean,
@@ -29,9 +31,11 @@ export class CommunicatorTicketComponent {
     this.userDetail = this.ls.getItem1('UserAccount');
   }
   @ViewChild('stepper') stepper!: MatStepper;
+  @ViewChild(CdkVirtualScrollViewport) virtualScroll!: CdkVirtualScrollViewport;
   userDetail: any;
   height = 'height: calc(100% - 100px)';
   isTicketContentShow = false;
+  batch = 0;
   collections: any = [];
   backupCollections: any = [];
   collectionreceived: any = [];
@@ -70,7 +74,7 @@ export class CommunicatorTicketComponent {
 
   ngOnInit() {
     // alert('Yeeee');
-    this.onTabChange({ tab: 0, IsReset: true });
+    // this.onTabChange({ tab: 0, IsReset: true });
     this.getTicketCount();
     device.ready(() => this.stompWebsocketReceiver());
   }
@@ -199,34 +203,86 @@ export class CommunicatorTicketComponent {
 
 
 
-  searchTicket(val: string){
-    this.collections = this.backupCollections;
-    this.collections = this.collections.filter((i:any)=>i.title.includes(val));
-    console.log(this.collections);
+  searchTicket(val: any){
+    this.searchValue = !val?null:val;
+    this.collections = [];
+    this.virtualScroll.setRenderedRange({start:0,end:0});
+    this.nextBatch({tab:this.tab, IsReset: true});
+    // this.collections = this.backupCollections;
+    // this.collections = this.collections.filter((i:any)=>i.title.includes(val));
+    // console.log(this.collections);
   }
 
-  onTabChange(val: any) {
-    this.searchValue = null;
+  // onTabChange(val: any) {
+  //   this.searchValue = null;
+  //   this.tab = val.tab;
+  //   val.IsReset = false;
+  //   if (!this.subs) return this.collections;
+  //   if (this.subs.s1) this.subs.s1.unsubscribe();
+  //   console.log('val.IsReset', val.IsReset);
+  //   console.log('this.subs.s1', this.subs.s1);
+  //   const filter = {tab:this.tab, row: this.batch};
+  //   rest.post('communicator/tickets', filter).subscribe((res: any) => {
+  //     if (res != null) {
+
+  //       console.log('onTabChange result', res);
+  //       if (!val.IsReset && res.length < 1) this.collections = res.map((o: any) => this.collectionListDetails(o));
+  //       else res.forEach((o: any) => this.collections.push(this.collectionListDetails(o)));
+  //       /*
+  //       this.collections = res;
+  //       this.collections.forEach((e: any) => {
+  //         // e.dateCreated = moment(e.dateCreated).format('DD MMM yyyy');
+  //       });
+  //       */
+  //       return;
+  //     }
+  //     alert('Failed');
+  //   }, (err: any) => {
+  //     alert('System Error');
+  //   })
+  // }
+  async nextBatch(val: any){
+    console.log(`new batch ${val.tab}`);
+    console.log(`tab ${this.tab} = val.tab ${val.tab}`);
+    let end = 0;
+    let total = 0;
+    if(this.tab !== val.tab){
+      this.collections = [];
+    }else{
+      end = this.virtualScroll.getRenderedRange().end;
+      total = this.collections.length;
+    }
+    // if(val.tab===undefined) val.tab = this.tab;
+    // if (!this.subs) return this.collections;
+    // if (this.subs.s1) this.subs.s1.unsubscribe();
+    // console.log('val.IsReset', val.IsReset);
+    // console.log('this.subs.s1', this.subs.s1);
+    // console.log(`total communicator next batch`);
+    const filter = {tab: val.tab, row: total, search: this.searchValue};
     this.tab = val.tab;
-    val.IsReset = false;
-    if (!this.subs) return this.collections;
-    if (this.subs.s1) this.subs.s1.unsubscribe();
-    console.log('val.IsReset', val.IsReset);
-    console.log('this.subs.s1', this.subs.s1);
-    rest.post(`communicator/tickets?tab=${val.tab}`).subscribe((res: any) => {
+    console.log(`end ${end} <= total ${total} : batch ${this.batch}`);
+    if(end === total){
+      console.log(filter);
+      await this.onPerformGetTickets(filter, val);
+    }
+  }
+
+  async onPerformGetTickets(filter: any, val: any) {
+    rest.post('communicator/tickets', filter).pipe(takeUntil(batchDone)).subscribe((res: any) => {
       if (res != null) {
+        batchDone.next(true);
         console.log('onTabChange result', res);
-        if (!val.IsReset) this.collections = res.map((o: any) => this.collectionListDetails(o));
-        else res.forEach((o: any) => this.collections.push(this.collectionListDetails(o)));
-        /*
-        this.collections = res;
-        this.collections.forEach((e: any) => {
-          // e.dateCreated = moment(e.dateCreated).format('DD MMM yyyy');
-        });
-        */
+        // if (!val.IsReset || res.length < 1) this.collections = res.map((o: any) => this.collectionListDetails(o));
+        // else res.forEach((o: any) => this.collections.push(this.collectionListDetails(o)));
+        
+        // return this.collections;
+        if(res.length > 0)
+          this.collections = this.collections.concat(res);
+        console.log('collections batch = ',this.batch,this.collections);
         return;
       }
-      alert('Failed');
+      else
+        alert('Failed');
     }, (err: any) => {
       alert('System Error');
     })
@@ -369,7 +425,10 @@ export class CommunicatorTicketComponent {
         const dialogRef = this.showMessageBox(false, true, 'Ticket has been forwarded');
         dialogRef.afterClosed().subscribe(() => {
           this.goBack();
-          this.onTabChange(this.tab);
+          // this.onTabChange(this.tab);
+          this.collections = [];
+          this.virtualScroll.setRenderedRange({start:0,end:0});
+          this.nextBatch({tab: this.tab, IsReset: true});
         })
         return;
       }
