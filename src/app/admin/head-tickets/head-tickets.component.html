@@ -16,7 +16,7 @@
                 <span>Filter</span>
             </div>
         </div>
-        <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" #tabRef (selectedTabChange)="onTabChange(tabRef.selectedIndex)">
+        <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" #tabRef>
             <mat-tab class="tab-container">
                 <ng-template class="tab-label" mat-tab-label>
                     <span style="font-size: 20px;">Unassigned</span>
@@ -24,22 +24,23 @@
                 </ng-template>
                 <ng-template class="tab-content" matTabContent>
                     <div class="ticket-list-container">
-                        <cdk-virtual-scroll-viewport class="scrolling-container" itemSize>
+                        <cdk-virtual-scroll-viewport class="scrolling-container" [itemSize]="196" (scrolledIndexChange)="nextBatch(tabRef.selectedIndex)">
+                            <!-- <mat-spinner class="spinner" *ngIf="showProgress"></mat-spinner> -->
                             <mat-card *cdkVirtualFor="let item of collections" matRipple (click)="next(item)">
                                 <mat-card-header>
                                     <mat-card-title>{{item.title}}</mat-card-title>
                                     <span style="font-size: 18px;">{{dateFormatted(true,item.dateCreated)}}</span>
                                 </mat-card-header>
                                 <mat-card-content>
-                                    <p>{{item.description}}</p>
+                                    <p>{{item?.description}}</p>
                                 </mat-card-content>
                                 <mat-card-footer>
                                     <mat-card-actions class="card-section">
                                         <div class="action-unassign">
                                             <label>Unassigned</label>
                                         </div>
-                                        <div [class]="'action-'+item.priorityName.toLowerCase()">
-                                            <label>{{item.priorityName}}</label>
+                                        <div [class]="'action-'+item?.priorityName.toLowerCase()">
+                                            <label>{{item?.priorityName}}</label>
                                         </div>
                                     </mat-card-actions>
                                 </mat-card-footer>
@@ -55,7 +56,7 @@
                 </ng-template>
                 <ng-template class="tab-content" matTabContent>
                     <div class="ticket-list-container">
-                        <cdk-virtual-scroll-viewport class="scrolling-container" itemSize>
+                        <cdk-virtual-scroll-viewport class="scrolling-container" [itemSize]="196" (scrolledIndexChange)="nextBatch(tabRef.selectedIndex)">
                             <mat-card *cdkVirtualFor="let item of collections" (click)="next(item)">
                                 <mat-card-header>
                                     <mat-card-title>{{item.title}}</mat-card-title>
@@ -86,7 +87,7 @@
                 </ng-template>
                 <ng-template class="tab-content" matTabContent>
                     <div class="ticket-list-container">
-                        <cdk-virtual-scroll-viewport class="scrolling-container" itemSize>
+                        <cdk-virtual-scroll-viewport class="scrolling-container" [itemSize]="196" (scrolledIndexChange)="nextBatch(tabRef.selectedIndex)">
                             <mat-card *cdkVirtualFor="let item of collections" (click)="next(item)">
                                 <mat-card-header>
                                     <mat-card-title>{{item.title}}</mat-card-title>
@@ -223,7 +224,7 @@
                                 <div class="searchbar">
                                     <div class="select-label"><mat-label>Name</mat-label></div>
                                     <div class="custom-select">
-                                        <mat-select>
+                                        <mat-select [value]="ticketDetail?.assignedTo">
                                             <mat-option (click)="onSelectAssignee(personnel)" *ngFor="let personnel of personnels" [value]="personnel.userId">{{personnel.name}}</mat-option>
                                         </mat-select>
                                     </div>

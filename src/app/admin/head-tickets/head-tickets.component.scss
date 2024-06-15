@@ -10,6 +10,14 @@
 
 }
 
+.spinner{
+    position: absolute;
+    max-height: 75px;
+    max-width: 75px;
+    z-index: 1000;
+    translate: 50vh 50vh;
+}
+
 mat-tab-group {
     position: relative;
     padding: 0 25px;

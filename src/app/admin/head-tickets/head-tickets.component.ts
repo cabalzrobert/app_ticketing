@@ -8,8 +8,10 @@ import { rest } from '../../+services/services';
 import { tick } from '@angular/core/testing';
 import moment from 'moment';
 import { LocalStorageService } from '../../tools/plugins/localstorage';
-import { empty } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, empty, takeUntil } from 'rxjs';
 import { jUser } from '../../+app/user-module';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+const batchDone = new Subject<boolean>();
 
 export interface DialogData {
   Type: string,
@@ -30,9 +32,11 @@ export class HeadTicketsComponent {
     this.userDetail = ls.getItem1('UserAccount');
   }
   @ViewChild('stepper') stepper!: MatStepper;
+  @ViewChild(CdkVirtualScrollViewport) virtualScroll!: CdkVirtualScrollViewport;
 
   height = 'height: calc(100% - 100px)';
   isTicketContentShow = false;
+  batch = 0;
   collections: any = [];
   backupCollections: any = [];
   ticketTitle = '';
@@ -51,29 +55,106 @@ export class HeadTicketsComponent {
   userId = '';
   userDetail: any = {};
   searchValue: any;
+  showProgress = false;
+
+  _collections = Observable<any[]>;
 
   tab = 0;
 
-  async ngOnInit() {
+  async ngOnInit(){
 
+    
     this.userDetail = await jUser();
-    this.onTabChange(0);
+    // this.onTabChange(0);
+    // console.log('viewport',this.virtualScroll.getRenderedRange().end);
   }
 
   onTabChange(val: any) {
     this.searchValue = null;
     this.tab = val;
-    rest.post(`head/tickets?id=${this.userDetail.DEPT_ID}&tab=${val}`).subscribe((res: any) => {
+    // rest.post(`head/tickets?id=${this.userDetail.DEPT_ID}&tab=${val}`).subscribe((res: any) => {
+    //   if (res != null) {
+    //     console.log(res);
+    //     this.collections = res;
+    //     this.backupCollections = res;
+    //     // this.collections.forEach((e: any) => {
+    //     //   e.dateCreated = moment(e.dateCreated).format('DD MMM yyyy');
+    //     // });
+    //     return;
+    //   }
+    //   alert('Failed');
+    // }, (err: any) => {
+    //   alert('System Error');
+    // })
+  }
+
+  async nextBatch(tab: any) {
+
+    console.log(`new batch ${tab}`);
+    console.log(`tab ${this.tab} = val.tab ${tab}`);
+    let end = 0;
+    let total = 0;
+    if(this.tab !== tab){
+      this.collections = [];
+    }else{
+      end = this.virtualScroll.getRenderedRange().end;
+      total = this.collections.length;
+    }
+    // if(val.tab===undefined) val.tab = this.tab;
+    // if (!this.subs) return this.collections;
+    // if (this.subs.s1) this.subs.s1.unsubscribe();
+    // console.log('val.IsReset', val.IsReset);
+    // console.log('this.subs.s1', this.subs.s1);
+    // console.log(`total communicator next batch`);
+    const filter = {tab: tab, departmentId: this.userDetail.DEPT_ID, row: total, search: this.searchValue};
+    this.tab = tab;
+    console.log(`end ${end} <= total ${total} : batch ${this.batch}`);
+    if(end === total){
+      console.log(filter);
+      this.showProgress = true;
+      await this.onPerformGetTickets(filter, tab);
+    }
+
+    // if(this.tab !== tab)
+    //   this.batch = 0;
+    // const end = this.virtualScroll.getRenderedRange().end;
+    // const total = this.virtualScroll.getDataLength();
+    // const filter = {tab: this.tab, departmentId: this.userDetail.DEPT_ID, row: total, search: this.searchValue};
+    // console.log(`${end} <= ${total}`);
+    // if(end === total){
+    //   console.log(filter);
+    //   rest.post('head/tickets?',filter).subscribe((res: any) => {
+    //     if (res != null) {
+    //       console.log('onTabChange result', res);
+    //       if(res.length > 0)
+    //         this.collections = this.collections.concat(res);
+    //       console.log('collections batch = ',this.collections.length,this.collections);
+    //       return;
+    //     }
+    //     alert('Failed');
+    //   }, (err: any) => {
+    //     alert('System Error');
+    //   })
+    // }
+  }
+
+  async onPerformGetTickets(filter: any, tab: any) {
+    rest.post('head/tickets', filter).pipe(takeUntil(batchDone)).subscribe((res: any) => {
       if (res != null) {
-        console.log(res);
-        this.collections = res;
-        this.backupCollections = res;
-        this.collections.forEach((e: any) => {
-          e.dateCreated = moment(e.dateCreated).format('DD MMM yyyy');
-        });
+        this.showProgress = false;
+        batchDone.next(true);
+        console.log('onTabChange result', res);
+        // if (!val.IsReset || res.length < 1) this.collections = res.map((o: any) => this.collectionListDetails(o));
+        // else res.forEach((o: any) => this.collections.push(this.collectionListDetails(o)));
+        
+        // return this.collections;
+        if(res.length > 0)
+          this.collections = this.collections.concat(res);
+        console.log('collections batch = ',this.batch,this.collections);
         return;
       }
-      alert('Failed');
+      else
+        alert('Failed');
     }, (err: any) => {
       alert('System Error');
     })
@@ -128,6 +209,7 @@ export class HeadTicketsComponent {
     // this.router.navigate(['../tickets'], {relativeTo: this.route});
     this.router.navigate(['../assignedticket'], { relativeTo: this.route });
     this.stepper.previous();
+    this.personnels = [];
   }
 
   openDialog() {
@@ -160,7 +242,9 @@ export class HeadTicketsComponent {
         const dialogRef = this.showMessageBox('message', null, 'Ticket has been assigned.');
         dialogRef.afterClosed().subscribe(() => {
           this.goBack();
-          this.onTabChange(this.tab);
+          this.collections = [];
+          this.virtualScroll.setRenderedRange({start:0,end:0});
+          this.nextBatch(this.tab);
         })
         return;
       }
@@ -184,7 +268,9 @@ export class HeadTicketsComponent {
         const dialogRef = this.showMessageBox('message', null, 'Ticket has been returned.');
         dialogRef.afterClosed().subscribe(() => {
           this.goBack();
-          this.onTabChange(this.tab);
+          this.collections = [];
+          this.virtualScroll.setRenderedRange({start:0,end:0});
+          this.nextBatch(this.tab);
         })
         return;
       }
@@ -243,9 +329,13 @@ export class HeadTicketsComponent {
   // }
 
   searchTicket(val: string){
-    this.collections = this.backupCollections;
-    this.collections = this.collections.filter((i:any)=>i.title.includes(val));
-    console.log(this.collections);
+    this.searchValue = !val?null:val;
+    this.collections = [];
+    this.virtualScroll.setRenderedRange({start:0,end:0});
+    this.nextBatch(this.batch);
+    // this.collections = this.backupCollections;
+    // this.collections = this.collections.filter((i:any)=>i.title.includes(val));
+    // console.log(this.collections);
   }
 
   showMessageBox(type: string, ticketNo: any, message: any): any {
