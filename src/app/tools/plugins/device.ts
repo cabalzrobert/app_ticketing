@@ -17,11 +17,11 @@ export const device:any=(()=>{
         //Object.rcopy(device, await Device.getInfo());
         //device.isAndroid = (device.platform=='android'); 
         //device.isIOS = (device.platform=='ios'); 
-        console.log('device.ts setTimeout', capacitor.platform);
+        //console.log('device.ts setTimeout', capacitor.platform);
         device.isBrowser = (capacitor.platform=='web');
         //BackgroundMode.enable();
         device.ready();
     });
-    console.log('device.ts device', device)
+    //console.log('device.ts device', device)
     return device;
 })();

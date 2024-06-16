@@ -16,7 +16,7 @@ export class AdminComponent implements OnInit {
   constructor(public ls: LocalStorageService, public websocketservice: WebSocketService) { }
   async ngOnInit(): Promise<void> {
     let token = await this.ls.getItem1('Auth');
-    console.log('admin components', token);
+    //console.log('admin components', token);
     //this.websocketservice.stompWebsocketReceiver();
     if (await this.ls.getItem1('isReload') == null) {
       //console.log('isReload is not defined');

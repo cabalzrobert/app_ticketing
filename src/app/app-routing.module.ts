@@ -13,7 +13,7 @@ import { authDeactivateGuard } from './auth-deactivate.guard';
 
 const routes: Routes = [
   //{ path: '', loadChildren: () => import('./public/public.module').then((m) => m.PublicModule) },
-  { path: 'headquarter', loadChildren: () => import('./public/public.module').then((m) => m.PublicModule) },
+  //{ path: 'headquarter', loadChildren: () => import('./public/public.module').then((m) => m.PublicModule) },
   
   { path: '', loadChildren: () => import('./public/public.module').then((m) => m.PublicModule) },
   //{ path: '', component: LoginComponent },

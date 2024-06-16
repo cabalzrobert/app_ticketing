@@ -75,17 +75,17 @@ export const rest = (() => {
         return http.get(url+ endpoint(url), headers);
     }
     function ws(url:string='', includeBearer:boolean=false){
-        console.log('function ws url:string', url);
-        console.log('function ws headers.Authorization', headers.Authorization);
-        console.log('function ws Authorization', authorization);
+        //console.log('function ws url:string', url);
+        //console.log('function ws headers.Authorization', headers.Authorization);
+        //console.log('function ws Authorization', authorization);
         if(!authorization){
-            //ready();
-            console.log('Token is Empty');
+            ready();
+            //console.log('Token is Empty');
         }
         var url = endpoint(url);
         //console.log('Authorization', authorization);
         if(includeBearer) url += ('?token=' + authorization);
-        console.log('Websocket 88', wsLocalhost + url);
+        //console.log('Websocket 88', wsLocalhost + url);
         return (wsLocalhost + url);
     }
     function Post(url:string, data:any={}, headers:any={}){

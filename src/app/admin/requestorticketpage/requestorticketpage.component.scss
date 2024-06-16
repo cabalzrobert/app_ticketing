@@ -258,6 +258,8 @@
                         height: 100%;
                         border-radius: 10px;
                         padding: 20px 0px 20px 0px;
+                        display: flex;
+                        flex-direction: column;
 
                         textarea {
                             outline: none;
@@ -272,6 +274,19 @@
                             font-family: Inter, "Helvetica Neue", sans-serif;
                             border-radius: 10px;
                         }
+
+                        .attachfile {
+                            display: flex;
+                            padding: 0px 10px 0px 20px;
+                            height: 30px;
+
+                            img {
+                                height: 30px;
+                                border-radius: 5px;
+                                box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                            }
+                        }
+
                     }
 
                     .buttoncomment {
@@ -279,6 +294,7 @@
                         display: flex;
                         gap: 20px;
                         justify-content: flex-end;
+                        padding: 20px;
 
                         .attachmentcomment {
                             padding: 0px 10px 0px 10px;
@@ -286,12 +302,34 @@
                             border: solid 1px gray;
                             border-radius: 10px;
                             cursor: pointer;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+
+                            input[type="file"] {
+                                appearance: none;
+                                visibility: hidden;
+                                height: 0;
+                                width: 0;
+                                padding: 0;
+                                margin: 0;
+                            }
+
+                            label {
+                                display: flex;
+                                flex-direction: column;
+                                align-items: center;
+                                justify-content: center;
+                            }
                         }
 
                         .attachmentcomment:hover {
                             background: #9E9E9E;
                             color: #fff;
                             box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+
+
                         }
 
                         button {
@@ -763,7 +801,7 @@
             padding: 0px 0px 0px 20px;
             display: flex;
             align-items: center;
-            gap:10px;
+            gap: 10px;
         }
 
         .menu-nav-button:hover {
@@ -1174,6 +1212,17 @@
         margin-bottom: 10px;
         margin-top: 10px;
 
+
+        .attachmFile {
+            display: flex;
+            justify-content: end;
+
+            img {
+                border-radius: 20px;
+                height: 200px;
+            }
+        }
+
         .message {
             background: #000;
             color: #fff;
@@ -1228,6 +1277,16 @@
         max-width: 70%;
         margin-bottom: 10px;
         margin-top: 10px;
+
+        .attachmFile {
+            display: flex;
+            justify-content: end;
+
+            img {
+                border-radius: 20px;
+                height: 200px;
+            }
+        }
 
         .message {
             background: #F7F5FF;

@@ -3,7 +3,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { NewticketmodalComponent } from '../ticket-main-page/newticketmodal/newticketmodal.component';
 import { jUser, jUserModify } from '../../+app/user-module';
 import { DOCUMENT } from '@angular/common';
-import { Observable, filter } from 'rxjs';
+import { AsyncSubject, Observable, filter } from 'rxjs';
 import { rest } from '../../+services/services';
 import { FormControl, FormGroup } from '@angular/forms';
 import { device } from '../../tools/plugins/device';
@@ -30,12 +30,140 @@ interface MenuNavToggle {
 })
 export class RequestorticketpageComponent implements OnInit {
 
+  hSendAttachment() {
+    console.log('this.attachment 34', this.attahcment);
+    if (!this.isValidEntries()) return;
+    console.log('hSendAttachment 35', this.commentform.value.FileAttachment);
+    this.input1.TransactionNo = this.TransactionNo;
+    this.input1.Message = this.commentform.controls["Message"].value;
+    this.input1.isImage = true;
+    this.input1.isFile = false;
+    this.input1.isMessage = false;
+    this.input1.FileAttachment = this.base64;
+    //this.input1 = { TransactionNo: this.TransactionNo, Message: this.commentform.controls["Message"].value, isImage: true, isFile: false, isRead: false, isMessage: false, FileAttachment: this.attahcment  };
+    console.log('this.input1 38', this.input1);
+    console.log('this.uploaded 38', this.attahcment.length)
+    //this.performSendComment({ TransactionNo: this.TransactionNo, Message: this.commentform.controls["Message"].value, isImage: true, isFile: false, isRead: false, isMessage: false, FileAttachment: this.attahcment  });
+    //this.performSendComment(this.input1);
+    //this.commentform.reset();
+  }
+  public isValidEntries(): boolean {
+    console.log('isValidEntries', this.uploaded);
+    console.log('isValidEntries this.uploaded.length', this.uploaded.length);
+    this.uploaded.forEach((o: any) => console.log('this.uploaded.forEach', o.base64));
+    this.commentform.value.Message = 'IMAGE ATTACHMENT';
+    if (this.attahcment.length == 0)
+      this.commentform.value.FileAttachment = '';
+    else if (this.attahcment.length > 0)
+      this.commentform.value.FileAttachment = this.uploaded;
+    //this.uploaded.forEach((o:any) => console.log('this.uploaded.forEach', o.base64));
+    //this.attahcment = this.uploaded.map((m:any) => m.base64);
+    console.log('hSendAttachment 45', this.commentform.value);
+    return true;
+  }
+
+  async onFileSelected(event: any, input: HTMLInputElement) {
+    await this.onFileSelectedComment(event, input);
+    //await this.hSendAttachment();
+
+  }
+
+
+
+  onFileSelectedComment(event: any, input: HTMLInputElement): Observable<any> {
+    this.uploaded = [];
+    this.selectedFiles = [];
+    this.selectedFiles1 = [];
+    const result = new AsyncSubject<any[]>();
+    var cntupload = this.uploaded.length + event.target.files.length;
+    if (cntupload > 5) {
+      event.preventDefault();
+      event.value = "";
+      return event.value;
+    }
+    let files = [].slice.call(event.target.files);
+    this.files = files;
+    this.onFileSelected1(files);
+    if (this.selectedFiles1) {
+      this.uploaded = this.selectedFiles1;
+    }
+
+    const file: File = event.dataTransfer?.files[0] || event.target?.files[0];
+    event.value = '';
+    this.input1.TransactionNo = this.TransactionNo;
+    this.input1.Message = this.commentform.controls["Message"].value;
+    this.input1.isImage = true;
+    this.input1.isFile = false;
+    this.input1.isMessage = false;
+    this.input1.FileAttachment = this.base64;
+    console.log('tthis.uploaded 99', this.selectedFiles1.length);
+    console.log('this.input1 38', this.input1);
+    return this.uploaded
+  }
+
+  public onFileSelected1(files: File[]): Observable<any[]> {
+    // this.selectedFiles = []; // clear
+    console.log('onFileSelect1 files', files.length);
+    const result = new AsyncSubject<any[]>();
+    this.toFilesBase64(files, this.selectedFiles).subscribe((res: any[]) => {
+      res.forEach((i: any) => this.selectedFiles1.push({ name: i.name, filesize: i.filesize, file: i.file, base64: i.base64, uploadstatus: i.uploadstatus, progress: i.progress, rownum: i.rownum }));
+      //res.forEach((i:any) => this.attahcment.push(i.base64));
+      console.log('Result selectedFiles1', this.selectedFiles1);
+      if (this.onFileSelected1.length > 0) {
+        this.input1.TransactionNo = this.TransactionNo;
+        this.input1.Message = 'ATTACH IMAGE';
+        this.input1.isImage = true;
+        this.input1.isFile = false;
+        this.input1.isMessage = false;
+        this.input1.FileAttachment = this.selectedFiles1.map((m: any) => m.base64);
+        console.log('this.input1 113', this.input1);
+        this.performSendComment(this.input1);
+      }
+
+
+
+      return this.selectedFiles1;
+    });
+    return result;
+  }
+  public toFilesBase64(files: File[], selectedFiles: any[]): Observable<any[]> {
+    const result = new AsyncSubject<any[]>();
+    if (files?.length) {
+      Object.keys(files)?.forEach(async (file, i) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(files[i]);
+        reader.onload = (e) => {
+          selectedFiles = selectedFiles?.filter(f => f?.name != files[i]?.name)
+          selectedFiles.push({ name: files[i]?.name, filesize: `${(files[i].size / 1024).toFixed(2)} KB`, file: files[i], base64: reader?.result as string, uploadstatus: 200, progress: 200, rownum: i + 1 })
+          this.attahcment.push(reader?.result as string);
+          result.next(selectedFiles);
+          if (files?.length === (i + 1)) {
+            result.complete();
+          }
+        };
+      });
+      return result;
+    } else {
+      result.next([]);
+      result.complete();
+      return result;
+    }
+  }
+
 
 
   hViewRequestorPage() {
     this.viewRequestorPage = false;
     this.viewTicketComment = true;
   }
+
+  base64 = '';
+  attahcment: any = [];
+  input1: any = {};
+  files: any = {};
+  selectedFiles: any[] = [];
+  selectedFiles1: any[] = [];
+  uploaded: any = [];
   viewRequestorPage: boolean = false;
   viewTicketComment: boolean = true;
   tickettitle: string = '';
@@ -43,7 +171,7 @@ export class RequestorticketpageComponent implements OnInit {
   TransactionNo: String = ''
   TicketNo: String = '';
   CreatedDate: String = '';
-  TicketStatus:Number = 0;
+  TicketStatus: Number = 0;
   TicketStatusname: String = '';
   PriorityLevelname: String = '';
   isAssigned: boolean = false;
@@ -1380,22 +1508,22 @@ export class RequestorticketpageComponent implements OnInit {
     console.log('var tlc 1367', tlc);
 
   }
-  dateFormatted(isList:boolean, date: any){
-    if(isList){
+  dateFormatted(isList: boolean, date: any) {
+    if (isList) {
       const formattedDate = moment(date).format('D MMM');
       let splitDate = formattedDate.split(' ');
-      if(splitDate[0]==='1'||splitDate[0]==='21'||splitDate[0]==='31')
+      if (splitDate[0] === '1' || splitDate[0] === '21' || splitDate[0] === '31')
         splitDate[0] = splitDate[0] + 'st';
-      else if(splitDate[0]==='2'||splitDate[0]==='22')
+      else if (splitDate[0] === '2' || splitDate[0] === '22')
         splitDate[0] = splitDate[0] + 'nd';
-      else if(splitDate[0]==='3'||splitDate[0]==='23')
+      else if (splitDate[0] === '3' || splitDate[0] === '23')
         splitDate[0] = splitDate[0] + 'rd';
       else
         splitDate[0] = splitDate[0] + 'th';
-  
+
       return `${splitDate[0]} ${splitDate[1]}`;
     }
-    else{
+    else {
       return moment(date).format('DD MMM yyyy');
     }
   }
@@ -1686,14 +1814,21 @@ export class RequestorticketpageComponent implements OnInit {
   }
   //Message: FormControl<any>;
   public commentform = new FormGroup({
-    Message: new FormControl()
+    Message: new FormControl(),
+    FileAttachment: new FormControl()
   })
 
   hSendComment() {
     console.log('hSendComment', this.commentform.controls["Message"].value);
-    this.performSendComment({ TransactionNo: this.TransactionNo, Message: this.commentform.controls["Message"].value, isImage: false, isFile: false, isRead: false, isMessage: true });
+    if (!this.commentform.value.Message) {
+      alert('Invalid Message')
+      return;
+    }
+    this.performSendComment({ TransactionNo: this.TransactionNo, Message: this.commentform.controls["Message"].value, isImage: false, isFile: false, isRead: false, isMessage: true, FileAttachment: this.commentform.value.FileAttachment });
     this.commentform.reset();
   }
+
+
 
   performSendComment(item: any) {
     rest.post('ticket/msg/send', item).subscribe(async (res: any) => {
