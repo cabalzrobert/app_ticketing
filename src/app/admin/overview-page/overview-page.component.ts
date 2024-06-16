@@ -16,17 +16,17 @@ export class OverviewPageComponent implements OnInit {
   input:any = {};
   prop:any = {};
   ngOnInit(): void {
-    console.log('Overview', Capacitor.platform);
-    console.log('ngOnInit this', this);
+    //console.log('Overview', Capacitor.platform);
+    //console.log('ngOnInit this', this);
     device.ready();
-    this.subs.u = jUserModify(async () => {
-      const u: any = await jUser();
-      console.log('ngOnInt const u 80', u);
-      Object.assign(this.input, u);
-      console.log('ngOnInt this.input 1', this.input);
+    // this.subs.u = jUserModify(async () => {
+    //   const u: any = await jUser();
+    //   console.log('ngOnInt const u 80', u);
+    //   Object.assign(this.input, u);
+    //   console.log('ngOnInt this.input 1', this.input);
 
-    });
-    console.log('ngOnInt this.subs 1', this.subs);
+    // });
+    //console.log('ngOnInt this.subs 1', this.subs);
     device.ready(() => this.stompWebsocketReceiver());
     //window.location.reload();
   }

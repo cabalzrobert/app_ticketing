@@ -13,7 +13,7 @@ export const authGuard: CanActivateFn = (route, state) => {
   if (inject(AuthService).session) {
     let auth: any = inject(AuthService).session;
     device.ready(() => rest.setBearer(auth.Token)) ;
-    console.log('Auth Guard', auth);
+    //console.log('Auth Guard', auth);
     //stomp.ready(() => (stomp.refresh(), stomp.connect()));
     return true;
   }

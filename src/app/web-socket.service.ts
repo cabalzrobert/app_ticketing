@@ -80,7 +80,7 @@ export class WebSocketService {
  
 
  public async stompWebsocketReceiver() {
-  console.log('web-socket.service.ts stompWebsocketReceiver');
+  //console.log('web-socket.service.ts stompWebsocketReceiver');
   // this.input = await jUser();
   // var iscom = (this.input.isCommunicator == true) ? 1 : 0;
   // this.subs.wsErr = stomp.subscribe('#error', (err: any) => this.error());
@@ -159,12 +159,12 @@ private stopPing() {
       url: rest.ws('ws', true),
       openObserver: {
         next: () => {
-          console.log('connexion ok');
+          //console.log('connexion ok');
         }
       },
       closeObserver: {
         next: () => {
-          console.log('disconnect ok');
+          //console.log('disconnect ok');
         }
       }
     });
@@ -176,7 +176,7 @@ private stopPing() {
       () => console.log('complete')
     );
     this.subject.subscribe((message:any) => console.log('message', message))
-    console.log('connect this.subject',  this.subject);
+    //console.log('connect this.subject',  this.subject);
   }
   public send(msg: string) {
     this.subject.next(msg);

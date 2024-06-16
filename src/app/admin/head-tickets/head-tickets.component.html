@@ -20,7 +20,8 @@
             <mat-tab class="tab-container">
                 <ng-template class="tab-label" mat-tab-label>
                     <span style="font-size: 20px;">Unassigned</span>
-                    <span class="mat-badge-icon" matBadge="1" matBadgeColor="accent"></span>
+                    <span class="mat-badge-icon" *ngIf="unassigend > 0 && unassigend <= 99" matBadge={{unassigend}} matBadgeColor="accent"></span>
+                    <span class="mat-badge-icon" *ngIf="unassigend > 99" matBadge="99+" matBadgeColor="accent"></span>
                 </ng-template>
                 <ng-template class="tab-content" matTabContent>
                     <div class="ticket-list-container">
@@ -51,7 +52,8 @@
             <mat-tab>
                 <ng-template mat-tab-label matBadgeColor="accent">
                     <span style="font-size: 20px;">Assigned</span>
-                    <span class="mat-badge-icon" matBadge="1" matBadgeColor="accent"></span>
+                    <span class="mat-badge-icon" *ngIf="assigned > 0 && assigned <= 99" matBadge={{assigned}} matBadgeColor="accent"></span>
+                    <span class="mat-badge-icon" *ngIf="assigned > 99" matBadge={{assigned}} matBadgeColor="accent"></span>
                 </ng-template>
                 <ng-template class="tab-content" matTabContent>
                     <div class="ticket-list-container">
@@ -82,7 +84,8 @@
             <mat-tab>
                 <ng-template mat-tab-label>
                     <span style="font-size: 20px;">All</span>
-                    <span class="mat-badge-icon" matBadge="1" matBadgeColor="accent"></span>
+                    <span class="mat-badge-icon" *ngIf="alltickets>0 && assigned <= 99" matBadge={{alltickets}} matBadgeColor="accent"></span>
+                    <span class="mat-badge-icon" *ngIf="alltickets > 99" matBadge="99+" matBadgeColor="accent"></span>
                 </ng-template>
                 <ng-template class="tab-content" matTabContent>
                     <div class="ticket-list-container">

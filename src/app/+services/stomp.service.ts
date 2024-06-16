@@ -20,7 +20,7 @@ export const stomp = (() => {
    
         
     const _ = service(rest.ws('ws', true));
-    console.log('Stomp');
+    //console.log('Stomp');
     const stomp = proxy(_, {
         ready: ready(),
         refresh: () => {

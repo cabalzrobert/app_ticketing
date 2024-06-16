@@ -41,7 +41,7 @@ export class NewticketmodalComponent implements OnInit {
   fileSize = '';
   uploadStatus: number | undefined;
   categoryname: String = '';
-  prioritylevelname:String = ''
+  prioritylevelname: String = ''
 
   form: FormGroup = this.fb.group({
     Category: ['', Validators.required],
@@ -60,7 +60,8 @@ export class NewticketmodalComponent implements OnInit {
   }
   createNewTicket(): void {
     if (!this.isValidEntries()) return;
-    this.performSaveTicket();
+    console.log('Create New Ticket', this.form.value);
+    //this.performSaveTicket();
   }
   GetCategoryList(item: any): Observable<any> {
 
@@ -113,13 +114,14 @@ export class NewticketmodalComponent implements OnInit {
     if (this.uploaded.length == 0)
       this.form.value.TicketAttachment = '';
     else if (this.uploaded.length > 0)
-      this.form.value.TicketAttachment = JSON.stringify(this.uploaded);
+      this.form.value.TicketAttachment = this.uploaded.map((m: any) => m.base64);
+    //this.form.value.TicketAttachment = JSON.stringify(this.uploaded);
     this.form.value.Categoryname = this.categoryname;
     this.form.value.PriorityLevelname = this.prioritylevelname;
     return true;
   }
 
-  
+
 
   hRemoveItem = (item: any, idx: number) => {
     console.log('hRemoveItem idx', idx);
@@ -163,6 +165,7 @@ export class NewticketmodalComponent implements OnInit {
       res.forEach((i: any) => this.selectedFiles1.push({ name: i.name, filesize: i.filesize, file: i.file, base64: i.base64, uploadstatus: i.uploadstatus, progress: i.progress, rownum: i.rownum }));
       console.log('Result selectedFiles1', this.selectedFiles1);
 
+
       return res;
     });
     return result;
@@ -173,7 +176,13 @@ export class NewticketmodalComponent implements OnInit {
 
     const result = new AsyncSubject<any[]>();
     console.log('onFileSelect', event);
-
+    var cntupload = this.uploaded.length + event.target.files.length;
+    if (cntupload > 5) {
+      alert("Only 5 files allow");
+      event.preventDefault();
+      event.value = "";
+      return event.value;
+    }
     let files = [].slice.call(event.target.files);
     this.files = files;
     this.onFileSelected1(files);

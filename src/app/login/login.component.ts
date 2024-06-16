@@ -49,10 +49,15 @@ export class LoginComponent implements OnInit {
         }
         else
           this.dbIsEmpty(false)
+      }, (err: any) => {
+        alert('System Error');
+        this.router.navigateByUrl('/headquarter');
       });
     } catch {
       //this.dbIsEmpty(false);
       //console.log('ERROR');
+      alert('System Error');
+      //this.zone.run(() => this.router.navigateByUrl('/headquarter'));
     }
 
 
@@ -79,7 +84,7 @@ export class LoginComponent implements OnInit {
   }
   sessionNotEmpty() {
     if (this.authService.session) {
-      //console.log('SessionNotEmpty', this.authService.session, this.router);
+      console.log('SessionNotEmpty', this.authService.session, this.router);
       this.zone.run(() => this.router.navigateByUrl('/dashboard'));
     }
     

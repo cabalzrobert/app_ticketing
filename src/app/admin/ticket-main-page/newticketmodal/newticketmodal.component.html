@@ -70,7 +70,7 @@
 
                 </label>
 
-                <input id="file" type="file" multiple="multiple" accept=".png, .jpg, .gif" name="file"
+                <input  *ngIf="uploaded.length < 5" id="file" type="file" multiple="multiple" accept=".png, .jpg, .gif" name="file"
                     (change)="onFileSelected($event)" />
 
                 <div class="result" *ngIf="uploaded.length" [style.display]="outputBoxVisible ? 'flex' : 'none'">

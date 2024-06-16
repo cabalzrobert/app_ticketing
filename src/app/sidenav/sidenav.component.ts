@@ -5,7 +5,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { AuthService } from '../auth.service';
 import { rest } from '../+services/services';
 import { timeout } from '../tools/plugins/delay';
-import { jUser, jUserModify, additionalNotification, notificationCount, getLastTransactionNumber, bindLastTransacationNumber, bindLastForwardTransactionNumber } from '../+app/user-module';
+import { jUser, jUserModify, additionalNotification, notificationCount, getLastTransactionNumber, bindLastTransacationNumber } from '../+app/user-module';
 import { device } from '../tools/plugins/device';
 import { LocalStorageService } from '../tools/plugins/localstorage';
 import { stomp } from '../+services/stomp.service';
@@ -96,14 +96,15 @@ export class SidenavComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     //this.webSocketService.token();
     //this.webSocketService.stompWebsocketReceiver();
-    console.log('sidenav component');
+    //console.log('sidenav component');
     //Object = {window};
     //this.navData = navbarData;
 
     //device.ready(() => this.stompWebsocketReceiver());
     //this.webSocketService.stompWebsocketReceiver();
     this.input = await jUser();
-    console.log('this.input 96', this.input);
+    //console.log('this.input 96', this.input);
+    //device.ready(async () => (await departmentnotificationCount)());
     device.ready(() => notificationCount());
     getLastTransactionNumber();
 
@@ -114,7 +115,7 @@ export class SidenavComponent implements OnInit {
     this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth });
     device.ready();
     //console.log('Device is isReady ', device.ready());
-    //console.log('Device is Browser ', device.isBrowser);
+    console.log('Device is Browser ', device.isBrowser);
     let auth: any = this.ls.getItem1('Auth');
     if (!!auth) {
       //console.log('auth is not empty', JSON.parse(auth));
@@ -125,7 +126,7 @@ export class SidenavComponent implements OnInit {
     //this.stompWebsocketReceiver();
 
     this.onWindowInitialize();
-    //console.log('This is input 235', this.input);
+    console.log('This is input 129', this.input);
 
   }
   onSendMessage() {
@@ -268,7 +269,7 @@ export class SidenavComponent implements OnInit {
     this.input = await jUser();
     var iscom = (this.input.isCommunicator == true) ? 1 : 0;
     var isdepthead = (this.input.isDeptartmentHead == true) ? 1 : 0;
-    console.log('stompWebsocketReceiver');
+    //console.log('stompWebsocketReceiver');
     this.subs.wsErr = stomp.subscribe('#error', (err: any) => this.error());
     this.subs.wsConnect = stomp.subscribe('#connect', () => this.connected());
     this.subs.wsDisconnect = stomp.subscribe('#disconnect', () => this.disconnect());
@@ -279,7 +280,7 @@ export class SidenavComponent implements OnInit {
     this.subs.ws1 = stomp.subscribe('/' + iscom + '/ticketrequest/iscommunicator', (json: any) => this.receivedRequestTicketCommunicator(json));
     this.subs.ws1 = stomp.subscribe('/forwardticket/depthead/' + isdepthead, (json:any) => this.receivedforwardedTicket(json));
     stomp.ready(() => (stomp.refresh(), stomp.connect()));
-    console.log('stompWebsocketReceiver 250 sidenav.components', this.subs);
+    //console.log('stompWebsocketReceiver 250 sidenav.components', this.subs);
   }
   receivedRequestTicketCommunicator(data: any) {
     //console.log('Received Ticket of Communicator Account', data);
@@ -324,8 +325,10 @@ export class SidenavComponent implements OnInit {
   receivedforwardedTicket(data:any){
     var content = data.content;
     this.ticketNo = content.ticketNo;
-    if(this.input.LastForwardTransactionNo = content.transactionNo) return;
-    bindLastForwardTransactionNumber(content.transactionNo);
+    if(this.input.LastForwardTransactionNo == content.transactionNo) return;
+    console.log('Department Head Count Side Nav 329', content);
+    //bindLastForwardTransactionNumber(content.transactionNo);
+    return this.input.DepartmentHeadNotificationCount;
 
   }
   private async refreshData() {

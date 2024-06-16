@@ -36,28 +36,27 @@
             <button class="hamburger" [matMenuTriggerFor]="menu" [hidden]="collapsed"><mat-icon>menu</mat-icon></button>
             <mat-menu #menu="matMenu" class="custom">
 
-                    <ul class="menu-nav1">
-                        <li class="menu-nav-item ">
-                            <button [ngClass]="unassigned == true ? 'menu-nav-button2' : 'menu-nav-button'"
-                                (click)="hPending()">Pending
-                                <span [ngClass]="pending == '0' ? '' : 'valueclasspending'"
-                                    [hidden]="pending == '0' ? true : false">{{pending}}</span></button>
-                        </li>
-                        <li class="menu-nav-item">
-                            <button [ngClass]="assigned == true ? 'menu-nav-button2' : 'menu-nav-button'"
-                                (click)="hResolved()">Resolved
-                                <span [ngClass]="resolve == '0' ? '' : 'valueclassresolved'"
-                                    [hidden]="resolve == '0' ? true : false">{{resolve}}</span>
-                            </button>
-                        </li>
-                        <li class="menu-nav-item">
-                            <button [ngClass]="all == true ? 'menu-nav-button2' : 'menu-nav-button'"
-                                (click)="hAll()">All
-                                <span [ngClass]="allticket == '0' ? '' : 'valueclassall'"
-                                    [hidden]="allticket == '0' ? true : false">{{allticket}}</span></button>
-                        </li>
-                    </ul>
-                
+                <ul class="menu-nav1">
+                    <li class="menu-nav-item ">
+                        <button [ngClass]="unassigned == true ? 'menu-nav-button2' : 'menu-nav-button'"
+                            (click)="hPending()">Pending
+                            <span [ngClass]="pending == '0' ? '' : 'valueclasspending'"
+                                [hidden]="pending == '0' ? true : false">{{pending}}</span></button>
+                    </li>
+                    <li class="menu-nav-item">
+                        <button [ngClass]="assigned == true ? 'menu-nav-button2' : 'menu-nav-button'"
+                            (click)="hResolved()">Resolved
+                            <span [ngClass]="resolve == '0' ? '' : 'valueclassresolved'"
+                                [hidden]="resolve == '0' ? true : false">{{resolve}}</span>
+                        </button>
+                    </li>
+                    <li class="menu-nav-item">
+                        <button [ngClass]="all == true ? 'menu-nav-button2' : 'menu-nav-button'" (click)="hAll()">All
+                            <span [ngClass]="allticket == '0' ? '' : 'valueclassall'"
+                                [hidden]="allticket == '0' ? true : false">{{allticket}}</span></button>
+                    </li>
+                </ul>
+
             </mat-menu>
             <div class="searchtab">
                 <div class="searchinput">
@@ -221,7 +220,13 @@
                                         <img src="assets/image/icon_blank_profile.png" alt="">
                                     </div>
                                     <div class="commentcard">
-                                        <div class="message">{{data.Message}}</div>
+                                        <div class="message" *ngIf="data.isMessage && !data.isImage">{{data.Message}}</div>
+                                        <div class="attachmFile" *ngIf="data.isImage">
+                                            <img *ngIf="data.ImageAttachment != ''" src={{data.ImageAttachment}} alt="">
+                                            <img *ngIf="data.ImageAttachment == ''"
+                                                src="assets/image/icon_blank_profile.png" alt="">
+                                        </div>
+
                                         <div class="commenter">
                                             <div>{{data.DisplayName}}</div>
                                             <label for="">{{data.CommentDate}}</label>
@@ -230,7 +235,12 @@
                                 </div>
                                 <div class="isyourcomment" *ngIf="data.IsYou && data.isMessage">
                                     <div class="yourcommentcard">
-                                        <div class="message">{{data.Message}}</div>
+                                        <div class="message" *ngIf="data.isMessage && !data.isImage">{{data.Message}}</div>
+                                        <div class="attachmFile" *ngIf="data.isImage">
+                                            <img *ngIf="data.ImageAttachment != ''" src={{data.ImageAttachment}} alt="">
+                                            <img *ngIf="data.ImageAttachment == ''"
+                                                src="assets/image/icon_blank_profile.png" alt="">
+                                        </div>
                                         <div class="commenter">
                                             <div>{{data.DisplayName}}</div>
                                             <label for="">{{data.CommentDate}}</label>
@@ -265,10 +275,33 @@
                         <div class="commentcontent" [formGroup]="commentform">
                             <textarea formControlName="Message" name="" id="" rows="4"
                                 placeholder="Write  your response for issue"></textarea>
+
+                                <div class="attachfile" *ngFor="let data of uploaded ">
+                                    <img src={{data.base64}}  alt="">
+                                </div>
+                            
                         </div>
                         <div class="buttoncomment">
-                            <button class="attachmentcomment"><span class="fa fa-paperclip"> Attachment</span>
-                            </button>
+
+                            <div class="attachmentcomment">
+
+                                <label for="file1">
+
+                                    <div class="fa fa-paperclip"></div>
+                                    <span>Attachment</span>
+
+                                </label>
+
+                                <input *ngIf="uploaded.length < 5" #fileInput id="file1" type="file" accept=".png, .jpg, .gif"
+                                    name="file" (change)="onFileSelected($event, fileInput)" />
+                                    
+                                <!-- <input type="file" #fileInput (change)="onFileSelectedComment($event,fileInput)"> -->
+
+                            </div>
+
+                            <!-- <button class="attachmentcomment"><span class="fa fa-paperclip"> Attachment</span>
+                                <input type="file" multiple="multiple" (change)="onFileSelected($event)">
+                            </button> -->
                             <button (click)="hSendComment()">Send</button>
                         </div>
                     </div>

@@ -24,13 +24,13 @@ export const jUser = (() => {
     //var ls:LocalStorageService;
     var jUser: any = {};
     //var Object1:any = window;
-    console.log('jUser ls', ls.getItem('UserAccount'));
+    //console.log('jUser ls', ls.getItem('UserAccount'));
     //const untilReady = whenReady((ready) => device.ready(async () => (Object.create(jUser, (await ls.getItem('user') || jUser)), ready())), true);
     //const untilReady = whenReady((ready) => device.ready(async () => (Object.rcopy(jUser, (await ls.getItem('user') || jUser)), ready())), true);
     const untilReady = whenReady((ready) => device.ready(async () => (Object.assign(jUser, JSON.parse((await ls.getItem('UserAccount') || jUser))), ready())), true);
     return async (user: any = null, isMerge: boolean = false) => {
         await untilReady();
-        console.log('jUser', user);
+        //console.log('jUser', user);
         if (!user) {
             //console.log('if(!user)', jUser);
             return jUser;
@@ -73,12 +73,12 @@ export const jUserModify = (() => {
 
 export const notificationCount=(()=>{ 
     const ready = whenReady((ready)=>rest.ready(()=>ready()));
-    console.log('Notification COunt', ready);
+    //console.log('Notification COunt', ready);
     var subscription:any;
     return async()=>{
         if(!await ready()) return;
         if(subscription) subscription.unsubscribe();
-        console.log('Notification COunt 81', ready);
+        //console.log('Notification COunt 81', ready);
         subscription = rest.post('notification/unseen').subscribe(async(res:any)=>{
             if(res.Status!='error'){
                 return additionalNotification(+res, true);
@@ -119,7 +119,25 @@ export const bindLastTransacationNumber=async(transactionnumber:string, isSet:bo
    else user.LastTransactionNo = transactionnumber;
    return await jUser(user,true);
 }
-
+/*
+export const departmentnotificationCount=(async ()=>{ 
+    const ready = whenReady((ready)=>rest.ready(()=>ready()));
+    //console.log('Notification COunt', ready);
+    var user = await jUser();
+    var subscription:any;
+    return async()=>{
+        if(!await ready()) return;
+        if(subscription) subscription.unsubscribe();
+        //console.log('Notification COunt 81', ready);
+        subscription = rest.post(`head/notification/unseen?departmentID=${user.DEPT_ID}`).subscribe(async(res:any)=>{
+            if(res.Status!='error'){
+                return additionalDepartmentHeadNotification(+res, true);
+            }
+        },(err:any) =>{
+            return additionalDepartmentHeadNotification(+0, true);
+        });
+   };
+})();
 export const additionalDepartmentHeadNotification=async(additional:number, isSet:boolean=false)=>{
     var user = await jUser();
     if(!user.DepartmentHeadNotificationCount) user.DepartmentHeadNotificationCount = 0;
@@ -145,8 +163,9 @@ export const getLastForwardTransactionNumber=(()=>{
 })();
 export const bindLastForwardTransactionNumber=async(LastForwardTransactionNo:string, isSet:boolean=false)=>{
    var user = await jUser();
-   if(!user.LastForwardTransactionNo) user.LastForwardTransactionNo = '';
-   if(isSet) user.LastForwardTransactionNo = LastForwardTransactionNo;
-   else user.LastForwardTransactionNo = LastForwardTransactionNo;
+   if(!user.LastForwardDeptTransactionNo) user.LastForwardDeptTransactionNo = '';
+   if(isSet) user.LastForwardDeptTransactionNo = LastForwardTransactionNo;
+   else user.LastForwardDeptTransactionNo = LastForwardTransactionNo;
    return await jUser(user,true);
 }
+   */

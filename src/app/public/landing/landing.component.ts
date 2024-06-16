@@ -38,13 +38,13 @@ export class LandingComponent implements OnInit {
   ngOnInit(): void {
     Object.values(this.subs).map((m: any) => m.unsubscribe());
     device.ready(() => this.performCheckDB());
-    console.log('Landing Components 41');
+    //console.log('Landing Components 41');
     //setTimeout(() => this.performCheckDB(), 750);
     //this.dbIsEmpty(false);
   }
   dbIsEmpty(_isEmpty: boolean) {
     if (_isEmpty == true) {
-      console.log('dbIsEmpty', _isEmpty)
+      //console.log('dbIsEmpty', _isEmpty)
       this.router.navigateByUrl('/login');
     }
     else {
@@ -53,7 +53,7 @@ export class LandingComponent implements OnInit {
   }
   sessionNotEmpty(): boolean {
     if (this.authService.session) return true;
-    console.log('sesseionNotEmpty landing.component.ts line 54');
+    //console.log('sesseionNotEmpty landing.component.ts line 54');
     return false;
   }
   private async checkDevice() { }
@@ -72,7 +72,10 @@ export class LandingComponent implements OnInit {
       }
       else
         this.dbIsEmpty(false)
-    })
+    }, (err: any) => {
+      alert('System Error');
+      this.router.navigateByUrl('/headquarter');
+    });
 
 
     // this.apiservice.loadSubscriberList('dashboardticketing',{}).subscribe(async(res:any) => {
@@ -89,7 +92,7 @@ export class LandingComponent implements OnInit {
   SaveHeadOffice() {
     console.log('Your Click Save Button Head Office');
     if (!this.isValidateEntries()) return;
-    console.log('SaveHeadOffice this.form.value', this.form.value);
+    //console.log('SaveHeadOffice this.form.value', this.form.value);
     setTimeout(() => this.performSubmit(), 750);
   }
   private performSubmit() {

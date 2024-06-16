@@ -101,6 +101,7 @@ export class NewusermodalComponent implements OnInit {
   @ViewChild('singleSelect') singleSelect: MatSelect | undefined;
   ngOnInit(): void {
     this.form.patchValue(this.UserAccount.item);
+    this.base64 = this.form.value.ProfilePicture;
     //this.form.value.isComm = this.form.value.isCommunicator;
     //this.form.value.isDeptartment = this.form.value.isDeptartmentHead;
     //this.form.value.isDepartment = this.form.value.isDeptartmentHead;
@@ -252,7 +253,6 @@ export class NewusermodalComponent implements OnInit {
 
   onFileSelected(event: any, input: HTMLInputElement): Observable<any> {
     //console.log('onFileSelected input', input.files);
-    this.base64
 
     const result = new AsyncSubject<any[]>();
     //console.log('onFileSelect', event);

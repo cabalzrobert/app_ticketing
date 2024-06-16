@@ -1,16 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { ApiserviceService } from '../+services/service.api';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { isEmail } from '../tools/global';
 import { rest } from '../+services/services';
+import { device } from '../tools/plugins/device';
 
 @Component({
   selector: 'app-headquarter',
   templateUrl: './headquarter.component.html',
   styleUrl: './headquarter.component.scss'
 })
-export class HeadquarterComponent {
+export class HeadquarterComponent implements OnInit {
   form: FormGroup = this.fb.group({
     HeadOfficeName: ['', Validators.required],
     HeadOfficeAddress: ['', Validators.required],
@@ -24,7 +25,70 @@ export class HeadquarterComponent {
     MobileNumber: ['', Validators.required],
     EmailAddress: ['', Validators.required]
   });
-  constructor(private apiservice: ApiserviceService, public router: Router, public fb: FormBuilder) { }
+  constructor(private apiservice: ApiserviceService, public router: Router, public fb: FormBuilder, private zone:NgZone) { }
+  ngOnInit(): void {
+    device.ready(() => this.performCheckDB());
+  }
+  private performCheckDB() {
+    //console.log('performCheckDB');
+    try {
+      rest.post('dashboardticketing', {}).subscribe(async (res: any) => {
+        //console.log('performCheckDB', res);
+        //console.log('performCheckDB device.isBrowser', device.isBrowser);
+        if (res.Result == 'ok') {
+          //console.log('Session', localStorage.getItem('Auth'));
+          //
+          if (this.sessionNotEmpty1()) {
+            let strUrl = window.location.href + '';
+            console.log('Windows.Location', strUrl);
+            //window.location.href = strUrl;
+            //this.zone.run(() => this.router.navigateByUrl('/dashboard'));
+            this.zone.run(() => window.location.reload());
+            //window.open(strUrl);
+          }
+          else
+            this.dbIsEmpty(true);
+        }
+        else
+          this.dbIsEmpty(false)
+      }, (err: any) => {
+        this.router.navigateByUrl('/headquarter');
+      });
+    } catch {
+      //this.dbIsEmpty(false);
+      //console.log('ERROR');
+      //alert('System Error');
+      //this.zone.run(() => this.router.navigateByUrl('/headquarter'));
+    }
+
+
+
+    // this.apiservice.loadSubscriberList('dashboardticketing',{}).subscribe(async(res:any) => {
+    //   console.log('performCheckDB res', res);
+    // });
+
+    /*
+    this.apiservice.loadSubscriberList('dashboardsignin02',{Username: 'Brgy. Lahug', password: 'RXNhdEAxMjM0NTY='}).subscribe(async(res:any) => {
+      console.log('performCheckDB res', res);
+    });
+    */
+
+  }
+  sessionNotEmpty1(): boolean {
+    //console.log('sessionNotEmpty this.authService.session', this.authService.session);
+    //if (this.authService.session) return true;
+    //console.log('sesseionNotEmpty landing.component.ts line 54');
+    return false;
+  }
+  dbIsEmpty(_isEmpty: boolean) {
+    if (_isEmpty == true) {
+      console.log('dbIsEmpty', !_isEmpty)
+      this.zone.run(() => this.router.navigateByUrl('/login'));
+    }
+    else {
+      this.zone.run(() => this.router.navigateByUrl('/headquarter'));
+    }
+  }
   SaveHeadOffice() {
     console.log('Your Click Save Button Head Office');
     if (!this.isValidateEntries()) return;
