@@ -1,0 +1,61 @@
+.mat-dialog-header{
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    background: #fff;
+    border-bottom: 1px solid rgba(#000,0.1);
+    h3{
+        color: #4845D2;
+    }
+    mat-icon{
+        cursor: pointer;
+    }
+    .title-confirm{
+        color: unset;
+    }
+    .title-success{
+        color: green;
+    }
+    .title-fail{
+        color: red;
+    }
+}
+
+.dialog-content{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 20px;
+    // h3{
+    //     padding: 20px 25px 0px 25px;
+    //     font-weight: 500;
+    // }
+    .message{
+        padding-inline: 34px;
+        text-align: center;
+    }
+}
+
+.footer{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 0px 16px;
+    gap: 10px;
+    button{
+        width: 100%;
+        border-radius: 8px;
+    }
+    .btn-close{
+        color: #4845D2;
+    }
+    .btn-confirm{
+        color: #000;
+        background: #E99700;
+    }
+}
+
+mat-dialog-content{
+    --mat-dialog-content-padding: 24px 8px;
+}

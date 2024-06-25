@@ -1,0 +1,250 @@
+<mat-dialog-content class="profile-dialog-content">
+    <div class="side-content">
+        <div class="prof-img-container">
+            <div class="img">
+                <img [src]="userDetail.PRF_PIC" *ngIf="userDetail.PRF_PIC">
+            </div>
+        </div>
+        <span class="about-you-panel"><p>About You</p></span>
+        <div [ngClass]="selectedIndex===0?'items active':'items'" (click)="select(0)">
+            <span>Basic Info</span>
+            <mat-icon>chevron_right</mat-icon>
+        </div>
+        <div [ngClass]="selectedIndex===1?'items active':'items'" (click)="select(1)">
+            <span>Personal Details</span>
+            <mat-icon>chevron_right</mat-icon>
+        </div>
+        <div [ngClass]="selectedIndex===2?'items active':'items'" (click)="select(2)">
+            <span>Password</span>
+            <mat-icon>chevron_right</mat-icon>
+        </div>
+    </div>
+    <div class="detail-content">
+        <div class="basic-info-content" *ngIf="selectedIndex===0">
+            <div class="prof-img-container">
+                <div class="img">
+                    <img [src]="userDetail.PRF_PIC" *ngIf="userDetail.PRF_PIC">
+                </div>
+            </div>
+            <div class="role">
+                <span [ngClass]="userDetail.isDeptartmentHead?'dh':userDetail.isCommunicator?'com':''">{{userDetail.isDeptartmentHead?'Department Head':userDetail.isCommunicator?'Communicator':'User'}}</span>
+            </div>
+            <br/>
+            <div class="display-info" [formGroup]="formBasic">
+                <div class="detail">
+                    <span>{{update.mobileNumber&&isOtpSuccess?'New Number':'Mobile Number'}}</span>
+                    <div class="data">
+                        @if(update.mobileNumber&&isOtpSuccess){
+                            <input class='border-visible' type="text" matInput formControlName="mobileNumber">
+                        }@else{
+                            <span>{{userDetail.MOB_NO}}</span>
+                        }
+                        <mat-icon class="update-icon" (click)="updateMobileNumber()" *ngIf="!isOtpSuccess">edit_square</mat-icon>
+                    </div>
+                </div>
+                <div class="otp-submition" *ngIf="update.mobileNumber&&!isOtpSuccess">
+                    <p class="error-msg" *ngIf="otpMessage">{{otpMessage}}</p>
+                    <div class="otp-container">
+                        <ng-otp-input
+                            [config]="config"
+                            (onInputChange)="onOtpChange($event)"
+                        ></ng-otp-input>
+                        <button mat-button class="btn-submit" (click)="onSubmit()">
+                            Submit
+                        </button>
+                    </div>
+                    <span class="resend" (click)="resendCode()">Resend Code {{_timer===0?'':'('+_timer+'s)'}}</span>
+                </div>
+                <div class="button-confirmation" *ngIf="update.mobileNumber&&isOtpSuccess">
+                    <button class="btn-close" mat-button (click)="cancelUpdateMobileNumber()">
+                        Cancel
+                    </button>
+                    <button class="btn-confirm" mat-button (click)="confirmUpdateMobileNumber()">
+                        Confirm
+                    </button>
+                </div>
+                <div class="detail">
+                    <span>Display Name</span>
+                    <div class="data">
+                        @if(update.displayName){
+                            <input class="border-visible" type="text" matInput formControlName="displayName">
+                        }@else{
+                            <span>{{userDetail.NCK_NM}}</span>
+                        }
+                        <mat-icon class="update-icon" (click)="updateDisplayName()" *ngIf="!update.displayName">edit_square</mat-icon>
+                    </div>
+                </div>
+                <div class="button-confirmation" *ngIf="update.displayName">
+                    <button class="btn-close" mat-button (click)="cancelUpdateDisplayName()">
+                        Cancel
+                    </button>
+                    <button class="btn-confirm" mat-button (click)="confirmUpdateDisplayName()">
+                        Confirm
+                    </button>
+                </div>
+                <br/>
+                <div class="detail">
+                    <span>Department</span>
+                    <div class="data">
+                        <span>{{userDetail.Department}}</span>
+                        <!-- <mat-icon class="update-icon">edit_square</mat-icon> -->
+                    </div>
+                </div>
+                <div class="detail">
+                    <span>Membership</span>
+                    <div class="data">
+                        <span>{{userDetail.Membership}}</span>
+                        <!-- <mat-icon class="update-icon">edit_square</mat-icon> -->
+                    </div>
+                </div>
+                <div class="detail">
+                    <span>Position</span>
+                    <div class="data">
+                        <span>{{userDetail.Position}}</span>
+                        <!-- <mat-icon class="update-icon">edit_square</mat-icon> -->
+                    </div>
+                </div>
+                <div class="detail">
+                    <span>Added on</span>
+                    <div class="data">
+                        <span>{{formattedDate(userDetail.DateRegistered)}}</span>
+                        <!-- <mat-icon class="update-icon">edit_square</mat-icon> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="personal-detail-content" [formGroup]="formPersonal" *ngIf="selectedIndex===1">
+            <div class="name-container">
+                <div class="custom-detail">
+                    <div><span>First Name</span></div>
+                    <div>
+                        <input [ngClass]="isUpdate?'':'input-disabled'" type="text" placeholder="First Name" formControlName="firstName">
+                    </div>
+                </div>  
+                <div class="custom-detail">
+                    <div><span>Middle Name</span></div>
+                    <div>
+                        <input [ngClass]="isUpdate?'':'input-disabled'" type="text" placeholder="Middle Name" formControlName="middleName">
+                    </div>
+                </div>
+                <div class="custom-detail">
+                    <div><span>Last Name</span></div>
+                    <div>
+                        <input [ngClass]="isUpdate?'':'input-disabled'" type="text" placeholder="Last Name" formControlName="lastName">
+                    </div>
+                </div>
+            </div>
+            <div class="gender-container">
+                <span>Gender</span>
+                <mat-radio-group class="gender-radio-group" formControlName="gender">
+                    <mat-radio-button value="m" >Male</mat-radio-button>
+                    <mat-radio-button value="f">Female</mat-radio-button>
+                </mat-radio-group>
+            </div>
+            <div class="custom-detail">
+                <div>
+                    <span>Birthday</span>
+                </div>
+                <div class="custom-datepicker">
+                    <input [ngClass]="isUpdate?'':'input-disabled'" matInput [matDatepicker]="picker" [matDatepickerFilter]="filterDates" formControlName="birthday">
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </div>
+            </div>
+            <div class="custom-detail">
+                <div><span>Address</span></div>
+                <div>
+                    <input [ngClass]="isUpdate?'':'input-disabled'" type="text" placeholder="Strt. Brgy, Municipality, Province" formControlName="address">
+                </div>
+            </div>
+            <div class="button-container">
+                <button class="btn-update" mat-flat-button (click)="willUpdate()" *ngIf="!isUpdate">
+                    <mat-icon>edit_square</mat-icon>
+                    Update
+                </button>
+                <button class="btn-cancel" mat-flat-button (click)="onCancel()" *ngIf="isUpdate">
+                    Cancel
+                </button>
+                <button class="btn-update onUpdate" mat-flat-button (click)="onUpdate()" *ngIf="isUpdate">
+                    Update
+                </button>
+            </div>
+        </div>
+        <div class="password-container" [formGroup]="formPassword" *ngIf="selectedIndex===2">
+            <div class="will-set-password" *ngIf="!isChangePassword">
+                <button class="change-password" mat-button (click)="willChangePassword()">
+                    Change Password
+                </button>
+                <div class="message">
+                    <span>Password last changed on {{lastPasswordUpdate}}</span>
+                </div>
+            </div>
+            <div class="otp-submition" *ngIf="isChangePassword&&!isOtpSuccess">
+                <h2>OTP Sent</h2>
+                <p class="error-msg" *ngIf="otpMessage">{{otpMessage}}</p>
+                <div class="otp-container">
+                    <ng-otp-input
+                        [config]="config"
+                        (onInputChange)="onOtpChange($event)"
+                    ></ng-otp-input>
+                    <button mat-button class="btn-submit" (click)="onSubmit()">
+                        Submit
+                    </button>
+                </div>
+                <span class="resend" (click)="resendCode()">Resend Code {{_timer===0?'':'('+_timer+'s)'}}</span>
+            </div>
+            <div class="on-set-password" *ngIf="isOtpSuccess">
+                <h3>Set New Password</h3>
+                <div class="password-panel">
+                    <span class="label">Password</span>
+                    <div class="custom-input">
+                        <input class="password" [type]="showPassword?'text':'password'" matInput formControlName="newPassword" (input)="onChangePassword($event)">
+                        <mat-icon class="icon-suffix" (click)="showPassword=!showPassword">{{!showPassword?'visibility_off':'visibility'}}</mat-icon>
+                    </div>
+                </div>
+                <div class="validation-container" *ngIf="!isValidPassword">
+                    <div class="sub-validation-container">
+                        <div class="case-container">
+                            <mat-icon [color]="validation.lowercase?'primary':'warn'">{{validation.lowercase?'check':'close'}}</mat-icon>
+                            <mat-label [style]="validation.lowercase?'color:green':'color:red'">A lowercase letter</mat-label>
+                        </div>
+                        <div class="case-container">
+                            <mat-icon [color]="validation.uppercase?'primary':'warn'">{{validation.uppercase?'check':'close'}}</mat-icon>
+                            <mat-label [style]="validation.uppercase?'color:green':'color:red'">A capital (uppercase) letter</mat-label>
+                        </div>
+                        <div class="case-container">
+                            <mat-icon [color]="validation.number?'primary':'warn'">{{validation.number?'check':'close'}}</mat-icon>
+                            <mat-label [style]="validation.number?'color:green':'color:red'">A number</mat-label>
+                        </div>
+                        <div class="case-container">
+                            <mat-icon [color]="validation.specialChar?'primary':'warn'">{{validation.specialChar?'check':'close'}}</mat-icon>
+                            <mat-label [style]="validation.specialChar?'color:green':'color:red'">A special character</mat-label>
+                        </div>
+                        <div class="case-container">
+                            <mat-icon [color]="validation.length?'primary':'warn'">{{validation.length?'check':'close'}}</mat-icon>
+                            <mat-label [style]="validation.length?'color:green':'color:red'">Minimum of 6 characters</mat-label>
+                        </div>
+                    </div>
+                </div>
+                <div class="password-panel confirm-password">
+                    <span class="label">Confirm Password</span>
+                    <div class="custom-input">
+                        <input class="password" [type]="showConfirmPassword?'text':'password'" matInput formControlName="confirmPassword">
+                        <mat-icon class="icon-suffix" (click)="showConfirmPassword=!showConfirmPassword">{{!showConfirmPassword?'visibility_off':'visibility'}}</mat-icon>
+                    </div>
+                </div>
+                <div class="msg-error-container">
+                    <mat-label *ngIf="!validation?.passwordMatch">Password doesn't match</mat-label>
+                </div>
+                <div class="button-container">
+                    <button class="btn-cancel" mat-button (click)="onCancelChangePassword()">
+                        Cancel
+                    </button>
+                    <button class="btn-confirm" mat-button (click)="onConfirmChangePassword()">
+                        Confirm
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>

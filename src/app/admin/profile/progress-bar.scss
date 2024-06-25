@@ -1,0 +1,17 @@
+.message-box-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+}
+
+.progress-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    .spinner{
+        max-height: 50px;
+        max-width: 50px;
+    }
+}

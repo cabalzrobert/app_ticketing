@@ -95,6 +95,9 @@
                         border-radius: 50px;
                     }
                 }
+                .profpic:hover{
+                    cursor: pointer;
+                }
             }
 
             .userinfo {
@@ -147,6 +150,9 @@
                         width: 60px;
                         border-radius: 50px;
                     }
+                }
+                .profpic:hover{
+                    cursor: pointer;
                 }
             }
 
@@ -259,6 +265,12 @@
             color: red;
         }
     }
+}
+
+.profile{
+    font-size: 20px;
+    padding-inline-start: 0px;
+    width: 32.5px;
 }
 
 .active {

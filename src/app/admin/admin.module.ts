@@ -39,7 +39,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-import { MatRippleModule } from '@angular/material/core';
+import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -50,10 +50,18 @@ import { CommunicatorTicketModule } from './communicator-ticket/communicator-tic
 import { TicketComponent } from './communicator-ticket/ticket/ticket.component';
 import { HeadTicketsModule } from './head-tickets/head-tickets.module';
 import { HeadTicketsComponent } from './head-tickets/head-tickets.component';
+
+import { MessageDialog, ProfileComponent, ProgressBar } from './profile/profile.component';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import { NgOtpInputModule } from 'ng-otp-input';
+
 import { TicketProgressModalComponent } from './modalpage/ticket-progress-modal/ticket-progress-modal.component';
 import { SubmitModalComponent } from './modalpage/submit-modal/submit-modal.component';
 import { AlertSuccessModalComponent } from './modalpage/alert-success-modal/alert-success-modal.component';
 import { ViewAttachImageModalComponent } from './modalpage/view-attach-image-modal/view-attach-image-modal.component';
+
 //import { SettingsdepartmentComponent } from './setting-main-page/settingsdepartment/settingsdepartment.component';
 //import { BrowserModule } from '@angular/platform-browser';
 
@@ -82,10 +90,16 @@ import { ViewAttachImageModalComponent } from './modalpage/view-attach-image-mod
     ViewRolesModalComponent,
     CommunicatorTicketComponent,
     HeadTicketsComponent,
+
+    ProfileComponent,
+    MessageDialog,
+    ProgressBar
+
     TicketProgressModalComponent,
     SubmitModalComponent,
     AlertSuccessModalComponent,
     ViewAttachImageModalComponent
+
     // TicketComponent
   ],
   imports: [
@@ -112,7 +126,12 @@ import { ViewAttachImageModalComponent } from './modalpage/view-attach-image-mod
     MatProgressSpinnerModule,
     FormsModule,
     CommunicatorTicketModule,
-    HeadTicketsModule
+    HeadTicketsModule,
+    MatRadioModule,
+    MatDatepickerModule,
+    MatInputModule,
+    MatNativeDateModule,
+    NgOtpInputModule
     //SidenavComponent
     
   ],

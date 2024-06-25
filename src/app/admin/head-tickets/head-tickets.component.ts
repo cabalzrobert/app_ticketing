@@ -82,7 +82,7 @@ export class HeadTicketsComponent {
 
     this.userDetail = await jUser();
 
-    this.onTabChange(0);
+    // this.onTabChange(0);
     //this.getDepartmentTicketCount();
     device.ready(() => this.stompWebsocketReceiver());
   }
@@ -194,6 +194,28 @@ export class HeadTicketsComponent {
 
   }
 
+
+  // onTabChange(val: any) {
+  //   this.searchValue = null;
+  //   this.tab = val;
+
+  //   console.log('onTabChange this.userDetail', this.userDetail);
+
+  //   rest.post(`head/tickets?id=${this.userDetail.DEPT_ID}&tab=${val}`).subscribe((res: any) => {
+  //     if (res != null) {
+  //       console.log(res);
+  //       this.collections = res;
+  //       this.backupCollections = res;
+  //       // this.collections.forEach((e: any) => {
+  //       //   e.dateCreated = moment(e.dateCreated).format('DD MMM yyyy');
+  //       // });
+  //       return;
+  //     }
+  //     alert('Failed');
+  //   }, (err: any) => {
+  //     alert('System Error');
+  //   })
+
   onTabChange(val: any) {
     this.searchValue = null;
     this.tab = val;
@@ -215,8 +237,9 @@ export class HeadTicketsComponent {
       // }, (err: any) => {
       //   alert('System Error');
       // })
+
     
-  }
+  // }
 
   async nextBatch(tab: any) {
     this.loader = true;
