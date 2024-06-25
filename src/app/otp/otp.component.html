@@ -19,7 +19,7 @@
         </div>
         <div class="input-container">
             <span class="prefix">+63</span>
-            <input class="input-username" formControlName="mobileNumber" [maxLength]="10"  type="text" (keydown.enter)="onSendingOtp($event)" [readonly]="generatedOtp">
+            <input class="input-username" formControlName="mobileNumber" [maxLength]="10"  type="text" (change)="onSendingOtp($event)" (keydown.enter)="onSendingOtp($event)" [readonly]="generatedOtp">
         </div>
     </div>
 </form>

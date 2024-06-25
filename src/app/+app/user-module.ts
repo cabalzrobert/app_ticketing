@@ -97,6 +97,33 @@ export const additionalNotification=async(additional:number, isSet:boolean=false
    return await jUser(user,true);
 }
 
+
+export const requestnotificationCount=(()=>{ 
+    const ready = whenReady((ready)=>rest.ready(()=>ready()));
+    //console.log('Notification COunt', ready);
+    var subscription:any;
+    return async()=>{
+        if(!await ready()) return;
+        if(subscription) subscription.unsubscribe();
+        //console.log('Notification COunt 81', ready);
+        subscription = rest.post('ticketnotification/unseen').subscribe(async(res:any)=>{
+            if(res.Status!='error'){
+                return additionalRequestNotification(+res, true);
+            }
+        },(err:any) =>{
+            return additionalRequestNotification(+0, true);
+        });
+   };
+})();
+export const additionalRequestNotification=async(additional:number, isSet:boolean=false)=>{
+   var user = await jUser();
+   if(!user.RequestNotificationCount) user.RequestNotificationCount = 0;
+   if(isSet) user.RequestNotificationCount = additional;
+   else user.RequestNotificationCount += additional;
+   //console.log('additionalNotification user', user);
+   return await jUser(user,true);
+}
+
 export const getLastTransactionNumber=(()=>{ 
     const ready = whenReady((ready)=>rest.ready(()=>ready()));
     var subscription:any;
@@ -119,6 +146,14 @@ export const bindLastTransacationNumber=async(transactionnumber:string, isSet:bo
    else user.LastTransactionNo = transactionnumber;
    return await jUser(user,true);
 }
+
+export const bindLastNotificationID=async(notificationid:string, isSet:boolean=false)=>{
+    var user = await jUser();
+    if(!user.LastNotificationID) user.LastTransaLastNotificationIDctionNo = '';
+    if(isSet) user.LastNotificationID = notificationid;
+    else user.LastNotificationID = notificationid;
+    return await jUser(user,true);
+ }
 /*
 export const departmentnotificationCount=(async ()=>{ 
     const ready = whenReady((ready)=>rest.ready(()=>ready()));

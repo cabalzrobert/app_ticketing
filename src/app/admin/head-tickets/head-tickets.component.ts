@@ -42,6 +42,7 @@ export class HeadTicketsComponent {
   @ViewChild('stepper') stepper!: MatStepper;
   @ViewChild(CdkVirtualScrollViewport) virtualScroll!: CdkVirtualScrollViewport;
 
+  loader = true;
   height = 'height: calc(100% - 100px)';
   isTicketContentShow = false;
   batch = 0;
@@ -198,7 +199,7 @@ export class HeadTicketsComponent {
     this.tab = val;
 
     console.log('onTabChange this.userDetail', this.userDetail);
-    rest.post(`head/tickets?id=${this.userDetail.DEPT_ID}&tab=${val}`).subscribe((res: any) => { });
+    rest.post(`head/tickets?id=${this.userDetail.DEPT_ID}&tab=${val}`).subscribe((res: any) => {this.loader = false; });
 
       // rest.post(`head/tickets?id=${this.userDetail.DEPT_ID}&tab=${val}`).subscribe((res: any) => {
       //   if (res != null) {
@@ -218,7 +219,7 @@ export class HeadTicketsComponent {
   }
 
   async nextBatch(tab: any) {
-
+    this.loader = true;
     console.log(`new batch ${tab}`);
     console.log(`tab ${this.tab} = val.tab ${tab}`);
     let end = 0;
@@ -281,10 +282,14 @@ export class HeadTicketsComponent {
         if (res.length > 0)
           this.collections = this.collections.concat(res);
         console.log('collections batch = ', this.batch, this.collections);
+        this.loader = false;
         return;
       }
-      else
+      else{
+        this.loader = false;
         alert('Failed');
+      }
+        
     }, (err: any) => {
       alert('System Error');
     })

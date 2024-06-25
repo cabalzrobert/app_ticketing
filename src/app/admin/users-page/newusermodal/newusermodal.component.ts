@@ -3,14 +3,16 @@ import { DatePipe } from '@angular/common';
 import { GeneralService } from '../../../shared/services/general.service';
 import { AuthService } from '../../../auth.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { AsyncSubject, Observable, Subject, takeUntil } from 'rxjs';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { AsyncSubject, Observable, Subject, filter, takeUntil } from 'rxjs';
 import { rest } from '../../../+services/services';
 import { MatSelectSearchVersion } from 'ngx-mat-select-search';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { faL } from '@fortawesome/free-solid-svg-icons';
 import { isMobileNo } from '../../../tools/global';
 import { MatOptionSelectionChange } from '@angular/material/core';
+import { SubmitModalComponent } from '../../modalpage/submit-modal/submit-modal.component';
+import { AlertSuccessModalComponent } from '../../modalpage/alert-success-modal/alert-success-modal.component';
 
 @Component({
   selector: 'app-newusermodal',
@@ -39,7 +41,7 @@ export class NewusermodalComponent implements OnInit {
     //   text: $event.source.triggerValue
     // };
     // console.log('Selected Department $event', this.selectedData);
-     //console.log('Selected Department $event', this.form.value.Department);
+    //console.log('Selected Department $event', this.form.value.Department);
   }
   //today:Date | undefined;
 
@@ -63,12 +65,12 @@ export class NewusermodalComponent implements OnInit {
     ProfilePicture: '',
     LastSeen: '',
     isCommunicator: 0,
-    isDeptartmentHead:0,
+    isDepartmentHead: 0,
     //isComm:false,
     //isDeptartment: false
   });
 
-  constructor(@Inject(MAT_DIALOG_DATA) public UserAccount: { item: any, Title: String }, private authService: AuthService, private fb: FormBuilder, public dialogRef: MatDialogRef<NewusermodalComponent>, private _cdr: ChangeDetectorRef) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public UserAccount: { item: any, Title: String }, private authService: AuthService, private fb: FormBuilder, public dialog: MatDialog, public dialogRef: MatDialogRef<NewusermodalComponent>, private _cdr: ChangeDetectorRef) { }
 
   departmentlist: any = [];
   positionlist: any = [];
@@ -84,13 +86,15 @@ export class NewusermodalComponent implements OnInit {
   uploaded: any = [];
   fileSize = '';
   uploadStatus: number | undefined;
-  departmentname:string = '';
-  rolename:string = ''
-  positionname:string = ''
-  gendername:string = '';
-  
+  departmentname: string = '';
+  rolename: string = ''
+  positionname: string = ''
+  gendername: string = '';
+
   iscommunicator: boolean = false;
   isdepthead: boolean = false;
+  _isdepthead: number = 0;
+  _iscommunicator: number = 0;
   private _state: any = {};
   setState(item: any) {
     for (const key of Object.keys(item)) {
@@ -103,12 +107,12 @@ export class NewusermodalComponent implements OnInit {
     this.form.patchValue(this.UserAccount.item);
     this.base64 = this.form.value.ProfilePicture;
     //this.form.value.isComm = this.form.value.isCommunicator;
-    //this.form.value.isDeptartment = this.form.value.isDeptartmentHead;
-    //this.form.value.isDepartment = this.form.value.isDeptartmentHead;
+    //this.form.value.isDeptartment = this.form.value.isDepartmentHead;
+    //this.form.value.isDepartment = this.form.value.isDepartmentHead;
     this.iscommunicator = (this.form.value.isCommunicator == 1) ? true : false;
-    this.isdepthead = (this.form.value.isDeptartmentHead == 1) ? true : false;
+    this.isdepthead = (this.form.value.isDepartmentHead == 1) ? true : false;
     //this.form.value.isComm = (this.form.value.isCommunicator == 1) ? true : false;
-    //this.form.value.isDeptartment = (this.form.value.isDeptartmentHead == 1) ? true : false;
+    //this.form.value.isDeptartment = (this.form.value.isDepartmentHead == 1) ? true : false;
     console.log('Checked ', this.iscommunicator, this.isdepthead);
     console.log('ngOnit newusermodal this.form', this.form.value);
 
@@ -122,23 +126,39 @@ export class NewusermodalComponent implements OnInit {
     this.form.value.ProfilePicture = this.base64;
     this.dialogRef.close();
   }
-  onChangeCommunitcator(event:any):void{
+  onChangeCommunitcator(event: any): void {
     console.log('onClick event.checked ' + event.checked);
     //this.form.value.isDepartment = this.isdepthead;
-    this.form.value.isCommunicator =  (event.checked) ? 1 : 0;
+    this.form.value.isCommunicator = (event.checked) ? 1 : 0;
+    this._iscommunicator = (event.checked) ? 1 : 0;
     console.log('onClick this.form.value.isCommunicator ', this.form.value);
   }
-  onChangeDeptHead(event:any):void{
+  onChangeDeptHead(event: any): void {
     console.log('onClick event.checked ' + event.checked);
-    this.form.value.isDeptartmentHead =  (event.checked) ? 1 : 0;
+    this.form.value.isDepartmentHead = (event.checked) ? 1 : 0;
+    this._isdepthead = (event.checked) ? 1 : 0;
     console.log('onClick event.checked ' + event.checked);
-    console.log('onClick this.form.value.isDeptartmentHead ', this.form.value);
+    console.log('onClick this.form.value.isDepartmentHead ', this.form.value, this._isdepthead);
   }
+  submitDialogRef?: MatDialogRef<SubmitModalComponent>;
+  successDialogRef?: MatDialogRef<AlertSuccessModalComponent>;
   CreatedialogNewUser(): void {
     this.form.value.ProfilePicture = this.base64;
     //console.log('ClosedDialogNewUser', this.form.value);
     if (!this.isValidateEntries()) return;
-    setTimeout(() => this.performSaveUserAccount(), 750);
+    //console.log('ClosedDialogNewUser', this.form.value);
+
+    
+    this.submitDialogRef = this.dialog.open(SubmitModalComponent, { data: { item: { Header: this.UserAccount.Title, Message: 'Are you sure you want to submit new user account.' } } });
+    this.submitDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
+      if (o.item.isConfirm) {
+        setTimeout(() => this.performSaveUserAccount(), 750);
+        return;
+      }
+      console.log('Close Ticket Progress', o.item);
+    });
+    // setTimeout(() => this.performSaveUserAccount(), 750);
+    
   }
   performSaveUserAccount() {
     rest.post('useraccount/save', this.form.value).subscribe(async (res: any) => {
@@ -146,9 +166,31 @@ export class NewusermodalComponent implements OnInit {
         this.form.value.UserAccountID = res.Content.UserAccountID
         this.form.value.MobileNumber = res.Content.MobileNumber;
         this.form.value.Name = res.Content.Name;
-        alert(res.Message);
-        this.dialogRef.close(this.form.value);
+        this.successDialogRef = this.dialog.open(AlertSuccessModalComponent, { data: { item: { Icon: 'fa fa-solid fa-check', Message: res.Message, ButtonText: 'Success', isConfirm: true } } });
+        this.successDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
+          if (o.item.isConfirm) {
+            this.dialogRef.close(this.form.value);
+            return;
+          }
+        });
+        //alert(res.Message);
+        //this.dialogRef.close(this.form.value);
       }
+      else if (res.Status == 'error') {
+        this.successDialogRef = this.dialog.open(AlertSuccessModalComponent, { data: { item: { Icon: 'fa fa-solid fa-exclamation', Message: res.Message, ButtonText: 'Error', isConfirm: false } } });
+        this.successDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
+          if (!o.item.isConfirm) {
+            return;
+          }
+        });
+      }
+    }, (err: any) => {
+      this.successDialogRef = this.dialog.open(AlertSuccessModalComponent, { data: { item: { Icon: 'fa fa-solid fa-exclamation', Message: 'Network Error', ButtonText: 'Error', isConfirm: false } } });
+      this.successDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
+        if (!o.item.isConfirm) {
+          return;
+        }
+      });
     })
   }
   public isValidateEntries(): boolean {
@@ -183,16 +225,21 @@ export class NewusermodalComponent implements OnInit {
       }
     }
     //var iscommunicator = 0;
+
+    /*
     var is_communicator = 0
-    if(this.form.value.isCommunicator == 1){
+    if (this.form.value.isCommunicator == 1) {
       is_communicator = 1;
     }
     var is_Department = 0;
-    if(this.form.value.isDeptartmentHead == 1){
+    if (this.form.value.isDepartmentHead == 1) {
       is_Department = 1;
     }
     this.form.value.isCommunicator = is_communicator;
-    this.form.value.isDeptartmentHead = is_Department;
+    this.form.value.isDepartmentHead = is_Department;
+    */
+    this.form.value.isCommunicator = this._iscommunicator;
+    this.form.value.isDepartmentHead = this._isdepthead;
     this.form.value.Department = (!this.departmentname ? this.form.value.Department : this.departmentname);
     this.form.value.Role = (!this.rolename ? this.form.value.Role : this.rolename);
     this.form.value.Position = (!this.positionname ? this.form.value.Position : this.positionname);

@@ -49,7 +49,7 @@ export const navbarDataCommunicator = [
     {
         routerLink: 'ticket',
         icon: 'fa fa-light fa-ticket-alt',
-        label: 'My Tickets'
+        label: 'Submitted Tickets'
     },
     {
         routerLink: 'receivedtickets',
@@ -66,7 +66,7 @@ export const navbarDataDepartmentHead = [
     {
         routerLink: 'ticket',
         icon: 'fa fa-light fa-ticket-alt',
-        label: 'My Tickets'
+        label: 'Submitted Tickets'
     },
     {
         routerLink: 'assignedticket',
@@ -84,7 +84,7 @@ export const navbarDataCommunicatorDepartmentHead = [
     {
         routerLink: 'ticket',
         icon: 'fa fa-light fa-ticket-alt',
-        label: 'My Tickets'
+        label: 'Submitted Tickets'
     },
     {
         routerLink: 'assignedticket',
@@ -108,7 +108,7 @@ export const navbarDataPersonnel = [
     {
         routerLink: 'ticket',
         icon: 'fa fa-light fa-ticket-alt',
-        label: 'My Tickets'
+        label: 'Submitted Tickets'
     },
     {
         routerLink: 'assignedticket',
@@ -126,7 +126,7 @@ export const navbarDataUser = [
     {
         routerLink: 'ticket',
         icon: 'fa fa-light fa-ticket-alt',
-        label: 'My Tickets'
+        label: 'Submitted Tickets'
     },
      {
         routerLink: 'assignedticket',

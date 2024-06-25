@@ -221,7 +221,7 @@
                             border-bottom-right-radius: 10px;
                             padding: 16px 30px 16px 30px;
                             //overflow: auto;
-                            overflow-y: scroll;
+                            overflow: auto;
 
                             .commentlist {
                                 display: flex;
@@ -320,6 +320,7 @@
                                 flex-direction: column;
                                 align-items: center;
                                 justify-content: center;
+                                gap:5px;
                             }
                         }
 
@@ -348,6 +349,70 @@
                     }
                 }
             }
+            .acknoledgefooter{
+                height: 14%;
+                padding: 10px 30px;
+                .acknowledge{
+                    height: 100%;
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    .footerbody{
+                        display: flex;
+                        flex-direction: column;
+                        gap:10px;
+                        .label1{
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                        }
+                        .label2{
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            color: #4845D2;
+                            size: 16px;
+                            font-weight: 600;
+                        }
+                        .acceptbutton{
+                            display: flex;
+                            gap:10px;
+                            height: 40px;
+                            .no{
+                                //padding:20px;
+                                width: 50%;
+                                border: none;
+                                background: #BA1717;
+                                border-radius: 10px;
+                                color: #fff;
+                                cursor: pointer;
+                            }
+                            .no:hover{
+                                font-size: 16px;
+                                font-weight: 800;
+                                cursor: pointer;
+                                 box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                            }
+                            .yes{
+                                //padding:20px;
+                                width: 50%;
+                                border: none;
+                                background: #03781D;
+                                border-radius: 10px;
+                                color: #fff;
+                                cursor: pointer;
+                            }
+                            .yes:hover{
+                                font-size: 16px;
+                                font-weight: 800;
+                                cursor: pointer;
+                                box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         .ticketdetails {
@@ -356,7 +421,7 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            min-width: 330px;
+            min-width: 400px;
 
             .requestticketdetail {
                 display: flex;
@@ -400,7 +465,7 @@
                             box-shadow: 0px 4px 20px 0px #00000040;
 
                             img {
-                                width: 60px;
+                                width: 70px;
                                 border-radius: 50px;
                             }
                         }
@@ -633,7 +698,8 @@
                             box-shadow: 0px 4px 20px 0px #00000040;
 
                             img {
-                                width: 60px;
+                                width: 70px;
+                                height: 70px;
                                 border-radius: 50px;
                             }
                         }
@@ -660,6 +726,55 @@
                             }
                         }
                     }
+                }
+                .viewattachment{
+                    background: #059177
+                    ;display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 10px;
+                    border-radius: 10px;
+                    cursor: pointer;
+                    display: flex;
+                    gap:10px;
+                    i{
+                        color: white;
+                    }
+                    button{
+                        border: none;
+                        background: none;
+                        color: white;
+                        font-size: 20px;
+                        font-weight: 600;
+                        line-height: 28px;
+                        cursor: pointer;
+                    }
+                }
+                .update{
+                    background: #4845D2
+                    ;display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 10px;
+                    border-radius: 10px;
+                    cursor: pointer;
+                    display: flex;
+                    gap:10px;
+                    i{
+                        color: white;
+                    }
+                    button{
+                        border: none;
+                        background: none;
+                        color: white;
+                        font-size: 20px;
+                        font-weight: 600;
+                        line-height: 28px;
+                        cursor: pointer;
+                    }
+                }
+                .update:hover{
+                    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
                 }
             }
         }

@@ -1,0 +1,23 @@
+<div class="modaloverlay" (click)="closeddialog()"></div>
+<div class="modalcontainer">
+    <div class="modalheader">
+        <label for="">{{Header}}</label>
+        <!-- <button class="fa fa-times" (click)="closeddialog()"></button> -->
+    </div>
+    <div class="modalbody">
+        {{Message}}
+    </div>
+    <div class="modalfooter">
+        <div class="footerbody">
+            <div class="closebutton" (click)="closeddialog()">
+                <button>Close</button>
+                <!-- <i class="fa fa-times"></i> -->
+            </div>
+            <div class="savebutton" (click)="hConfirmTicket()">
+                <button>Confirm</button>
+                <!-- <i class="fa fa-plus"></i> -->
+            </div>
+            
+        </div>
+    </div>
+</div>

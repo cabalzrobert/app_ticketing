@@ -1,7 +1,7 @@
 <div class="ticketmodaloverlay" (click)="closedialogNewTicket()"></div>
 <div class="ticektmodalcontainer" [formGroup]="form">
     <div class="ticketmodalheader">
-        <label for=""> Create Ticket</label>
+        <label for="">{{HeaderTitle}}</label>
         <button (click)="closedialogNewTicket()" class="fa fa-times"></button>
     </div>
     <div class="ticketmodalcontent">
@@ -16,8 +16,10 @@
                     <option value="4">Sample Category 4</option>
                     <option value="5">Sample Category 5</option>
                 </select> -->
-                <mat-select formControlName="Category" placeholder="Select Department" (selectionChange)="CategorySelectedValue($event)">
-                    <mat-option *ngFor="let cat of categorylist asyn" [value]="cat.CategoryID">{{cat.Categoryname}}</mat-option>
+                <mat-select formControlName="Category" placeholder="Select Category"
+                    (selectionChange)="CategorySelectedValue($event)">
+                    <mat-option *ngFor="let cat of categorylist asyn"
+                        [value]="cat.CategoryID">{{cat.Categoryname}}</mat-option>
                 </mat-select>
             </div>
         </div>
@@ -70,8 +72,8 @@
 
                 </label>
 
-                <input  *ngIf="uploaded.length < 5" id="file" type="file" multiple="multiple" accept=".png, .jpg, .gif" name="file"
-                    (change)="onFileSelected($event)" />
+                <input *ngIf="uploaded.length < 5" id="file" type="file" multiple="multiple" accept=".png, .jpg, .gif"
+                    name="file" (change)="onFileSelected($event)" />
 
                 <div class="result" *ngIf="uploaded.length" [style.display]="outputBoxVisible ? 'flex' : 'none'">
                     <i class="ph ph-file"></i>
@@ -93,7 +95,8 @@
                                 </ng-container>
                             </div>
 
-                            <div class="upload-result" [style.display]="data.uploadstatus ? 'flex; justify-content: center' : 'none'">
+                            <div class="upload-result"
+                                [style.display]="data.uploadstatus ? 'flex; justify-content: center' : 'none'">
                                 <span>{{ data.uploadResult }}</span>
                                 <ng-container *ngIf="data.uploadStatus === 200; else error">
                                     <i class="ph ph-check-circle"></i>
@@ -118,7 +121,8 @@
                     <option value="1">Medium</option>
                     <option value="2">Urgent</option>
                 </select> -->
-                <mat-select formControlName="PriorityLevel" placeholder="Select Priority Level" (selectionChange)="PrioritylevelSelectedValue($event)">
+                <mat-select formControlName="PriorityLevel" placeholder="Select Priority Level"
+                    (selectionChange)="PrioritylevelSelectedValue($event)">
                     <mat-option [value]="'0'">Low</mat-option>
                     <mat-option [value]="'1'">Medium</mat-option>
                     <mat-option [value]="'2'">Urgent</mat-option>
@@ -129,7 +133,8 @@
     </div>
     <div class="actions">
         <div class="actionbutton">
-            <button (click)="createNewTicket()">Create Ticket</button>
+            <!-- <button (click)="createNewTicket()">Create Ticket</button> -->
+            <button (click)="createNewTicket()">{{SaveButtonText}}</button>
             <i class="fa fa-plus"></i>
         </div>
     </div>

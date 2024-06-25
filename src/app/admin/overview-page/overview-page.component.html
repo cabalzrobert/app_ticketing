@@ -1,1 +1,138 @@
-<p></p>
+<div class="container">
+    <div class="userprofile">
+        <div class="header">
+            <div class="menu">
+                <label for="" class="welcomeback">Welcome Back!</label>
+                <label for="" class="menuprofile">{{UserAccount}}</label>
+                <label for="" class="usertype">{{UserType}}</label>
+            </div>
+            <div class="profpic">
+                <img *ngIf="profilePicture == ''" src="assets/image/icon_blank_profile.png" alt="">
+                <img *ngIf="profilePicture != ''" src={{profilePicture}} alt="">
+            </div>
+            <div class="profilebutton">
+                <button>View Profile</button>
+            </div>
+        </div>
+    </div>
+    <div class="ticketdata" *ngFor="let data of ticketcount">
+        <div class="totaltickets">
+            <div class="ticketcounts">
+                <label for="">Total Tickets</label>
+                <div class="counts">{{data.TotalTickets}}</div>
+            </div>
+            <div>
+                <div class="assignedicon">
+                    <div class="icon">
+                        <mat-icon color="fa-light">extension</mat-icon>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="assignedtickets">
+            <div class="assignedticketdetails">
+                <div class="assignedtotyou">
+                    <label for="">Assigned to you:</label>
+                    <div class="counts">{{data.TotalAssignedTicket}}</div>
+                </div>
+                <div class="assignedtotyou">
+                    <label for="">Pending:</label>
+                    <div class="counts">{{data.AssignedPending}}</div>
+                </div>
+                
+                <div class="assignedtotyou">
+                    <label for="">Resolve:</label>
+                    <div class="counts">{{data.AssignedResolve}}</div>
+                </div>
+                
+                
+            </div>
+            <div class="assignedticketicon">
+                <div class="assignedicon">
+                    <div class="icon">
+                        <mat-icon color="fa-light">extension</mat-icon>
+                    </div>
+                    
+                </div>
+                <button (click)="hViewAssignedTickets()">View More
+                    <i class="fa fa-light fa-arrow-right"></i>
+                </button>
+            </div>
+            
+        </div>
+        <div class="submittedtickets">
+            <div class="assignedticketdetails">
+                <div class="assignedtotyou">
+                    <label for="">You submitted:</label>
+                    <div class="counts">{{data.TotalSubmitTicket}}</div>
+                </div>
+                <div class="assignedtotyou">
+                    <label for="">Pending:</label>
+                    <div class="counts">{{data.SubmittedPending}}</div>
+                </div>
+                
+                <div class="assignedtotyou">
+                    <label for="">Resolve:</label>
+                    <div class="counts">{{data.SubmittedResolve}}</div>
+                </div>
+                
+                
+            </div>
+            <div class="assignedticketicon">
+                <div class="assignedicon">
+                    <div class="icon">
+                        <mat-icon color="fa-light">extension</mat-icon>
+                    </div>
+                    
+                </div>
+                <button (click)="hViewSubmittedTickets()">View More
+                    <i class="fa fa-light fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="notification">
+        <div class="notificationheader">
+            <div class="notificationlabel">
+                    <mat-icon color="fa-light">settings</mat-icon>
+                    <label for="">Notificatons</label>
+            </div>
+           
+            <div class="notificationall">
+                <div class="notificationunread">
+                    <label for="">Your have {{'1'}} unread notification(s)</label>
+                </div>
+                <div class="menu-nav-bar">
+                    <ul class="menu-nav">
+                        <li class="menu-nav-item ">All</li>
+                        <li class="menu-nav-item ">Read</li>
+                        <li class="menu-nav-item ">Unread</li>
+                        <li class="menu-nav-item ">Mark all as read</li>
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+        <div class="notificationdata">
+            <div class="details" *ngFor="let data of ticketnotification; index as i">
+                <div class="icon">
+                    <i class = "fa fa-light fa-ticket-alt" *ngIf="data.Type == 'Ticket-Request' || data.Type == 'Forward-Ticket' || data.Type == 'Assigned-Ticket'"></i>
+                    <i class = "fa fa-light fa-cog" *ngIf="data.Type == 'Settings'"></i>
+                </div>
+                <div class="notification">
+                    <div class="title">{{data.Title}}</div>
+                    <div class="description">{{data.Description}}</div>
+                </div>
+                <div class="notdate">
+                    <div>{{data.DateDisplay}}</div>
+                </div>
+                <div class="status">
+                    <div>{{(data.IsOpen == 0) ? 'Unread' : 'Read'}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="loader" *ngIf="loader"></div>

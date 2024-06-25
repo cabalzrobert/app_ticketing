@@ -76,7 +76,7 @@
             <div class="cardcontent" *ngSwitchCase="('pending')">
                 <div *ngFor="let data of ticketpending; index as i">
                     <div class="cardticket1" *ngIf="!data.isRead">
-                        <div class="cardticketcontent" (click)="hViewComment(data)">
+                        <div class="cardticketcontent" (click)="hViewComment(data, i)">
                             <div class="cardheader">
                                 <div class="headertitle">{{data.TitleTicket}}</div>
                                 <div class="headerdate">{{dateFormatted(true, data.CreatedDate)}}</div>
@@ -92,7 +92,7 @@
 
                     </div>
                     <div class="cardticket" *ngIf="data.isRead">
-                        <div class="cardticketcontent" (click)="hViewComment(data)" *ngIf="data.isRead">
+                        <div class="cardticketcontent" (click)="hViewComment(data, i)" *ngIf="data.isRead">
                             <div class="cardheader">
                                 <div class="headertitle">{{data.TitleTicket}}</div>
                                 <div class="headerdate">{{dateFormatted(true, data.CreatedDate)}}</div>
@@ -117,11 +117,11 @@
             <div class="cardcontent" *ngSwitchCase="('resolve')">
                 <div class="cardticket" *ngFor="let data of ticketpending; index as i ">
                     <div class="cardticketcontent">
-                        <div class="cardheader">
+                        <!-- <div class="cardheader">
                             <div class="headertitle">{{data.TitleTicket}}</div>
                             <div class="headerdate">{{dateFormatted(true, data.CreatedDate)}}</div>
                         </div>
-                        <div class="cardticketbody">{{data.TicketDescription}}</div>
+                        <div class="cardticketbody">{{data.TicketDescription}}</div> -->
 
 
                         <div class="cardheader">
@@ -135,6 +135,7 @@
                                 {{data.PriorityLevelname}}
                             </div>
                         </div>
+
                         <!-- <div class="cardticketfooter">
                             <button>Unassigned</button>
                             <div class="prioritylevel">
@@ -148,34 +149,34 @@
             <div class="cardcontent" *ngSwitchCase="('all')">
                 <div *ngFor="let data of ticketpending; index as i ">
                     <div class="cardticket1" *ngIf="!data.isRead">
-                        <div class="cardticketcontent" (click)="hViewComment(data)">
+                        <div class="cardticketcontent" (click)="hViewComment(data, i)">
                             <div class="cardheader">
                                 <div class="headertitle">{{data.TitleTicket}}</div>
                                 <div class="headerdate">{{dateFormatted(true, data.CreatedDate)}}</div>
                             </div>
                             <div class="cardticketbody">{{data.TicketDescription}}</div>
-                            <!-- <div class="cardticketfooter">
-                                <button>Unassigned</button>
+                            <div class="cardticketfooter">
+                                <button>{{data.Statusname}}</button>
                                 <div class="prioritylevel">
-                                    {{data.PriorityLevel}}
+                                    {{data.PriorityLevelname}}
                                 </div>
-                            </div> -->
+                            </div>
                         </div>
 
                     </div>
                     <div class="cardticket" *ngIf="data.isRead">
-                        <div class="cardticketcontent" (click)="hViewComment(data)">
+                        <div class="cardticketcontent" (click)="hViewComment(data, i)">
                             <div class="cardheader">
                                 <div class="headertitle">{{data.TitleTicket}}</div>
                                 <div class="headerdate">{{dateFormatted(true, data.CreatedDate)}}</div>
                             </div>
                             <div class="cardticketbody">{{data.TicketDescription}}</div>
-                            <!-- <div class="cardticketfooter">
-                                <button>Unassigned</button>
+                            <div class="cardticketfooter">
+                                <button>{{data.Statusname}}</button>
                                 <div class="prioritylevel">
-                                    {{data.PriorityLevel}}
+                                    {{data.PriorityLevelname}}
                                 </div>
-                            </div> -->
+                            </div>
                         </div>
 
                     </div>
@@ -188,6 +189,7 @@
             </div>
         </div>
     </div>
+    
 </div>
 <div class="containercomment" [hidden]="viewTicketComment">
     <div class="bodycomment">
@@ -213,14 +215,17 @@
                                 <mat-icon>more_vert</mat-icon>
                             </div>
                         </div>
-                        <div class="bodycontent">
+                        <div #tabsContentRefComment [scrollTop]="tabsContentRefComment.scrollHeight"
+                            class="bodycontent">
                             <div class="commentlist" *ngFor="let data of ticketcomment">
+
                                 <div class="notyourcomment" *ngIf="!data.IsYou && data.isMessage">
                                     <div class="profpic">
                                         <img src="assets/image/icon_blank_profile.png" alt="">
                                     </div>
                                     <div class="commentcard">
-                                        <div class="message" *ngIf="data.isMessage && !data.isImage">{{data.Message}}</div>
+                                        <div class="message" *ngIf="data.isMessage && !data.isImage">{{data.Message}}
+                                        </div>
                                         <div class="attachmFile" *ngIf="data.isImage">
                                             <img *ngIf="data.ImageAttachment != ''" src={{data.ImageAttachment}} alt="">
                                             <img *ngIf="data.ImageAttachment == ''"
@@ -235,7 +240,8 @@
                                 </div>
                                 <div class="isyourcomment" *ngIf="data.IsYou && data.isMessage">
                                     <div class="yourcommentcard">
-                                        <div class="message" *ngIf="data.isMessage && !data.isImage">{{data.Message}}</div>
+                                        <div class="message" *ngIf="data.isMessage && !data.isImage">{{data.Message}}
+                                        </div>
                                         <div class="attachmFile" *ngIf="data.isImage">
                                             <img *ngIf="data.ImageAttachment != ''" src={{data.ImageAttachment}} alt="">
                                             <img *ngIf="data.ImageAttachment == ''"
@@ -270,16 +276,16 @@
 
                 </div>
 
-                <div class="cthfooter" *ngIf="TicketStatus != 4 ">
+                <div class="cthfooter" *ngIf="Status != 4 && Status !=6 ">
                     <div class="footerbody">
                         <div class="commentcontent" [formGroup]="commentform">
                             <textarea formControlName="Message" name="" id="" rows="4"
                                 placeholder="Write  your response for issue"></textarea>
 
-                                <div class="attachfile" *ngFor="let data of uploaded ">
+                            <!-- <div class="attachfile" *ngFor="let data of uploaded ">
                                     <img src={{data.base64}}  alt="">
-                                </div>
-                            
+                                </div> -->
+
                         </div>
                         <div class="buttoncomment">
 
@@ -292,9 +298,10 @@
 
                                 </label>
 
-                                <input *ngIf="uploaded.length < 5" #fileInput id="file1" type="file" accept=".png, .jpg, .gif"
-                                    name="file" (change)="onFileSelected($event, fileInput)" />
-                                    
+                                <input *ngIf="uploaded.length < 5" #fileInput id="file1" type="file"
+                                    accept=".png, .jpg, .gif" name="file"
+                                    (change)="onFileSelected($event, fileInput)" />
+
                                 <!-- <input type="file" #fileInput (change)="onFileSelectedComment($event,fileInput)"> -->
 
                             </div>
@@ -303,6 +310,27 @@
                                 <input type="file" multiple="multiple" (change)="onFileSelected($event)">
                             </button> -->
                             <button (click)="hSendComment()">Send</button>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="acknoledgefooter" *ngIf="Status == 6">
+                    <div class="acknowledge">
+                        <div class="footerbody">
+                            <label class="label1" for="">This ticket is closing</label>
+                            <label class="label2" for="">Has your needs been fulfilled</label>
+                            <div class="acceptbutton">
+                                <button class="no" (click)="hDeclinedProgress()">No</button>
+                                <button class="yes" (click)="hAcceptProgress()">Yes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="acknoledgefooter" *ngIf="Status == 4">
+                    <div class="acknowledge">
+                        <div class="footerbody" *ngIf="Status == 4">
+                            <label class="label1" for="">This ticket is resolved</label>
                         </div>
                     </div>
                 </div>
@@ -332,31 +360,53 @@
                     <div class="created"><label class="title" for="">Created: </label><label
                             for="">{{CreatedDate}}</label>
                     </div>
-                    <div class="lastmessage" *ngIf="LastMessage ==''"><label class="title" for="">Last message:
-                        </label><label for="">{{LastMessage}}</label></div>
+                    <div class="lastmessage" *ngIf="ticketcomment.length > 0">
+                        <label class="title" for="">Last message:</label>
+                        <label for="">{{dateFormatted(false,LastMessage)}}</label>
+                    </div>
                     <div class="status"><label for="">Status </label> <button>{{TicketStatusname}}</button></div>
                     <div class="priority"><label for="">Pririoty</label> <button>{{PriorityLevelname}}</button></div>
                 </div>
-                <div class="ticketassigninfo" *ngIf="isAssigned == true">
-                    <div class="assignedto">Assigned to</div>
-                    <div class="departmentinfo">Department</div>
-                    <div class="departmentheadinfo">
-                        <img src="assets/image/icon_blank_profile.png" alt="">
-                        <div class="headinfo">
-                            <div class="depthead">{{'Team Sneak'}}</div>
-                            <label for="">{{'teamsneak3&#64;gmail.com'}}</label>
-                        </div>
-                    </div>
-                    <div class="personname">{{'Name'}}</div>
-                    <div class="personinchargeinfo">
-                        <div class="profpic">
+                <div>
+
+                </div>
+                <div class="ticketassigninfo" *ngIf="DepartmenName != '' ">
+                    <div *ngIf="DepartmenName != ''">
+                        <div class="assignedto">Assigned to</div>
+                        <div class="departmentinfo">Department</div>
+                        <div class="departmentheadinfo">
                             <img src="assets/image/icon_blank_profile.png" alt="">
-                        </div>
-                        <div class="person">
-                            <div class="name">{{'Sonal Gupta'}}</div>
-                            <label for="">{{'teamsneak3&#64;gmail.com'}}</label>
+                            <div class="headinfo">
+                                <div class="depthead">{{DepartmenName}}</div>
+                                <!-- <label for="">{{'teamsneak3&#64;gmail.com'}}</label> -->
+                            </div>
                         </div>
                     </div>
+                    
+                    <div *ngIf="AssignedAccountname != ''">
+                        <div class="personname">{{'Name'}}</div>
+                        <div class="personinchargeinfo">
+                            <div class="profpic">
+                                <img *ngIf="AssignedAccountProfilePicture == ''"
+                                    src="assets/image/icon_blank_profile.png" alt="">
+                                <img *ngIf="AssignedAccountProfilePicture != ''" src={{AssignedAccountProfilePicture}}
+                                    alt="">
+                            </div>
+                            <div class="person">
+                                <div class="name">{{AssignedAccountname}}</div>
+                                <label for="">{{AssignedAccountEmail}}</label>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div  *ngIf="Status != 4" class="update" (click)="hUpdateTicket()">
+                    <i class="fa fa-regular fa-edit"></i>
+                    <button>Update</button>
+                </div>
+                <div  *ngIf="ticketupdate.Attachment != ''" class="viewattachment" (click)="hViewAttachment()">
+                    <i class="fa fa-regular fa-paperclip"></i>
+                    <button>View Attachment</button>
                 </div>
             </div>
         </div>
@@ -365,3 +415,4 @@
     </div>
 
 </div>
+<div class="loader" *ngIf="loader"></div>
