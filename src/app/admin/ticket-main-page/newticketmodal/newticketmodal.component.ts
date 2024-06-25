@@ -1,12 +1,15 @@
-import { Component, HostListener, OnInit, inject } from '@angular/core';
+import { Component, HostListener, Inject, OnInit, inject } from '@angular/core';
 import { GeneralService } from '../../../shared/services/general.service';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../auth.service';
 import { AsyncSubject, Observable, ReplaySubject, empty, filter } from 'rxjs';
 import { FileHandle } from 'node:fs/promises';
 import { rest } from '../../../+services/services';
 import { MatSelectChange } from '@angular/material/select';
+import { SubmitModalComponent } from '../../modalpage/submit-modal/submit-modal.component';
+import { AlertSuccessModalComponent } from '../../modalpage/alert-success-modal/alert-success-modal.component';
+import { device } from '../../../tools/plugins/device';
 
 export interface SelectedFiles {
   name: string;
@@ -37,6 +40,7 @@ export class NewticketmodalComponent implements OnInit {
   fileName = '';
   files: any = {};
   uploaded: any = [];
+  attachment: any = [];
   categorylist: any = [];
   fileSize = '';
   uploadStatus: number | undefined;
@@ -44,23 +48,56 @@ export class NewticketmodalComponent implements OnInit {
   prioritylevelname: String = ''
 
   form: FormGroup = this.fb.group({
-    Category: ['', Validators.required],
-    TitleTicket: ['', Validators.required],
-    TicketDescription: ['', Validators.required],
-    PriorityLevel: ['', Validators.required],
-    TicketAttachment: ''
+    Category: '',
+    TitleTicket: '',
+    TicketDescription: '',
+    PriorityLevel: '',
+    TicketAttachment: '',
+    TransactionNo: '',
+    TicketNo: '',
+    Attachment: ''
   });
-  constructor(public generalSerive: GeneralService, private authService: AuthService, private fb: FormBuilder, public dialogRef: MatDialogRef<NewticketmodalComponent>) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public ticketdata: { item: any, Title: String, SaveButtonText: String }, public dialog: MatDialog, public generalSerive: GeneralService, private authService: AuthService, private fb: FormBuilder, public dialogRef: MatDialogRef<NewticketmodalComponent>) { }
+  HeaderTitle: String = '';
+  SaveButtonText: String = '';
   ngOnInit(): void {
     //console.log('this.form.value.TicketAttachment ', this.form.value.TicketAttachment);
+
+    this.form.patchValue(this.ticketdata.item);
+    console.log('this.form.value Update Modal', this.form.value);
     this.GetCategoryList({ num_row: 0, Search: '' });
+    console.log('Update Ticket Modal', this.ticketdata);
+    this.HeaderTitle = this.ticketdata.Title;
+    this.SaveButtonText = this.ticketdata.SaveButtonText;
+    if (this.ticketdata.item != null) {
+      if (this.ticketdata.item.Attachment != '')
+        this.uploaded = JSON.parse(this.ticketdata.item.Attachment);
+
+    }
+
+    console.log('Update Ticket Modal HeaderTitle', this.HeaderTitle);
+    console.log('Update Ticket Modal SaveButtonText', this.SaveButtonText);
+    console.log('Update Ticket Modal this.uploaded', this.uploaded);
+    if (parseInt(this.uploaded.length) > 0)
+      this.outputBoxVisible = true;
+
   }
   closedialogNewTicket(): void {
     this.dialogRef.close();
   }
+  submitDialogRef?: MatDialogRef<SubmitModalComponent>;
+  successDialogRef?: MatDialogRef<AlertSuccessModalComponent>;
   createNewTicket(): void {
     if (!this.isValidEntries()) return;
     console.log('Create New Ticket', this.form.value);
+    this.submitDialogRef = this.dialog.open(SubmitModalComponent, { data: { item: { Header: 'New Ticket', Message: 'Are you sure you want to submit a new FAQs?' } } });
+    this.submitDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
+      if (o.item.isConfirm) {
+        this.performSaveTicket();
+        return;
+      }
+      console.log('Close Ticket Progress', o.item);
+    });
     //this.performSaveTicket();
   }
   GetCategoryList(item: any): Observable<any> {
@@ -77,6 +114,16 @@ export class NewticketmodalComponent implements OnInit {
     return this.categorylist;
   }
   performSaveTicket() {
+
+    // this.successDialogRef = this.dialog.open(AlertSuccessModalComponent, { data: { item: { Icon: 'fa fa-solid fa-exclamation', Message: 'Please check data. Try again', ButtonText: 'Error', isConfirm: false } } });
+    // this.successDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
+    //   if (!o.item.isConfirm) {
+    //     return;
+    //   }
+    // });
+
+
+
     rest.post('ticket/save', this.form.value).subscribe(async (res: any) => {
       if (res.Status == 'ok') {
         this.form.value.TransactionNo = res.Content.TransactionNo;
@@ -85,8 +132,33 @@ export class NewticketmodalComponent implements OnInit {
         this.form.value.Status = res.Content.Status;
         this.form.value.Statusname = res.Content.Statusname;
         this.form.value.CreatedDate = res.Content.CreatedDate;
-        this.dialogRef.close(this.form.value);
+        this.form.value.Attachment = res.Content.Attachment;
+
+        this.successDialogRef = this.dialog.open(AlertSuccessModalComponent, { data: { item: { Icon: 'fa fa-solid fa-check', Message: res.Message, ButtonText: 'Success', isConfirm: true } } });
+        this.successDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
+          if (o.item.isConfirm) {
+            this.dialogRef.close(this.form.value);
+            return;
+          }
+        });
       }
+      if (res.Status == 'errpr') {
+
+
+        this.successDialogRef = this.dialog.open(AlertSuccessModalComponent, { data: { item: { Icon: 'fa fa-solid fa-exclamation', Message: res.Message, ButtonText: 'Error', isConfirm: false } } });
+        this.successDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
+          if (!o.item.isConfirm) {
+            return;
+          }
+        });
+      }
+    }, (err: any) => {
+      this.successDialogRef = this.dialog.open(AlertSuccessModalComponent, { data: { item: { Icon: 'fa fa-solid fa-exclamation', Message: 'Network Error', ButtonText: 'Error', isConfirm: false } } });
+      this.successDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
+        if (!o.item.isConfirm) {
+          return;
+        }
+      });
     });
   }
 
@@ -140,7 +212,6 @@ export class NewticketmodalComponent implements OnInit {
         const reader = new FileReader();
         reader.readAsDataURL(files[i]);
         reader.onload = (e) => {
-          console.log('sdfsdfsd sdfsdfsdfsdf sdfdsfsd', `${files[i].name}  ${(files[i].size / 1024).toFixed(2)} KB`);
           selectedFiles = selectedFiles?.filter(f => f?.name != files[i]?.name)
           selectedFiles.push({ name: files[i]?.name, filesize: `${(files[i].size / 1024).toFixed(2)} KB`, file: files[i], base64: reader?.result as string, uploadstatus: 200, progress: 200, rownum: i + 1 })
           result.next(selectedFiles);
@@ -164,7 +235,7 @@ export class NewticketmodalComponent implements OnInit {
     this.toFilesBase64(files, this.selectedFiles).subscribe((res: any[]) => {
       res.forEach((i: any) => this.selectedFiles1.push({ name: i.name, filesize: i.filesize, file: i.file, base64: i.base64, uploadstatus: i.uploadstatus, progress: i.progress, rownum: i.rownum }));
       console.log('Result selectedFiles1', this.selectedFiles1);
-
+      this.selectedFiles1.forEach((o:any) => this.uploaded.push(o));
 
       return res;
     });
@@ -172,7 +243,7 @@ export class NewticketmodalComponent implements OnInit {
   }
 
 
-  onFileSelected(event: any): Observable<any> {
+  async onFileSelected(event: any): Promise<Observable<any>> {
 
     const result = new AsyncSubject<any[]>();
     console.log('onFileSelect', event);
@@ -185,11 +256,14 @@ export class NewticketmodalComponent implements OnInit {
     }
     let files = [].slice.call(event.target.files);
     this.files = files;
-    this.onFileSelected1(files);
+    //await this.onFileSelected1(files);
+    device.ready(() => setTimeout(() => this.onFileSelected1(files), 275));
     console.log('this.selected files base64', this.selectedFiles1);
+    console.log('this.selected files base64', this.uploaded.length);
     if (this.selectedFiles1) {
-      console.log('if(this.selectedFiles1)', this.selectedFiles1);
-      this.uploaded = this.selectedFiles1;
+      console.log('if(this.selectedFiles1)', this.selectedFiles1.length);
+      //this.selectedFiles1.forEach((o: any) => this.uploaded.push(o));
+      //this.uploaded = this.selectedFiles1;
       // for (let i = 0; i < this.selectedFiles1.length; i++) {
       //   console.log('Uploaded Files  this.selectedFiles1[i].name', this.selectedFiles1[i].name);
       //   this.outputBoxVisible = false;

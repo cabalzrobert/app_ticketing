@@ -1,0 +1,26 @@
+<div class="modaloverlay" (click)="closeddialog()"></div>
+<div class="modalcontainer">
+    <div class="modalheader">
+        <label for="">Ticket Progress {{title}}</label>
+        <!-- <button class="fa fa-times" (click)="closeddialog()"></button> -->
+    </div>
+    <div class="modalbody" *ngIf="title == 'Accept'">
+        Are you sure you want to accept this ticket has been ressolved.
+    </div>
+    <div class="modalbody" *ngIf="title == 'Declined'">
+        Are you sure you want to Declined this ticket that was not resolved.
+    </div>
+    <div class="modalfooter">
+        <div class="footerbody">
+            <div class="closebutton" (click)="closeddialog()">
+                <button>Close</button>
+                <!-- <i class="fa fa-times"></i> -->
+            </div>
+            <div class="savebutton" (click)="hConfirmTicket()">
+                <button>Confirm</button>
+                <!-- <i class="fa fa-plus"></i> -->
+            </div>
+            
+        </div>
+    </div>
+</div>

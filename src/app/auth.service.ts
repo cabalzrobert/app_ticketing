@@ -184,8 +184,11 @@ export class AuthService {
 
         this.performSaveLocal(res.account, res.auth, input.Username)
       }
+      else{
+        alert(res.message);
+      }
     }, (err: any) => {
-      alert(err.Message);
+      alert('Invalid Username and Password');
     });
     //console.log('ticketlogin this.acocunt', this.account);
     return this.account;

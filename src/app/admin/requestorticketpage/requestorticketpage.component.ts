@@ -1,9 +1,9 @@
-import { Component, ElementRef, EventEmitter, HostListener, Inject, OnInit, Output, PLATFORM_ID, ViewChild } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, Component, ElementRef, EventEmitter, HostListener, Inject, OnInit, Output, PLATFORM_ID, ViewChild, output } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { NewticketmodalComponent } from '../ticket-main-page/newticketmodal/newticketmodal.component';
 import { jUser, jUserModify } from '../../+app/user-module';
 import { DOCUMENT } from '@angular/common';
-import { AsyncSubject, Observable, filter } from 'rxjs';
+import { AsyncSubject, Observable, Subject, filter, takeUntil } from 'rxjs';
 import { rest } from '../../+services/services';
 import { FormControl, FormGroup } from '@angular/forms';
 import { device } from '../../tools/plugins/device';
@@ -12,9 +12,13 @@ import { stomp } from '../../+services/stomp.service';
 import { timeout } from '../../tools/plugins/delay';
 import { mtCb } from '../../tools/plugins/static';
 import moment from 'moment';
+import { TicketresolveComponent } from '../ticket-main-page/ticketresolve/ticketresolve.component';
+import { TicketProgressModalComponent } from '../modalpage/ticket-progress-modal/ticket-progress-modal.component';
+import { ViewAttachImageModalComponent } from '../modalpage/view-attach-image-modal/view-attach-image-modal.component';
 //import {MatIconModule} from '@angular/material/icon';
 //const{Object1}:any = {};
 //const Object:Window = window;
+const batchDone = new Subject<boolean>();
 interface MenuNavToggle {
   screenWidth: number;
   collapsed: boolean;
@@ -25,11 +29,13 @@ interface MenuNavToggle {
   templateUrl: './requestorticketpage.component.html',
   styleUrl: './requestorticketpage.component.scss',
   queries: {
-    "tabsContentRef": new ViewChild("tabsContentRef")
+    "tabsContentRef": new ViewChild("tabsContentRef"),
+    "tabsContentRefComment": new ViewChild("tabsContentRefComment")
   }
 })
-export class RequestorticketpageComponent implements OnInit {
+export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
 
+  loader: boolean = false;
   hSendAttachment() {
     console.log('this.attachment 34', this.attahcment);
     if (!this.isValidEntries()) return;
@@ -63,14 +69,27 @@ export class RequestorticketpageComponent implements OnInit {
   }
 
   async onFileSelected(event: any, input: HTMLInputElement) {
-    await this.onFileSelectedComment(event, input);
-    //await this.hSendAttachment();
+    //this.ticketcomment = [];
+    //return this.ticketcomment;
 
+    await this.onFileSelectedComment(event, input);
+    //console.log('onFileSelect 70', this.ticketcomment);
+    this.ticketcomment.forEach((o: any) => this.ticketcommentAttacheImage.push(o));
+
+    //console.log('onFileSelect 70', this.ticketcommentAttacheImage);
+    //this.ticketcomment = [];
+    device.ready(() => setTimeout(() => this.performSendCommentImage(this.input1), 275));
+    //this.ticketcomment = [];
+    //this.ticketcommentAttacheImage.forEach((o:any) => this.ticketcomment.push(o));
+
+    this.commentform.reset();
+    this.scrollToBottom();
+    return this.ticketcomment;
   }
 
 
 
-  onFileSelectedComment(event: any, input: HTMLInputElement): Observable<any> {
+  onFileSelectedComment(event: any, input: HTMLInputElement): Promise<Observable<any>> {
     this.uploaded = [];
     this.selectedFiles = [];
     this.selectedFiles1 = [];
@@ -117,7 +136,7 @@ export class RequestorticketpageComponent implements OnInit {
         this.input1.isMessage = false;
         this.input1.FileAttachment = this.selectedFiles1.map((m: any) => m.base64);
         console.log('this.input1 113', this.input1);
-        this.performSendComment(this.input1);
+        //this.performSendComment(this.input1);
       }
 
 
@@ -153,8 +172,11 @@ export class RequestorticketpageComponent implements OnInit {
 
 
   hViewRequestorPage() {
+    console.log('hViewRequestorPage', this.LastMessage);
     this.viewRequestorPage = false;
     this.viewTicketComment = true;
+    if (this.resolveEvents = 1)
+      this.ticketpending.slice(this.ticketindex, 1);
   }
 
   base64 = '';
@@ -172,13 +194,22 @@ export class RequestorticketpageComponent implements OnInit {
   TicketNo: String = '';
   CreatedDate: String = '';
   TicketStatus: Number = 0;
+  Status: Number = 0;
   TicketStatusname: String = '';
   PriorityLevelname: String = '';
   isAssigned: boolean = false;
+  AssignedAccount: String = '';
   AssignedAccountname: String = '';
   LastMessage: String = '';
-  hViewComment(data: any) {
-    console.log('hViewComment data 49', data);
+  DepartmenName: String = '';
+  DepartmentID: String = ''
+  AssignedAccountEmail: String = ''
+  AssignedAccountProfilePicture: String = ''
+  ticketupdate: any = {};
+
+  async hViewComment(data: any, idx: number) {
+    this.ticketupdate = data;
+    this.ticketindex = idx;
     this.viewRequestorPage = true;
     this.viewTicketComment = false;
     this.tickettitle = data.TicketTitle;
@@ -187,12 +218,70 @@ export class RequestorticketpageComponent implements OnInit {
     this.TicketNo = data.TicketNo;
     this.CreatedDate = data.CreatedDate;
     this.TicketStatus = data.TicketStatus;
+    this.Status = data.Status;
     this.TicketStatusname = data.TicketStatusname;
     this.PriorityLevelname = data.PriorityLevelname;
     this.isAssigned = data.isAssigned;
     this.AssignedAccountname = data.AssignedAccountname;
     this.LastMessage = data.LastMessage;
-    this.getCommentList(this.TransactionNo);
+    this.DepartmenName = data.DepartmentName;
+    this.DepartmentID = data.DepartmentID;
+    this.AssignedAccount = data.AssignedAccount;
+    this.AssignedAccountname = data.AssignedAccountname;
+    this.AssignedAccountEmail = data.AssignedAccountEmail;
+    this.AssignedAccountProfilePicture = data.AssignedAccountProfilePicture;
+    this.ticketupdate = data;
+    console.log('Ticket data Update')
+    //await this.getCommentList(this.TransactionNo);
+    //setTimeout(() => this.getCommentList(this.TransactionNo), 725);
+
+    device.ready(() => setTimeout(() => this.getCommentList(this.TransactionNo), 275));
+    this.scrollToBottom();
+    if (this.isAssigned)
+      console.log('this.isAssigned', this.isAssigned);
+    //await this.getlastMessage(this.LastMessage);
+    //setTimeout(() => this.getlastMessage(this.LastMessage), 725);
+    //console.log('this.ticketcomment 219', await this.LastMessage);
+  }
+  openpopnewticket() {
+    this.ticketDialogRef = this.dialog.open(NewticketmodalComponent, { data: { item: null, Title: 'Create Ticket', SaveButtonText: 'Create Ticket' } });
+    this.ticketDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
+      console.log('openpopnewticket', o);
+      this.ticketpending.unshift(o);
+      this.pending = (parseInt(this.pending) + 1).toString();
+      this.allticket = (parseInt(this.allticket) + 1).toString();
+    });
+  }
+  hUpdateTicket() {
+    console.log('hUdpate this.ticketupdate', this.ticketupdate);
+    this.ticketDialogRef = this.dialog.open(NewticketmodalComponent, { data: { item: this.ticketupdate, Title: 'Update Ticket', SaveButtonText: 'Update Ticket' } });
+    this.ticketDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
+      this.ticketupdate.Attachment = o.Attachment;
+      this.ticketupdate.Category = o.Category;
+      this.ticketupdate.Categoryname = o.Categoryname;
+      this.ticketupdate.PriorityLevel = o.PriorityLevel;
+      this.ticketupdate.PriorityLevelname = o.PriorityLevelname;
+      this.ticketupdate.TicketDescription = o.TicketDescription;
+      this.ticketupdate.TitleTicket = o.TitleTicket;
+
+
+      this.attahcment = o.Attachment;
+      this.tickettitle = o.TicketTitle;
+      this.TicketDescription = o.TicketDescription;
+      this.PriorityLevelname = o.PriorityLevelname;
+    });
+
+    console.log('hUdpate this.ticketupdate 272', this.ticketupdate);
+  }
+  hViewAttachment() {
+    console.log('hViewAttachment', this.ticketupdate.Attachment);
+    let viewattachment: any = [];
+    viewattachment = JSON.parse(this.ticketupdate.Attachment);
+    let attachment: any = [];
+    viewattachment.forEach((o: any) => attachment.push({ URL: o.base64 }));
+    console.log('hViewAttachment URL 281', attachment);
+    console.log('hViewAttachment URL 282', attachment[0]);
+    this.ticketViewAttachment = this.dialog.open(ViewAttachImageModalComponent, { data: { item: attachment } });
   }
   pending: string = '';
   resolve: string = '';
@@ -1458,10 +1547,18 @@ export class RequestorticketpageComponent implements OnInit {
     },
   ];
   ticketcomment: any = [];
-  constructor(public dialog: MatDialog, @Inject(DOCUMENT) private dom: Document, @Inject(PLATFORM_ID) private platformId: Window, public ls: LocalStorageService) {
+  ticketcommentAttacheImage: any = [];
+  ticketImageAttachment: any = [];
+  resolveEvents: number = 0;
+  ticketindex: number = 0;
+  constructor(public dialog: MatDialog, @Inject(DOCUMENT) private dom: Document, @Inject(PLATFORM_ID) private platformId: Window, public ls: LocalStorageService, private cd: ChangeDetectorRef) {
     this.selectedTab = "pending"
     this.stompReceivers();
     this.Search = new FormControl();
+    this.loader = true;
+  }
+  ngAfterViewChecked(): void {
+    this.scrollToBottom();
   }
   filter: any = {};
   Search: any = ''
@@ -1469,6 +1566,7 @@ export class RequestorticketpageComponent implements OnInit {
   prop: any = {};
   Object: any = window;
   input: any = {};
+  @Output() itemReady = new EventEmitter();
   async ngOnInit(): Promise<void> {
     //this.screenWidth = window.innerWidth;
     this.collapsed = true;
@@ -1479,15 +1577,16 @@ export class RequestorticketpageComponent implements OnInit {
     this.input = await jUser();
     console.log('RequestTicketPage this.Object', this.Object);
 
-
-    device.ready(() => setTimeout(() => this.performAuth(), 275));
+    device.ready(() => timeout(() => this.performAuth(), 275));
 
 
     this.onWindowInitialize();
     //this.subs.u = jUserModify(async () => this.setState({ u: await jUser() }));
     this.getTicketCount();
     //this.ticketlistcount = this.getTicketCount();
-    this.getTicketPendingList({ Status: 0, num_row: 0, Search: '', IsReset: true });
+
+    //this.getTicketPendingList({ Status: 0, num_row: 0, Search: '', IsReset: true });
+    timeout(() => this.hPending(), 275);
     console.log('Oninit this.tickectcount', this.ticketlistcount);
     console.log('Oninit Number of Rows Count', this.ticketpending1.length);
     //this.stompReceivers();
@@ -1506,7 +1605,9 @@ export class RequestorticketpageComponent implements OnInit {
     console.log('tthis.ticketlistcount', this.ticketlistcount);
     var tlc = this.ticketlistcount;
     console.log('var tlc 1367', tlc);
+    this.itemReady.emit(true);
 
+    this.loader = false;
   }
   dateFormatted(isList: boolean, date: any) {
     if (isList) {
@@ -1671,17 +1772,69 @@ export class RequestorticketpageComponent implements OnInit {
 
   public selectedTab: "pending" | "resolve" | "all";
   public tabsContentRef!: ElementRef;
+  public tabsContentRefComment!: ElementRef;
   ticketDialogRef?: MatDialogRef<NewticketmodalComponent>;
-  openpopnewticket() {
-    this.ticketDialogRef = this.dialog.open(NewticketmodalComponent);
-    this.ticketDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
-      this.ticketpending.unshift(o);
-      this.pending = (parseInt(this.pending) + 1).toString();
-      this.allticket = (parseInt(this.allticket) + 1).toString();
-    });
+  resolveticketDialogRef?: MatDialogRef<TicketProgressModalComponent>;
+  ticketViewAttachment?: MatDialogRef<ViewAttachImageModalComponent>;
 
+
+  openpopticketprogress(ActionEvent: number, Title: String = '') {
+    const _data: any = {};
+    let title: String = ''
+    _data.TransactionNo = this.TransactionNo;
+    _data.TicketNo = this.TicketNo;
+    _data.ActionEvent = ActionEvent;
+    _data.Status = 4;
+    title = Title;
+    if (ActionEvent == 0) {
+      _data.Status = 3
+    }
+    // else if(ActionEvent == 1)
+    //   _data.Status = 4
+    console.log('openpopticketprogress', _data, title);
+
+
+
+    this.resolveticketDialogRef = this.dialog.open(TicketProgressModalComponent, { data: { item: _data, Title: title } });
+    if (this.resolveEvents == 1) {
+      this.resolveticketDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
+
+        console.log('Close Ticket Progress', o);
+        console.log('Close Ticket Progress this.ticketindex', this.ticketindex);
+        this.Status = o.Status;
+        this.hRemoveItem();
+        //this.ticketpending.slice(this.ticketindex,1);
+        //console.log('Close Ticket Progress this.ticketpending', this.ticketpending);
+      });
+    }
+    else {
+      this.resolveticketDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
+
+        //console.log('Close Ticket Progress', o);
+        //console.log('Close Ticket Progress this.ticketindex', this.ticketindex);
+        this.Status = o.Status;
+        //this.hRemoveItem();
+        //this.ticketpending.slice(this.ticketindex,1);
+        //console.log('Close Ticket Progress this.ticketpending', this.ticketpending);
+      });
+    }
+  }
+  hDeclinedProgress() {
+    this.resolveEvents = 0;
+    this.openpopticketprogress(this.resolveEvents, 'Declined');
+  }
+  hAcceptProgress() {
+    this.resolveEvents = 1;
+    this.openpopticketprogress(this.resolveEvents, 'Accept');
+  }
+
+  hRemoveItem() {
+    this.ticketpending.splice(this.ticketindex, 1);
+    this.pending = (parseInt(this.pending) - 1).toString();
+    this.resolve = (parseInt(this.resolve) + 1).toString();
   }
   hSearchTicket() {
+    this.ticketpending = [];
     console.log('hSearchTicket this.Search.value', this.Search.value);
     if (this.selectedTab == 'pending') {
       this.ticketpending = [];
@@ -1700,32 +1853,35 @@ export class RequestorticketpageComponent implements OnInit {
   }
 
   hAll() {
+    this.loader = true;
     this.unassigned = false;
     this.assigned = false;
     this.all = true;
     this.selectedTab = "all";
     this.ticketpending = [];
-    this.getTicketPendingList({ Status: null, num_row: 0, Search: '' });
+    this.getTicketPendingList({ Status: null, num_row: 0, Search: this.Search.value });
     this.scrollTabContentTop();
     console.log('hAll this.this.ticketpending', this.ticketpending);
 
   }
   hResolved() {
+    this.loader = true;
     this.unassigned = false;
     this.assigned = true;
     this.all = false;
     this.selectedTab = "resolve"
     this.ticketpending = [];
-    this.getTicketPendingList({ Status: 1, num_row: 0, Search: '' });
+    this.getTicketPendingList({ Status: 1, num_row: 0, Search: this.Search.value });
     this.scrollTabContentTop();
   }
   hPending() {
+    this.loader = true;
     this.unassigned = true;
     this.assigned = false;
     this.all = false;
     this.selectedTab = "pending";
     this.ticketpending = [];
-    this.getTicketPendingList({ Status: 0, num_row: 0, Search: '' });
+    this.getTicketPendingList({ Status: 0, num_row: 0, Search: this.Search.value });
     this.scrollTabContentTop();
 
   }
@@ -1741,6 +1897,11 @@ export class RequestorticketpageComponent implements OnInit {
     this.tabsContentRef.nativeElement.scrollTop = 0;
   }
 
+  scrollToBottom() {
+    const el: HTMLDivElement = this.tabsContentRefComment.nativeElement;
+    el.scrollTop = Math.max(0, el.scrollHeight - el.offsetHeight);
+  }
+
   getTicketPendigListDelay(filter: any, callback: Function = mtCb, delay: number = 175) {
     if (this.subs.t1) this.subs.t1.unsubscribe();
     this.prop.IsFiltering = !filter.IsFiltering;
@@ -1749,14 +1910,22 @@ export class RequestorticketpageComponent implements OnInit {
 
   getTicketPendingList(item: any, callback: Function = mtCb): Observable<any> {
     //console.log('getTicketPendingList item', item);
+
+    this.loader = true;
     item.IsReset = false;
     if (!this.subs) return this.ticketpending;
     if (this.subs.s1) this.subs.s1.unsubscribe();
-    console.log('item.IsReset', item.IsReset);
-    console.log('this.subs.s1', this.subs.s1);
 
     this.subs.s1 = rest.post('ticket/list', item).subscribe(async (res: any) => {
       if (res.Status != 'error') {
+        var cnt = parseInt(res.ticket.length);
+        console.log('Ticket List 1786', cnt);
+        if (cnt == 0) {
+          console.log('Ticket List 1788', res.ticket.length);
+          this.ticketpending = [];
+          this.loader = false;
+          return this.ticketpending;
+        }
 
         if (item.IsReset) this.ticketpending = res.ticket.map((o: any) => this.ListTicketDetails(o));
         else res.ticket.forEach((o: any) => this.ticketpending.push(this.ListTicketDetails(o)));
@@ -1767,11 +1936,14 @@ export class RequestorticketpageComponent implements OnInit {
         //this.ticketpending = res.ticket;
         //console.log('Oninit Number of Rows Count 1553', this.ticketpending);
         this.cntLst = this.ticketpending.length;
+        this.loader = false;
         return this.ticketpending;
       }
+      else
+        this.loader = false;
 
     });
-
+    //this.loader = false;
     return this.ticketpending;
   }
   ListTicketDetails(item: any) {
@@ -1808,9 +1980,20 @@ export class RequestorticketpageComponent implements OnInit {
   getCommentList(TransactionNo: String): Observable<any> {
     rest.post('ticket/commentlist?TransactionNo=' + TransactionNo).subscribe(async (res: any) => {
       this.ticketcomment = res.Comment;
+      let last = this.ticketcomment[parseInt(this.ticketcomment.length) - 1];
+      //moment(date).format('DD MMM yyyy')
+      console.log('let last message', moment(last.CommentDate).format('DD MMM yyyy'));
+      console.log('let last message', last);
+      this.LastMessage = last.CommentDate;
+      //await this.getlastMessage(moment(last.CommentDate).format('DD MMM yyyy'));
       return this.ticketcomment;
     });
     return this.ticketcomment;
+  }
+  getlastMessage(CommentDate: String): String {
+    this.LastMessage = CommentDate;
+    console.log('getlastMessage', this.LastMessage);
+    return this.LastMessage;
   }
   //Message: FormControl<any>;
   public commentform = new FormGroup({
@@ -1829,15 +2012,51 @@ export class RequestorticketpageComponent implements OnInit {
   }
 
 
-
-  performSendComment(item: any) {
+  performSendCommentImage(item: any) {
+    console.log('performSendComment item', item.FileAttachment);
     rest.post('ticket/msg/send', item).subscribe(async (res: any) => {
       if (res.Status == 'ok') {
-        this.ticketcomment.push(res.Content);
+        //res.Content.forEach((o:any) => this.ticketImageAttachment.push(this.ticketCommentListDetails(0)));
+
+        //this.ticketcommentAttacheImage.unshift( this.ticketCommentListDetails(res.Content));
+        //batchDone.next(true);
+        this.ticketcommentAttacheImage.push(this.ticketCommentListDetails(res.Content));
+        this.ticketcommentAttacheImage.forEach((o: any) => this.ticketcomment.push(setTimeout(() => this.ticketCommentListDetails(o), 275)));
+
+        //console.log('performSendCommentImage this.ticketImageAttachment 1848', this.ticketcommentAttacheImage);
+        //this.ticketcomment = [];
+        //this.ticketcommentAttacheImage.forEach((o:any) => this.ticketcomment.push(o));
+        //console.log('performSendCommentImage this.ticketImageAttachment 1854', this.ticketcomment);
+        //console.log('performSendComment', this.ticketcomment);
+        console.log('performSendComment 1864', this.ticketcomment);
+        //this.ticketcomment = this.ticketcomment.concat(this.ticketcommentAttacheImage);
+        this.ticketcomment = this.ticketcommentAttacheImage;
+        console.log('performSendComment 1864', this.ticketcomment);
+
+        return this.ticketcomment;
       }
       else {
         alert(res.Message);
       }
     });
+  }
+
+  performSendComment(item: any) {
+    console.log('performSendComment item', item.FileAttachment);
+    rest.post('ticket/msg/send', item).subscribe(async (res: any) => {
+      if (res.Status == 'ok') {
+        //res.Content.forEach((o:any) => this.ticketImageAttachment.push(this.ticketCommentListDetails(0)));
+        this.ticketcomment.push(this.ticketCommentListDetails(res.Content));
+        //console.log('performSendComment', this.ticketcomment);
+        return this.ticketcomment
+      }
+      else {
+        alert(res.Message);
+      }
+    });
+  }
+  ticketCommentListDetails(item: any) {
+    console.log('ticketCommentListDetails', item);
+    return ({ Branch_ID: item.Branch_ID, CommentDate: item.CommentDate, CommentID: item.CommentID, Company_ID: item.Company_ID, Department: '', DisplayName: item.DisplayName, FileAttachment: item.FileAttachment, ImageAttachment: item.ImageAttachment, IsYou: true, Message: item.Message, ProfilePicture: item.ProfilePicture, SenderID: item.SenderID, TransactionNo: item.TransactionNo, isFile: item.isFile, isImage: item.isImage, isMessage: item.isMessage, isRead: false })
   }
 }

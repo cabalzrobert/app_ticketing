@@ -1,0 +1,19 @@
+<div class="modaloverlay" (click)="closeddialog()"></div>
+<div class="modalcontainer">
+    <div class="modalheader">
+        <i [class] = "Icon" [ngClass]="isConfirm ? 'success' : 'error'"></i>
+        <!-- <button class="fa fa-times" (click)="closeddialog()"></button> -->
+    </div>
+    <div class="modalbody">
+        {{Message}}
+    </div>
+    <div class="modalfooter">
+        <div class="footerbody">
+            <div [ngClass]="isConfirm ? 'savebutton' : 'errorbutton'" (click)="closeddialog()">
+                <button>{{ButtonText}}</button>
+                <!-- <i class="fa fa-plus"></i> -->
+            </div>
+            
+        </div>
+    </div>
+</div>

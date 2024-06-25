@@ -1,0 +1,21 @@
+<div class="modaloverlay" (click)="closeddialog()"></div>
+<div class="modalcontainer">
+    <div class="modalheader">
+        <label for="">Ticket Progress </label>
+        <button class="fa fa-times" (click)="closeddialog()"></button>
+    </div>
+    <div class="modalbody" >
+        <div class="arrowleft" (click)="hArrowLeft()" [hidden]="isleft">
+            <button><i class="fa fa-regular fa-less-than"></i></button>
+        </div>
+        <div class="attachimage">
+            <!-- <img src="assets/image/icon_blank_profile.png" alt=""> -->
+            <img src={{linked}} alt="">
+        </div>
+        
+        
+        <div class="arrowright" (click)="hArrowRight()" [hidden]="isright">
+            <button><i class="fa fa-regular fa-greater-than"></i></button>
+        </div>
+    </div>
+</div>
