@@ -2,7 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { jUser, jUserModify } from '../../+app/user-module';
 import moment from 'moment';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
+//import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import { rest } from '../../+services/services';
 import { Subject, takeUntil, timer } from 'rxjs';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';

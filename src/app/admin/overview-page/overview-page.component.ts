@@ -8,6 +8,8 @@ import { timeout } from '../../tools/plugins/delay';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { mtCb } from '../../tools/plugins/static';
+import { MatDialog } from '@angular/material/dialog';
+import { ProfileComponent } from '../profile/profile.component';
 
 @Component({
   selector: 'app-overview-page',
@@ -15,7 +17,7 @@ import { mtCb } from '../../tools/plugins/static';
   styleUrl: './overview-page.component.scss'
 })
 export class OverviewPageComponent implements OnInit {
-  constructor(public router: Router) { }
+  constructor(public router: Router, private dialog: MatDialog) { }
   hViewSubmittedTickets() {
     this.router.navigateByUrl('dashboard/ticket');
   }
@@ -84,6 +86,14 @@ export class OverviewPageComponent implements OnInit {
     console.log('ngOnInit this.ticketnotification', this.input);
     
     console.log('this.ticketnotification 84', this.ticketnotification);
+  }
+
+  profile(){
+    const dialogRef = this.dialog.open(ProfileComponent, {
+      // maxHeight: '0%',
+      height: '80%',
+      width: '50%'
+    })
   }
 
   getTicketCount(): Observable<any> {

@@ -61,16 +61,18 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                cursor: pointer;
 
                 button {
                     border: none;
                     background: none;
+                    cursor: pointer;
                 }
             }
 
             .profpic {
                 position: absolute;
-                width: 97%;
+                width: 85%;
                 height: 140px;
                 display: flex;
                 justify-content: center;

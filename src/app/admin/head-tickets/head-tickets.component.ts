@@ -239,7 +239,7 @@ export class HeadTicketsComponent {
       // })
 
     
-  // }
+   }
 
   async nextBatch(tab: any) {
     this.loader = true;

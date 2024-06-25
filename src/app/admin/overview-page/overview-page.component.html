@@ -11,7 +11,7 @@
                 <img *ngIf="profilePicture != ''" src={{profilePicture}} alt="">
             </div>
             <div class="profilebutton">
-                <button>View Profile</button>
+                <button (click)="profile()">View Profile</button>
             </div>
         </div>
     </div>

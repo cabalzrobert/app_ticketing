@@ -2,7 +2,7 @@
     <div class="side-content">
         <div class="prof-img-container">
             <div class="img">
-                <img [src]="userDetail.PRF_PIC" *ngIf="userDetail.PRF_PIC">
+                <img [src]="(userDetail.PRF_PIC == '') ? 'assets/image/icon_blank_profile.png': userDetail.PRF_PIC">
             </div>
         </div>
         <span class="about-you-panel"><p>About You</p></span>
@@ -23,7 +23,8 @@
         <div class="basic-info-content" *ngIf="selectedIndex===0">
             <div class="prof-img-container">
                 <div class="img">
-                    <img [src]="userDetail.PRF_PIC" *ngIf="userDetail.PRF_PIC">
+                    <!-- <img [src]="userDetail.PRF_PIC" *ngIf="userDetail.PRF_PIC"> -->
+                    <img [src]="(userDetail.PRF_PIC == '') ? 'assets/image/icon_blank_profile.png': userDetail.PRF_PIC">
                 </div>
             </div>
             <div class="role">

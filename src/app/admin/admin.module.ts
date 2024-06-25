@@ -93,7 +93,7 @@ import { ViewAttachImageModalComponent } from './modalpage/view-attach-image-mod
 
     ProfileComponent,
     MessageDialog,
-    ProgressBar
+    ProgressBar,
 
     TicketProgressModalComponent,
     SubmitModalComponent,
