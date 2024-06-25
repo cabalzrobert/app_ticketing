@@ -18,6 +18,8 @@ import { subscribe } from 'diagnostics_channel';
 import { RxStomp } from '@stomp/rx-stomp';
 import React from 'react';
 import { json } from 'stream/consumers';
+import { MatDialog } from '@angular/material/dialog';
+import { ProfileComponent } from '../admin/profile/profile.component';
 //import { WebSocketSubject } from 'rxjs/internal/observable/dom/WebSocketSubject';
 //const { Object }: any = window;
 interface SideNavToggle {
@@ -54,7 +56,12 @@ export class SidenavComponent implements OnInit {
   }
 
   totalticketreceived: number = 0;
-  constructor(public router: Router, private authService: AuthService, private ls: LocalStorageService, public webSocketService: WebSocketService, private rxStompService: RxStompService) {
+  constructor(public router: Router, private authService: AuthService, 
+    private ls: LocalStorageService, 
+    public webSocketService: WebSocketService, 
+    private rxStompService: RxStompService,
+    private dialog: MatDialog
+  ) {
 
     device.ready(() => this.stompWebsocketReceiver());
     //this.webSocketService.stompWebsocketReceiver();
@@ -385,5 +392,12 @@ export class SidenavComponent implements OnInit {
     if (ping) ping.unsubscribe();
   }
 
+  profile(){
+    const dialogRef = this.dialog.open(ProfileComponent, {
+      // maxHeight: '0%',
+      height: '80%',
+      width: '50%'
+    })
+  }
 
 }

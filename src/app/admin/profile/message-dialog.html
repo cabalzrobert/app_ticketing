@@ -1,0 +1,19 @@
+<mat-toolbar class="mat-dialog-header">
+    <h3 [ngClass]="data.type==='failed'?'title-fail':data.type==='success'?'title-success':'title-confirm'">{{data.title}}</h3>
+</mat-toolbar>
+<mat-dialog-content>
+    <div class="dialog-content">
+        <span class="message">{{data.message}}</span>
+        <mat-dialog-cations class="footer">
+            <button class="btn-close" mat-button [mat-dialog-close]="false" *ngIf="data.type==='confirm'">
+                Cancel
+            </button>
+            <button class="btn-confirm" mat-button (click)="close()" *ngIf="data.type==='confirm'">
+                Confirm
+            </button>
+            <button class="btn-close" mat-button [mat-dialog-close]="false" *ngIf="data.type!=='confirm'">
+                Close
+            </button>
+        </mat-dialog-cations>
+    </div>
+</mat-dialog-content>

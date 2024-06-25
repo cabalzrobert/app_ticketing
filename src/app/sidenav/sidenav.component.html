@@ -60,8 +60,8 @@
     </ul>
     <div class="sidenavfooter">
         <div [ngClass]="collapsed ? 'userdetails' : 'userdetails1'">
-            <div class="user" *ngIf="collapsed">
-                <div class="profpic">
+            <div class="user" *ngIf="collapsed" >
+                <div class="profpic" (click)="profile()">
                     <img src="assets/image/icon_blank_profile.png" alt="">
                 </div>
             </div>
