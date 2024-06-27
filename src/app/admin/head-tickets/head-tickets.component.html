@@ -274,7 +274,7 @@
         <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" #tabRef>
             <mat-tab class="tab-container">
                 <ng-template class="tab-label" mat-tab-label>
-                    <span style="font-size: 20px;">Unassigned</span>
+                    <span style="font-size: 20px;">Pending</span>
                     <span class="mat-badge-icon" *ngIf="unassigend > 0 && unassigend <= 99" matBadge={{unassigend}} matBadgeColor="accent"></span>
                     <span class="mat-badge-icon" *ngIf="unassigend > 99" matBadge="99+" matBadgeColor="accent"></span>
                 </ng-template>
@@ -307,7 +307,7 @@
             </mat-tab>
             <mat-tab>
                 <ng-template mat-tab-label matBadgeColor="accent">
-                    <span style="font-size: 20px;">Assigned</span>
+                    <span style="font-size: 20px;">Resolved</span>
                     <span class="mat-badge-icon" *ngIf="assigned > 0 && assigned <= 99" matBadge={{assigned}} matBadgeColor="accent"></span>
                     <span class="mat-badge-icon" *ngIf="assigned > 99" matBadge={{assigned}} matBadgeColor="accent"></span>
                 </ng-template>
