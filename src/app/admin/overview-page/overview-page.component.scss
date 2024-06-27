@@ -303,6 +303,7 @@
             max-height: calc(100% - 24px);
             overflow: auto;
             display: flex;
+            flex-direction: column;
             gap: 10px;
 
             .details {

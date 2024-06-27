@@ -13,6 +13,7 @@ import { BehaviorSubject, Observable, Subject, filter, takeUntil } from 'rxjs';
 import { mtCb } from '../../tools/plugins/static';
 import { LocalStorageService } from '../../tools/plugins/localstorage';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { faL } from '@fortawesome/free-solid-svg-icons';
 const batchDone = new Subject<boolean>();
 
 export interface DialogData {
@@ -70,6 +71,7 @@ export class CommunicatorTicketComponent {
   unassigned: number = 0;
   assigned: number = 0;
   allticket: number = 0;
+  loader = true;
 
 
   ngOnInit() {
@@ -242,8 +244,8 @@ export class CommunicatorTicketComponent {
   //   })
   // }
   async nextBatch(val: any){
-    console.log(`new batch ${val.tab}`);
-    console.log(`tab ${this.tab} = val.tab ${val.tab}`);
+    //console.log(`new batch ${val.tab}`);
+    //console.log(`tab ${this.tab} = val.tab ${val.tab}`);
     let end = 0;
     let total = 0;
     if(this.tab !== val.tab){
@@ -252,6 +254,7 @@ export class CommunicatorTicketComponent {
       end = this.virtualScroll.getRenderedRange().end;
       total = this.collections.length;
     }
+    console.log('newBatch end', end);
     // if(val.tab===undefined) val.tab = this.tab;
     // if (!this.subs) return this.collections;
     // if (this.subs.s1) this.subs.s1.unsubscribe();
@@ -262,7 +265,9 @@ export class CommunicatorTicketComponent {
     this.tab = val.tab;
     console.log(`end ${end} <= total ${total} : batch ${this.batch}`);
     if(end === total){
+      this.loader = true;
       console.log(filter);
+      console.log('newBatch this.collections 267',this.batch,this.collections[end]);
       await this.onPerformGetTickets(filter, val);
     }
   }
@@ -279,7 +284,10 @@ export class CommunicatorTicketComponent {
         if(res.length > 0)
           this.collections = this.collections.concat(res);
         console.log('collections batch = ',this.batch,this.collections);
-        return;
+        let cnt = parseInt((this.collections).length);
+        console.log('collections batch 285 = ',this.collections[cnt-1]);
+        this.loader = false;
+        return this.collections;
       }
       else
         alert('Failed');

@@ -1,5 +1,5 @@
 import { Component, OnInit, input } from '@angular/core';
-import { additionalRequestNotification, bindLastNotificationID, jUser, jUserModify, requestnotificationCount } from '../../+app/user-module';
+import { additionalRequestNotification, bindLastLastNotificatioinID, bindLastNotificationID, jUser, jUserModify, requestnotificationCount } from '../../+app/user-module';
 import { device } from '../../tools/plugins/device';
 import { stomp } from '../../+services/stomp.service';
 import { Capacitor } from '@capacitor/core';
@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { mtCb } from '../../tools/plugins/static';
 import { MatDialog } from '@angular/material/dialog';
 import { ProfileComponent } from '../profile/profile.component';
+import { CommunicatorTicketComponent } from '../communicator-ticket/communicator-ticket.component';
 
 @Component({
   selector: 'app-overview-page',
@@ -17,7 +18,20 @@ import { ProfileComponent } from '../profile/profile.component';
   styleUrl: './overview-page.component.scss'
 })
 export class OverviewPageComponent implements OnInit {
-  constructor(public router: Router, private dialog: MatDialog) { }
+  hOpenNotification(data: any, idx: number) {
+    console.log('hOpenNOtification data', data, idx);
+    if(data.Type == 'Ticket-Request'){
+      this.router.navigateByUrl('dashboard/receivedtickets');
+      //timeout(() => this._communicator.hSearchReceivedTicket(data.Description));
+    }
+    if(data.Type == 'Forward-Ticket'){
+      this.router.navigateByUrl('dashboard/assignedticket');
+      //timeout(() => this._communicator.hSearchReceivedTicket(data.Description));
+    }
+  }
+  constructor(public router: Router, private dialog: MatDialog) {
+    device.ready(() => this.stompWebsocketReceiver());
+  }
   hViewSubmittedTickets() {
     this.router.navigateByUrl('dashboard/ticket');
   }
@@ -27,6 +41,7 @@ export class OverviewPageComponent implements OnInit {
   loader = true;
   subs: any = {};
   input: any = {};
+  lastnotificationid: string = '';
   prop: any = {};
   UserAccount: string = '';
   UserType: string = '';
@@ -40,7 +55,12 @@ export class OverviewPageComponent implements OnInit {
   submittedresolve: number = 0;
   totalsubmittedticket: number = 0
   ticketnotification: any = [];
-  notificationID:string = '';
+  ticketnotificationReceived: any = [];
+  notificationID: string = '';
+  unreadNotification: number = 0;
+  
+  iscom:number = 0;
+  isdepthead:number = 0;
 
 
   async ngOnInit(): Promise<void> {
@@ -56,8 +76,10 @@ export class OverviewPageComponent implements OnInit {
     // });
     //console.log('ngOnInt this.subs 1', this.subs);
     this.input = await jUser();
-    device.ready(async () => requestnotificationCount());
-    device.ready(() => this.stompWebsocketReceiver());
+    let item: any = { isCom: this.input.isCommunicator ? 1 : 0, isDept: this.input.isDeptartmentHead ? 1 : 0 };
+    console.log('let item', item);
+    //device.ready(async () => requestnotificationCount(item));
+    timeout(async () => await requestnotificationCount(item));
     this.UserAccount = this.input.FLL_NM;
     this.profilePicture = this.input.PRF_PIC;
 
@@ -77,18 +99,25 @@ export class OverviewPageComponent implements OnInit {
     //device.ready(() => setTimeout(() => this.getTicketCount(), 275));
     await this.getTicketCount();
     //console.log('Overivew Ticket Count 68', this.assignedpending);
-    //timeout(() => this.getTicketListDelay({IsRest: true}), 1275);
+    
+    this.iscom = (this.input.isCommunicator == true) ? 1 : 0;
+    this.isdepthead = (this.input.isDeptartmentHead == true) ? 1 : 0;
+    timeout(() => this.getTicketListDelay({ IsRest: true }), 275);
 
     //timeout(() => this.getTicketList({IsRest: true}), 275);
-    await this.getTicketList({IsRest: true});
+    //await this.getTicketList({IsRest: true, isCom: item.isCom, isDept: item.isDept});
 
-    //this.getTicketListDelay({ IsReset: true }, mtCb, 1275);
-    console.log('ngOnInit this.ticketnotification', this.input);
-    
-    console.log('this.ticketnotification 84', this.ticketnotification);
+    // await this.getTicketListDelay({ IsReset: true }, mtCb, 1275);
+    //console.log('ngOnInit this.ticketnotification', this.input);
+
+    //console.log('this.ticketnotification 84', this.input.RequestNotificationCount);
+
+    console.log('Last NotificationID 95', await this.lastnotificationid);
+    console.log('this.input.RequestNotificationCount 98', this.input.RequestNotificationCount);
+    this.unreadNotification = await this.input.RequestNotificationCount;
   }
 
-  profile(){
+  profile() {
     const dialogRef = this.dialog.open(ProfileComponent, {
       // maxHeight: '0%',
       height: '80%',
@@ -118,18 +147,22 @@ export class OverviewPageComponent implements OnInit {
   getTicketListDelay(filter: any, callback: Function = mtCb, delay: number = 175) {
     if (this.subs.t1) this.subs.t1.unsubscribe();
     this.prop.IsFiltering = !filter.IsFiltering;
-    this.subs.t1 = timeout(() => this.getTicketList(filter, callback), delay);
+    this.subs.t1 = timeout(async () => await this.getTicketList(filter, callback), delay);
+  }
+  refreshTicketList(item:any):Observable<any>{
+    this.ticketnotification.unshift(item);
+    return this.ticketnotification
   }
 
   getTicketList(item: any, callback: Function = mtCb): Observable<any> {
     if (!this.subs) return this.ticketnotification;
     if (this.subs.s1) this.subs.s1.unsubscribe();
+    item.isCom = this.iscom;
+    item.isDept = this.isdepthead;
 
     this.subs.s1 = rest.post('notification', item).subscribe(async (res: any) => {
-      console.log('notificaiton res', res);
       if (res != null) {
         var cnt = parseInt(res.length);
-        console.log('Ticket List 1786', cnt);
         if (cnt == 0) {
           this.ticketnotification = [];
           this.loader = false;
@@ -142,15 +175,16 @@ export class OverviewPageComponent implements OnInit {
         this.prop.IsEmpty = (this.ticketnotification.length < 1);
         if (callback != null) callback();
         this.loader = false;
+        this.lastnotificationid = this.ticketnotification[0].NotificationID;
+        bindLastLastNotificatioinID(this.lastnotificationid);
         return this.ticketnotification;
       }
 
     });
-    
+
     return this.ticketnotification;
   }
   ListNotificationDetails(item: any) {
-    console.log('ListNoftificationDetails itme', item);
     return item;
   }
 
@@ -159,31 +193,135 @@ export class OverviewPageComponent implements OnInit {
     console.log('Overview Page Component connected', this.input)
     console.log('Overview Page Component this.subs', this.subs)
     var iscom = (this.input.isCommunicator == true) ? 1 : 0;
+    var isdepthead = (this.input.isDeptartmentHead == true) ? 1 : 0;
+    console.log(`/forwarded/depthead/${isdepthead}`);
     this.subs.wsErr = stomp.subscribe('#error', (err: any) => this.error());
     this.subs.wsConnect = stomp.subscribe('#connect', () => this.connected());
     this.subs.wsDisconnect = stomp.subscribe('#disconnect', () => this.disconnect());
     this.subs.ws1 = stomp.subscribe('/' + iscom + '/ticketrequest/iscommunicator', (json: any) => this.receivedRequestTicketCommunicator(json));
+    this.subs.ws1 = stomp.subscribe('/forwardticket/depthead/' + isdepthead, (json:any) => this.receivedforwardedTicket(json));
+    this.subs.ws1 = stomp.subscribe('/assigned', (json: any) => this.receivedAssignedTicket(json));
     stomp.ready(() => (stomp.refresh(), stomp.connect()));
   }
-
-
-
-
-  receivedRequestTicketCommunicator(data: any) {
-    var notification = data.notification;
-    this.notificationID = notification.NotificationID;
-    //console.log('this.TicketNo 296', this.input.LastTransactionNo);
-    if (this.input.LastNotificationID == notification.NotificationID) return;
-
-    //console.log('this.TicketNo 299', content.TransactionNo);
-    bindLastNotificationID(this.notificationID);
+  receivedAssignedTicket(data:any){
+    var content = data.notification;
+    let notificationid = content.NotificationID
+    bindLastLastNotificatioinID(content.NotificationID);
+    this.refreshTicketList(content);
+    if (this.input.LastNotificationID == content.NotificationID) return this.ticketnotification;
     additionalRequestNotification(1);
     this.refreshData();
-    return this.input.RequestNotificationCount;
+    return this.ticketnotification;
+  }
+  receivedforwardedTicket(data:any){
+    var content = data.notification;
+    let notificationid = content.NotificationID
+    bindLastLastNotificatioinID(content.NotificationID);
+    //if (this.input.LastNotificationID == content.NotificationID) return this.ticketnotification;
+    this.refreshTicketList(content);
+    //this.ticketnotification.unshift(content);
+    console.log('this.ticketnotification 223', this.ticketnotification);
+    /*
+    let Exist = this.ticketnotification.find((o: any) => o.NotificationID == notificationid);
+
+    this.ticketnotification.forEach((o: any) => {
+      this.ticketnotificationReceived.push(this.ListNotificationDetails(o));
+    });
+    this.ticketnotification = [];
+    this.ticketnotificationReceived.unshift(content);
+    this.ticketnotificationReceived.forEach((o: any) => {
+      this.ticketnotification.push(this.ListNotificationDetails(o));
+    })
+    this.ticketnotificationReceived = [];
+    console.log('this.ticketnotification 223', this.ticketnotification);
+    */
+    if (this.input.LastNotificationID == content.NotificationID) return this.ticketnotification;
+    additionalRequestNotification(1);
+    this.refreshData();
+    //this.ticketnotification = [];
+    return this.ticketnotification;
+  }
+
+notif:number = 201;
+  hFind() {
+    //let Exist = this.ticketnotification.find((o: any) => o.NotificationID == '16');
+    //console.log('let ticketnotificationExist', Exist);
+    //this.ticketnotification.unshift(this.lst);
+    this.notif = this.notif + 1;
+    this.lst.notification.NotificationID = this.notif;
+    console.log('hFind', this.lst.notification)
+    this.receivedforwardedTicket(this.lst)
+  }
+  lst:any ={
+    type:'departmenthead-notification',
+    content:'',
+    notification:{
+      NotificationID : 201,
+      DateTransaction: 'June 27, 2024',
+      TransactionNo: '0000002010',
+      Title: 'Notification Title',
+      Description: 'Description Notification',
+      IsOpen: false,
+      Type: 'Forward-Ticket',
+      DateDisplay: 'June 27, 2024',
+      TimeDisplay: '09:36 AM',
+      FulldateDisplay: 'June 27, 2024 09:36 AM'
+    }
+
+  }
+
+  receivedRequestTicketCommunicator(data: any) {
+
+    // console.log('receivedRequestTicketCommunicator', data);
+    // var notification = data.notification;
+    // this.lastnotificationid = notification.NotificationID;
+    // //console.log('this.TicketNo 296', this.input.LastTransactionNo);
+    // if (this.input.LastNotificationID == notification.NotificationID) return;
+
+    // //console.log('this.TicketNo 299', content.TransactionNo);
+    // bindLastNotificationID(this.notificationID);
+    // additionalRequestNotification(1);
+    // this.refreshData();
+    // return this.input.RequestNotificationCount;
+
+
+    var content = data.notification;
+    //this.TicketNo = content.TicketNo;
+    console.log('Communication Page var content 204', content);
+    console.log('Communication Page content.NotificationID 208', content.NotificationID);
+    let notificationid = content.NotificationID
+    console.log('Communication Page notificationid 208', notificationid);
+    console.log('this.input', this.input);
+    bindLastLastNotificatioinID(content.NotificationID);
+    if (this.input.LastNotificationID == content.NotificationID) return;
+    //this.collections.push(data.content);
+    let Exist = this.ticketnotification.find((o: any) => o.NotificationID == notificationid);
+    console.log('let ticketnotificationExist', Exist);
+    //if(Exist) return;
+
+    this.ticketnotification.forEach((o: any) => {
+      this.ticketnotificationReceived.push(this.ListNotificationDetails(o));
+    });
+    this.ticketnotification = [];
+    this.ticketnotificationReceived.unshift(content);
+
+    //this.collections = this.collectionreceived.map((o: any) => this.collectionListDetails(o));
+    this.ticketnotificationReceived.forEach((o: any) => {
+      this.ticketnotification.push(this.ListNotificationDetails(o));
+    })
+    this.ticketnotificationReceived = [];
+    //this.ticketnotification.unshift(content);
+    console.log('this.ticketnotification 223', this.ticketnotification);
+    additionalRequestNotification(1);
+    this.refreshData();
+    return this.ticketnotification;
+
+
   }
   private async refreshData() {
     //jUserModify();
     this.input = await jUser();
+    this.unreadNotification = await this.input.RequestNotificationCount;
   }
   private error() {
     this.ping(() => this.testPing());

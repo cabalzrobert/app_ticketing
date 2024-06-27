@@ -18,6 +18,7 @@ import { device } from '../../tools/plugins/device';
 import { BehaviorSubject, Observable, Subject, empty, takeUntil } from 'rxjs';
 import { jUser } from '../../+app/user-module';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { faL } from '@fortawesome/free-solid-svg-icons';
 const batchDone = new Subject<boolean>();
 
 
@@ -242,7 +243,7 @@ export class HeadTicketsComponent {
    }
 
   async nextBatch(tab: any) {
-    this.loader = true;
+    this.loader = false;
     console.log(`new batch ${tab}`);
     console.log(`tab ${this.tab} = val.tab ${tab}`);
     let end = 0;
@@ -263,6 +264,7 @@ export class HeadTicketsComponent {
     this.tab = tab;
     console.log(`end ${end} <= total ${total} : batch ${this.batch}`);
     if (end === total) {
+      this.loader = true;
       console.log(filter);
       this.showProgress = true;
       await this.onPerformGetTickets(filter, tab);
@@ -305,6 +307,7 @@ export class HeadTicketsComponent {
         if (res.length > 0)
           this.collections = this.collections.concat(res);
         console.log('collections batch = ', this.batch, this.collections);
+        this.loader = false;
         this.loader = false;
         return;
       }

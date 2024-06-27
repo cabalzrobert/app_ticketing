@@ -148,6 +148,7 @@ export class NewusermodalComponent implements OnInit {
     if (!this.isValidateEntries()) return;
     //console.log('ClosedDialogNewUser', this.form.value);
 
+    console.log('Save User Modal', this.form.value)
     
     this.submitDialogRef = this.dialog.open(SubmitModalComponent, { data: { item: { Header: this.UserAccount.Title, Message: 'Are you sure you want to submit new user account.' } } });
     this.submitDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
@@ -163,6 +164,7 @@ export class NewusermodalComponent implements OnInit {
   performSaveUserAccount() {
     rest.post('useraccount/save', this.form.value).subscribe(async (res: any) => {
       if (res.Status == 'ok') {
+        console.log('error', res)
         this.form.value.UserAccountID = res.Content.UserAccountID
         this.form.value.MobileNumber = res.Content.MobileNumber;
         this.form.value.Name = res.Content.Name;
@@ -177,6 +179,7 @@ export class NewusermodalComponent implements OnInit {
         //this.dialogRef.close(this.form.value);
       }
       else if (res.Status == 'error') {
+        console.log('error', res)
         this.successDialogRef = this.dialog.open(AlertSuccessModalComponent, { data: { item: { Icon: 'fa fa-solid fa-exclamation', Message: res.Message, ButtonText: 'Error', isConfirm: false } } });
         this.successDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
           if (!o.item.isConfirm) {

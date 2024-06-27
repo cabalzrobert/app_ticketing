@@ -61,10 +61,10 @@
     <div class="sidenavfooter">
         <div [ngClass]="collapsed ? 'userdetails' : 'userdetails1'">
 
-            <div class="user" *ngIf="collapsed" >
-                <div class="profpic" (click)="profile()">
+            <!-- <div class="user" *ngIf="collapsed" >
+                <div class="profpic" (click)="profile()"> -->
 
-            <div class="user" *ngIf="collapsed">
+            <div class="user" *ngIf="collapsed" (click)="profile()">
                 <div class="profpic" *ngIf="input.PRF_PIC == ''">
 
                     <img src="assets/image/icon_blank_profile.png" alt="">
@@ -73,7 +73,7 @@
                     <img src={{input.PRF_PIC}} alt="">
                 </div>
             </div>
-            <div class="userinfo" *ngIf="collapsed">
+            <div class="userinfo" *ngIf="collapsed" (click)="profile()">
                 <div class="info">
                     <label for="">{{input.FLL_NM}}</label>
                     <label for="">{{input.EML_ADD}}</label>

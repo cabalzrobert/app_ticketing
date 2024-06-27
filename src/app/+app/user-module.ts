@@ -36,22 +36,22 @@ export const jUser = (() => {
             return jUser;
         }
         //console.log('jUser 1', user);
-        if (!isMerge){
+        if (!isMerge) {
             //console.log('if(!isMerge)', jUser);
             //return jUser = user;
             Object.assign(jUser, user);
-        } 
-        else{
-            
+        }
+        else {
+
             //console.log('else)', jUser);
             Object.assign(jUser, user);
         }
-            
+
 
         //console.log('jUser 3', user);
         //await(localStorage["user"] = jUser);
         //console.log('jUser', Object);
-        
+
         //await (jUser.ls.setItem('UserAccount', jUser));
         timeout(jUserModify);
         //console.log('jUser 4', user);
@@ -71,42 +71,83 @@ export const jUserModify = (() => {
     }
 })();
 
-export const notificationCount=(()=>{ 
-    const ready = whenReady((ready)=>rest.ready(()=>ready()));
+export const notificationCount = (() => {
+    const ready = whenReady((ready) => rest.ready(() => ready()));
     //console.log('Notification COunt', ready);
-    var subscription:any;
-    return async()=>{
-        if(!await ready()) return;
-        if(subscription) subscription.unsubscribe();
+    var subscription: any;
+    return async () => {
+        if (!await ready()) return;
+        if (subscription) subscription.unsubscribe();
         //console.log('Notification COunt 81', ready);
-        subscription = rest.post('notification/unseen').subscribe(async(res:any)=>{
-            if(res.Status!='error'){
+        subscription = rest.post('notification/unseen').subscribe(async (res: any) => {
+            if (res.Status != 'error') {
                 return additionalNotification(+res, true);
             }
-        },(err:any) =>{
+        }, (err: any) => {
             return additionalNotification(+0, true);
         });
-   };
+    };
 })();
-export const additionalNotification=async(additional:number, isSet:boolean=false)=>{
-   var user = await jUser();
-   if(!user.NotificationCount) user.NotificationCount = 0;
-   if(isSet) user.NotificationCount = additional;
-   else user.NotificationCount += additional;
-   //console.log('additionalNotification user', user);
-   return await jUser(user,true);
+export const additionalNotification = async (additional: number, isSet: boolean = false) => {
+    var user = await jUser();
+    if (!user.NotificationCount) user.NotificationCount = 0;
+    if (isSet) user.NotificationCount = additional;
+    else user.NotificationCount += additional;
+    //console.log('additionalNotification user', user);
+    return await jUser(user, true);
 }
+/*
+export const requestnotificationCount = async (item: any) => {
+    const ready = whenReady((ready) => rest.ready(() => ready()));
+    //console.log('requestnotificationCount item', item);
+    var subscription: any;
+    if (!await ready()) return;
 
+    console.log('requestnotificationCount item 106', item);
+    if (subscription) subscription.unsubscribe();
+    rest.post('ticketnotification/unseen', item).subscribe(async (res:any) => {
+        console.log('requestnotificationCount res 110', res);
+        if (res.Status != 'error') {
+            return additionalRequestNotification(+res, true);
+        }
+    }, (err:any) => {
+        return additionalRequestNotification(+0, true);
+    })
+    //console.log('Notification COunt 81', ready);
+    // subscription = rest.post('ticketnotification/unseen', item).subscribe(async (res: any) => {
+    //     console.log('requestnotificationCount res 110', res);
+    //     if (res.Status != 'error') {
+    //         return additionalRequestNotification(+res, true);
+    //     }
+    // }, (err: any) => {
+    //     return additionalRequestNotification(+0, true);
+    // });
+    // return async () => {
 
+    //     console.log('requestnotificationCount item 106', item);
+    //     if (!await ready()) return;
+    //     if (subscription) subscription.unsubscribe();
+    //     //console.log('Notification COunt 81', ready);
+    //     subscription = rest.post('ticketnotification/unseen', item).subscribe(async (res: any) => {
+    //         if (res.Status != 'error') {
+    //             return additionalRequestNotification(+res, true);
+    //         }
+    //     }, (err: any) => {
+    //         return additionalRequestNotification(+0, true);
+    //     });
+    // };
+}
+*/
 export const requestnotificationCount=(()=>{ 
     const ready = whenReady((ready)=>rest.ready(()=>ready()));
-    //console.log('Notification COunt', ready);
+    //console.log('requestnotificationCount item', item);
     var subscription:any;
-    return async()=>{
+    return async(item:any)=>{
         if(!await ready()) return;
+        console.log('requestnotificationCount item 147', item);
         if(subscription) subscription.unsubscribe();
         //console.log('Notification COunt 81', ready);
-        subscription = rest.post('ticketnotification/unseen').subscribe(async(res:any)=>{
+        subscription = rest.post('ticketnotification/unseen',item).subscribe(async(res:any)=>{
             if(res.Status!='error'){
                 return additionalRequestNotification(+res, true);
             }
@@ -115,45 +156,53 @@ export const requestnotificationCount=(()=>{
         });
    };
 })();
-export const additionalRequestNotification=async(additional:number, isSet:boolean=false)=>{
-   var user = await jUser();
-   if(!user.RequestNotificationCount) user.RequestNotificationCount = 0;
-   if(isSet) user.RequestNotificationCount = additional;
-   else user.RequestNotificationCount += additional;
-   //console.log('additionalNotification user', user);
-   return await jUser(user,true);
+
+export const additionalRequestNotification = async (additional: number, isSet: boolean = false) => {
+    var user = await jUser();
+    if (!user.RequestNotificationCount) user.RequestNotificationCount = 0;
+    if (isSet) user.RequestNotificationCount = additional;
+    else user.RequestNotificationCount += additional;
+    //console.log('additionalNotification user', user);
+    return await jUser(user, true);
+}
+export const bindLastLastNotificatioinID = async (notificationid: string, isSet: boolean = false) => {
+    var user = await jUser();
+    if (!user.LastNotificationID) user.LastTransactionNo = '';
+    if (isSet) user.LastNotificationID = notificationid;
+    else user.LastNotificationID = notificationid;
+    return await jUser(user, true);
 }
 
-export const getLastTransactionNumber=(()=>{ 
-    const ready = whenReady((ready)=>rest.ready(()=>ready()));
-    var subscription:any;
-    return async()=>{
-        if(!await ready()) return;
-        if(subscription) subscription.unsubscribe();
-        subscription = rest.post('lasttransactionno').subscribe(async(res:any)=>{
-            if(res.Status!='error'){
+export const getLastTransactionNumber = (() => {
+    const ready = whenReady((ready) => rest.ready(() => ready()));
+    var subscription: any;
+    return async () => {
+        if (!await ready()) return;
+        if (subscription) subscription.unsubscribe();
+        subscription = rest.post('lasttransactionno').subscribe(async (res: any) => {
+            if (res.Status != 'error') {
                 return bindLastTransacationNumber(res, true);
             }
-        },(err:any) =>{
+        }, (err: any) => {
             return bindLastTransacationNumber('', true);
         });
-   };
+    };
 })();
-export const bindLastTransacationNumber=async(transactionnumber:string, isSet:boolean=false)=>{
-   var user = await jUser();
-   if(!user.LastTransactionNo) user.LastTransactionNo = '';
-   if(isSet) user.LastTransactionNo = transactionnumber;
-   else user.LastTransactionNo = transactionnumber;
-   return await jUser(user,true);
+export const bindLastTransacationNumber = async (transactionnumber: string, isSet: boolean = false) => {
+    var user = await jUser();
+    if (!user.LastTransactionNo) user.LastTransactionNo = '';
+    if (isSet) user.LastTransactionNo = transactionnumber;
+    else user.LastTransactionNo = transactionnumber;
+    return await jUser(user, true);
 }
 
-export const bindLastNotificationID=async(notificationid:string, isSet:boolean=false)=>{
+export const bindLastNotificationID = async (notificationid: string, isSet: boolean = false) => {
     var user = await jUser();
-    if(!user.LastNotificationID) user.LastTransaLastNotificationIDctionNo = '';
-    if(isSet) user.LastNotificationID = notificationid;
+    if (!user.LastNotificationID) user.LastTransaLastNotificationIDctionNo = '';
+    if (isSet) user.LastNotificationID = notificationid;
     else user.LastNotificationID = notificationid;
-    return await jUser(user,true);
- }
+    return await jUser(user, true);
+}
 /*
 export const departmentnotificationCount=(async ()=>{ 
     const ready = whenReady((ready)=>rest.ready(()=>ready()));

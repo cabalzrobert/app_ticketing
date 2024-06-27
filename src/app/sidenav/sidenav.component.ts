@@ -58,7 +58,7 @@ export class SidenavComponent implements OnInit {
   totalticketreceived: number = 0;
   constructor(public router: Router, private authService: AuthService, 
     private ls: LocalStorageService, 
-    public webSocketService: WebSocketService, 
+    //public webSocketService: WebSocketService, 
     private rxStompService: RxStompService,
     private dialog: MatDialog
   ) {
@@ -272,7 +272,7 @@ export class SidenavComponent implements OnInit {
   }
 
   private async stompWebsocketReceiver() {
-    this.webSocketService.connect();
+    //this.webSocketService.connect();
     this.input = await jUser();
     var iscom = (this.input.isCommunicator == true) ? 1 : 0;
     var isdepthead = (this.input.isDeptartmentHead == true) ? 1 : 0;

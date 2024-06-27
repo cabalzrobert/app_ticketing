@@ -24,6 +24,8 @@ export class NewCategoryModalComponent implements OnInit {
     this.diaglogRef.close();
   }
 
+  
+
   newdialog() {
     if(!this.isValidateEntries()) return;
     //console.log('New Department', this.form.value);
