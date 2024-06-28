@@ -356,7 +356,9 @@ export class HeadTicketsComponent {
     rest.post(`head/personnels?departmentId=${this.ticketDetail.departmentId}`).subscribe((res: any) => {
       console.log(res);
       if (res.Status === 'ok') {
+        console.log(res.personnels)
         this.personnels = res.personnels;
+        this.personnels = this.personnels.filter((res: any) => res.userId!==this.userDetail.USR_ID);
         return;
       }
       alert('Failed to load');
