@@ -116,7 +116,7 @@
         </div>
         <div class="notificationdata">
             <div class="details" *ngFor="let data of ticketnotification; index as i">
-                <div style="width: 100%;display: flex;" (click)="hOpenNotification(data, i)">
+                <div [ngClass]="data.IsOpen ? 'isRead' : 'isUnread'" (click)="hOpenNotification(data, i)">
                     <div class="icon">
                         <i class = "fa fa-light fa-ticket-alt" *ngIf="data.Type == 'Ticket-Request' || data.Type == 'Forward-Ticket' || data.Type == 'Assigned-Ticket'"></i>
                         <i class = "fa fa-light fa-cog" *ngIf="data.Type == 'Settings'"></i>

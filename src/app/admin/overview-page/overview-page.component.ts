@@ -21,15 +21,29 @@ import { AuthService } from '../../auth.service';
 export class OverviewPageComponent implements OnInit {
   hOpenNotification(data: any, idx: number) {
     console.log('hOpenNOtification data', data, idx);
-    this.authService.requesttickect = data;
+    this.performSeenTicket(data.NotificationID);
+    this.ticketnotification[idx] = data;
+    data.S_OPN = true;
+    additionalRequestNotification(-1);
     if(data.Type == 'Ticket-Request'){
+      this.authService.requesttickect = data;
       this.router.navigateByUrl('dashboard/receivedtickets');
       //timeout(() => this._communicator.hSearchReceivedTicket(data.Description));
     }
-    if(data.Type == 'Forward-Ticket'){
+    if(data.Type == 'Forward-Ticket' || data.Type == 'Assigned-Ticket'){
+      this.authService.requesttickect = data;
       this.router.navigateByUrl('dashboard/assignedticket');
       //timeout(() => this._communicator.hSearchReceivedTicket(data.Description));
     }
+  }
+  performSeenTicket(NotificationID: any) {
+    console.log('performCommunicatorsSeenTicket transactionNo', NotificationID)
+    this.subs.s2 = rest.post('notification/' + NotificationID + '/seen').subscribe(async (res: any) => {
+      if ((res || {}).status != 'error') {
+        //if (callback != null) callback();
+        return;
+      }
+    });
   }
   constructor(public router: Router, private dialog: MatDialog, private authService: AuthService) {
     device.ready(() => this.stompWebsocketReceiver());
@@ -179,6 +193,7 @@ export class OverviewPageComponent implements OnInit {
         this.loader = false;
         this.lastnotificationid = this.ticketnotification[0].NotificationID;
         bindLastLastNotificatioinID(this.lastnotificationid);
+        console.log('this.ticketnotification 196', this.ticketnotification)
         return this.ticketnotification;
       }
 
