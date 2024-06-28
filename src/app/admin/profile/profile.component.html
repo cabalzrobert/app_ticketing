@@ -182,6 +182,7 @@
             </div>
             <div class="otp-submition" *ngIf="isChangePassword&&!isOtpSuccess">
                 <h2>OTP Sent</h2>
+                <p class="label-msg">Enter the 6-digit code that has been sent to your mobile number to continue</p>
                 <p class="error-msg" *ngIf="otpMessage">{{otpMessage}}</p>
                 <div class="otp-container">
                     <ng-otp-input
