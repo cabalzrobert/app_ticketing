@@ -25,7 +25,7 @@
                 </ng-template>
                 <ng-template class="tab-content" matTabContent>
                     <div class="ticket-list-container">
-                        <cdk-virtual-scroll-viewport class="scrolling-container" [itemSize]="196" (scrolledIndexChange)="nextBatch(tabRef.selectedIndex)">
+                        <cdk-virtual-scroll-viewport class="scrolling-container" [itemSize]="196" (scrolledIndexChange)="nextBatch({tab: tabRef.selectedIndex})">
                             <!-- <mat-spinner class="spinner" *ngIf="showProgress"></mat-spinner> -->
                             <mat-card *cdkVirtualFor="let item of collections" matRipple (click)="next(item)">
                                 <mat-card-header>
@@ -58,7 +58,7 @@
                 </ng-template>
                 <ng-template class="tab-content" matTabContent>
                     <div class="ticket-list-container">
-                        <cdk-virtual-scroll-viewport class="scrolling-container" [itemSize]="196" (scrolledIndexChange)="nextBatch(tabRef.selectedIndex)">
+                        <cdk-virtual-scroll-viewport class="scrolling-container" [itemSize]="196" (scrolledIndexChange)="nextBatch({tab: tabRef.selectedIndex})">
                             <mat-card *cdkVirtualFor="let item of collections" (click)="next(item)">
                                 <mat-card-header>
                                     <mat-card-title>{{item.title}}</mat-card-title>
@@ -90,7 +90,7 @@
                 </ng-template>
                 <ng-template class="tab-content" matTabContent>
                     <div class="ticket-list-container">
-                        <cdk-virtual-scroll-viewport class="scrolling-container" [itemSize]="196" (scrolledIndexChange)="nextBatch(tabRef.selectedIndex)">
+                        <cdk-virtual-scroll-viewport class="scrolling-container" [itemSize]="196" (scrolledIndexChange)="nextBatch({tab: tabRef.selectedIndex})">
                             <mat-card *cdkVirtualFor="let item of collections" (click)="next(item)">
                                 <mat-card-header>
                                     <mat-card-title>{{item.title}}</mat-card-title>
@@ -280,7 +280,7 @@
                 </ng-template>
                 <ng-template class="tab-content" matTabContent>
                     <div class="ticket-list-container">
-                        <cdk-virtual-scroll-viewport class="scrolling-container" [itemSize]="196" (scrolledIndexChange)="nextBatch(tabRef.selectedIndex)">
+                        <cdk-virtual-scroll-viewport class="scrolling-container" [itemSize]="196" (scrolledIndexChange)="nextBatch({tab: tabRef.selectedIndex})">
                             <!-- <mat-spinner class="spinner" *ngIf="showProgress"></mat-spinner> -->
                             <mat-card *cdkVirtualFor="let item of collections" matRipple (click)="next(item)">
                                 <mat-card-header>
@@ -313,7 +313,7 @@
                 </ng-template>
                 <ng-template class="tab-content" matTabContent>
                     <div class="ticket-list-container">
-                        <cdk-virtual-scroll-viewport class="scrolling-container" [itemSize]="196" (scrolledIndexChange)="nextBatch(tabRef.selectedIndex)">
+                        <cdk-virtual-scroll-viewport class="scrolling-container" [itemSize]="196" (scrolledIndexChange)="nextBatch({tab: tabRef.selectedIndex})">
                             <mat-card *cdkVirtualFor="let item of collections" (click)="next(item)">
                                 <mat-card-header>
                                     <mat-card-title>{{item.title}}</mat-card-title>
@@ -345,7 +345,7 @@
                 </ng-template>
                 <ng-template class="tab-content" matTabContent>
                     <div class="ticket-list-container">
-                        <cdk-virtual-scroll-viewport class="scrolling-container" [itemSize]="196" (scrolledIndexChange)="nextBatch(tabRef.selectedIndex)">
+                        <cdk-virtual-scroll-viewport class="scrolling-container" [itemSize]="196" (scrolledIndexChange)="nextBatch({tab: tabRef.selectedIndex})">
                             <mat-card *cdkVirtualFor="let item of collections" (click)="next(item)">
                                 <mat-card-header>
                                     <mat-card-title>{{item.title}}</mat-card-title>
@@ -384,10 +384,133 @@
                     </p>
                     <p class="ticket-description">{{ticketDetail?.description}}</p>
                 </div>
-                <div class="ticket-comment">
-                    <!-- <router-outlet></router-outlet> -->
-                    <app-ticket [detail]="ticketDetail"></app-ticket>
+                <div class="cthbody">
+                    <div class="body">
+                        <div class="bodyheader">
+                            <div class="cthbodyheader">
+                                <label for="">Conversation</label>
+                                <mat-icon>more_vert</mat-icon>
+                            </div>
+                        </div>
+                        <div #tabsContentRefComment [scrollTop]="tabsContentRefComment.scrollHeight"
+                            class="bodycontent">
+                            <div class="commentlist" *ngFor="let data of ticketcomment">
+
+                                <div class="notyourcomment" *ngIf="!data.IsYou && data.isMessage">
+                                    <div class="profpic">
+                                        <img src="assets/image/icon_blank_profile.png" alt="">
+                                    </div>
+                                    <div class="commentcard">
+                                        <div class="message" *ngIf="data.isMessage && !data.isImage">{{data.Message}}
+                                        </div>
+                                        <div class="attachmFile" *ngIf="data.isImage">
+                                            <img *ngIf="data.ImageAttachment != ''" src={{data.ImageAttachment}} alt="">
+                                            <img *ngIf="data.ImageAttachment == ''"
+                                                src="assets/image/icon_blank_profile.png" alt="">
+                                        </div>
+
+                                        <div class="commenter">
+                                            <div>{{data.DisplayName}}</div>
+                                            <label for="">{{data.CommentDate}}</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="isyourcomment" *ngIf="data.IsYou && data.isMessage">
+                                    <div class="yourcommentcard">
+                                        <div class="message" *ngIf="data.isMessage && !data.isImage">{{data.Message}}
+                                        </div>
+                                        <div class="attachmFile" *ngIf="data.isImage">
+                                            <img *ngIf="data.ImageAttachment != ''" src={{data.ImageAttachment}} alt="">
+                                            <img *ngIf="data.ImageAttachment == ''"
+                                                src="assets/image/icon_blank_profile.png" alt="">
+                                        </div>
+                                        <div class="commenter">
+                                            <div>{{data.DisplayName}}</div>
+                                            <label for="">{{data.CommentDate}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="profpic">
+                                        <img src="assets/image/icon_blank_profile.png" alt="">
+                                    </div>
+                                </div>
+                                <div class="isforwarded" *ngIf="!data.IsYou && !data.isMessage">
+                                    <div class="forwarded">
+                                        <label for="">Ticket has been forwarded to&nbsp;</label>
+                                        <div class="forwardinfo"> {{data.Department}}&nbsp;>&nbsp;{{data.DisplayName}}
+                                        </div>
+                                    </div>
+                                    <div class="messageinfo">
+                                        <div class="message">{{data.Message}}</div>
+                                        <div class="date">{{data.CommentDate}}</div>
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
+                <div class="cthfooter" *ngIf="Status != 4 && Status !=6 && ticketDetail?.status !== 6 ">
+                    <div class="footerbody">
+                        <div class="commentcontent" [formGroup]="commentform">
+                            <textarea formControlName="Message" name="" id="" rows="4"
+                                placeholder="Write  your response for issue"></textarea>
+
+                            <!-- <div class="attachfile" *ngFor="let data of uploaded ">
+                                    <img src={{data.base64}}  alt="">
+                                </div> -->
+
+                        </div>
+                        <div class="buttoncomment">
+
+                            <div class="attachmentcomment">
+
+                                <label for="file1">
+
+                                    <div class="fa fa-paperclip"></div>
+                                    <span>Attachment</span>
+
+                                </label>
+
+                                <input *ngIf="uploaded.length < 5" #fileInput id="file1" type="file"
+                                    accept=".png, .jpg, .gif" name="file"
+                                    (change)="onFileSelected($event, fileInput)" />
+
+                                <!-- <input type="file" #fileInput (change)="onFileSelectedComment($event,fileInput)"> -->
+
+                            </div>
+
+                            <!-- <button class="attachmentcomment"><span class="fa fa-paperclip"> Attachment</span>
+                                <input type="file" multiple="multiple" (change)="onFileSelected($event)">
+                            </button> -->
+                            <button (click)="hSendComment()">Send</button>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="acknoledgefooter" *ngIf="Status == 6 || ticketDetail?.status === 6">
+                    <div class="acknowledge">
+                        <div class="footerbody">
+                            <label class="label1" for="">This ticket is closing</label>
+                            <label class="label2" for="">Wait for the requester to confirm to finalize closure</label>
+                            <label class="label3" for="" (click)="cancel()">or cancel</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="acknoledgefooter" *ngIf="Status == 4">
+                    <div class="acknowledge">
+                        <div class="footerbody" *ngIf="Status == 4">
+                            <label class="label1" for="">This ticket is resolved</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class="ticket-comment">
+                    <app-ticket [detail]="ticketDetail"></app-ticket>
+                </div> -->
             </div>
             <div class="side-info-content">
                 <div class="side-inner-content">
@@ -397,7 +520,7 @@
                         </mat-card-header>
                         <mat-card-content>
                             <div class="icon-img">
-                                <mat-icon>flutter_dash</mat-icon>
+                                <img [src]="">
                             </div>
                             <div class="requester-name">
                                 <span>{{ticketDetail?.requestName??'Arnold Schwarzenegger'}}</span>
@@ -418,7 +541,7 @@
                                 <p>Ticket ID:&emsp;<span class="ticketno">#{{ticketDetail?.ticketNo}}</span></p>
                             </label>
                             <label>
-                                <p>Created:&emsp;<span>{{ticketDetail?.dateCreated}}</span></p>
+                                <p>Created:&emsp;<span>{{dateFormatted(false,ticketDetail?.dateCreated)}}</span></p>
                             </label>
                             <label>
                                 <p>Last message:&emsp;<span>#1E233</span></p>
