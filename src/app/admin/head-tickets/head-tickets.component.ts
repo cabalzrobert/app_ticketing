@@ -373,6 +373,7 @@ export class HeadTicketsComponent {
     this.ticketDetail = item;
     console.log(this.ticketDetail);
     this.stepper.next();
+    this.getCommentList(this.ticketDetail.transactionNo);
     if (!item.isAssigned)
       setTimeout(() => this.getDepartmentPersonnels());
   }
