@@ -402,6 +402,13 @@
     gap: 20px;
     padding: 0px 10px;
 
+    .isActive{
+        font-weight: 600;
+    }
+    .isNotActive{
+        font-weight: 400;
+    }
+
 
     .menu-nav-item {
         display: inline-flex;

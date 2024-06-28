@@ -105,10 +105,10 @@
                 </div>
                 <div class="menu-nav-bar">
                     <ul class="menu-nav">
-                        <li class="menu-nav-item ">All</li>
-                        <li class="menu-nav-item ">Read</li>
-                        <li class="menu-nav-item ">Unread</li>
-                        <li class="menu-nav-item ">Mark all as read</li>
+                        <li class="menu-nav-item " [ngClass]="isall ? 'isActive' : 'isNotActive'" (click)="hAll()">All</li>
+                        <li class="menu-nav-item " [ngClass]="isread ? 'isActive' : 'isNotActive'" (click)="hRead()">Read</li>
+                        <li class="menu-nav-item " [ngClass]="isunread ? 'isActive' : 'isNotActive'" (click)="hUnread()">Unread</li>
+                        <li class="menu-nav-item "  [ngClass]="ismarkallasread ? 'isActive' : 'isNotActive'"(click)="hMarkAllAsRead()">Mark all as read</li>
                     </ul>
                 </div>
                 

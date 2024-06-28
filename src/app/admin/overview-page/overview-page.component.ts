@@ -12,6 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ProfileComponent } from '../profile/profile.component';
 import { CommunicatorTicketComponent } from '../communicator-ticket/communicator-ticket.component';
 import { AuthService } from '../../auth.service';
+import { faL } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-overview-page',
@@ -19,6 +20,40 @@ import { AuthService } from '../../auth.service';
   styleUrl: './overview-page.component.scss'
 })
 export class OverviewPageComponent implements OnInit {
+  hAll(){
+    this.isall = true;
+    this.isread = false;
+    this.isunread = false;
+    this.ismarkallasread = false;
+    this.ticketnotification = [];
+    this.loader = true;
+    timeout(() => this.getTicketListDelay({ IsRest: true, isRead: null }), 275);
+  }
+  hRead(){
+    this.isall = false;
+    this.isread = true;
+    this.isunread = false;
+    this.ismarkallasread = false;
+    this.ticketnotification = [];
+    this.loader = true;
+    timeout(() => this.getTicketListDelay({ IsRest: true, isRead: '1' }), 275);
+  }
+  hUnread(){
+    this.isall = false;
+    this.isread = false;
+    this.isunread = true;
+    this.ismarkallasread = false;
+    this.ticketnotification = [];
+    this.loader = true;
+    timeout(() => this.getTicketListDelay({ IsRest: true, isRead: '0' }), 275);
+  }
+  hMarkAllAsRead(){
+    
+    this.isall = false;
+    this.isread = false;
+    this.isunread = false;
+    this.ismarkallasread = true;
+  }
   hOpenNotification(data: any, idx: number) {
     console.log('hOpenNOtification data', data, idx);
     this.performSeenTicket(data.NotificationID);
@@ -77,6 +112,10 @@ export class OverviewPageComponent implements OnInit {
   
   iscom:number = 0;
   isdepthead:number = 0;
+  isall:boolean = true;
+  isread:boolean = false;
+  isunread:boolean = false;
+  ismarkallasread:boolean = false;
 
 
   async ngOnInit(): Promise<void> {
@@ -118,7 +157,7 @@ export class OverviewPageComponent implements OnInit {
     
     this.iscom = (this.input.isCommunicator == true) ? 1 : 0;
     this.isdepthead = (this.input.isDeptartmentHead == true) ? 1 : 0;
-    timeout(() => this.getTicketListDelay({ IsRest: true }), 275);
+    timeout(() => this.getTicketListDelay({ IsRest: true, isRead: null }), 275);
 
     //timeout(() => this.getTicketList({IsRest: true}), 275);
     //await this.getTicketList({IsRest: true, isCom: item.isCom, isDept: item.isDept});
