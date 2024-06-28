@@ -53,20 +53,21 @@ export class AuthService {
   roleslist: any = [];
   subs: any = {};
   prop: any = {};
-  constructor(private router: Router, public ls: LocalStorageService, private websocketservice:WebSocketService) {
+  requesttickect: any = {};
+  constructor(private router: Router, public ls: LocalStorageService, private websocketservice: WebSocketService) {
     //let session: any = localStorage.getItem('Auth');
     let session: any = this.ls.getItem1('Auth');
     if (session) {
       session = JSON.parse(session);
       device.ready(() => setTimeout(() => this.performAuth(), 275));
-      
+
       this.stompWebsocketReceiver();
       //session = session
     }
     this.session = session;
   }
-  
-  
+
+
 
   performAuth = async () => {
     var isSignIn = await this.ls.getItem1('IsSignin')
@@ -75,11 +76,11 @@ export class AuthService {
     rest.setBearer(JSON.parse(token).Token);
     this.input = await jUser();
     return setTimeout(() => {
-      if (isSignIn){
+      if (isSignIn) {
         //this.stompWebsocketReceiver();
         this.router.navigateByUrl('/');
       }
-        
+
       else
         this.router.navigateByUrl('/login');
     });
@@ -114,7 +115,7 @@ export class AuthService {
   }
   private disconnect() {
     this.stopPing();
-}
+  }
   private testPing() {
     const { subs } = this;
     this.stopPing();
@@ -184,7 +185,7 @@ export class AuthService {
 
         this.performSaveLocal(res.account, res.auth, input.Username)
       }
-      else{
+      else {
         alert(res.message);
       }
     }, (err: any) => {
@@ -201,7 +202,7 @@ export class AuthService {
     this.ls.setItem('UserAccount', JSON.stringify(account));
     this.ls.setItem('Username', username);
     this.ls.setItem('IsSignin', String(true));
-    
+
     jUser(Object.assign(account));
     //console.log('Perform Save Local', jUser(Object.assign(account)));
     //console.log('Login PerformSaveLocal', auth.Token);

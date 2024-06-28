@@ -11,6 +11,7 @@ export const authGuard: CanActivateFn = (route, state) => {
 
   const router = inject(Router);
   if (inject(AuthService).session) {
+    console.log('App Ticketing System Auth Communicator');
     let auth: any = inject(AuthService).session;
     device.ready(() => rest.setBearer(auth.Token)) ;
     //console.log('Auth Guard', auth);

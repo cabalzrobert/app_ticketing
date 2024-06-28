@@ -19,6 +19,7 @@ import { BehaviorSubject, Observable, Subject, empty, takeUntil } from 'rxjs';
 import { jUser } from '../../+app/user-module';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { faL } from '@fortawesome/free-solid-svg-icons';
+import { AuthService } from '../../auth.service';
 const batchDone = new Subject<boolean>();
 
 
@@ -37,7 +38,7 @@ export interface DialogData {
 })
 export class HeadTicketsComponent {
 
-  constructor(private route: ActivatedRoute, private router: Router, private dialog: MatDialog, private ls: LocalStorageService) {
+  constructor(private route: ActivatedRoute, private router: Router, private dialog: MatDialog, private ls: LocalStorageService, private authService: AuthService) {
     this.userDetail = ls.getItem1('UserAccount');
   }
   @ViewChild('stepper') stepper!: MatStepper;
@@ -86,6 +87,10 @@ export class HeadTicketsComponent {
     // this.onTabChange(0);
     //this.getDepartmentTicketCount();
     device.ready(() => this.stompWebsocketReceiver());
+    if(this.authService.requesttickect){
+      this.nextBatch({tab:0, search:this.authService.requesttickect.Description, IsReset: false})
+      this.searchTicket(this.authService.requesttickect.Description);
+    }
   }
 
 

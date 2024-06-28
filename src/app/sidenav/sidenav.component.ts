@@ -48,6 +48,9 @@ interface SideNavToggle {
   ]
 })
 export class SidenavComponent implements OnInit {
+  hClearRequest() {
+    this.authService.requesttickect = {};
+  }
   logout() {
     //this.authService.logout();
     //this.stopPing();
@@ -56,8 +59,8 @@ export class SidenavComponent implements OnInit {
   }
 
   totalticketreceived: number = 0;
-  constructor(public router: Router, private authService: AuthService, 
-    private ls: LocalStorageService, 
+  constructor(public router: Router, private authService: AuthService,
+    private ls: LocalStorageService,
     //public webSocketService: WebSocketService, 
     private rxStompService: RxStompService,
     private dialog: MatDialog
@@ -98,8 +101,8 @@ export class SidenavComponent implements OnInit {
   input: any = {};
   receivedMessages: any = [];
   TicketNo: string = '';
-  ticketNo:string = '';
-  
+  ticketNo: string = '';
+
   async ngOnInit(): Promise<void> {
     //this.webSocketService.token();
     //this.webSocketService.stompWebsocketReceiver();
@@ -285,7 +288,7 @@ export class SidenavComponent implements OnInit {
 
     //this.subs.ws1 = stomp.subscribe('/1/ticketrequest/iscommunicator', (json: any) => this.receivedRequestTicketCommunicator(json));
     this.subs.ws1 = stomp.subscribe('/' + iscom + '/ticketrequest/iscommunicator', (json: any) => this.receivedRequestTicketCommunicator(json));
-    this.subs.ws1 = stomp.subscribe('/forwardticket/depthead/' + isdepthead, (json:any) => this.receivedforwardedTicket(json));
+    this.subs.ws1 = stomp.subscribe('/forwardticket/depthead/' + isdepthead, (json: any) => this.receivedforwardedTicket(json));
     stomp.ready(() => (stomp.refresh(), stomp.connect()));
     //console.log('stompWebsocketReceiver 250 sidenav.components', this.subs);
   }
@@ -329,10 +332,10 @@ export class SidenavComponent implements OnInit {
     this.refreshData();
     return this.input.NotificationCount;
   }
-  receivedforwardedTicket(data:any){
+  receivedforwardedTicket(data: any) {
     var content = data.content;
     this.ticketNo = content.ticketNo;
-    if(this.input.LastForwardTransactionNo == content.transactionNo) return;
+    if (this.input.LastForwardTransactionNo == content.transactionNo) return;
     console.log('Department Head Count Side Nav 329', content);
     //bindLastForwardTransactionNumber(content.transactionNo);
     return this.input.DepartmentHeadNotificationCount;
@@ -392,7 +395,7 @@ export class SidenavComponent implements OnInit {
     if (ping) ping.unsubscribe();
   }
 
-  profile(){
+  profile() {
     const dialogRef = this.dialog.open(ProfileComponent, {
       // maxHeight: '0%',
       height: '80%',

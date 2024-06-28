@@ -9,7 +9,7 @@
     <ul class="sidenav-nav">
         <li class="sidenav-nav-item" *ngFor="let data of navData">
 
-            <a class="sidenav-nav-link" [routerLink]="[data.routerLink]" routerLinkActive="active"
+            <a class="sidenav-nav-link" [routerLink]="[data.routerLink]" (click)="hClearRequest()" routerLinkActive="active"
                 [routerLinkActiveOptions]="{exact:true}">
                 <i class="sidenav-link-icon" [class]="data.icon"></i>
                 <div class="receivedticketstab" *ngIf="collapsed">

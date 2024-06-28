@@ -14,6 +14,7 @@ import { mtCb } from '../../tools/plugins/static';
 import { LocalStorageService } from '../../tools/plugins/localstorage';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { faL } from '@fortawesome/free-solid-svg-icons';
+import { AuthService } from '../../auth.service';
 const batchDone = new Subject<boolean>();
 
 export interface DialogData {
@@ -28,7 +29,7 @@ export interface DialogData {
   styleUrl: './communicator-ticket.component.scss'
 })
 export class CommunicatorTicketComponent {
-  constructor(private route: ActivatedRoute, private router: Router, private dialog: MatDialog, private ls: LocalStorageService) { 
+  constructor(private route: ActivatedRoute, private router: Router, private dialog: MatDialog, private ls: LocalStorageService, private authService: AuthService) { 
     this.userDetail = this.ls.getItem1('UserAccount');
   }
   @ViewChild('stepper') stepper!: MatStepper;
@@ -77,8 +78,15 @@ export class CommunicatorTicketComponent {
   ngOnInit() {
     // alert('Yeeee');
     // this.onTabChange({ tab: 0, IsReset: true });
+    console.log('Communicator ngOnit AuthServie requesticket', this.authService.requesttickect);
+    
     this.getTicketCount();
     device.ready(() => this.stompWebsocketReceiver());
+    if(this.authService.requesttickect){
+      this.tab = 2;
+      this.nextBatch({tab:this.tab, search:this.authService.requesttickect.Description, IsReset: false})
+      this.searchTicket(this.authService.requesttickect.Description);
+    }
   }
 
   getTicketCount(): Observable<any> {

@@ -11,6 +11,7 @@ import { mtCb } from '../../tools/plugins/static';
 import { MatDialog } from '@angular/material/dialog';
 import { ProfileComponent } from '../profile/profile.component';
 import { CommunicatorTicketComponent } from '../communicator-ticket/communicator-ticket.component';
+import { AuthService } from '../../auth.service';
 
 @Component({
   selector: 'app-overview-page',
@@ -20,6 +21,7 @@ import { CommunicatorTicketComponent } from '../communicator-ticket/communicator
 export class OverviewPageComponent implements OnInit {
   hOpenNotification(data: any, idx: number) {
     console.log('hOpenNOtification data', data, idx);
+    this.authService.requesttickect = data;
     if(data.Type == 'Ticket-Request'){
       this.router.navigateByUrl('dashboard/receivedtickets');
       //timeout(() => this._communicator.hSearchReceivedTicket(data.Description));
@@ -29,7 +31,7 @@ export class OverviewPageComponent implements OnInit {
       //timeout(() => this._communicator.hSearchReceivedTicket(data.Description));
     }
   }
-  constructor(public router: Router, private dialog: MatDialog) {
+  constructor(public router: Router, private dialog: MatDialog, private authService: AuthService) {
     device.ready(() => this.stompWebsocketReceiver());
   }
   hViewSubmittedTickets() {
