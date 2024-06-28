@@ -92,8 +92,8 @@ export class HeadTicketsComponent {
     device.ready(() => this.stompWebsocketReceiver());
     if(this.authService.requesttickect){
       console.log('nisulod',this.authService.requesttickect);
-      // this.nextBatch({tab:0, search:this.authService.requesttickect.Description, IsReset: false})
-      // this.searchTicket(this.authService.requesttickect.Description);
+       this.nextBatch({tab:0, search:this.authService.requesttickect.Description, IsReset: false})
+       this.searchTicket(this.authService.requesttickect.Description);
     }
   }
 
@@ -270,7 +270,7 @@ export class HeadTicketsComponent {
     // console.log('val.IsReset', val.IsReset);
     // console.log('this.subs.s1', this.subs.s1);
     // console.log(`total communicator next batch`);
-    const filter = { tab: val.tab, departmentId: this.userDetail.DEPT_ID, row: total, search: null };
+    const filter = { tab: val.tab, departmentId: this.userDetail.DEPT_ID, row: total, search: this.searchValue };
     this.tab = val.tab;
     console.log(`end ${end} <= total ${total} : batch ${this.batch}`);
     if (end === total) {
@@ -522,7 +522,7 @@ export class HeadTicketsComponent {
     this.searchValue = !val ? null : val;
     this.collections = [];
     this.virtualScroll.setRenderedRange({ start: 0, end: 0 });
-    this.nextBatch(this.batch);
+    this.nextBatch({tab: this.batch});
     // this.collections = this.backupCollections;
     // this.collections = this.collections.filter((i:any)=>i.title.includes(val));
     // console.log(this.collections);
