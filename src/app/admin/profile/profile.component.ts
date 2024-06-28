@@ -63,6 +63,7 @@ export class ProfileComponent {
     isBasicInfo: true
   });
   confirmUpdate = false;
+  mobileErrorMessage: any;
 
   // update personal detail
   isUpdate = false;
@@ -148,6 +149,9 @@ export class ProfileComponent {
   updateMobileNumber(){
     this.update.mobileNumber = !this.update.mobileNumber;
     this.isOtpSuccess = false;
+    this.config.inputStyles.border = '#4B6CB7 1px solid';
+    this.config.inputStyles['box-shadow'] = 'none';
+    this.otpMessage = null;
     if(this.update.mobileNumber)
       setTimeout(()=>this.sendOtp(),250);
     else
@@ -157,9 +161,17 @@ export class ProfileComponent {
   cancelUpdateMobileNumber(){
     this.formBasic.controls['mobileNumber'].setValue(this.userDetail.MOB_NO);
     this.isOtpSuccess = false;
+    this.config.inputStyles.border = '#4B6CB7 1px solid';
+    this.config.inputStyles['box-shadow'] = 'none';
+    this.otpMessage = null;
   }
 
   onPerformUpdateMobileNumber(ref: MatDialogRef<ProgressBar>){
+    if(!this.MobileNumberValidation()){
+      ref.close();
+      this.messageDialog('failed','Failed!',this.mobileErrorMessage,null,null);
+      return;
+    }
     rest.post('profile/update',this.formBasic.value).subscribe((res:any)=>{
       ref.close();
       if(res.Status === 'ok'){
@@ -167,6 +179,9 @@ export class ProfileComponent {
         dialogRef.afterClosed().subscribe(()=>{
           this.update.mobileNumber = false;
           this.isOtpSuccess = false;
+          this.config.inputStyles.border = '#4B6CB7 1px solid';
+          this.config.inputStyles['box-shadow'] = 'none';
+          this.otpMessage = null;
           const data = this.userDetail;
           data.MOB_NO = this.formBasic.get('mobileNumber')?.value;
           localStorage.setItem('UserAccount', JSON.stringify(data));
@@ -178,6 +193,40 @@ export class ProfileComponent {
       ref.close();
       this.messageDialog('failed','Failed!',`System Error!`,null,null);
     });
+  }
+
+  MobileNumberValidation(): boolean{
+    let isValid = true;
+
+    let mobileNumber = this.formBasic.get('mobileNumber')?.value;
+    if(!mobileNumber){
+      this.mobileErrorMessage = 'Please input a new mobile number.';
+      isValid = false;
+    }
+    else if(mobileNumber === this.userDetail.MOB_NO){
+      this.mobileErrorMessage = 'Mobile number is already used';
+      isValid = false;
+    }
+    else{
+      if(mobileNumber.startsWith('09')&&mobileNumber.length < 11){
+        this.mobileErrorMessage = 'Mobile number is invalid';
+        isValid = false;
+      }
+      else if (mobileNumber.startsWith('+63')&&mobileNumber.length < 13){
+        this.mobileErrorMessage = 'Mobile number is invalid';
+        isValid = false;
+      }
+      else if(!mobileNumber.startsWith('09')||!mobileNumber.startsWith('+63')||mobileNumber.length < 11 || mobileNumber.length < 13){
+        this.mobileErrorMessage = 'Mobile number is invalid';
+        isValid = false;
+      }
+      else {
+        mobileNumber = mobileNumber.startsWith('+63')?mobileNumber: '+63' + mobileNumber.substring(1, mobileNumber.length);
+        this.formBasic.controls['mobileNumber'].setValue(mobileNumber);
+      }
+    }
+
+    return isValid;
   }
 
   confirmUpdateMobileNumber(){
@@ -255,9 +304,6 @@ export class ProfileComponent {
         });
         return;
       }
-      this.messageDialog('failed','Failed!',`Failed to update your mobile number`,null,null);
-    }, (error:any)=>{
-      this.messageDialog('failed','Failed!',`System Error!`,null,null);
     });
   }
 
@@ -436,6 +482,11 @@ export class ProfileComponent {
 
   onCancelChangePassword(){
     this.isOtpSuccess = false;
+    this.otp = null;
+    this.otpMessage = null;
+    this.config.inputStyles.border = '#4B6CB7 1px solid';
+    this.config.inputStyles['box-shadow'] = 'none';
+    
   }
 
 

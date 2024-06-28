@@ -530,6 +530,431 @@ mat-card {
 }
 
 
+.cthbody {
+    height: 69%;
+    padding: 32px 30px;
+    margin-bottom: 20px;
+
+    //box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    .body {
+        height: 100%;
+        box-shadow: 0px 6px 12px 0px #0000001A;
+
+        border-radius: 10px;
+        background: #fff;
+
+        .bodyheader {
+            height: 10%;
+            //box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            //background: #fff;
+            //border-radius: 10px;
+
+            .cthbodyheader {
+                //border: solid 1px #000;
+                display: flex;
+                justify-content: space-between;
+                padding: 16px 50px;
+                //border-radius: 10px;
+
+                label {
+                    font-size: 14px;
+                    font-weight: 400;
+                    line-height: 20px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 100%;
+                }
+
+            }
+        }
+
+        .bodycontent {
+            height: calc(100% - 3rem);
+            background: #fff;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            padding: 16px 30px 16px 30px;
+            //overflow: auto;
+            overflow: auto;
+
+            .commentlist {
+                display: flex;
+                gap: 20px;
+            }
+        }
+    }
+
+
+}
+
+.cthfooter {
+    height: 14%;
+    padding: 10px 30px;
+
+    .footerbody {
+        //border: solid 1px #000;
+        height: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0px 30px 0px 0px;
+        gap: 30px;
+
+        box-shadow: 0px 6px 12px 0px #0000001A;
+        background: #fff;
+        border-radius: 10px;
+
+        .commentcontent {
+            width: 70%;
+            height: 100%;
+            border-radius: 10px;
+            padding: 20px 0px 20px 0px;
+            display: flex;
+            flex-direction: column;
+
+            textarea {
+                outline: none;
+                border: none;
+                width: 100%;
+                resize: none;
+                height: 100%;
+                padding: 0px 10px 0px 20px;
+                font-size: 14px;
+                font-weight: 400;
+                line-height: 30px;
+                font-family: Inter, "Helvetica Neue", sans-serif;
+                border-radius: 10px;
+            }
+
+            .attachfile {
+                display: flex;
+                padding: 0px 10px 0px 20px;
+                height: 30px;
+
+                img {
+                    height: 30px;
+                    border-radius: 5px;
+                    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                }
+            }
+
+        }
+
+        .buttoncomment {
+            width: 30%;
+            display: flex;
+            gap: 20px;
+            justify-content: flex-end;
+            padding: 20px;
+
+            .attachmentcomment {
+                padding: 0px 10px 0px 10px;
+                background: none;
+                border: solid 1px gray;
+                border-radius: 10px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                input[type="file"] {
+                    appearance: none;
+                    visibility: hidden;
+                    height: 0;
+                    width: 0;
+                    padding: 0;
+                    margin: 0;
+                }
+
+                label {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    gap:5px;
+                }
+            }
+
+            .attachmentcomment:hover {
+                background: #9E9E9E;
+                color: #fff;
+                box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+
+
+            }
+
+            button {
+                padding: 20px;
+                border: solid 1px #3818D9;
+                border-radius: 10px;
+                background: none;
+                cursor: pointer;
+            }
+
+            button:hover {
+                background: #3818D9;
+                color: #fff;
+                box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            }
+        }
+    }
+}
+.acknoledgefooter{
+    height: 14%;
+    padding: 10px 30px;
+    .acknowledge{
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .footerbody{
+            display: flex;
+            flex-direction: column;
+            gap:10px;
+            .label1{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .label2{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #4845D2;
+                size: 16px;
+                font-weight: 600;
+            }
+            .label3{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: red;
+                size: 16px;
+                font-weight: 400;
+                text-decoration: underline;
+                text-underline-offset: 5px;
+                cursor: pointer;
+
+            }
+            .acceptbutton{
+                display: flex;
+                gap:10px;
+                height: 40px;
+                .no{
+                    //padding:20px;
+                    width: 50%;
+                    border: none;
+                    background: #BA1717;
+                    border-radius: 10px;
+                    color: #fff;
+                    cursor: pointer;
+                }
+                .no:hover{
+                    font-size: 16px;
+                    font-weight: 800;
+                    cursor: pointer;
+                     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                }
+                .yes{
+                    //padding:20px;
+                    width: 50%;
+                    border: none;
+                    background: #03781D;
+                    border-radius: 10px;
+                    color: #fff;
+                    cursor: pointer;
+                }
+                .yes:hover{
+                    font-size: 16px;
+                    font-weight: 800;
+                    cursor: pointer;
+                    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                }
+            }
+        }
+    }
+}
+
+
+.notyourcomment {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    gap: 10px;
+
+    .profpic {
+        box-shadow: 0px 4px 20px 0px #00000040;
+        border: solid 10px #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 80px;
+        width: 80px;
+        border-radius: 50px;
+
+        img {
+            height: 60px;
+            width: 60px;
+            border-radius: 50px;
+        }
+    }
+
+    .commentcard {
+        max-width: 70%;
+        margin-bottom: 10px;
+        margin-top: 10px;
+
+
+        .attachmFile {
+            display: flex;
+            justify-content: end;
+
+            img {
+                border-radius: 20px;
+                height: 200px;
+            }
+        }
+
+        .message {
+            background: #000;
+            color: #fff;
+            border-radius: 0px 10px 10px 10px;
+            padding: 20px 20px 10px 20px;
+            margin-bottom: 15px;
+        }
+
+        .commenter {
+            display: flex;
+            gap: 10px;
+
+            label {
+                font-family: Inter, "Helvetica Neue", sans-serif;
+                font-size: 12px;
+                font-weight: 400;
+                line-height: 16px;
+                color: #9E9E9E
+            }
+        }
+
+        //padding: 20px 20px 10px 20px;
+    }
+}
+
+.isyourcomment {
+    display: flex;
+    justify-content: flex-end;
+    gap: 27px;
+    width: 100%;
+
+    .profpic {
+        box-shadow: 0px 4px 20px 0px #00000040;
+        border: solid 10px #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 80px;
+        width: 80px;
+        border-radius: 50px;
+
+        img {
+            height: 60px;
+            width: 60px;
+            border-radius: 50px;
+        }
+    }
+
+    .yourcommentcard {
+        //display: flex;
+        //justify-content: flex-end;
+        max-width: 70%;
+        margin-bottom: 10px;
+        margin-top: 10px;
+
+        .attachmFile {
+            display: flex;
+            justify-content: end;
+
+            img {
+                border-radius: 20px;
+                height: 200px;
+            }
+        }
+
+        .message {
+            background: #F7F5FF;
+            color: #000;
+            border-radius: 10px 0px 10px 10px;
+            padding: 20px 20px 10px 20px;
+            margin-bottom: 15px;
+        }
+
+        .commenter {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+
+            label {
+                font-family: Inter, "Helvetica Neue", sans-serif;
+                font-size: 12px;
+                font-weight: 400;
+                line-height: 16px;
+                color: #9E9E9E
+            }
+        }
+
+        //padding: 20px 20px 10px 20px;
+    }
+}
+
+.isforwarded {
+    //display: flex;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .forwarded {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+
+        .forwardinfo {
+            font-family: Inter, "Helvetica Neue", sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 28px;
+            font-style: italic;
+            color: #006FD5;
+        }
+    }
+
+    .messageinfo {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 20px;
+
+        .message {
+            border: solid 1px #A899F1;
+            padding: 16px;
+            width: 80%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+        }
+    }
+}
+
+
+
 :host ::ng-deep .mat-horizontal-stepper-header-container {
     display: none;
 }
