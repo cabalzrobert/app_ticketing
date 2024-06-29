@@ -2,6 +2,7 @@
     overflow-y: scroll;
     scroll-behavior: auto;
 }
+
 .container {
     height: 99%;
     padding: 30px;
@@ -289,7 +290,8 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                .notificationunread{
+
+                .notificationunread {
                     font-size: 16px;
                     font-weight: 600;
                     line-height: 20px;
@@ -311,14 +313,21 @@
                 display: flex;
                 gap: 20px;
                 cursor: pointer;
-                .isRead{
+
+                .isRead {
                     width: 100%;
                     display: flex;
                 }
-                .isUnread{
+
+                .isUnread {
                     width: 100%;
                     display: flex;
                     background: #e3e0e0;
+                }
+
+                .isUnread:hover {
+                    background: #14A44D1A;
+                    cursor: pointer;
                 }
 
                 .icon {
@@ -362,6 +371,17 @@
                     align-items: center;
                     justify-content: end;
                     padding: 0px 20px;
+                    gap: 10px;
+
+                    button {
+                        background: none;
+                        border: none;
+                        font-size: 14px;
+                        font-weight: 300;
+                        line-height: 17px;
+                        color: #403D39;
+                        cursor: pointer;
+                    }
                 }
             }
 
@@ -402,10 +422,11 @@
     gap: 20px;
     padding: 0px 10px;
 
-    .isActive{
+    .isActive {
         font-weight: 600;
     }
-    .isNotActive{
+
+    .isNotActive {
         font-weight: 400;
     }
 
