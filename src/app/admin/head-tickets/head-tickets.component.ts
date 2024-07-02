@@ -93,7 +93,7 @@ export class HeadTicketsComponent {
     if(this.authService.requesttickect){
       console.log('nisulod',this.authService.requesttickect);
       //  this.nextBatch({tab:0, search:this.authService.requesttickect.Description, IsReset: false})
-       this.searchTicket(this.authService.requesttickect.Description);
+       this.searchTicket(this.authService.requesttickect.TransactionNo);
     }
   }
 
