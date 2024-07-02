@@ -111,7 +111,7 @@
                         <li class="menu-nav-item " [ngClass]="isall ? 'isActive' : 'isNotActive'" (click)="hAll()">All</li>
                         <li class="menu-nav-item " [ngClass]="isread ? 'isActive' : 'isNotActive'" (click)="hRead()">Read</li>
                         <li class="menu-nav-item " [ngClass]="isunread ? 'isActive' : 'isNotActive'" (click)="hUnread()">Unread</li>
-                        <li class="menu-nav-item "  [ngClass]="ismarkallasread ? 'isActive' : 'isNotActive'"(click)="hMarkAllAsRead()">Mark all as read</li>
+                        <li class="menu-nav-item markallasread"  [ngClass]="ismarkallasread ? 'isActive' : 'isNotActive'"(click)="hMarkAllAsRead()">Mark all as read</li>
                     </ul>
                 </div>
                 
@@ -132,7 +132,7 @@
                         <div>{{data.DateDisplay}}</div>
                     </div>
                     <div class="status">
-                        <div [hidden]="data.showMarkasRead" ><button (click)="hMarkAsRead()">Mark as read <i class="fa fa-check"></i></button></div>
+                        <div [hidden]="data.showMarkasRead" ><button (click)="hMarkAsRead(data, i)">Mark as read <i class="fa fa-check"></i></button></div>
                         <div [hidden]="!data.showMarkasRead">{{(data.IsOpen == 0) ? 'Unread' : 'Read'}}</div>
                     </div>
                 </div>

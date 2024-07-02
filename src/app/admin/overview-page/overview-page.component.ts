@@ -20,18 +20,21 @@ import { faL } from '@fortawesome/free-solid-svg-icons';
   styleUrl: './overview-page.component.scss'
 })
 export class OverviewPageComponent implements OnInit {
-hMouseOut(data:any, idx: number) {
-  if(data.IsOpen) return;
-  data.showMarkasRead = true;
+  hMouseOut(data: any, idx: number) {
+    if (data.IsOpen) return;
+    data.showMarkasRead = true;
 
-}
-hMouseOver(data:any, idx: number) {
-  if(data.IsOpen) return;
-  data.showMarkasRead = false;
-}
-  hMarkAsRead() {
-    alert('You Click Mark as Read Button');
+  }
+  hMouseOver(data: any, idx: number) {
+    if (data.IsOpen) return;
+    data.showMarkasRead = false;
+  }
+  hMarkAsRead(data: any, idx: number) {
+    //alert('You Click Mark as Read Button');
     this.markasread = true;
+    this.performSeenTicket(data.NotificationID);
+    data.IsOpen = 1;
+    data.showMarkasRead = true;
     return this;
   }
   hAll() {
@@ -67,6 +70,18 @@ hMouseOver(data:any, idx: number) {
     this.isread = false;
     this.isunread = false;
     this.ismarkallasread = true;
+    let lst = JSON.stringify(this.ticketnotification);
+    this.performSeenAllTicket({Notificationlist:lst});
+    this.ticketnotification.forEach((o:any) => o.IsOpen = 1);
+    this.ismarkallasread = false;
+  }
+  performSeenAllTicket(item: any) {
+    this.subs.s2 = rest.post('notification/seen/all', item).subscribe(async (res: any) => {
+      if ((res || {}).status != 'error') {
+        //if (callback != null) callback();
+        return;
+      }
+    });
   }
   hOpenNotification(data: any, idx: number) {
 
@@ -136,7 +151,7 @@ hMouseOver(data:any, idx: number) {
   isunread: boolean = false;
   ismarkallasread: boolean = false;
   markasread: boolean = false;
-  hideElement:boolean = true;
+  hideElement: boolean = true;
 
   async ngOnInit(): Promise<void> {
     //console.log('Overview', Capacitor.platform);
@@ -153,6 +168,7 @@ hMouseOver(data:any, idx: number) {
     this.input = await jUser();
     let item: any = { isCom: this.input.isCommunicator ? 1 : 0, isDept: this.input.isDeptartmentHead ? 1 : 0 };
     console.log('let item', item);
+    item.DepartmentID = this.input.DEPT_ID
     //device.ready(async () => requestnotificationCount(item));
     timeout(async () => await requestnotificationCount(item));
     this.UserAccount = this.input.FLL_NM;
@@ -234,6 +250,7 @@ hMouseOver(data:any, idx: number) {
     if (this.subs.s1) this.subs.s1.unsubscribe();
     item.isCom = this.iscom;
     item.isDept = this.isdepthead;
+    item.DepartmentID = this.input.DEPT_ID;
 
     this.subs.s1 = rest.post('notification', item).subscribe(async (res: any) => {
       if (res != null) {

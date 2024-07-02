@@ -302,7 +302,7 @@
         .notificationdata {
             //display: flex;
             width: 100%;
-            max-height: calc(100% - 24px);
+            height: calc(100% - 24px);
             overflow: auto;
             display: flex;
             flex-direction: column;
@@ -424,11 +424,21 @@
 
     .isActive {
         font-weight: 600;
+        color: #403D39;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 20px;
+        
     }
 
     .isNotActive {
         font-weight: 400;
+        color: #CCC5B9;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 20px;
     }
+
 
 
     .menu-nav-item {
@@ -494,6 +504,18 @@
             letter-spacing: 2px;
             font-weight: bold;
         }
+    }
+    .markallasread{
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 20px;;
+        color: #403D39;
+    }
+    .markallasread:hover{
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 20px;;
+        color: #403D39;
     }
 }
 
