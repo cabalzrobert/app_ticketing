@@ -111,7 +111,7 @@
                         <li class="menu-nav-item " [ngClass]="isall ? 'isActive' : 'isNotActive'" (click)="hAll()">All</li>
                         <li class="menu-nav-item " [ngClass]="isread ? 'isActive' : 'isNotActive'" (click)="hRead()">Read</li>
                         <li class="menu-nav-item " [ngClass]="isunread ? 'isActive' : 'isNotActive'" (click)="hUnread()">Unread</li>
-                        <li class="menu-nav-item "  [ngClass]="ismarkallasread ? 'isActive' : 'isNotActive'"(click)="hMarkAllAsRead()">Mark all as read</li>
+                        <li class="menu-nav-item markallasread"  [ngClass]="ismarkallasread ? 'isActive' : 'isNotActive'"(click)="hMarkAllAsRead()">Mark all as read</li>
                     </ul>
                 </div>
                 
@@ -119,7 +119,7 @@
         </div>
         <div class="notificationdata">
             <div class="details" *ngFor="let data of ticketnotification; index as i">
-                <div [ngClass]="data.IsOpen ? 'isRead' : 'isUnread'" (click)="hOpenNotification(data, i)">
+                <div [ngClass]="data.IsOpen ? 'isRead' : 'isUnread'" (mouseover)="hMouseOver(data, i)" (mouseout)="hMouseOut(data, i)" (click)="hOpenNotification(data, i)">
                     <div class="icon">
                         <i class = "fa fa-light fa-ticket-alt" *ngIf="data.Type == 'Ticket-Request' || data.Type == 'Forward-Ticket' || data.Type == 'Assigned-Ticket'"></i>
                         <i class = "fa fa-light fa-cog" *ngIf="data.Type == 'Settings'"></i>
@@ -132,7 +132,8 @@
                         <div>{{data.DateDisplay}}</div>
                     </div>
                     <div class="status">
-                        <div>{{(data.IsOpen == 0) ? 'Unread' : 'Read'}}</div>
+                        <div [hidden]="data.showMarkasRead" ><button (click)="hMarkAsRead(data, i)">Mark as read <i class="fa fa-check"></i></button></div>
+                        <div [hidden]="!data.showMarkasRead">{{(data.IsOpen == 0) ? 'Unread' : 'Read'}}</div>
                     </div>
                 </div>
                 

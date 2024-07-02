@@ -20,7 +20,24 @@ import { faL } from '@fortawesome/free-solid-svg-icons';
   styleUrl: './overview-page.component.scss'
 })
 export class OverviewPageComponent implements OnInit {
-  hAll(){
+  hMouseOut(data: any, idx: number) {
+    if (data.IsOpen) return;
+    data.showMarkasRead = true;
+
+  }
+  hMouseOver(data: any, idx: number) {
+    if (data.IsOpen) return;
+    data.showMarkasRead = false;
+  }
+  hMarkAsRead(data: any, idx: number) {
+    //alert('You Click Mark as Read Button');
+    this.markasread = true;
+    this.performSeenTicket(data.NotificationID);
+    data.IsOpen = 1;
+    data.showMarkasRead = true;
+    return this;
+  }
+  hAll() {
     this.isall = true;
     this.isread = false;
     this.isunread = false;
@@ -29,7 +46,7 @@ export class OverviewPageComponent implements OnInit {
     this.loader = true;
     timeout(() => this.getTicketListDelay({ IsRest: true, isRead: null }), 275);
   }
-  hRead(){
+  hRead() {
     this.isall = false;
     this.isread = true;
     this.isunread = false;
@@ -38,7 +55,7 @@ export class OverviewPageComponent implements OnInit {
     this.loader = true;
     timeout(() => this.getTicketListDelay({ IsRest: true, isRead: '1' }), 275);
   }
-  hUnread(){
+  hUnread() {
     this.isall = false;
     this.isread = false;
     this.isunread = true;
@@ -47,25 +64,42 @@ export class OverviewPageComponent implements OnInit {
     this.loader = true;
     timeout(() => this.getTicketListDelay({ IsRest: true, isRead: '0' }), 275);
   }
-  hMarkAllAsRead(){
-    
+  hMarkAllAsRead() {
+
     this.isall = false;
     this.isread = false;
     this.isunread = false;
     this.ismarkallasread = true;
+    let lst = JSON.stringify(this.ticketnotification);
+    this.performSeenAllTicket({Notificationlist:lst});
+    this.ticketnotification.forEach((o:any) => o.IsOpen = 1);
+    this.ismarkallasread = false;
+  }
+  performSeenAllTicket(item: any) {
+    this.subs.s2 = rest.post('notification/seen/all', item).subscribe(async (res: any) => {
+      if ((res || {}).status != 'error') {
+        //if (callback != null) callback();
+        return;
+      }
+    });
   }
   hOpenNotification(data: any, idx: number) {
+
+    if (this.markasread) {
+      this.markasread = false;
+      return;
+    }
     console.log('hOpenNOtification data', data, idx);
     this.performSeenTicket(data.NotificationID);
     this.ticketnotification[idx] = data;
     data.S_OPN = true;
     additionalRequestNotification(-1);
-    if(data.Type == 'Ticket-Request'){
+    if (data.Type == 'Ticket-Request') {
       this.authService.requesttickect = data;
       this.router.navigateByUrl('dashboard/receivedtickets');
       //timeout(() => this._communicator.hSearchReceivedTicket(data.Description));
     }
-    if(data.Type == 'Forward-Ticket' || data.Type == 'Assigned-Ticket'){
+    if (data.Type == 'Forward-Ticket' || data.Type == 'Assigned-Ticket') {
       this.authService.requesttickect = data;
       this.router.navigateByUrl('dashboard/assignedticket');
       //timeout(() => this._communicator.hSearchReceivedTicket(data.Description));
@@ -109,14 +143,15 @@ export class OverviewPageComponent implements OnInit {
   ticketnotificationReceived: any = [];
   notificationID: string = '';
   unreadNotification: number = 0;
-  
-  iscom:number = 0;
-  isdepthead:number = 0;
-  isall:boolean = true;
-  isread:boolean = false;
-  isunread:boolean = false;
-  ismarkallasread:boolean = false;
 
+  iscom: number = 0;
+  isdepthead: number = 0;
+  isall: boolean = true;
+  isread: boolean = false;
+  isunread: boolean = false;
+  ismarkallasread: boolean = false;
+  markasread: boolean = false;
+  hideElement: boolean = true;
 
   async ngOnInit(): Promise<void> {
     //console.log('Overview', Capacitor.platform);
@@ -133,6 +168,7 @@ export class OverviewPageComponent implements OnInit {
     this.input = await jUser();
     let item: any = { isCom: this.input.isCommunicator ? 1 : 0, isDept: this.input.isDeptartmentHead ? 1 : 0 };
     console.log('let item', item);
+    item.DepartmentID = this.input.DEPT_ID
     //device.ready(async () => requestnotificationCount(item));
     timeout(async () => await requestnotificationCount(item));
     this.UserAccount = this.input.FLL_NM;
@@ -154,7 +190,7 @@ export class OverviewPageComponent implements OnInit {
     //device.ready(() => setTimeout(() => this.getTicketCount(), 275));
     await this.getTicketCount();
     //console.log('Overivew Ticket Count 68', this.assignedpending);
-    
+
     this.iscom = (this.input.isCommunicator == true) ? 1 : 0;
     this.isdepthead = (this.input.isDeptartmentHead == true) ? 1 : 0;
     timeout(() => this.getTicketListDelay({ IsRest: true, isRead: null }), 275);
@@ -204,7 +240,7 @@ export class OverviewPageComponent implements OnInit {
     this.prop.IsFiltering = !filter.IsFiltering;
     this.subs.t1 = timeout(async () => await this.getTicketList(filter, callback), delay);
   }
-  refreshTicketList(item:any):Observable<any>{
+  refreshTicketList(item: any): Observable<any> {
     this.ticketnotification.unshift(item);
     return this.ticketnotification
   }
@@ -214,6 +250,7 @@ export class OverviewPageComponent implements OnInit {
     if (this.subs.s1) this.subs.s1.unsubscribe();
     item.isCom = this.iscom;
     item.isDept = this.isdepthead;
+    item.DepartmentID = this.input.DEPT_ID;
 
     this.subs.s1 = rest.post('notification', item).subscribe(async (res: any) => {
       if (res != null) {
@@ -241,6 +278,7 @@ export class OverviewPageComponent implements OnInit {
     return this.ticketnotification;
   }
   ListNotificationDetails(item: any) {
+    item.showMarkasRead = true;
     return item;
   }
 
@@ -255,11 +293,11 @@ export class OverviewPageComponent implements OnInit {
     this.subs.wsConnect = stomp.subscribe('#connect', () => this.connected());
     this.subs.wsDisconnect = stomp.subscribe('#disconnect', () => this.disconnect());
     this.subs.ws1 = stomp.subscribe('/' + iscom + '/ticketrequest/iscommunicator', (json: any) => this.receivedRequestTicketCommunicator(json));
-    this.subs.ws1 = stomp.subscribe('/forwardticket/depthead/' + isdepthead, (json:any) => this.receivedforwardedTicket(json));
+    this.subs.ws1 = stomp.subscribe('/forwardticket/depthead/' + isdepthead, (json: any) => this.receivedforwardedTicket(json));
     this.subs.ws1 = stomp.subscribe('/assigned', (json: any) => this.receivedAssignedTicket(json));
     stomp.ready(() => (stomp.refresh(), stomp.connect()));
   }
-  receivedAssignedTicket(data:any){
+  receivedAssignedTicket(data: any) {
     var content = data.notification;
     let notificationid = content.NotificationID
     bindLastLastNotificatioinID(content.NotificationID);
@@ -269,7 +307,7 @@ export class OverviewPageComponent implements OnInit {
     this.refreshData();
     return this.ticketnotification;
   }
-  receivedforwardedTicket(data:any){
+  receivedforwardedTicket(data: any) {
     var content = data.notification;
     let notificationid = content.NotificationID
     bindLastLastNotificatioinID(content.NotificationID);
@@ -298,7 +336,7 @@ export class OverviewPageComponent implements OnInit {
     return this.ticketnotification;
   }
 
-notif:number = 201;
+  notif: number = 201;
   hFind() {
     //let Exist = this.ticketnotification.find((o: any) => o.NotificationID == '16');
     //console.log('let ticketnotificationExist', Exist);
@@ -308,11 +346,11 @@ notif:number = 201;
     console.log('hFind', this.lst.notification)
     this.receivedforwardedTicket(this.lst)
   }
-  lst:any ={
-    type:'departmenthead-notification',
-    content:'',
-    notification:{
-      NotificationID : 201,
+  lst: any = {
+    type: 'departmenthead-notification',
+    content: '',
+    notification: {
+      NotificationID: 201,
       DateTransaction: 'June 27, 2024',
       TransactionNo: '0000002010',
       Title: 'Notification Title',
