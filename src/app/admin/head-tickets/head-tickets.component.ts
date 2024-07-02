@@ -526,7 +526,7 @@ export class HeadTicketsComponent {
       this.searchValue = !val ? null : val;
       this.collections = [];
       this.virtualScroll.setRenderedRange({ start: 0, end: 0 });
-      this.nextBatch({tab: this.batch});
+      this.nextBatch({tab: this.tab});
     } catch (error) {
       
     }
