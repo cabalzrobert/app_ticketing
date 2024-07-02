@@ -84,8 +84,8 @@ export class CommunicatorTicketComponent {
     device.ready(() => this.stompWebsocketReceiver());
     if(this.authService.requesttickect){
       this.tab = 2;
-      this.nextBatch({tab:this.tab, search:this.authService.requesttickect.Description, IsReset: false})
-      this.searchTicket(this.authService.requesttickect.Description);
+      this.nextBatch({tab:this.tab, search:this.authService.requesttickect.TransactionNo, IsReset: false})
+      this.searchTicket(this.authService.requesttickect.TransactionNo);
     }
   }
 
