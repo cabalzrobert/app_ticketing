@@ -92,7 +92,7 @@ export class HeadTicketsComponent {
     device.ready(() => this.stompWebsocketReceiver());
     if(this.authService.requesttickect){
       console.log('nisulod',this.authService.requesttickect);
-       this.nextBatch({tab:0, search:this.authService.requesttickect.Description, IsReset: false})
+      //  this.nextBatch({tab:0, search:this.authService.requesttickect.Description, IsReset: false})
        this.searchTicket(this.authService.requesttickect.Description);
     }
   }
@@ -522,10 +522,14 @@ export class HeadTicketsComponent {
   //   console.log(this.collections);
   // }
   searchTicket(val: string) {
-    this.searchValue = !val ? null : val;
-    this.collections = [];
-    this.virtualScroll.setRenderedRange({ start: 0, end: 0 });
-    this.nextBatch({tab: this.batch});
+    try {
+      this.searchValue = !val ? null : val;
+      this.collections = [];
+      this.virtualScroll.setRenderedRange({ start: 0, end: 0 });
+      this.nextBatch({tab: this.batch});
+    } catch (error) {
+      
+    }
     // this.collections = this.backupCollections;
     // this.collections = this.collections.filter((i:any)=>i.title.includes(val));
     // console.log(this.collections);
