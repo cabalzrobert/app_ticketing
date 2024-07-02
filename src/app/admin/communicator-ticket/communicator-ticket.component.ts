@@ -86,6 +86,7 @@ export class CommunicatorTicketComponent {
       this.tab = 2;
       this.nextBatch({tab:this.tab, search:this.authService.requesttickect.TransactionNo, IsReset: false})
       this.searchTicket(this.authService.requesttickect.TransactionNo);
+
     }
   }
 
@@ -214,10 +215,14 @@ export class CommunicatorTicketComponent {
 
 
   searchTicket(val: any){
-    this.searchValue = !val?null:val;
-    this.collections = [];
-    this.virtualScroll.setRenderedRange({start:0,end:0});
-    this.nextBatch({tab:this.tab, IsReset: true});
+    try {
+      this.searchValue = !val?null:val;
+      this.collections = [];
+      this.virtualScroll.setRenderedRange({start:0,end:0});
+      this.nextBatch({tab:this.tab, IsReset: true});
+    } catch (error) {
+      
+    }
     // this.collections = this.backupCollections;
     // this.collections = this.collections.filter((i:any)=>i.title.includes(val));
     // console.log(this.collections);
