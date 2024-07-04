@@ -90,10 +90,16 @@ export class HeadTicketsComponent {
     // this.onTabChange(0);
     //this.getDepartmentTicketCount();
     device.ready(() => this.stompWebsocketReceiver());
-    if(this.authService.requesttickect){
-      console.log('nisulod',this.authService.requesttickect);
+    if (Object.keys(this.authService.requesttickect).length > 0) {
+      console.log('nisulod', this.authService.requesttickect);
       //  this.nextBatch({tab:0, search:this.authService.requesttickect.Description, IsReset: false})
-       this.searchTicket(this.authService.requesttickect.TransactionNo);
+      console.log('nisulod', this.authService.requesttickect.IsAssigned);
+      this.tab = 0
+      if (this.authService.requesttickect.IsAssigned)
+        this.tab = 1
+      else
+        this.tab = 0
+      this.searchTicket(this.authService.requesttickect.TransactionNo);
     }
   }
 
@@ -231,29 +237,29 @@ export class HeadTicketsComponent {
     this.tab = val;
 
     console.log('onTabChange this.userDetail', this.userDetail);
-    rest.post(`head/tickets?id=${this.userDetail.DEPT_ID}&tab=${val}`).subscribe((res: any) => {this.loader = false; });
+    rest.post(`head/tickets?id=${this.userDetail.DEPT_ID}&tab=${val}`).subscribe((res: any) => { this.loader = false; });
 
-      // rest.post(`head/tickets?id=${this.userDetail.DEPT_ID}&tab=${val}`).subscribe((res: any) => {
-      //   if (res != null) {
-      //     console.log(res);
-      //     this.collections = res;
-      //     this.backupCollections = res;
-      //     // this.collections.forEach((e: any) => {
-      //     //   e.dateCreated = moment(e.dateCreated).format('DD MMM yyyy');
-      //     // });
-      //     return;
-      //   }
-      //   alert('Failed');
-      // }, (err: any) => {
-      //   alert('System Error');
-      // })
+    // rest.post(`head/tickets?id=${this.userDetail.DEPT_ID}&tab=${val}`).subscribe((res: any) => {
+    //   if (res != null) {
+    //     console.log(res);
+    //     this.collections = res;
+    //     this.backupCollections = res;
+    //     // this.collections.forEach((e: any) => {
+    //     //   e.dateCreated = moment(e.dateCreated).format('DD MMM yyyy');
+    //     // });
+    //     return;
+    //   }
+    //   alert('Failed');
+    // }, (err: any) => {
+    //   alert('System Error');
+    // })
 
-    
-   }
+
+  }
 
   async nextBatch(val: any) {
     this.loader = false;
-    console.log('tab',val.tab);
+    console.log('tab', val.tab);
     console.log(`new batch ${val.tab}`);
     console.log(`tab ${this.tab} = val.tab ${val.tab}`);
     let end = 0;
@@ -321,11 +327,11 @@ export class HeadTicketsComponent {
         this.loader = false;
         return;
       }
-      else{
+      else {
         this.loader = false;
         alert('Failed');
       }
-        
+
     }, (err: any) => {
       alert('System Error');
     })
@@ -358,7 +364,7 @@ export class HeadTicketsComponent {
       if (res.Status === 'ok') {
         console.log(res.personnels)
         this.personnels = res.personnels;
-        this.personnels = this.personnels.filter((res: any) => res.userId!==this.userDetail.USR_ID);
+        this.personnels = this.personnels.filter((res: any) => res.userId !== this.userDetail.USR_ID);
         return;
       }
       alert('Failed to load');
@@ -485,7 +491,7 @@ export class HeadTicketsComponent {
   }
 
   cancel = async () => {
-    rest.post(`head/ticket/cancel?ticketNo=${this.ticketDetail.ticketNo}`,{}).subscribe((res: any) => {
+    rest.post(`head/ticket/cancel?ticketNo=${this.ticketDetail.ticketNo}`, {}).subscribe((res: any) => {
       if (res.Status === 'ok') {
         this.ticketDetail.status = 3;
         return;
@@ -526,9 +532,9 @@ export class HeadTicketsComponent {
       this.searchValue = !val ? null : val;
       this.collections = [];
       this.virtualScroll.setRenderedRange({ start: 0, end: 0 });
-      this.nextBatch({tab: this.tab});
+      this.nextBatch({ tab: this.tab });
     } catch (error) {
-      
+
     }
     // this.collections = this.backupCollections;
     // this.collections = this.collections.filter((i:any)=>i.title.includes(val));

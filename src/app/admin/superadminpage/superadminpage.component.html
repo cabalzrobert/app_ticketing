@@ -67,7 +67,7 @@
                 <div class="header">
                     <div class="searchtab">
                         <div class="searchbar">
-                            <input type="text" placeholder="Seach Department" [formControl]="SearchDepartment" (change)="hSearchSettings()">
+                            <input type="text" placeholder="Seach Department" [formControl]="SearchDepartment" (change)="hSearchSettings()" (keyup)="hSearchSettings()">
                             <span>
                                 <div class="button fa fa-filter filter"></div>
                             </span>
@@ -95,7 +95,7 @@
                 <div class="header">
                     <div class="searchtab">
                         <div class="searchbar">
-                            <input type="text"placeholder="Seach Category" [formControl]="SearchCategory" (change)="hSearchSettings()">
+                            <input type="text"placeholder="Seach Category" [formControl]="SearchCategory" (change)="hSearchSettings()" (keyup)="hSearchSettings()">
                             <span>
                                 <div class="button fa fa-filter filter"></div>
                             </span>
@@ -122,7 +122,7 @@
                 <div class="header">
                     <div class="searchtab">
                         <div class="searchbar">
-                            <input type="text" placeholder="Seach Position" [formControl]="SearchPosition" (change)="hSearchSettings()">
+                            <input type="text" placeholder="Seach Position" [formControl]="SearchPosition" (change)="hSearchSettings()" (keyup)="hSearchSettings()">
                             <span>
                                 <div class="button fa fa-filter filter"></div>
                             </span>
@@ -148,7 +148,7 @@
                 <div class="header">
                     <div class="searchtab">
                         <div class="searchbar">
-                            <input type="text" placeholder="Seach Roles" [formControl]="SearchRoles" (change)="hSearchSettings()">
+                            <input type="text" placeholder="Seach Roles" [formControl]="SearchRoles" (change)="hSearchSettings()" (keyup)="hSearchSettings()">
                             <span>
                                 <div class="button fa fa-filter filter"></div>
                             </span>
@@ -199,4 +199,5 @@
 
         </div>
     </div>
+    <div class="loader" *ngIf="loader"></div>
 </div>

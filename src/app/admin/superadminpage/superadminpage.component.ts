@@ -691,7 +691,9 @@ export class SuperadminpageComponent implements OnInit {
   categorylist: any = [];
   positionlist: any = [];
   roleslist: any = [];
+  loader:boolean = true;
   hSearchSettings() {
+    console.log('Keyup', this.SearchDepartment.value);
     if (this.selectedTab == 'department') {
       this.GetDepartmentList({ num_row: 0, Search: this.SearchDepartment.value });
     }
@@ -707,6 +709,7 @@ export class SuperadminpageComponent implements OnInit {
   }
 
   async hDepartment(): Promise<Observable<any>> {
+    this.loader = true;
     this.department = true;
     this.category = false;
     this.position = false;
@@ -722,6 +725,7 @@ export class SuperadminpageComponent implements OnInit {
   }
   hCategory = async () => {
     //if(!this.category) return;
+    this.loader = true;
     this.department = false;
     this.category = true;
     this.position = false;
@@ -741,6 +745,7 @@ export class SuperadminpageComponent implements OnInit {
     return this.categorylist;
   }
   hPosition() {
+    this.loader = true;
     this.department = false;
     this.category = false;
     this.position = true;
@@ -750,6 +755,7 @@ export class SuperadminpageComponent implements OnInit {
     this.categorylist = this.GetPositionList({ num_row: 0, Search: '' });
   }
   hRoles() {
+    this.loader = true;
     this.department = false;
     this.category = false;
     this.position = false;
@@ -843,6 +849,7 @@ export class SuperadminpageComponent implements OnInit {
     rest.post('department/list', item).subscribe(async (res: any) => {
       if (res.Status == 'ok') {
         this.departmentlist = res.department;
+        this.loader=false;
         //this.departmentlist;
       }
     });
@@ -855,6 +862,7 @@ export class SuperadminpageComponent implements OnInit {
       if (res.Status == 'ok') {
         this.categorylist = res.category;
         console.log('GetCategoryList inside subscribe', this.categorylist);
+        this.loader =false;
         return this.categorylist;
         //this.categorylist;
       }
@@ -868,6 +876,7 @@ export class SuperadminpageComponent implements OnInit {
       if (res.Status == 'ok') {
         this.positionlist = res.position;
         //console.log('GetPositionList inside subscribe', this.positionlist);
+        this.loader = false;
         return this.positionlist;
         //this.categorylist;
       }
@@ -881,6 +890,7 @@ export class SuperadminpageComponent implements OnInit {
       if (res.Status == 'ok') {
         this.roleslist = res.roles;
         //console.log('GetPositionList inside subscribe', this.roles);
+        this.loader = false;
         return this.roleslist;
         //this.categorylist;
       }

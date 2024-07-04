@@ -182,3 +182,8 @@ body { margin: 0; font-family: Inter, "Helvetica Neue", sans-serif; }
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
    }
+
+   .mat-typography{
+    width: 100vw;
+    height: 100vh;
+   }

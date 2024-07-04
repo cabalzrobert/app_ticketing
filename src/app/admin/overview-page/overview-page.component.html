@@ -120,21 +120,27 @@
         <div class="notificationdata">
             <div class="details" *ngFor="let data of ticketnotification; index as i">
                 <div [ngClass]="data.IsOpen ? 'isRead' : 'isUnread'" (mouseover)="hMouseOver(data, i)" (mouseout)="hMouseOut(data, i)" (click)="hOpenNotification(data, i)">
-                    <div class="icon">
-                        <i class = "fa fa-light fa-ticket-alt" *ngIf="data.Type == 'Ticket-Request' || data.Type == 'Forward-Ticket' || data.Type == 'Assigned-Ticket'"></i>
-                        <i class = "fa fa-light fa-cog" *ngIf="data.Type == 'Settings'"></i>
+                    <div class="iconnotification">
+                        <div class="icon">
+                            <i class = "fa fa-light fa-ticket-alt" *ngIf="data.Type == 'Ticket-Request' || data.Type == 'Forward-Ticket' || data.Type == 'Assigned-Ticket'"></i>
+                            <i class = "fa fa-light fa-cog" *ngIf="data.Type == 'Settings'"></i>
+                        </div>
+                        <div class="notification">
+                            <div class="title">{{data.Title}}</div>
+                            <div class="description">{{data.Description}}</div>
+                        </div>
                     </div>
-                    <div class="notification">
-                        <div class="title">{{data.Title}}</div>
-                        <div class="description">{{data.Description}}</div>
+                    
+                    <div class="notdatestatus">
+                        <div class="notdate">
+                            <div>{{data.DateDisplay}}</div>
+                        </div>
+                        <div class="status">
+                            <div [hidden]="data.showMarkasRead" ><button (click)="hMarkAsRead(data, i)">Mark as read <i class="fa fa-check"></i></button></div>
+                            <div [hidden]="!data.showMarkasRead">{{(data.IsOpen == 0) ? 'Unread' : 'Read'}}</div>
+                        </div>
                     </div>
-                    <div class="notdate">
-                        <div>{{data.DateDisplay}}</div>
-                    </div>
-                    <div class="status">
-                        <div [hidden]="data.showMarkasRead" ><button (click)="hMarkAsRead(data, i)">Mark as read <i class="fa fa-check"></i></button></div>
-                        <div [hidden]="!data.showMarkasRead">{{(data.IsOpen == 0) ? 'Unread' : 'Read'}}</div>
-                    </div>
+                    
                 </div>
                 
             </div>

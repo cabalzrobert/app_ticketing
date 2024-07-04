@@ -16,7 +16,7 @@
                 <span>Filter</span>
             </div>
         </div>
-        <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" #tabRef>
+        <mat-tab-group mat-stretch-tabs="false" [selectedIndex]="tab" mat-align-tabs="start" #tabRef>
             <mat-tab class="tab-container">
                 <ng-template class="tab-label" mat-tab-label>
                     <span style="font-size: 20px;">Unassigned</span>

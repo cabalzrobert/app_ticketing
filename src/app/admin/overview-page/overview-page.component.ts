@@ -1,4 +1,4 @@
-import { Component, OnInit, input } from '@angular/core';
+import { Component, HostListener, OnInit, input } from '@angular/core';
 import { additionalRequestNotification, bindLastLastNotificatioinID, bindLastNotificationID, jUser, jUserModify, requestnotificationCount } from '../../+app/user-module';
 import { device } from '../../tools/plugins/device';
 import { stomp } from '../../+services/stomp.service';
@@ -6,13 +6,14 @@ import { Capacitor } from '@capacitor/core';
 import { rest } from '../../+services/services';
 import { timeout } from '../../tools/plugins/delay';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, filter, map } from 'rxjs';
 import { mtCb } from '../../tools/plugins/static';
 import { MatDialog } from '@angular/material/dialog';
 import { ProfileComponent } from '../profile/profile.component';
 import { CommunicatorTicketComponent } from '../communicator-ticket/communicator-ticket.component';
 import { AuthService } from '../../auth.service';
 import { faL } from '@fortawesome/free-solid-svg-icons';
+import { time } from 'console';
 
 @Component({
   selector: 'app-overview-page',
@@ -71,8 +72,8 @@ export class OverviewPageComponent implements OnInit {
     this.isunread = false;
     this.ismarkallasread = true;
     let lst = JSON.stringify(this.ticketnotification);
-    this.performSeenAllTicket({Notificationlist:lst});
-    this.ticketnotification.forEach((o:any) => o.IsOpen = 1);
+    this.performSeenAllTicket({ Notificationlist: lst });
+    this.ticketnotification.forEach((o: any) => o.IsOpen = 1);
     this.ismarkallasread = false;
   }
   performSeenAllTicket(item: any) {
@@ -83,20 +84,22 @@ export class OverviewPageComponent implements OnInit {
       }
     });
   }
-  hOpenNotification(data: any, idx: number) {
+  async hOpenNotification(data: any, idx: number) {
+    //timeout(() => this.performIsAssignedTicket(data.TransactionNo));
+
 
     if (this.markasread) {
       this.markasread = false;
       return;
     }
-    console.log('hOpenNOtification data', data, idx);
     this.performSeenTicket(data.NotificationID);
     this.ticketnotification[idx] = data;
     data.S_OPN = true;
     additionalRequestNotification(-1);
     if (data.Type == 'Ticket-Request') {
-      this.authService.requesttickect = data;
-      this.router.navigateByUrl('dashboard/receivedtickets');
+      await this.performIsAssignedTicket(data.TransactionNo, data)
+
+
       //timeout(() => this._communicator.hSearchReceivedTicket(data.Description));
     }
     if (data.Type == 'Forward-Ticket' || data.Type == 'Assigned-Ticket') {
@@ -104,6 +107,27 @@ export class OverviewPageComponent implements OnInit {
       this.router.navigateByUrl('dashboard/assignedticket');
       //timeout(() => this._communicator.hSearchReceivedTicket(data.Description));
     }
+  }
+  public performIsAssignedTicket(transactionNo: any, data: any) {
+    this.isassigned = false;
+    this.subs.s2 = rest.post('ticket/isassigned?transactionNo=' + transactionNo).subscribe(async (res: any) => {
+      if ((res || {}).status != 'error') {
+        this.ticketisassigned.transactionNo = transactionNo;
+        this.ticketisassigned.IsAssigned = res;
+        this.authService.requesttickect.IsAssigned = res;
+        if (data.Type == 'Ticket-Request') {
+          data.IsAssigned = res;
+          this.authService.requesttickect = { data };
+          this.router.navigateByUrl('dashboard/receivedtickets');
+        }
+
+        //this.ticketisassigned = ({transactionNo: transactionNo, IsAssigned: res});
+
+        //Assigned data for Communicator to View
+        return this.ticketisassigned;
+      }
+    });
+    return this.ticketisassigned
   }
   performSeenTicket(NotificationID: any) {
     console.log('performCommunicatorsSeenTicket transactionNo', NotificationID)
@@ -152,10 +176,14 @@ export class OverviewPageComponent implements OnInit {
   ismarkallasread: boolean = false;
   markasread: boolean = false;
   hideElement: boolean = true;
+  isassigned: boolean = false;
+  ticketisassigned: any = {};
 
   async ngOnInit(): Promise<void> {
     //console.log('Overview', Capacitor.platform);
     //console.log('ngOnInit this', this);
+    this.onWindowInitialize();
+    console.log('Overview window', window);
     device.ready();
     // this.subs.u = jUserModify(async () => {
     //   const u: any = await jUser();
@@ -206,6 +234,28 @@ export class OverviewPageComponent implements OnInit {
     console.log('Last NotificationID 95', await this.lastnotificationid);
     console.log('this.input.RequestNotificationCount 98', this.input.RequestNotificationCount);
     this.unreadNotification = await this.input.RequestNotificationCount;
+  }
+
+  collapsed = false;
+  screenWidth = 0;
+  changeclass = false;
+  @HostListener('window:resize', ['$event'])
+  onWindowInitialize() {
+    this.screenWidth = window.innerWidth;
+    console.log('Overview Initialize window.innerwidth', window.innerWidth);
+    if (this.screenWidth <= 768) {
+      this.collapsed = false;
+      this.changeclass = false;
+    }
+    else if (this.screenWidth > 768 && this.screenWidth <= 1300) {
+      this.changeclass = true
+    }
+
+    else {
+
+      this.changeclass = false;
+      this.collapsed = true;
+    }
   }
 
   profile() {

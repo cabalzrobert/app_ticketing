@@ -1431,6 +1431,7 @@ export class UsersPageComponent implements OnInit {
     this.Search = new FormControl();
   }
   Search: any = {};
+  loader:boolean = true;
   ngOnInit(): void {
     this.GetUserAccountList({ num_row: 0, Search: this.Search.value });
   }
@@ -1470,6 +1471,7 @@ export class UsersPageComponent implements OnInit {
       if (res.Status == 'ok') {
         this.usersList = res.useraccount;
         //console.log('GetPositionList inside subscribe', this.usersList);
+        this.loader = false;
         return this.usersList;
         //this.categorylist;
       }
