@@ -84,8 +84,8 @@ export class SidenavComponent implements OnInit {
       this.collapsed = true;
       this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth });
     }
-    this.collapsed = true;
-      this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth });
+    // this.collapsed = true;
+    //   this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth });
   }
   onResize(event: any) {
     console.log('onResize', window.innerWidth);
