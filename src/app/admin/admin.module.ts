@@ -131,7 +131,8 @@ import { ViewAttachImageModalComponent } from './modalpage/view-attach-image-mod
     MatDatepickerModule,
     MatInputModule,
     MatNativeDateModule,
-    NgOtpInputModule
+    NgOtpInputModule,
+    ScrollingModule,
     //SidenavComponent
     
   ],

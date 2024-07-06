@@ -308,6 +308,8 @@
             flex-direction: column;
             gap: 10px;
 
+
+
             .details {
                 width: 100%;
                 display: flex;
@@ -317,20 +319,20 @@
                 .isRead {
                     width: 100%;
                     display: flex;
-                    gap:10px;
+                    gap: 10px;
                 }
 
                 .isUnread {
                     width: 100%;
                     display: flex;
                     background: #e3e0e0;
-                    gap:10px;
+                    gap: 10px;
                 }
 
                 .isUnread:hover {
                     background: #14A44D1A;
                     cursor: pointer;
-                    gap:10px;
+                    gap: 10px;
                 }
 
                 .icon {
@@ -401,11 +403,14 @@
                     background: #14A44D;
                 }
             }
-            .iconnotification{
+
+            .iconnotification {
                 display: flex;
                 width: 70%;
+                gap:20px
             }
-            .notdatestatus{
+
+            .notdatestatus {
                 display: flex;
                 width: 30%;
                 justify-content: end;
@@ -445,7 +450,7 @@
         font-size: 16px;
         font-weight: 400;
         line-height: 20px;
-        
+
     }
 
     .isNotActive {
@@ -522,16 +527,20 @@
             font-weight: bold;
         }
     }
-    .markallasread{
+
+    .markallasread {
         font-size: 16px;
         font-weight: 400;
-        line-height: 20px;;
+        line-height: 20px;
+        ;
         color: #403D39;
     }
-    .markallasread:hover{
+
+    .markallasread:hover {
         font-size: 16px;
         font-weight: 600;
-        line-height: 20px;;
+        line-height: 20px;
+        ;
         color: #403D39;
     }
 }
@@ -546,4 +555,27 @@
     border-radius: 50%;
     color: #4845D2;
 
+}
+
+.list-group-item {
+    margin: 0 !important;
+    padding: 0 10px !important;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.scrolling-container {
+    display: block;
+    height: 100%;
+    // width: 100%;
+    //overflow-y: scroll;
+    overflow: auto;
+
+    
+}
+:host ::ng-deep .cdk-virtual-scroll-content-wrapper{
+    display: flex;
+    flex-direction: column;
+    gap:20px;
 }

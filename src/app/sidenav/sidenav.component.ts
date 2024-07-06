@@ -84,8 +84,11 @@ export class SidenavComponent implements OnInit {
       this.collapsed = true;
       this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth });
     }
+    this.collapsed = true;
+      this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth });
   }
   onResize(event: any) {
+    console.log('onResize', window.innerWidth);
     this.screenWidth = window.innerWidth;
     if (this.screenWidth <= 768) {
       this.collapsed = false;
@@ -121,7 +124,12 @@ export class SidenavComponent implements OnInit {
     //this.subs.u = jUserModify(async () => this.setState({u:await jUser()}));
     this.NavBarItem();
     this.screenWidth = window.innerWidth;
-    this.collapsed = true;
+    if (this.screenWidth <= 768)
+      this.collapsed = false;
+    else
+      this.collapsed = true;
+
+    console.log('NavBarItem', this.screenWidth, this.collapsed);
     this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth });
     device.ready();
     //console.log('Device is isReady ', device.ready());
@@ -154,7 +162,11 @@ export class SidenavComponent implements OnInit {
   navData: any = [];
 
   toggleCollapse(): void {
-    this.collapsed = !this.collapsed;
+    console.log('Collapsed', this.collapsed)
+    if (!this.collapsed)
+      this.collapsed = !this.collapsed;
+    else
+      this.collapsed = !this.collapsed;
     this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth });
   }
   closeSidenav(): void {

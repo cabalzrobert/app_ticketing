@@ -5,6 +5,9 @@ import { Router } from '@angular/router';
 import { rest } from '../+services/services';
 import { device } from '../tools/plugins/device';
 import { LocalStorageService } from '../tools/plugins/localstorage';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { AlertSuccessModalComponent } from '../admin/modalpage/alert-success-modal/alert-success-modal.component';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -12,19 +15,30 @@ import { LocalStorageService } from '../tools/plugins/localstorage';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent implements OnInit {
+  async hReload() {
+    if (await this.ls.getItem1('isReload') == null) {
+      console.log('isReload is not defined');
+      this.ls.setItem('isReload', '1');
+      window.location.reload();
+    }
+    //window.location.reload();
+  }
   form: FormGroup = this.fb.group({
     username: ['', Validators.required],
     password: ['', Validators.required]
   });
-  constructor(private authService: AuthService, private fb: FormBuilder, private router: Router, public ls: LocalStorageService, private zone:NgZone) { }
+  constructor(private authService: AuthService, private fb: FormBuilder, private router: Router, public ls: LocalStorageService, private zone: NgZone, public dialog: MatDialog) { }
   account: any = [];
+
+  successDialogRef?: MatDialogRef<AlertSuccessModalComponent>;
   ngOnInit(): void {
     //console.log('login.components.ts ngOnit');
     //setTimeout(() => this.performCheckDB(), 750);
-    
+
     device.ready(() => this.sessionNotEmpty());
     device.ready(() => this.performCheckDB());
-    
+
+
   }
 
   private performCheckDB() {
@@ -87,13 +101,64 @@ export class LoginComponent implements OnInit {
       console.log('SessionNotEmpty', this.authService.session, this.router);
       this.zone.run(() => this.router.navigateByUrl('/dashboard'));
     }
-    
+
   }
   sessionNotEmpty1(): boolean {
     //console.log('sessionNotEmpty this.authService.session', this.authService.session);
     if (this.authService.session) return true;
     console.log('sesseionNotEmpty landing.component.ts line 54');
     return false;
+  }
+  ticketlogin(input: any): any {
+
+    rest.post('dashboardsignin', input).subscribe(async (res: any) => {
+      //console.log('Process the Login API');
+      if (res.Status == 'ok') {
+        var auth = res.auth;
+        this.authService.session = JSON.stringify(auth);
+        this.account.push(res.account)
+
+        this.authService.performSaveLocal(res.account, res.auth, input.Username)
+        this.successDialogRef = this.dialog.open(AlertSuccessModalComponent, { data: { item: { Icon: 'fa fa-solid fa-check', Message: 'Login Successfully', ButtonText: 'Success', isConfirm: true } } });
+        this.successDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
+          if (o.item.isConfirm) {
+            this.zone.run(() => this.router.navigate(['/dashboard']));
+            this.hReload();
+            //return;
+          }
+        });
+      }
+      else {
+        this.successDialogRef = this.dialog.open(AlertSuccessModalComponent, { data: { item: { Icon: 'fa fa-solid fa-exclamation', Message: 'Invalid Username and Password', ButtonText: 'Error', isConfirm: false } } });
+        this.successDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
+          if (o.item.isConfirm) {
+            //this.hReload();
+            return;
+          }
+        });
+        return;
+      }
+    }, (err: any) => {
+      //alert('Invalid Username and Password');
+      this.successDialogRef = this.dialog.open(AlertSuccessModalComponent, { data: { item: { Icon: 'fa fa-solid fa-exclamation', Message: 'Invalid Username and Password', ButtonText: 'Error', isConfirm: false } } });
+      this.successDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
+        if (o.item.isConfirm) {
+          //this.hReload();
+          return;
+        }
+      });
+    });
+    //console.log('ticketlogin this.acocunt', this.account);
+    return this.account;
+  }
+  hLogin() {
+    if (!this.form.value.username) {
+      return;
+    }
+    if (!this.form.value.password) {
+      return;
+    }
+    this.ticketlogin({ Username: this.form.value.username, Password: this.form.value.password });
   }
   login = async () => {
     //console.log('You Click Login Button');
@@ -102,24 +167,38 @@ export class LoginComponent implements OnInit {
 
     var user = await this.authService.ticketlogin({ Username: this.form.value.username, Password: this.form.value.password });
 
+    console.log('this.account at login.component.ts inside if else statemet  115', user);
 
     //this.account =user.next(user.account);
-    console.log('this.account at login.component.ts', user);
+    console.log('this.account at login.component.ts', Object.keys(user).length);
 
-    if (!user) {
-      alert('Invalid username or password');
-
+    if (Object.keys(user).length == 0) {
+      this.successDialogRef = this.dialog.open(AlertSuccessModalComponent, { data: { item: { Icon: 'fa fa-solid fa-exclamation', Message: 'Invalid Username and Password', ButtonText: 'Error', isConfirm: false } } });
+      this.successDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
+        if (o.item.isConfirm) {
+          //this.hReload();
+          return;
+        }
+      });
+      return;
     }
-    else {
+    else if (Object.keys(user).length > 0) {
       console.log('this.account at login.component.ts inside if else statemet', user);
-      this.zone.run(() => this.router.navigate(['/']));
+      this.successDialogRef = this.dialog.open(AlertSuccessModalComponent, { data: { item: { Icon: 'fa fa-solid fa-check', Message: 'Login Successfully', ButtonText: 'Success', isConfirm: true } } });
+      this.successDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
+        if (o.item.isConfirm) {
+          this.hReload();
+          //return;
+        }
+      });
+      //this.zone.run(() => this.router.navigate(['/']));
       //window.location.reload();
     }
   }
 
-  forgotPassword(){
+  forgotPassword() {
     const storageData = this.ls.getItem1('SetPassword');
-    if(storageData){
+    if (storageData) {
       localStorage.removeItem('SetPassword');
       return;
     }

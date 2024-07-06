@@ -18,11 +18,11 @@ export class AdminComponent implements OnInit {
     let token = await this.ls.getItem1('Auth');
     //console.log('admin components', token);
     //this.websocketservice.stompWebsocketReceiver();
-    if (await this.ls.getItem1('isReload') == null) {
-      //console.log('isReload is not defined');
-      this.ls.setItem('isReload', '1');
-      window.location.reload();
-    }
+    // if (await this.ls.getItem1('isReload') == null) {
+    //   console.log('isReload is not defined');
+    //   this.ls.setItem('isReload', '1');
+    //   //window.location.reload();
+    // }
 
   }
   isSideNavCollapsed = false;

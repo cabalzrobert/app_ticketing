@@ -16,6 +16,7 @@
     justify-content: center;
     flex-wrap: wrap;
     width: 100%;
+    height: 100%;
 
     h1 {
         margin: 0px;
@@ -23,6 +24,29 @@
     }
 
     //margin: 40px;
+}
+.bodycontainer{
+    width: 400px;
+    input{
+        border:solid 1px #3818d9;
+        border-radius: 10px;
+        padding: 10px;
+        outline: none;
+        color:#3818d9;
+    }
+    input::placeholder{
+        color:#3818d9;
+    }
+    textarea{
+        border:solid 1px #3818d9;
+        border-radius: 10px;
+        padding: 10px;
+        outline: none;
+        color:#3818d9;
+    }
+    textarea::placeholder{
+        color:#3818d9;
+    }
 }
 
 
@@ -37,15 +61,22 @@
     }
 }
 
-// button{
-//     background-color: #fff;
-//     color: #61A66A;
-//     border: solid 0.5px;
-//     border-radius: 20px;
-//     font-size: 30px;
-//     padding:10px 20px;
-//     cursor: pointer;
-// }
+button{
+    background-color: #fff;
+    color: #61A66A;
+    border: solid 0.5px;
+    border-radius: 20px;
+    font-size: 18px;
+    padding:10px 20px;
+    cursor: pointer;
+    width: 100%;
+}
+button:hover{
+    background: #61A66A;
+    color: white;
+    border: none;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
 .companycard {
     box-shadow: 0 4px 8px 0 rgb(0, 0, 0, 0.2);
     transition: 0.3s;

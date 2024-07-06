@@ -83,14 +83,28 @@ export class NewticketmodalComponent implements OnInit {
 
   }
   closedialogNewTicket(): void {
+    this.uploaded = [];
     this.dialogRef.close();
   }
   submitDialogRef?: MatDialogRef<SubmitModalComponent>;
   successDialogRef?: MatDialogRef<AlertSuccessModalComponent>;
   createNewTicket(): void {
     if (!this.isValidEntries()) return;
+    console.log('SaveButtonText', this.SaveButtonText);
     console.log('Create New Ticket', this.form.value);
-    this.submitDialogRef = this.dialog.open(SubmitModalComponent, { data: { item: { Header: 'New Ticket', Message: 'Are you sure you want to submit a new FAQs?' } } });
+    let strheader: string = '';
+    let strcontent: string = ''
+    if (this.SaveButtonText == 'Create Ticket') {
+      strheader = 'New Ticket';
+      strcontent = 'Are you sure you want to submit a new ticket?'
+    }
+
+    else if (this.SaveButtonText == 'Update Ticket') {
+      strheader = 'Update Ticket';
+      strcontent = 'Are you sure you want to submit an update ticket?'
+    }
+
+    this.submitDialogRef = this.dialog.open(SubmitModalComponent, { data: { item: { Header: strheader, Message: strcontent } } });
     this.submitDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
       if (o.item.isConfirm) {
         this.performSaveTicket();
@@ -142,7 +156,7 @@ export class NewticketmodalComponent implements OnInit {
           }
         });
       }
-      if (res.Status == 'errpr') {
+      if (res.Status == 'error') {
 
 
         this.successDialogRef = this.dialog.open(AlertSuccessModalComponent, { data: { item: { Icon: 'fa fa-solid fa-exclamation', Message: res.Message, ButtonText: 'Error', isConfirm: false } } });
@@ -235,7 +249,7 @@ export class NewticketmodalComponent implements OnInit {
     this.toFilesBase64(files, this.selectedFiles).subscribe((res: any[]) => {
       res.forEach((i: any) => this.selectedFiles1.push({ name: i.name, filesize: i.filesize, file: i.file, base64: i.base64, uploadstatus: i.uploadstatus, progress: i.progress, rownum: i.rownum }));
       console.log('Result selectedFiles1', this.selectedFiles1);
-      this.selectedFiles1.forEach((o:any) => this.uploaded.push(o));
+      this.selectedFiles1.forEach((o: any) => this.uploaded.push(o));
 
       return res;
     });
@@ -348,12 +362,20 @@ export class NewticketmodalComponent implements OnInit {
     const result = new AsyncSubject<any[]>();
     event.preventDefault();
     event.stopPropagation();
+    console.log('thi.uploaded 352', this.uploaded);
     if (event.dataTransfer != null) {
+      let cntuploaded: number = this.uploaded.length
+      let cnt: number = event.dataTransfer.files.length;
+      let totalcnt: number = cntuploaded + cnt
+      if (totalcnt > 5) {
+        alert("Only 5 files allow");
+        return result;
+      }
       let files = [].slice.call(event.dataTransfer.files);
       this.files = files;
       this.onFileSelected1(files);
       if (this.selectedFiles1) {
-        this.uploaded = this.selectedFiles1
+        //this.uploaded = this.selectedFiles1
       }
       this.outputBoxVisible = true;
       return this.uploaded

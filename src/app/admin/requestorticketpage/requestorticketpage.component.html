@@ -74,6 +74,7 @@
         </div>
         <div #tabsContentRef class="bodycontent" [ngSwitch]="selectedTab">
             <div class="cardcontent" *ngSwitchCase="('pending')">
+                
                 <div *ngFor="let data of ticketpending; index as i">
                     <div class="cardticket1" *ngIf="!data.isRead">
                         <div class="cardticketcontent" (click)="hViewComment(data, i)">
@@ -364,8 +365,8 @@
                         <label class="title" for="">Last message:</label>
                         <label for="">{{dateFormatted(false,LastMessage)}}</label>
                     </div>
-                    <div class="status"><label for="">Status </label> <button>{{TicketStatusname}}</button></div>
-                    <div class="priority"><label for="">Pririoty</label> <button>{{PriorityLevelname}}</button></div>
+                    <div class="status"><label for="">Status: </label> <button>{{TicketStatusname}}</button></div>
+                    <div class="priority"><label for="">Priority:</label> <button>{{PriorityLevelname}}</button></div>
                 </div>
                 <div>
 

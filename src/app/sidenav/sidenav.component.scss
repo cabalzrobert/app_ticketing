@@ -192,6 +192,8 @@
 .sidenav-collapsed {
     //width: 16.5325rem;
     width: 362px;
+    height: 100%;
+    //overflow: auto;
 
 }
 
@@ -203,7 +205,7 @@
     flex-direction: column;
     align-items: center;
     //height: calc(100% - 15.65rem);
-    height: calc(100% - (20% + 0.938rem));
+    height: calc(100% - (28% + 0.938rem));
     cursor: pointer;
 
     .sidenav-nav-item {

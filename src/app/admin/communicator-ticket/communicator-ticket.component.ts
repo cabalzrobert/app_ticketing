@@ -267,6 +267,7 @@ export class CommunicatorTicketComponent {
   //   })
   // }
   async nextBatch(val: any){
+    console.log('Virtual Scroll end', this.virtualScroll.getRenderedRange().end);
     //console.log(`new batch ${val.tab}`);
     //console.log(`tab ${this.tab} = val.tab ${val.tab}`);
     let end = 0;

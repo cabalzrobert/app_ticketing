@@ -15,6 +15,7 @@ import moment from 'moment';
 import { TicketresolveComponent } from '../ticket-main-page/ticketresolve/ticketresolve.component';
 import { TicketProgressModalComponent } from '../modalpage/ticket-progress-modal/ticket-progress-modal.component';
 import { ViewAttachImageModalComponent } from '../modalpage/view-attach-image-modal/view-attach-image-modal.component';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 //import {MatIconModule} from '@angular/material/icon';
 //const{Object1}:any = {};
 //const Object:Window = window;
@@ -1636,7 +1637,7 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
     console.log('this.ticketpending', this.ticketpendingremove);
     this.ticketpending = [];
     this.ticketpending = this.ticketpendingremove.map((o: any) => this.ListTicketDetails(o))
-    this.getTicketPendingList({ Status: 0, num_row: 0, Search: this.Search.value, IsReset: false });
+    this.getTicketPendingList({ Status: 0, num_row: item.NextFilter, Search: this.Search.value, IsReset: false });
     this.ticketpendingremove = [];
     console.log('this.ticketpending', this.ticketpending);
   }

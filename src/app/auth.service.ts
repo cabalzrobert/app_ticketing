@@ -78,7 +78,7 @@ export class AuthService {
     return setTimeout(() => {
       if (isSignIn) {
         //this.stompWebsocketReceiver();
-        this.router.navigateByUrl('/');
+        //this.router.navigateByUrl('/');
       }
 
       else
@@ -174,7 +174,7 @@ export class AuthService {
     //window.localStorage.clear();
     this.router.navigateByUrl('/');
   }
-  ticketlogin(input: any): any {
+  ticketlogin(input: any): Observable<any> {
 
     rest.post('dashboardsignin', input).subscribe(async (res: any) => {
       //console.log('Process the Login API');
@@ -189,13 +189,13 @@ export class AuthService {
         alert(res.message);
       }
     }, (err: any) => {
-      alert('Invalid Username and Password');
+      //alert('Invalid Username and Password');
     });
     //console.log('ticketlogin this.acocunt', this.account);
     return this.account;
   }
 
-  private performSaveLocal(account: any, auth: any, username: string) {
+  public performSaveLocal(account: any, auth: any, username: string) {
     //console.log('performSaveLocal Login auth.Token', auth.Token);
     rest.setBearer(auth.Token);
     this.ls.setItem('Auth', JSON.stringify(auth));

@@ -213,6 +213,8 @@ mat-card {
 .side-info-content {
     height: 100%;
     padding: 25px;
+    //Update by Robert
+    overflow: auto;
 }
 
 .ticket-header {
@@ -223,8 +225,9 @@ mat-card {
     display: flex;
     align-items: center;
     background: #F4F3FC;
-    height: 75px;
+    //height: 75px;
     margin: 0px 25px;
+    height: auto;;
 
     // font-size: 20px;
     mat-icon {

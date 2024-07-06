@@ -26,7 +26,7 @@
                     <div class="icon">
                         <mat-icon color="fa-light">extension</mat-icon>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
@@ -40,26 +40,26 @@
                     <label for="">Pending:</label>
                     <div class="counts">{{data.AssignedPending}}</div>
                 </div>
-                
+
                 <div class="assignedtotyou">
                     <label for="">Resolve:</label>
                     <div class="counts">{{data.AssignedResolve}}</div>
                 </div>
-                
-                
+
+
             </div>
             <div class="assignedticketicon">
                 <div class="assignedicon">
                     <div class="icon">
                         <mat-icon color="fa-light">extension</mat-icon>
                     </div>
-                    
+
                 </div>
                 <button (click)="hViewAssignedTickets()">View More
                     <i class="fa fa-light fa-arrow-right"></i>
                 </button>
             </div>
-            
+
         </div>
         <div class="submittedtickets">
             <div class="assignedticketdetails">
@@ -71,20 +71,20 @@
                     <label for="">Pending:</label>
                     <div class="counts">{{data.SubmittedPending}}</div>
                 </div>
-                
+
                 <div class="assignedtotyou">
                     <label for="">Resolve:</label>
                     <div class="counts">{{data.SubmittedResolve}}</div>
                 </div>
-                
-                
+
+
             </div>
             <div class="assignedticketicon">
                 <div class="assignedicon">
                     <div class="icon">
                         <mat-icon color="fa-light">extension</mat-icon>
                     </div>
-                    
+
                 </div>
                 <button (click)="hViewSubmittedTickets()">View More
                     <i class="fa fa-light fa-arrow-right"></i>
@@ -95,10 +95,10 @@
     <div class="notification">
         <div class="notificationheader">
             <div class="notificationlabel">
-                    <mat-icon color="fa-light">settings</mat-icon>
-                    <label for="">Notificatons</label>
+                <mat-icon color="fa-light">settings</mat-icon>
+                <label for="">Notificatons</label>
             </div>
-           
+
             <div class="notificationall">
                 <div class="notificationunread" *ngIf="input.RequestNotificationCount > 0">
                     <label for="">Your have {{input.RequestNotificationCount}} unread notification(s)</label>
@@ -108,45 +108,82 @@
                 </div>
                 <div class="menu-nav-bar">
                     <ul class="menu-nav">
-                        <li class="menu-nav-item " [ngClass]="isall ? 'isActive' : 'isNotActive'" (click)="hAll()">All</li>
-                        <li class="menu-nav-item " [ngClass]="isread ? 'isActive' : 'isNotActive'" (click)="hRead()">Read</li>
-                        <li class="menu-nav-item " [ngClass]="isunread ? 'isActive' : 'isNotActive'" (click)="hUnread()">Unread</li>
-                        <li class="menu-nav-item markallasread"  [ngClass]="ismarkallasread ? 'isActive' : 'isNotActive'"(click)="hMarkAllAsRead()">Mark all as read</li>
+                        <li class="menu-nav-item " [ngClass]="isall ? 'isActive' : 'isNotActive'" (click)="hAll()">All
+                        </li>
+                        <li class="menu-nav-item " [ngClass]="isread ? 'isActive' : 'isNotActive'" (click)="hRead()">
+                            Read</li>
+                        <li class="menu-nav-item " [ngClass]="isunread ? 'isActive' : 'isNotActive'"
+                            (click)="hUnread()">Unread</li>
+                        <li class="menu-nav-item markallasread" [ngClass]="ismarkallasread ? 'isActive' : 'isNotActive'"
+                            (click)="hMarkAllAsRead()">Mark all as read</li>
                     </ul>
                 </div>
-                
+
             </div>
         </div>
         <div class="notificationdata">
-            <div class="details" *ngFor="let data of ticketnotification; index as i">
-                <div [ngClass]="data.IsOpen ? 'isRead' : 'isUnread'" (mouseover)="hMouseOver(data, i)" (mouseout)="hMouseOut(data, i)" (click)="hOpenNotification(data, i)">
+            <cdk-virtual-scroll-viewport class="scrolling-container" (scrolledIndexChange)="hScrollIndexChange()" [itemSize]="50">
+                <div class="details" *cdkVirtualFor="let data of ticketnotification; let i = index" matRipple>
+                    <div [ngClass]="data.IsOpen ? 'isRead' : 'isUnread'" (mouseover)="hMouseOver(data, i)"
+                        (mouseout)="hMouseOut(data, i)" (click)="hOpenNotification(data, i)">
+                        <div class="iconnotification">
+                            <div class="icon">
+                                <i class="fa fa-light fa-ticket-alt"
+                                    *ngIf="data.Type == 'Ticket-Request' || data.Type == 'Forward-Ticket' || data.Type == 'Assigned-Ticket'"></i>
+                                <i class="fa fa-light fa-cog" *ngIf="data.Type == 'Settings'"></i>
+                            </div>
+                            <div class="notification">
+                                <div class="title">{{data.Title}}</div>
+                                <div class="description">{{data.Description}}</div>
+                            </div>
+                        </div>
+
+                        <div class="notdatestatus">
+                            <div class="notdate">
+                                <div>{{data.DateDisplay}}</div>
+                            </div>
+                            <div class="status">
+                                <div [hidden]="data.showMarkasRead"><button (click)="hMarkAsRead(data, i)">Mark as read
+                                        <i class="fa fa-check"></i></button></div>
+                                <div [hidden]="!data.showMarkasRead">{{(data.IsOpen == 0) ? 'Unread' : 'Read'}}</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </cdk-virtual-scroll-viewport>
+            <!-- <div class="details" *ngFor="let data of ticketnotification; index as i">
+                <div [ngClass]="data.IsOpen ? 'isRead' : 'isUnread'" (mouseover)="hMouseOver(data, i)"
+                    (mouseout)="hMouseOut(data, i)" (click)="hOpenNotification(data, i)">
                     <div class="iconnotification">
                         <div class="icon">
-                            <i class = "fa fa-light fa-ticket-alt" *ngIf="data.Type == 'Ticket-Request' || data.Type == 'Forward-Ticket' || data.Type == 'Assigned-Ticket'"></i>
-                            <i class = "fa fa-light fa-cog" *ngIf="data.Type == 'Settings'"></i>
+                            <i class="fa fa-light fa-ticket-alt"
+                                *ngIf="data.Type == 'Ticket-Request' || data.Type == 'Forward-Ticket' || data.Type == 'Assigned-Ticket'"></i>
+                            <i class="fa fa-light fa-cog" *ngIf="data.Type == 'Settings'"></i>
                         </div>
                         <div class="notification">
                             <div class="title">{{data.Title}}</div>
                             <div class="description">{{data.Description}}</div>
                         </div>
                     </div>
-                    
+
                     <div class="notdatestatus">
                         <div class="notdate">
                             <div>{{data.DateDisplay}}</div>
                         </div>
                         <div class="status">
-                            <div [hidden]="data.showMarkasRead" ><button (click)="hMarkAsRead(data, i)">Mark as read <i class="fa fa-check"></i></button></div>
+                            <div [hidden]="data.showMarkasRead"><button (click)="hMarkAsRead(data, i)">Mark as read <i
+                                        class="fa fa-check"></i></button></div>
                             <div [hidden]="!data.showMarkasRead">{{(data.IsOpen == 0) ? 'Unread' : 'Read'}}</div>
                         </div>
                     </div>
-                    
+
                 </div>
-                
+
             </div>
             <div *ngIf="ticketnotification.length>25">
                 Load More....
-            </div>
+            </div> -->
         </div>
     </div>
 

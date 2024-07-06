@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, input } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild, input } from '@angular/core';
 import { additionalRequestNotification, bindLastLastNotificatioinID, bindLastNotificationID, jUser, jUserModify, requestnotificationCount } from '../../+app/user-module';
 import { device } from '../../tools/plugins/device';
 import { stomp } from '../../+services/stomp.service';
@@ -14,13 +14,31 @@ import { CommunicatorTicketComponent } from '../communicator-ticket/communicator
 import { AuthService } from '../../auth.service';
 import { faL } from '@fortawesome/free-solid-svg-icons';
 import { time } from 'console';
-
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+export const FIXED_SIZE = Array(10000).fill(30);
 @Component({
   selector: 'app-overview-page',
   templateUrl: './overview-page.component.html',
   styleUrl: './overview-page.component.scss'
 })
 export class OverviewPageComponent implements OnInit {
+  @ViewChild(CdkVirtualScrollViewport) virtualScroll!: CdkVirtualScrollViewport;
+  hScrollIndexChange() {
+    this.ticketnotification2 = this.ticketnotification;
+    let end = 0;
+    end = this.virtualScroll.getRenderedRange().end;
+    let basefilter: string = ''
+    if (end == 0)
+      basefilter = this.ticketnotification[end].DateTransaction;
+    else
+    basefilter = this.ticketnotification[end-1].DateTransaction;
+    this.iscom = (this.input.isCommunicator == true) ? 1 : 0;
+    this.isdepthead = (this.input.isDeptartmentHead == true) ? 1 : 0;
+    timeout(() => this.getTicketListDelay({ IsRest: true, isRead: null, BaseFilter: basefilter }), 275);
+  }
+  hLoadMore(data: any, idx: number) {
+    console.log('hLoadMore data, idx', data, idx);
+  }
   hMouseOut(data: any, idx: number) {
     if (data.IsOpen) return;
     data.showMarkasRead = true;
@@ -45,6 +63,9 @@ export class OverviewPageComponent implements OnInit {
     this.ismarkallasread = false;
     this.ticketnotification = [];
     this.loader = true;
+    this.ticketnotification = [];
+    this.ticketnotification1 = [];
+    this.ticketnotification2 = [];
     timeout(() => this.getTicketListDelay({ IsRest: true, isRead: null }), 275);
   }
   hRead() {
@@ -53,6 +74,8 @@ export class OverviewPageComponent implements OnInit {
     this.isunread = false;
     this.ismarkallasread = false;
     this.ticketnotification = [];
+    this.ticketnotification1 = [];
+    this.ticketnotification2 = [];
     this.loader = true;
     timeout(() => this.getTicketListDelay({ IsRest: true, isRead: '1' }), 275);
   }
@@ -62,6 +85,8 @@ export class OverviewPageComponent implements OnInit {
     this.isunread = true;
     this.ismarkallasread = false;
     this.ticketnotification = [];
+    this.ticketnotification1 = [];
+    this.ticketnotification2 = [];
     this.loader = true;
     timeout(() => this.getTicketListDelay({ IsRest: true, isRead: '0' }), 275);
   }
@@ -164,6 +189,8 @@ export class OverviewPageComponent implements OnInit {
   submittedresolve: number = 0;
   totalsubmittedticket: number = 0
   ticketnotification: any = [];
+  ticketnotification1: any = [];
+  ticketnotification2: any = [];
   ticketnotificationReceived: any = [];
   notificationID: string = '';
   unreadNotification: number = 0;
@@ -178,6 +205,7 @@ export class OverviewPageComponent implements OnInit {
   hideElement: boolean = true;
   isassigned: boolean = false;
   ticketisassigned: any = {};
+  fixedSizeData = FIXED_SIZE;
 
   async ngOnInit(): Promise<void> {
     //console.log('Overview', Capacitor.platform);
@@ -303,23 +331,26 @@ export class OverviewPageComponent implements OnInit {
     item.DepartmentID = this.input.DEPT_ID;
 
     this.subs.s1 = rest.post('notification', item).subscribe(async (res: any) => {
+      this.ticketnotification = [];
       if (res != null) {
         var cnt = parseInt(res.length);
+        /*
         if (cnt == 0) {
-          this.ticketnotification = [];
+          this.ticketnotification = this.ticketnotification2;
           this.loader = false;
           return this.ticketnotification;
         }
-
-        if (item.IsReset) this.ticketnotification = res.map((o: any) => this.ListNotificationDetails(o));
-        else res.forEach((o: any) => this.ticketnotification.push(this.ListNotificationDetails(o)));
+        */
+        if (item.IsReset) this.ticketnotification1 = res.map((o: any) => this.ListNotificationDetails(o));
+        else res.forEach((o: any) => this.ticketnotification1.push(this.ListNotificationDetails(o)));
+        this.ticketnotification = this.ticketnotification.concat(this.ticketnotification1);
+        //this.ticketnotification =res;
 
         this.prop.IsEmpty = (this.ticketnotification.length < 1);
         if (callback != null) callback();
         this.loader = false;
         this.lastnotificationid = this.ticketnotification[0].NotificationID;
         bindLastLastNotificatioinID(this.lastnotificationid);
-        console.log('this.ticketnotification 196', this.ticketnotification)
         return this.ticketnotification;
       }
 

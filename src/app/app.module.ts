@@ -29,6 +29,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { NewUserLoginComponent } from './new-user-login/new-user-login.component';
 import { OtpComponent } from './otp/otp.component';
 import { SetPasswordComponent } from './set-password/set-password.component';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { SetPasswordComponent } from './set-password/set-password.component';
     MatButtonModule,
     MatInputModule,
     NgOtpInputModule,
-    MatToolbarModule
+    MatToolbarModule,
+    ScrollingModule
   ],
   providers: [
     provideClientHydration(),

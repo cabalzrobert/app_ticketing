@@ -503,18 +503,20 @@
             width: 100%;
             height: 2.5rem;
             font-size: 1rem;
-            border: none;
+            border: solid 1px #3818d9;
             border-radius: .5rem;
             padding: 0px 10px;
-            background-image: linear-gradient(to right, #3818d9, #79b0e2);
-            color: #fff;
+            //background-image: linear-gradient(to right, #3818d9, #79b0e2);
+            //color: #fff;
+            color: #3818d9;
             outline: none;
 
             //box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
         }
 
         .logininput::placeholder {
-            color: white;
+            //color: white;
+            color: #3818d9;
         }
 
         .loginlabel {

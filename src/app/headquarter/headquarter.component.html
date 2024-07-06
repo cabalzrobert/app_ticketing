@@ -3,7 +3,7 @@
 <div id="container" [formGroup]="form">
 
     <div class="container"  [formGroup]="form">
-        <div class="row">
+        <div class="bodycontainer">
             <div class="col-lg-6">
 
                 <div class="flex-item">
@@ -48,9 +48,9 @@
                                     <input type="text" class="form-control form-control-user"  formControlName="EmailAddress" 
                                         placeholder="Email Address">
                                     <input type="text" class="form-control form-control-user"  formControlName="Username"
-                                        placeholder="Username">
+                                        placeholder="Username" autocomplete="off">
                                     <input type="password" class="form-control form-control-user"  formControlName="Password"
-                                        placeholder="Password">
+                                        placeholder="Password" autocomplete="new-password">
                                 </div>
                             </div>
                         </div>
