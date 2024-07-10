@@ -146,7 +146,7 @@ export class ProfileComponent {
     this.lastPasswordUpdate = this.userDetail.LST_CHNG_PSSWRD;
     console.log(this.userDetail);
     if(this.userDetail.ACT_TYP == '2')
-      this.roleaccount = 'Admin'
+      this.roleaccount = 'Super Admin'
     else if(this.userDetail.ACT_TYP == '3'){
       if(this.userDetail.isCommunicator == true && this.userDetail.isDeptartmentHead == true)
         this.roleaccount == 'Communicator and Department Head';
@@ -221,15 +221,15 @@ export class ProfileComponent {
       isValid = false;
     }
     else{
-      if(mobileNumber.startsWith('09')&&mobileNumber.length < 11){
+      if(mobileNumber.startsWith('09')&&mobileNumber.length !== 11){
         this.mobileErrorMessage = 'Mobile number is invalid';
         isValid = false;
       }
-      else if (mobileNumber.startsWith('+63')&&mobileNumber.length < 13){
+      else if (mobileNumber.startsWith('+63')&&mobileNumber.length !== 13){
         this.mobileErrorMessage = 'Mobile number is invalid';
         isValid = false;
       }
-      else if(!mobileNumber.startsWith('09')||!mobileNumber.startsWith('+63')||mobileNumber.length < 11 || mobileNumber.length < 13){
+      else if(!mobileNumber.startsWith('09')||!mobileNumber.startsWith('+63')||mobileNumber.length !== 11 || mobileNumber.length !== 13){
         this.mobileErrorMessage = 'Mobile number is invalid';
         isValid = false;
       }

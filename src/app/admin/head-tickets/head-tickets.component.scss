@@ -213,26 +213,18 @@ mat-card {
 .side-info-content {
     height: 100%;
     padding: 25px;
-    //Update by Robert
-    overflow: auto;
 }
 
 .ticket-header {
-    //height: 125px;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    height: 125px;
 }
 
 .ticket-toolbar {
     display: flex;
     align-items: center;
     background: #F4F3FC;
-    //height: 75px;
-    height: auto;
+    height: 75px;
     margin: 0px 25px;
-    height: auto;;
 
     // font-size: 20px;
     mat-icon {
@@ -305,12 +297,17 @@ mat-card {
             align-items: center;
             border-radius: 50%;
             box-shadow: 1px 5px 15px rgba(128, 128, 128, 0.5);
-
+            overflow: hidden;
             mat-icon {
                 position: absolute;
                 height: auto;
                 width: auto;
                 font-size: xx-large;
+            }
+            img{
+                height: 50px;
+                width: 50px;
+                overflow: hidden;
             }
         }
 
@@ -428,12 +425,17 @@ mat-card {
             align-items: center;
             border-radius: 50%;
             box-shadow: 1px 5px 15px rgba(128, 128, 128, 0.5);
-
+            overflow: hidden;
             mat-icon {
                 position: absolute;
                 height: auto;
                 width: auto;
                 font-size: xx-large;
+            }
+            img{
+                height: 50px;
+                width: 50px;
+                overflow: hidden;
             }
         }
 
@@ -983,10 +985,6 @@ mat-card {
 :host ::ng-deep .mat-mdc-card-header{
     justify-content: space-between;
     align-items: center;
-}
-:host ::ng-deep .mat-stepper-horizontal{
-    width: 100%;
-    min-width: 768px;
 }
 
 

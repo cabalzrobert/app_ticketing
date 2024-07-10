@@ -75,8 +75,8 @@
             </div>
             <div class="userinfo" *ngIf="collapsed" (click)="profile()">
                 <div class="info">
-                    <label for="">{{input.FLL_NM}}</label>
-                    <label for="">{{input.EML_ADD}}</label>
+                    <label for="">{{input.ACT_TYP==='2'?'Super Admin':input.FLL_NM}}</label>
+                    <label for="">{{input.ACT_TYP==='2'?'@superadmin':input.EML_ADD}}</label>
                 </div>
             </div>
 
