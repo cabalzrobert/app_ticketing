@@ -14,6 +14,7 @@ export class OtpComponent {
   storageData: any;
   otp: any;
   userId = '';
+  inputErrorMsg: any;
   generatedOtp = '';
   _timer = 0;
   otpStatus = {
@@ -61,8 +62,13 @@ export class OtpComponent {
   onSendingOtp(e: any) {
     e.preventDefault();
     e.stopPropagation();
+    if(this.form.value.mobileNumber.length !== 10){
+      this.inputErrorMsg = 'Mobile number entered is invalid';
+      return;
+    }
     if (this._timer === 0)
       this.sendOtp();
+    this.inputErrorMsg = null;
   }
 
   sendOtp = async () => {

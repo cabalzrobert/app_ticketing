@@ -442,6 +442,7 @@ export class SidenavComponent implements OnInit {
   }
 
   profile() {
+    if(this.input.ACT_TYP === '2') return;
     const dialogRef = this.dialog.open(ProfileComponent, {
       // maxHeight: '0%',
       height: '80%',

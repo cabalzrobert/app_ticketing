@@ -75,6 +75,13 @@
         color: #fff;
         text-align: center;
     }
+    .input-error-msg{
+        display: flex;
+        color: red;
+        margin-top: 5px;
+        // font-size: 14px;
+        justify-content: center;
+    }
 }
 
 .otp-message-container{
