@@ -21,24 +21,33 @@
         </div>
     </div>
     <div class="logindisplay2">
-        <div class="logincard">
+        <div class="logincard" style="--width: {{size}}">
             <!-- <div class="text-center">Login</div> -->
             <!-- <div class="logincard-header">Ticketing System</div> -->
             <div class="logincard-body">
                 <div class="mb-3">
                     <label class="loginlabel">Username</label>
-                    <input class="logininput" formControlName="username" type="text" placeholder="0999-999-9999" autocomplete="off" (keyup.enter)="hLogin()">
+                    <input class="logininput" formControlName="username" type="text" placeholder="0999-999-9999"
+                        autocomplete="off" (keyup.enter)="hLogin()">
                 </div>
                 <div class="mb-3">
                     <label class="loginlabel">Password</label>
-                    <input class="logininput" formControlName="password" type="password" placeholder="" autocomplete="new-password" required (keyup.enter)="hLogin()">
+                    <span>
+                        <input class="logininput" formControlName="password" type="password" [type]="password"
+                            placeholder="" autocomplete="new-password" required (keyup.enter)="hLogin()">
+                        <button (click)="hHideShowPassword()">
+                            <i class="fa fa-thin fa-eye" aria-hidden="true" *ngIf="!show"></i>
+                            <i class="fa fa-thin fa-eye-slash" aria-hidden="true" *ngIf="show"></i>
+                        </button>
+                    </span>
+
                 </div>
                 <div class="loginfooter">
                     <div class="loginevent">
                         <button class="forgotpasswordbutton" (click)="forgotPassword()">Forgot Password?</button>
-                        <button class="loginbutton" (click)="login()" [disabled]="!form.valid">Login <img class="logo"
+                        <button class="loginbutton" (click)="hLogin()" [disabled]="!form.valid">Login <img class="logo"
                                 src="assets/image/signin.gif" /></button>
-                                
+
                         <!-- <button class="forgotpasswordbutton" (click)="hReload()">Reload?</button> -->
                     </div>
                 </div>

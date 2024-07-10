@@ -1,9 +1,9 @@
 
 
-<div id="container" [formGroup]="form">
+<div id="container" [formGroup]="form" style="--size: {{height}}; --width: {{width}}">
 
     <div class="container"  [formGroup]="form">
-        <div class="bodycontainer">
+        <div class="bodycontainer" style="--size: {{size}}">
             <div class="col-lg-6">
 
                 <div class="flex-item">
@@ -58,12 +58,13 @@
                 </div>
                 
             </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12" style="padding:0 2em;">
-                <button class="btn btn-outline-success"  (click)="SaveHeadOffice()">Save</button>
+            <div class="row">
+                <div class="col-lg-12" style="padding:0 2em;">
+                    <button class="btn btn-outline-success"  (click)="SaveHeadOffice()">Save</button>
+                </div>
             </div>
         </div>
+        
     </div>
 
 

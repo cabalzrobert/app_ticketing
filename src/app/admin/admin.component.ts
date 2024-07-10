@@ -5,6 +5,7 @@ import { rest } from '../+services/services';
 
 interface SideNavToggle {
   screenWidth: number;
+  screenHeight: number;
   collapsed: boolean;
 }
 @Component({
@@ -27,8 +28,10 @@ export class AdminComponent implements OnInit {
   }
   isSideNavCollapsed = false;
   screenWidth = 0;
+  screenHegith = 0
   onToggleSidvNav(data: SideNavToggle): void {
     this.screenWidth = data.screenWidth;
+    this.screenHegith = data.screenHeight;
     this.isSideNavCollapsed = data.collapsed;
     //console.log('onToggleSideNav data', data);
   }

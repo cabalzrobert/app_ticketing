@@ -31,15 +31,45 @@ export class LoginComponent implements OnInit {
   account: any = [];
 
   successDialogRef?: MatDialogRef<AlertSuccessModalComponent>;
+  screenWidth = 0;
+  size = '';
   ngOnInit(): void {
     //console.log('login.components.ts ngOnit');
     //setTimeout(() => this.performCheckDB(), 750);
 
     device.ready(() => this.sessionNotEmpty());
     device.ready(() => this.performCheckDB());
+    console.log('hHideShowPassowrd', this.password);
 
 
   }
+  onWindowInitialize() {
+    this.screenWidth = window.innerWidth;
+    if (this.screenWidth > 768) {
+      this.size = "600px";
+      //this.onToggleHeadquarterComponent.emit({ screenWidth: this.screenWidth });
+    }
+    else {
+      this.size = "";
+      //this.onToggleHeadquarterComponent.emit({ screenWidth: this.screenWidth });
+    }
+    // this.collapsed = true;
+    console.log('onWindowInitialize this.screenWidth', this.screenWidth);
+    //this.onToggleHeadquarterComponent.emit({ screenWidth: this.screenWidth });
+  }
+
+  password: string = 'password';
+  show:boolean=false;
+  hHideShowPassword() {
+    console.log('hHideShowPassowrd', this.password);
+    if (this.password === 'password') {
+      this.password = 'text';
+      this.show = true;
+    } else {
+      this.password = 'password';
+      this.show = false;
+    }
+}
 
   private performCheckDB() {
     //console.log('performCheckDB');
@@ -99,7 +129,7 @@ export class LoginComponent implements OnInit {
   sessionNotEmpty() {
     if (this.authService.session) {
       console.log('SessionNotEmpty', this.authService.session, this.router);
-      this.zone.run(() => this.router.navigateByUrl('/dashboard'));
+      this.zone.run(() => this.router.navigateByUrl('/'));
     }
 
   }

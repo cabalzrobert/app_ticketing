@@ -1,11 +1,13 @@
-import { Component, NgZone, OnInit } from '@angular/core';
+import { Component, EventEmitter, HostListener, NgZone, OnInit, Output } from '@angular/core';
 import { ApiserviceService } from '../+services/service.api';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { isEmail } from '../tools/global';
 import { rest } from '../+services/services';
 import { device } from '../tools/plugins/device';
-
+interface HeadquarterComponentToggle {
+  screenWidth: number;
+}
 @Component({
   selector: 'app-headquarter',
   templateUrl: './headquarter.component.html',
@@ -25,8 +27,55 @@ export class HeadquarterComponent implements OnInit {
     MobileNumber: ['', Validators.required],
     EmailAddress: ['', Validators.required]
   });
-  constructor(private apiservice: ApiserviceService, public router: Router, public fb: FormBuilder, private zone:NgZone) { }
+  screenWidth = 0;
+  containerWidht = 0
+  screenHeight = 0;
+  size = "";
+  width = "";
+  height = "";
+  constructor(private apiservice: ApiserviceService, public router: Router, public fb: FormBuilder, private zone: NgZone) { }
+  @HostListener('window:resize', ['$event'])
+  //@Output() onToggleHeadquarterComponent: EventEmitter<HeadquarterComponentToggle> = new EventEmitter();
+  onWindowInitialize() {
+    this.screenWidth = window.innerWidth;
+    this.containerWidht = window.innerWidth;
+    this.screenHeight = window.innerHeight;
+    if (this.screenWidth > 768) {
+      this.size = "600px";
+      //this.onToggleHeadquarterComponent.emit({ screenWidth: this.screenWidth });
+    }
+    else {
+      this.size = "";
+      //this.onToggleHeadquarterComponent.emit({ screenWidth: this.screenWidth });
+    }
+    if (this.containerWidht > 360)
+      this.width = "100%";
+    else
+      this.width = "";
+    if (this.screenHeight > 900)
+      this.height = "100%";
+    else
+      this.height = "";
+    // this.collapsed = true;
+    console.log('onWindowInitialize this.this.containerWidht', this.containerWidht);
+    console.log('onWindowInitialize this.screenWidth', this.screenWidth);
+    console.log('onWindowInitialize this.screenHeight', this.screenHeight);
+    //this.onToggleHeadquarterComponent.emit({ screenWidth: this.screenWidth });
+  }
+  onResize(event: any) {
+    console.log('onResize', window.innerWidth);
+    this.screenWidth = window.innerWidth;
+    if (this.screenWidth <= 768) {
+      this.size = "300px";
+    }
+    else {
+      this.size = "600px";
+    }
+    console.log('onResize this.size', this.size);
+  }
   ngOnInit(): void {
+    this.onWindowInitialize();
+    //this.onToggleHeadquarterComponent.emit({ screenWidth: this.screenWidth });
     device.ready(() => this.performCheckDB());
   }
   private performCheckDB() {
@@ -95,13 +144,13 @@ export class HeadquarterComponent implements OnInit {
     console.log('SaveHeadOffice this.form.value', this.form.value);
     setTimeout(() => this.performSubmit(), 750);
   }
-  private performSubmit(){
-    rest.post('headoffice',this.form.value).subscribe(async(res:any)=>{
-      if(res.Status == 'ok'){
+  private performSubmit() {
+    rest.post('headoffice', this.form.value).subscribe(async (res: any) => {
+      if (res.Status == 'ok') {
         alert(res.message);
         this.router.navigateByUrl('/login');
       }
-    },(err:any)=>{
+    }, (err: any) => {
       alert('Please try again');
     });
   }

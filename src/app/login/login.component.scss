@@ -426,8 +426,9 @@
         display: flex;
         align-items: center;
         justify-content: center;
+
         //box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-        .logindisplay1a{
+        .logindisplay1a {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -452,6 +453,7 @@
         letter-spacing: 20px;
         text-shadow: 2px 2px 8px #efeaea;
     }
+
     .ticketlogo {
         height: 50px;
         width: auto;
@@ -472,7 +474,8 @@
     margin: 1.25rem 1.25rem 0;
     //box-shadow: 0.25rem .5rem #aecdd7;
     height: 18rem;
-    width: 30rem;
+    //width: 30rem;
+    width: var(--width);
     //box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 
     .logincard-header {
@@ -497,12 +500,25 @@
         .mb-3 {
             display: flex;
             flex-direction: column;
+            span{
+                display: flex;
+                border:solid 1px #3818D9;
+                border-radius: 0.5rem;
+                button{
+                    border:none;
+                    background: none;
+                    padding: 0px 10px 0px 0px;
+                }
+                input{
+                    border: none;
+                }
+            }
         }
 
         .logininput {
             width: 100%;
             height: 2.5rem;
-            font-size: 1rem;
+            font-size: 1.3rem;
             border: solid 1px #3818d9;
             border-radius: .5rem;
             padding: 0px 10px;
@@ -510,6 +526,7 @@
             //color: #fff;
             color: #3818d9;
             outline: none;
+            letter-spacing: 2px;
 
             //box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
         }
@@ -517,6 +534,13 @@
         .logininput::placeholder {
             //color: white;
             color: #3818d9;
+            letter-spacing: 2px;
+            font-size: 1.3rem;
+        }
+
+        input::-ms-reveal,
+        input::-ms-clear {
+            display: none;
         }
 
         .loginlabel {
@@ -534,6 +558,7 @@
                 justify-content: center;
                 width: 100%;
                 justify-content: space-between;
+                gap:20px;
             }
         }
 

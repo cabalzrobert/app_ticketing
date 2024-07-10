@@ -10,7 +10,7 @@ import { device } from '../tools/plugins/device';
 import { LocalStorageService } from '../tools/plugins/localstorage';
 import { stomp } from '../+services/stomp.service';
 //import { WebSocketService } from '../web-socket.service';
-import { Observable, Subject, Subscription } from 'rxjs';
+import { filter, Observable, Subject, Subscription } from 'rxjs';
 import { WebSocketService } from '../web-socket.service';
 import { RxStompService } from '../tools/plugins/rx-stomp.service';
 import { WebSocketSubject } from 'rxjs/internal/observable/dom/WebSocketSubject';
@@ -18,12 +18,15 @@ import { subscribe } from 'diagnostics_channel';
 import { RxStomp } from '@stomp/rx-stomp';
 import React from 'react';
 import { json } from 'stream/consumers';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ProfileComponent } from '../admin/profile/profile.component';
+import { SubmitModalComponent } from '../admin/modalpage/submit-modal/submit-modal.component';
+import { AlertSuccessModalComponent } from '../admin/modalpage/alert-success-modal/alert-success-modal.component';
 //import { WebSocketSubject } from 'rxjs/internal/observable/dom/WebSocketSubject';
 //const { Object }: any = window;
 interface SideNavToggle {
   screenWidth: number;
+  screenHeight:number;
   collapsed: boolean;
 }
 @Component({
@@ -48,14 +51,41 @@ interface SideNavToggle {
   ]
 })
 export class SidenavComponent implements OnInit {
+  hMouseOut() {
+    if (window.innerWidth > 768) return;
+    if (!this.collapsed)
+      this.collapsed = true;
+    else if (this.collapsed)
+      this.collapsed = false;
+  }
+  hMouseOver() {
+    if (window.innerWidth > 768) return;
+    if (!this.collapsed)
+      this.collapsed = true;
+    else if (this.collapsed)
+      this.collapsed = false;
+  }
   hClearRequest() {
     this.authService.requesttickect = {};
   }
+  submitDialogRef?: MatDialogRef<SubmitModalComponent>;
+  successDialogRef?: MatDialogRef<AlertSuccessModalComponent>;
   logout() {
     //this.authService.logout();
     //this.stopPing();
-    this.ls.clear();
-    window.location.reload();
+    let strheader: string = 'Logout';
+    let strcontent: string = 'Are you sure you want to logout?'
+    this.submitDialogRef = this.dialog.open(SubmitModalComponent, { data: { item: { Header: strheader, Message: strcontent } } });
+    this.submitDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
+      if (o.item.isConfirm) {
+        this.successDialogRef = this.dialog.open(AlertSuccessModalComponent, { data: { item: { Icon: 'fa fa-solid fa-check', Message: 'Logout Successfully', ButtonText: 'Logout', isConfirm: true } } });
+        this.successDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
+          this.ls.clear();
+          window.location.reload();
+        });
+      }
+    });
+
   }
 
   totalticketreceived: number = 0;
@@ -76,13 +106,14 @@ export class SidenavComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onWindowInitialize() {
     this.screenWidth = window.innerWidth;
+    this.screenHeight = window.innerHeight;
     if (this.screenWidth <= 768) {
       this.collapsed = false;
-      this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth });
+      this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth, screenHeight:this.screenHeight });
     }
     else {
       this.collapsed = true;
-      this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth });
+      this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth, screenHeight:this.screenHeight });
     }
     // this.collapsed = true;
     //   this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth });
@@ -90,13 +121,14 @@ export class SidenavComponent implements OnInit {
   onResize(event: any) {
     console.log('onResize', window.innerWidth);
     this.screenWidth = window.innerWidth;
+    this.screenHeight = window.innerHeight;
     if (this.screenWidth <= 768) {
       this.collapsed = false;
-      this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth });
+      this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth, screenHeight:this.screenHeight });
     }
     else {
       this.collapsed = true;
-      this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth });
+      this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth, screenHeight:this.screenHeight });
     }
   }
   subs: any = {};
@@ -124,16 +156,17 @@ export class SidenavComponent implements OnInit {
     //this.subs.u = jUserModify(async () => this.setState({u:await jUser()}));
     this.NavBarItem();
     this.screenWidth = window.innerWidth;
+    this.screenHeight = window.innerHeight;
     if (this.screenWidth <= 768)
       this.collapsed = false;
     else
       this.collapsed = true;
 
-    console.log('NavBarItem', this.screenWidth, this.collapsed);
-    this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth });
+    //console.log('NavBarItem', this.screenWidth, this.collapsed);
+    this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth, screenHeight: this.screenHeight });
     device.ready();
     //console.log('Device is isReady ', device.ready());
-    console.log('Device is Browser ', device.isBrowser);
+    //console.log('Device is Browser ', device.isBrowser);
     let auth: any = this.ls.getItem1('Auth');
     if (!!auth) {
       //console.log('auth is not empty', JSON.parse(auth));
@@ -144,7 +177,7 @@ export class SidenavComponent implements OnInit {
     //this.stompWebsocketReceiver();
 
     this.onWindowInitialize();
-    console.log('This is input 129', this.input);
+    //console.log('This is input 129', this.input);
 
   }
   onSendMessage() {
@@ -158,6 +191,7 @@ export class SidenavComponent implements OnInit {
 
   collapsed = false;
   screenWidth = 0;
+  screenHeight = 0;
   //navData = navbarData;
   navData: any = [];
 
@@ -167,11 +201,11 @@ export class SidenavComponent implements OnInit {
       this.collapsed = !this.collapsed;
     else
       this.collapsed = !this.collapsed;
-    this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth });
+    this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth, screenHeight: this.screenHeight });
   }
   closeSidenav(): void {
     this.collapsed = false;
-    this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth });
+    this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth, screenHeight: this.screenHeight });
   }
 
   private NavBarItem() {

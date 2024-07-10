@@ -123,7 +123,8 @@ mat-card {
     // width: 100%;
     overflow-y: scroll;
 }
-.isnotOpen{
+
+.isnotOpen {
     background: #ECECEC;
     //color: white;
 }
@@ -212,14 +213,19 @@ mat-card {
 }
 
 .ticket-header {
-    height: 125px;
+    //height: 125px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .ticket-toolbar {
     display: flex;
     align-items: center;
     background: #F4F3FC;
-    height: 75px;
+    //height: 75px;
+    height: auto;
     margin: 0px 25px;
 
     // font-size: 20px;
@@ -522,7 +528,7 @@ mat-card {
     max-width: 179px;
 }
 
-:host ::ng-deep .mat-mdc-card-header{
+:host ::ng-deep .mat-mdc-card-header {
     justify-content: space-between;
     align-items: center;
 }

@@ -1,7 +1,7 @@
 <div class="container">
     <div class="userprofile">
         <div class="header">
-            <div class="menu">
+            <div [ngClass]="screenWidth>768 ? 'menu' : 'menu1'">
                 <label for="" class="welcomeback">Welcome Back!</label>
                 <label for="" class="menuprofile">{{UserAccount}}</label>
                 <label for="" class="usertype">{{UserType}}</label>

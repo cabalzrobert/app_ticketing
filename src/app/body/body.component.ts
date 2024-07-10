@@ -8,6 +8,7 @@ import { Component, Input } from '@angular/core';
 export class BodyComponent {
   @Input() collapsed = false;
   @Input() screenWidth = 0;
+  @Input() screenHeight = 0;
   loader = true;
   getBodyClass(): string {
     let styleClass = '';

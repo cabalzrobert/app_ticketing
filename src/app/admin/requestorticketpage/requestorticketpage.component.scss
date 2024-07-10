@@ -2,10 +2,21 @@
     overflow-y: scroll;
     scroll-behavior: auto;
 }
+.scrolling-container {
+    display: block;
+    height: 100%;
+    // width: 100%;
+    //overflow-y: scroll;
+    overflow: auto;
+
+
+}
 
 .container {
     height: 99%;
     padding: 30px;
+    width: 100%;
+    min-width: 768px;
 
     .header {
         display: flex;
@@ -1059,6 +1070,7 @@
             flex-direction: column;
             gap: 20px;
             padding: 0px 10px 0px 0px;
+            height: 100%;
         }
 
         .cardticket1 {

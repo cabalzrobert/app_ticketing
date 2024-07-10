@@ -78,7 +78,7 @@ export class AuthService {
     return setTimeout(() => {
       if (isSignIn) {
         //this.stompWebsocketReceiver();
-        //this.router.navigateByUrl('/');
+        this.router.navigateByUrl('/');
       }
 
       else

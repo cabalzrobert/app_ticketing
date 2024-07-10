@@ -17,6 +17,7 @@
 
     width: calc(100% - 362px);
     margin-left: 362px;
+    min-width: 768px;
 
     //background: #F4F3FC;
 }
@@ -24,5 +25,6 @@
 .body-md-screen {
     width: calc(100% - 5rem);
     margin-left: 5rem;
+    min-width: 768px;
     //background: #F4F3FC;
 }

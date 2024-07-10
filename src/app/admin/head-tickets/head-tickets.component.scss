@@ -218,7 +218,11 @@ mat-card {
 }
 
 .ticket-header {
-    height: 125px;
+    //height: 125px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .ticket-toolbar {
@@ -226,6 +230,7 @@ mat-card {
     align-items: center;
     background: #F4F3FC;
     //height: 75px;
+    height: auto;
     margin: 0px 25px;
     height: auto;;
 
@@ -978,6 +983,10 @@ mat-card {
 :host ::ng-deep .mat-mdc-card-header{
     justify-content: space-between;
     align-items: center;
+}
+:host ::ng-deep .mat-stepper-horizontal{
+    width: 100%;
+    min-width: 768px;
 }
 
 

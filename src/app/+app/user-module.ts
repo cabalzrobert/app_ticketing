@@ -144,7 +144,7 @@ export const requestnotificationCount=(()=>{
     var subscription:any;
     return async(item:any)=>{
         if(!await ready()) return;
-        console.log('requestnotificationCount item 147', item);
+        //console.log('requestnotificationCount item 147', item);
         if(subscription) subscription.unsubscribe();
         //console.log('Notification COunt 81', ready);
         subscription = rest.post('ticketnotification/unseen',item).subscribe(async(res:any)=>{

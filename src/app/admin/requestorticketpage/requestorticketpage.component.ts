@@ -232,14 +232,14 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
     this.AssignedAccountEmail = data.AssignedAccountEmail;
     this.AssignedAccountProfilePicture = data.AssignedAccountProfilePicture;
     this.ticketupdate = data;
-    console.log('Ticket data Update')
+    //console.log('Ticket data Update')
     //await this.getCommentList(this.TransactionNo);
     //setTimeout(() => this.getCommentList(this.TransactionNo), 725);
 
     device.ready(() => setTimeout(() => this.getCommentList(this.TransactionNo), 275));
     this.scrollToBottom();
-    if (this.isAssigned)
-      console.log('this.isAssigned', this.isAssigned);
+    if (this.isAssigned){}
+      //console.log('this.isAssigned', this.isAssigned);
     //await this.getlastMessage(this.LastMessage);
     //setTimeout(() => this.getlastMessage(this.LastMessage), 725);
     //console.log('this.ticketcomment 219', await this.LastMessage);
@@ -290,6 +290,7 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
   ticketcount: any = [];
   ticketlistcount: any = {};
   ticketpending: any = [];
+  ticketlist: any = [];
   ticketpending1: any = [
     {
       Category: '',
@@ -1552,6 +1553,7 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
   ticketImageAttachment: any = [];
   resolveEvents: number = 0;
   ticketindex: number = 0;
+  ticketstatus: number = 0;
   constructor(public dialog: MatDialog, @Inject(DOCUMENT) private dom: Document, @Inject(PLATFORM_ID) private platformId: Window, public ls: LocalStorageService, private cd: ChangeDetectorRef) {
     this.selectedTab = "pending"
     this.stompReceivers();
@@ -1576,7 +1578,7 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
     //Object1 = window;
 
     this.input = await jUser();
-    console.log('RequestTicketPage this.Object', this.Object);
+    //console.log('RequestTicketPage this.Object', this.Object);
 
     device.ready(() => timeout(() => this.performAuth(), 275));
 
@@ -1588,8 +1590,8 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
 
     //this.getTicketPendingList({ Status: 0, num_row: 0, Search: '', IsReset: true });
     timeout(() => this.hPending(), 275);
-    console.log('Oninit this.tickectcount', this.ticketlistcount);
-    console.log('Oninit Number of Rows Count', this.ticketpending1.length);
+    //console.log('Oninit this.tickectcount', this.ticketlistcount);
+    //console.log('Oninit Number of Rows Count', this.ticketpending1.length);
     //this.stompReceivers();
 
     this.pending = this.ticketcount.Pending;
@@ -1599,13 +1601,13 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
     //Array.from(this.ticketcount).forEach((o: any) => console.log('Array.from(this.ticketcount).forEach', o));
 
 
-    console.log('Ticket Count arr', this.ticketcount.length, this.ticketcount);
-    console.log('Ticket Count', this.ticketcount);
-    console.log('Ticket Count Status', this.pending, this.resolve, this.allticket);
+    //console.log('Ticket Count arr', this.ticketcount.length, this.ticketcount);
+    //console.log('Ticket Count', this.ticketcount);
+    //console.log('Ticket Count Status', this.pending, this.resolve, this.allticket);
 
-    console.log('tthis.ticketlistcount', this.ticketlistcount);
+    //console.log('tthis.ticketlistcount', this.ticketlistcount);
     var tlc = this.ticketlistcount;
-    console.log('var tlc 1367', tlc);
+    //console.log('var tlc 1367', tlc);
     this.itemReady.emit(true);
 
     this.loader = false;
@@ -1677,11 +1679,11 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
     this.subs.wsConnect = stomp.subscribe('#connect', () => this.connected());
     //this.subs.ws1 = stomp.subscribe('/ticketrequest/iscommunicator', (json: any) => this.receivedRequestTicketCommunicator(json));
     this.subs.ws1 = stomp.subscribe('/' + this.input.isCommunicator + '/ticketrequest/iscommunicator', (json: any) => this.receivedRequestTicketCommunicator(json));
-    console.log('stompReceiver this.subs', this.subs);
+    //console.log('stompReceiver this.subs', this.subs);
     stomp.ready(() => (stomp.refresh(), stomp.connect()));
   }
   private connected() {
-    console.log('private connected');
+    //console.log('private connected');
     this.ping(() => this.testPing());
   }
   private stopPing() {
@@ -1839,14 +1841,19 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
     console.log('hSearchTicket this.Search.value', this.Search.value);
     if (this.selectedTab == 'pending') {
       this.ticketpending = [];
+      this.ticketlist = [];
       this.getTicketPendingList({ Status: 0, num_row: 0, Search: this.Search.value });
       this.scrollTabContentTop();
     }
     else if (this.selectedTab == 'resolve') {
+      this.ticketpending = [];
+      this.ticketlist = [];
       this.getTicketPendingList({ Status: 1, num_row: 0, Search: this.Search.value });
       this.scrollTabContentTop();
     }
     else if (this.selectedTab == 'all') {
+      this.ticketpending = [];
+      this.ticketlist = [];
       this.getTicketPendingList({ Status: null, num_row: 0, Search: this.Search.value });
       this.scrollTabContentTop();
     }
@@ -1860,7 +1867,9 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
     this.all = true;
     this.selectedTab = "all";
     this.ticketpending = [];
-    this.getTicketPendingList({ Status: null, num_row: 0, Search: this.Search.value });
+    this.ticketlist = [];
+    this.ticketstatus = 2;
+    this.getTicketPendingList({ Status: (this.ticketstatus == 2 ? null : this.ticketstatus), num_row: 0, Search: this.Search.value });
     this.scrollTabContentTop();
     console.log('hAll this.this.ticketpending', this.ticketpending);
 
@@ -1872,7 +1881,9 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
     this.all = false;
     this.selectedTab = "resolve"
     this.ticketpending = [];
-    this.getTicketPendingList({ Status: 1, num_row: 0, Search: this.Search.value });
+    this.ticketlist = [];
+    this.ticketstatus = 1;
+    this.getTicketPendingList({ Status: (this.ticketstatus == 2 ? null : this.ticketstatus), num_row: 0, Search: this.Search.value });
     this.scrollTabContentTop();
   }
   hPending() {
@@ -1882,7 +1893,9 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
     this.all = false;
     this.selectedTab = "pending";
     this.ticketpending = [];
-    this.getTicketPendingList({ Status: 0, num_row: 0, Search: this.Search.value });
+    this.ticketlist = [];
+    this.ticketstatus = 0;
+    this.getTicketPendingList({ Status: (this.ticketstatus == 2 ? null : this.ticketstatus), num_row: 0, Search: this.Search.value });
     this.scrollTabContentTop();
 
   }
@@ -1896,6 +1909,50 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
   private scrollTabContentTop(): void {
     //this.tabsContentRef.nativeElement.scrollTo(0,0);
     this.tabsContentRef.nativeElement.scrollTop = 0;
+  }
+  @ViewChild(CdkVirtualScrollViewport) virtualScroll!: CdkVirtualScrollViewport;
+  @ViewChild(CdkVirtualScrollViewport) virtualScrollall!: CdkVirtualScrollViewport;
+  hScrollIndexChange() {
+    let end = 0;
+    let total = 0
+    end = this.virtualScroll.getRenderedRange().end;
+    total = this.ticketpending.length
+    let basefilter: string = ''
+    if(Object.keys(this.ticketpending).length > 0){
+      if (end == 0)
+        basefilter = this.ticketpending[end].Num_Row;
+      else
+        basefilter = this.ticketpending[end - 1].Num_Row;
+    }
+    
+
+    //console.log('hScrollIndexChange', end, basefilter, total);
+    if (end == total) {
+      //console.log('Total is equal to end', this.ticketstatus);
+      this.getTicketPendingList({ Status: (this.ticketstatus == 2 ? null : this.ticketstatus), num_row: basefilter, Search: this.Search.value });
+
+    }
+
+    //timeout(() => this.hPending(), 275);
+  }
+  hScrollIndexChangeAll() {
+    let end = 0;
+    let total = 0
+    end = this.virtualScrollall.getRenderedRange().end;
+    total = this.ticketpending.length
+    let basefilter: string = ''
+    if (end == 0)
+      basefilter = this.ticketpending[end].Num_Row;
+    else
+      basefilter = this.ticketpending[end - 1].Num_Row;
+
+    //console.log('hScrollIndexChange', end, basefilter, total);
+    if (end == total) {
+      console.log('Total is equal to end', this.ticketstatus);
+
+    }
+
+    //timeout(() => this.hPending(), 275);
   }
 
   scrollToBottom() {
@@ -1918,18 +1975,26 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
     if (this.subs.s1) this.subs.s1.unsubscribe();
 
     this.subs.s1 = rest.post('ticket/list', item).subscribe(async (res: any) => {
+      this.ticketpending = [];
       if (res.Status != 'error') {
         var cnt = parseInt(res.ticket.length);
-        console.log('Ticket List 1786', cnt);
+        //console.log('Ticket List 1786', cnt);
+        /*
         if (cnt == 0) {
           console.log('Ticket List 1788', res.ticket.length);
           this.ticketpending = [];
           this.loader = false;
           return this.ticketpending;
         }
+        */
 
-        if (item.IsReset) this.ticketpending = res.ticket.map((o: any) => this.ListTicketDetails(o));
-        else res.ticket.forEach((o: any) => this.ticketpending.push(this.ListTicketDetails(o)));
+        // if (item.IsReset) this.ticketpending = res.ticket.map((o: any) => this.ListTicketDetails(o));
+        // else res.ticket.forEach((o: any) => this.ticketpending.push(this.ListTicketDetails(o)));
+
+        if (item.IsReset) this.ticketlist = res.ticket.map((o: any) => this.ListTicketDetails(o));
+        else res.ticket.forEach((o: any) => this.ticketlist.push(this.ListTicketDetails(o)));
+
+        this.ticketpending = this.ticketpending.concat(this.ticketlist);
 
         this.prop.IsEmpty = (this.ticketpending.length < 1);
         if (callback != null) callback();
@@ -1953,7 +2018,7 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
   }
   getTicketCount(): Observable<any> {
     rest.post('ticket/count').subscribe(async (res: any) => {
-      console.log('tickect/count', res);
+      //console.log('tickect/count', res);
       //this.ticketcount.push(res.TicketCount);
 
       //Object.assign(this.ticketlistcount, this.ticketcount) ;
@@ -1965,11 +2030,11 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
       this.resolve = res.TicketCount.Resolve;
       this.allticket = res.TicketCount.AllTicketCount;
 
-      console.log('this.ticketlistcountt', this.ticketlistcount);
+      //console.log('this.ticketlistcountt', this.ticketlistcount);
       return this.ticketlistcount;
     });
 
-    console.log('this.ticketcountt', this.ticketcount);
+    //console.log('this.ticketcountt', this.ticketcount);
     return this.ticketlistcount;
   }
   private ticketcountlist(item: any) {
@@ -1983,8 +2048,8 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
       this.ticketcomment = res.Comment;
       let last = this.ticketcomment[parseInt(this.ticketcomment.length) - 1];
       //moment(date).format('DD MMM yyyy')
-      console.log('let last message', moment(last.CommentDate).format('DD MMM yyyy'));
-      console.log('let last message', last);
+      //console.log('let last message', moment(last.CommentDate).format('DD MMM yyyy'));
+      //console.log('let last message', last);
       this.LastMessage = last.CommentDate;
       //await this.getlastMessage(moment(last.CommentDate).format('DD MMM yyyy'));
       return this.ticketcomment;
@@ -1993,7 +2058,7 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
   }
   getlastMessage(CommentDate: String): String {
     this.LastMessage = CommentDate;
-    console.log('getlastMessage', this.LastMessage);
+    //console.log('getlastMessage', this.LastMessage);
     return this.LastMessage;
   }
   //Message: FormControl<any>;

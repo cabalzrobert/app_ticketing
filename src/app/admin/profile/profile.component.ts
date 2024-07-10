@@ -119,6 +119,7 @@ export class ProfileComponent {
   }
   isValidPassword = true;
   lastPasswordUpdate: any;
+  roleaccount:string = '';
   
   constructor(private fb: FormBuilder, private dialog: MatDialog, private dialogRef: MatDialogRef<SidenavComponent>, private ls: LocalStorageService){}
 
@@ -144,6 +145,18 @@ export class ProfileComponent {
     this.formPassword.controls['mobileNumber'].setValue(this.userDetail.MOB_NO);
     this.lastPasswordUpdate = this.userDetail.LST_CHNG_PSSWRD;
     console.log(this.userDetail);
+    if(this.userDetail.ACT_TYP == '2')
+      this.roleaccount = 'Admin'
+    else if(this.userDetail.ACT_TYP == '3'){
+      if(this.userDetail.isCommunicator == true && this.userDetail.isDeptartmentHead == true)
+        this.roleaccount == 'Communicator and Department Head';
+      else if(this.userDetail.isCommunicator == true && this.userDetail.isDeptartmentHead == false)
+        this.roleaccount == 'Communicator';
+      else if(this.userDetail.isCommunicator == false && this.userDetail.isDeptartmentHead == true)
+        this.roleaccount == 'Department Head';
+      else if(this.userDetail.isCommunicator == false && this.userDetail.isDeptartmentHead == false)
+        this.roleaccount == 'User'
+    }
   }
 
   updateMobileNumber(){
