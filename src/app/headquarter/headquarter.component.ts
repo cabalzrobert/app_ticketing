@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { isEmail } from '../tools/global';
 import { rest } from '../+services/services';
 import { device } from '../tools/plugins/device';
+import { LocalStorageService } from '../tools/plugins/localstorage';
 interface HeadquarterComponentToggle {
   screenWidth: number;
 }
@@ -33,7 +34,7 @@ export class HeadquarterComponent implements OnInit {
   size = "";
   width = "";
   height = "";
-  constructor(private apiservice: ApiserviceService, public router: Router, public fb: FormBuilder, private zone: NgZone) { }
+  constructor(private apiservice: ApiserviceService, public router: Router, public fb: FormBuilder, private zone: NgZone, private ls: LocalStorageService) { }
   @HostListener('window:resize', ['$event'])
   //@Output() onToggleHeadquarterComponent: EventEmitter<HeadquarterComponentToggle> = new EventEmitter();
   onWindowInitialize() {
@@ -148,6 +149,8 @@ export class HeadquarterComponent implements OnInit {
     rest.post('headoffice', this.form.value).subscribe(async (res: any) => {
       if (res.Status == 'ok') {
         alert(res.message);
+        this.ls.clear();
+        //window.location.reload();
         this.router.navigateByUrl('/login');
       }
     }, (err: any) => {
