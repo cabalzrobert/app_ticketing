@@ -1,23 +1,26 @@
 <div class="container">
     <div class="pageheader">
-            <label for="">Settings</label>
+        <label for="">Settings</label>
     </div>
     <div class="pagebody">
         <div class="bodyheader">
             <div class="menu-nav-bar" *ngIf="collapsed">
                 <ul class="menu-nav">
                     <li class="menu-nav-item">
-                        <button [ngClass]="department == true ? 'menu-nav-button1' : 'menu-nav-button'" (click)="hDepartment()">
+                        <button [ngClass]="department == true ? 'menu-nav-button1' : 'menu-nav-button'"
+                            (click)="hDepartment()">
                             Department
                         </button>
                     </li>
                     <li class="menu-nav-item">
-                        <button [ngClass]="category == true ? 'menu-nav-button1' : 'menu-nav-button'" (click)="hCategory()">
+                        <button [ngClass]="category == true ? 'menu-nav-button1' : 'menu-nav-button'"
+                            (click)="hCategory()">
                             Category
                         </button>
                     </li>
                     <li class="menu-nav-item">
-                        <button [ngClass]="position == true ? 'menu-nav-button1' : 'menu-nav-button'" (click)="hPosition()">
+                        <button [ngClass]="position == true ? 'menu-nav-button1' : 'menu-nav-button'"
+                            (click)="hPosition()">
                             Position
                         </button>
                     </li>
@@ -39,22 +42,26 @@
 
                     <ul class="menu-nav1">
                         <li class="menu-nav-item">
-                            <button [ngClass]="department == true ? 'menu-nav-button1' : 'menu-nav-button'" (click)="hDepartment()">
+                            <button [ngClass]="department == true ? 'menu-nav-button1' : 'menu-nav-button'"
+                                (click)="hDepartment()">
                                 Department
                             </button>
                         </li>
                         <li class="menu-nav-item">
-                            <button [ngClass]="category == true ? 'menu-nav-button1' : 'menu-nav-button'" (click)="hCategory()">
+                            <button [ngClass]="category == true ? 'menu-nav-button1' : 'menu-nav-button'"
+                                (click)="hCategory()">
                                 Category
                             </button>
                         </li>
                         <li class="menu-nav-item">
-                            <button [ngClass]="position == true ? 'menu-nav-button1' : 'menu-nav-button'" (click)="hPosition()">
+                            <button [ngClass]="position == true ? 'menu-nav-button1' : 'menu-nav-button'"
+                                (click)="hPosition()">
                                 Position
                             </button>
                         </li>
                         <li class="menu-nav-item">
-                            <button [ngClass]="roles == true ? 'menu-nav-button1' : 'menu-nav-button'" (click)="hRoles()">
+                            <button [ngClass]="roles == true ? 'menu-nav-button1' : 'menu-nav-button'"
+                                (click)="hRoles()">
                                 Roles
                             </button>
                         </li>
@@ -67,7 +74,8 @@
                 <div class="header">
                     <div class="searchtab">
                         <div class="searchbar">
-                            <input type="text" placeholder="Seach Department" [formControl]="SearchDepartment" (change)="hSearchSettings()" (keyup)="hSearchSettings()">
+                            <input type="text" placeholder="Seach Department" [formControl]="SearchDepartment"
+                                (change)="hSearchSettings()" (keyup)="hSearchSettings()">
                             <span>
                                 <div class="button fa fa-filter filter"></div>
                             </span>
@@ -78,7 +86,7 @@
                 <div class="body">
                     <div class="theader">Department</div>
                     <div class="tabdetails">
-                        
+
                         <div class="trow" *ngFor="let data of departmentlist, let i = index">
                             <div class="tabcard">
                                 <div class="tabcarddetails">{{data.DepartmentName}}</div>
@@ -90,12 +98,14 @@
                         </div>
                     </div>
                 </div>
+                <div class="nodata" *ngIf="departmentlist.length == 0 && department">No data</div>
             </div>
             <div class="cardcontent" *ngSwitchCase="('category')">
                 <div class="header">
                     <div class="searchtab">
                         <div class="searchbar">
-                            <input type="text"placeholder="Seach Category" [formControl]="SearchCategory" (change)="hSearchSettings()" (keyup)="hSearchSettings()">
+                            <input type="text" placeholder="Seach Category" [formControl]="SearchCategory"
+                                (change)="hSearchSettings()" (keyup)="hSearchSettings()">
                             <span>
                                 <div class="button fa fa-filter filter"></div>
                             </span>
@@ -117,12 +127,15 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="nodata" *ngIf="categorylist.length == 0 && category">No data</div>
             </div>
             <div class="cardcontent" *ngSwitchCase="('position')">
                 <div class="header">
                     <div class="searchtab">
                         <div class="searchbar">
-                            <input type="text" placeholder="Seach Position" [formControl]="SearchPosition" (change)="hSearchSettings()" (keyup)="hSearchSettings()">
+                            <input type="text" placeholder="Seach Position" [formControl]="SearchPosition"
+                                (change)="hSearchSettings()" (keyup)="hSearchSettings()">
                             <span>
                                 <div class="button fa fa-filter filter"></div>
                             </span>
@@ -143,12 +156,15 @@
                             </div>
                         </div>
                     </div>
-                </div></div>
+                </div>
+                <div class="nodata" *ngIf="positionlist.length == 0 && position">No data</div>
+            </div>
             <div class="cardcontent" *ngSwitchCase="('roles')">
                 <div class="header">
                     <div class="searchtab">
                         <div class="searchbar">
-                            <input type="text" placeholder="Seach Roles" [formControl]="SearchRoles" (change)="hSearchSettings()" (keyup)="hSearchSettings()">
+                            <input type="text" placeholder="Seach Roles" [formControl]="SearchRoles"
+                                (change)="hSearchSettings()" (keyup)="hSearchSettings()">
                             <span>
                                 <div class="button fa fa-filter filter"></div>
                             </span>
@@ -169,7 +185,9 @@
                             </div>
                         </div>
                     </div>
-                </div></div>
+                </div>
+                <div class="nodata" *ngIf="roleslist.length == 0 && roles">No data</div>
+            </div>
             <div class="cardcontent" *ngSwitchCase="('useraccess')">User Access
                 <div class="header">
                     <div class="searchtab">
@@ -195,7 +213,8 @@
                             </div>
                         </div>
                     </div>
-                </div></div>
+                </div>
+            </div>
 
         </div>
     </div>

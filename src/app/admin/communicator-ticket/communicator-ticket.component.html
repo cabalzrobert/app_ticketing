@@ -252,6 +252,7 @@
         </div>
     </mat-step>
 </mat-stepper>
+<div class="nodata" *ngIf="collections.length == 0">No data</div>
 <div class="loader" *ngIf="loader"></div>
 
 <!-- <mat-tab *ngIf="isTicketContentShow">

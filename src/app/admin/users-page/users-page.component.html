@@ -9,7 +9,8 @@
             <div class="searchinput">
                 <div class="searchicon">
                     <i class="fa fa-light fa-search"></i>
-                    <input type="text" class="searchuserinput" placeholder="Search user" [formControl]="Search" (change)="hSearchUsers()" (keyup)="hSearchUsers()">
+                    <input type="text" class="searchuserinput" placeholder="Search user" [formControl]="Search"
+                        (change)="hSearchUsers()" (keyup)="hSearchUsers()">
                 </div>
             </div>
             <div class="addbuttontab" (click)="NewUser()">
@@ -55,7 +56,8 @@
 
         </div>
     </div>
-    
+
+    <div class="nodata" *ngIf="usersList.length == 0">No data</div>
     <div class="loader" *ngIf="loader"></div>
 
 </div>
