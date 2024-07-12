@@ -50,7 +50,7 @@
         }
 
         .headerorle {
-            width: 200px;
+            width: 300px;
             font-size: 16px;
             font-weight: 500;
             line-height: 24px;
@@ -61,7 +61,7 @@
         }
 
         .headerlastseen {
-            width: 250px;
+            width: 180px;
             font-size: 16px;
             font-weight: 500;
             line-height: 24px;
@@ -120,6 +120,11 @@
                     font-weight: 400;
                     line-height: 16px;
                 }
+                .registereddate{
+                    font-size: 12px;
+                    font-weight: 400;
+                    line-height: 16px;
+                }
             }
 
             .detailsdepartment {
@@ -130,7 +135,7 @@
             }
 
             .detailsrole1 {
-                width: 200px;
+                width: 300px;
                 label {
                     border: solid 1px #A899F1;
                     color: #A899F1;
@@ -139,7 +144,7 @@
                 }
             }
             .detailsrole2 {
-                width: 200px;
+                width: 300px;
                 label {
                     border: solid 1px #6DC580;
                     border-radius: 50px;
@@ -149,7 +154,7 @@
             }
 
             .detailslastseen {
-                width: 230px;
+                width: 200px;
                 font-size: 12px;
                 font-weight: 400;
                 line-height: 16px;

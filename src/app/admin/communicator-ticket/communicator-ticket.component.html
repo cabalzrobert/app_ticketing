@@ -84,6 +84,51 @@
                     </div>
                 </ng-template>
             </mat-tab>
+
+
+
+            
+            <mat-tab>
+                <ng-template mat-tab-label matBadgeColor="accent">
+                    <span style="font-size: 20px;">Resolved</span>
+                    <span class="mat-badge-icon" *ngIf="assigned > 0" matBadge={{resolved}} matBadgeColor="accent"></span>
+                </ng-template>
+                <ng-template class="tab-content" matTabContent>
+                    <div class="ticket-list-container">
+                        <cdk-virtual-scroll-viewport class="scrolling-container" [itemSize]="196" (scrolledIndexChange)="   ({tab:tabRef.selectedIndex, IsReset: true})">
+                            <mat-card *cdkVirtualFor="let item of collections index as i" (click)="next(item, i)">
+                                <mat-card-header>
+                                    <mat-card-title>{{item.title}}</mat-card-title>
+                                    <span style="font-size: 18px;">{{dateFormatted(true,item.dateCreated)}}</span>
+                                </mat-card-header>
+                                <mat-card-content>
+                                    <p>{{item.description}}</p>
+                                </mat-card-content>
+                                <mat-card-footer>
+                                    <mat-card-actions class="card-section">
+                                        <div class="action-unassign">
+                                            <label>
+                                                {{
+                                                    !!item.assignedId?item.assignedName
+                                                    :item.departmentName
+                                                }}
+                                            </label>
+                                        </div>
+                                        <div [class]="'action-'+item.priorityName.toLowerCase()">
+                                            <label>{{item.priorityName}}</label>
+                                        </div>
+                                    </mat-card-actions>
+                                </mat-card-footer>
+                            </mat-card>
+                        </cdk-virtual-scroll-viewport>
+                    </div>
+                </ng-template>
+            </mat-tab>
+
+
+
+
+
             <mat-tab>
                 <ng-template mat-tab-label>
                     <span style="font-size: 20px;">All</span>

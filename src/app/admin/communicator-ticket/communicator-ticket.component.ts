@@ -30,7 +30,7 @@ export interface DialogData {
   styleUrl: './communicator-ticket.component.scss'
 })
 export class CommunicatorTicketComponent {
-  constructor(private route: ActivatedRoute, private router: Router, private dialog: MatDialog, private ls: LocalStorageService, private authService: AuthService) { 
+  constructor(private route: ActivatedRoute, private router: Router, private dialog: MatDialog, private ls: LocalStorageService, private authService: AuthService) {
     this.userDetail = this.ls.getItem1('UserAccount');
   }
   @ViewChild('stepper') stepper!: MatStepper;
@@ -73,6 +73,7 @@ export class CommunicatorTicketComponent {
   collectioncount: any = {};
   unassigned: number = 0;
   assigned: number = 0;
+  resolved: number = 0
   allticket: number = 0;
   loader = true;
 
@@ -81,24 +82,24 @@ export class CommunicatorTicketComponent {
     // alert('Yeeee');
     // this.onTabChange({ tab: 0, IsReset: true });
     //console.log('Communicator ngOnit AuthServie this.authService.requesttickect.data.IsAssigned', this.authService.requesttickect.data.IsAssigned);
-    
+
     this.getTicketCount();
     device.ready(() => this.stompWebsocketReceiver());
     //this.tab = 0;
 
-    if(Object.keys(this.authService.requesttickect).length > 0){
+    if (Object.keys(this.authService.requesttickect).length > 0) {
       this.tab = 0
-      if(this.authService.requesttickect.data.IsAssigned){
+      if (this.authService.requesttickect.data.IsAssigned) {
         this.tab = 1;
       }
-      else{
+      else {
         this.tab = 0;
       }
-      
+
       //this.nextBatch({tab:this.tab, search:this.authService.requesttickect.TransactionNo, IsReset: false})
       this.searchTicket(this.authService.requesttickect.data.TransactionNo);
     }
-    
+
   }
 
   getTicketCount(): Observable<any> {
@@ -140,8 +141,8 @@ export class CommunicatorTicketComponent {
     //this.TicketNo = content.TicketNo;
     console.log('Communication Page', data.content);
     //this.collections.push(data.content);
-    let ticketexist = this.collections.find((o:any) => o.ticketNo == data.ticketNo);
-    if(ticketexist) return;
+    let ticketexist = this.collections.find((o: any) => o.ticketNo == data.ticketNo);
+    if (ticketexist) return;
 
     this.collections.forEach((o: any) => {
       this.collectionreceived.push(this.collectionListDetails(o));
@@ -224,14 +225,14 @@ export class CommunicatorTicketComponent {
 
 
 
-  searchTicket(val: any){
+  searchTicket(val: any) {
     try {
-      this.searchValue = !val?null:val;
+      this.searchValue = !val ? null : val;
       this.collections = [];
-      this.virtualScroll.setRenderedRange({start:0,end:0});
-      this.nextBatch({tab:this.tab, IsReset: true});
+      this.virtualScroll.setRenderedRange({ start: 0, end: 0 });
+      this.nextBatch({ tab: this.tab, IsReset: true });
     } catch (error) {
-      
+
     }
     // this.collections = this.backupCollections;
     // this.collections = this.collections.filter((i:any)=>i.title.includes(val));
@@ -266,15 +267,15 @@ export class CommunicatorTicketComponent {
   //     alert('System Error');
   //   })
   // }
-  async nextBatch(val: any){
+  async nextBatch(val: any) {
     console.log('Virtual Scroll end', this.virtualScroll.getRenderedRange().end);
     //console.log(`new batch ${val.tab}`);
     //console.log(`tab ${this.tab} = val.tab ${val.tab}`);
     let end = 0;
     let total = 0;
-    if(this.tab !== val.tab){
+    if (this.tab !== val.tab) {
       this.collections = [];
-    }else{
+    } else {
       end = this.virtualScroll.getRenderedRange().end;
       total = this.collections.length;
     }
@@ -286,11 +287,11 @@ export class CommunicatorTicketComponent {
     // console.log('this.subs.s1', this.subs.s1);
     // console.log(`total communicator next batch`);
     //val.tab = this.tab;
-    const filter = {tab: val.tab, row: total, search: this.searchValue};
+    const filter = { tab: val.tab, row: total, search: this.searchValue };
     //console.log('filter', filter);
     this.tab = val.tab;
     console.log(`end ${end} <= total ${total} : batch ${this.batch}`);
-    if(end === total){
+    if (end === total) {
       this.loader = true;
       //console.log(filter);
       //console.log('newBatch this.collections 267',this.batch,this.collections[end]);
@@ -305,9 +306,9 @@ export class CommunicatorTicketComponent {
         //console.log('onTabChange result', res);
         // if (!val.IsReset || res.length < 1) this.collections = res.map((o: any) => this.collectionListDetails(o));
         // else res.forEach((o: any) => this.collections.push(this.collectionListDetails(o)));
-        
+
         // return this.collections;
-        if(res.length > 0)
+        if (res.length > 0)
           this.collections = this.collections.concat(res);
         //console.log('collections batch = ',this.batch,this.collections);
         let cnt = parseInt((this.collections).length);
@@ -349,7 +350,7 @@ export class CommunicatorTicketComponent {
 
 
 
-  next (item: any, idx: number) {
+  next(item: any, idx: number) {
     // if(item.departmentId) return;
     //console.log('next idx', idx, item);
     this.router.navigate([item.ticketNo], { relativeTo: this.route });
@@ -371,7 +372,7 @@ export class CommunicatorTicketComponent {
     // });
     //item.pipe(filter(o => o)).subscribe()
     //this.collections[idx] = o;
-    if(item.S_OPN) return;
+    if (item.S_OPN) return;
     this.performCommunicatorSeenTicket(item.transactionNo);
     this.collections[idx] = item;
     item.S_OPN = true;
@@ -461,8 +462,8 @@ export class CommunicatorTicketComponent {
           this.goBack();
           // this.onTabChange(this.tab);
           this.collections = [];
-          this.virtualScroll.setRenderedRange({start:0,end:0});
-          this.nextBatch({tab: this.tab, IsReset: true});
+          this.virtualScroll.setRenderedRange({ start: 0, end: 0 });
+          this.nextBatch({ tab: this.tab, IsReset: true });
         })
         return;
       }

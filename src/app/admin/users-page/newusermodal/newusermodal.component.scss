@@ -98,6 +98,14 @@
             display: flex;
             flex-direction: column;
             gap: 16px;
+            .accountype{
+                display: flex;
+                flex-direction: column;
+                mat-radio-group{
+                    display: flex;
+                    flex-direction: column;
+                }
+            }
 
             .usercardcontent {
                 display: flex;

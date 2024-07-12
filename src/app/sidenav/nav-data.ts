@@ -19,7 +19,7 @@ export const navbarData = [
     {
         routerLink: 'receivedtickets',
         icon: 'fa fa-light fa-ticket-alt',
-        label: 'Cases'
+        label: 'Tickets'
     },
     {
         routerLink: 'users',
@@ -54,7 +54,7 @@ export const navbarDataCommunicator = [
     {
         routerLink: 'receivedtickets',
         icon: 'fa fa-light fa-ticket-alt',
-        label: 'Cases'
+        label: 'Tickets'
     },
 ];
 export const navbarDataDepartmentHead = [
@@ -94,7 +94,7 @@ export const navbarDataCommunicatorDepartmentHead = [
     {
         routerLink: 'receivedtickets',
         icon: 'fa fa-light fa-ticket-alt',
-        label: 'Cases'
+        label: 'Tickets'
     }
     
 ];

@@ -66,6 +66,7 @@ export class NewusermodalComponent implements OnInit {
     LastSeen: '',
     isCommunicator: 0,
     isDepartmentHead: 0,
+    AccountType: 0,
     //isComm:false,
     //isDeptartment: false
   });
@@ -149,7 +150,7 @@ export class NewusermodalComponent implements OnInit {
     //console.log('ClosedDialogNewUser', this.form.value);
 
     console.log('Save User Modal', this.form.value)
-    
+
     this.submitDialogRef = this.dialog.open(SubmitModalComponent, { data: { item: { Header: this.UserAccount.Title, Message: 'Are you sure you want to submit new user account.' } } });
     this.submitDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
       if (o.item.isConfirm) {
@@ -159,7 +160,7 @@ export class NewusermodalComponent implements OnInit {
       console.log('Close Ticket Progress', o.item);
     });
     // setTimeout(() => this.performSaveUserAccount(), 750);
-    
+
   }
   performSaveUserAccount() {
     rest.post('useraccount/save', this.form.value).subscribe(async (res: any) => {
@@ -197,33 +198,51 @@ export class NewusermodalComponent implements OnInit {
     })
   }
   public isValidateEntries(): boolean {
+    if (!this.form.value.AccountType) {
+      //alert('Please Select Department.');
+      this.successDialogRef = this.dialog.open(AlertSuccessModalComponent, { data: { item: { Icon: 'fa fa-solid fa-exclamation', Message: 'Please Select Account Type.', ButtonText: 'Ok', isConfirm: false } } });
+      
+      return false;
+    }
     if (!this.form.value.DepartmentID) {
-      alert('Please Select Department.');
+      //alert('Please Select Department.');
+      this.successDialogRef = this.dialog.open(AlertSuccessModalComponent, { data: { item: { Icon: 'fa fa-solid fa-exclamation', Message: 'Please Select Department.', ButtonText: 'Ok', isConfirm: false } } });
+      
       return false;
     }
-    if (!this.form.value.RolesID) {
-      alert('Please Select Roles.')
-      return false;
-    }
+    // if (!this.form.value.RolesID) {
+    //   alert('Please Select Roles.')
+    //   return false;
+    // }
     if (!this.form.value.PositionID) {
-      alert("Please Select Position.");
+      //alert("Please Select Position.");
+      this.successDialogRef = this.dialog.open(AlertSuccessModalComponent, { data: { item: { Icon: 'fa fa-solid fa-exclamation', Message: 'Please Select Position.', ButtonText: 'Ok', isConfirm: false } } });
+      
       return false;
     }
     if (!this.form.value.Firstname) {
-      alert('Please enter your FIrstname');
+      //alert('Please enter your FIrstname');
+      this.successDialogRef = this.dialog.open(AlertSuccessModalComponent, { data: { item: { Icon: 'fa fa-solid fa-exclamation', Message: 'Please enter your FIrstname.', ButtonText: 'Ok', isConfirm: false } } });
+      
       return false;
     }
     if (!this.form.value.Lastname) {
-      alert('Please enter Lastname');
+      //alert('Please enter Lastname');
+      this.successDialogRef = this.dialog.open(AlertSuccessModalComponent, { data: { item: { Icon: 'fa fa-solid fa-exclamation', Message: 'Please enter Lastname.', ButtonText: 'Ok', isConfirm: false } } });
+      
       return false;
     }
     if (!this.form.value.MobileNumber) {
-      alert('Please enter valid Mobile Number');
+      //alert('Please enter valid Mobile Number');
+      this.successDialogRef = this.dialog.open(AlertSuccessModalComponent, { data: { item: { Icon: 'fa fa-solid fa-exclamation', Message: 'Please enter valid Mobile Number.', ButtonText: 'Ok', isConfirm: false } } });
+      
       return false;
     }
     if (!!this.form.value.MobileNumber) {
       if (!isMobileNo(this.form.value.MobileNumber)) {
-        alert('Please enter valid Mobile Number');
+       // alert('Please enter valid Mobile Number');
+        this.successDialogRef = this.dialog.open(AlertSuccessModalComponent, { data: { item: { Icon: 'fa fa-solid fa-exclamation', Message: 'Please enter valid Mobile Number.', ButtonText: 'Ok', isConfirm: false } } });
+        
         return false;
       }
     }

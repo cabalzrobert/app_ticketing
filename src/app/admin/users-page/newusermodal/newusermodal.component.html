@@ -14,16 +14,25 @@
                     justify-content: center;
                     margin-bottom: 20px;
                 ">
-                        <label style="color: #4845D2;" for="">Position</label>
+                        <label style="color: #4845D2;" for="">Basic Info</label>
                     </div>
-                    <label for="">Department <span>*</span></label>
-                    
+
+                    <div class="accountype">
+                        <label for="">Account Type</label>
+                        <mat-radio-group class="gender-radio-group" formControlName="AccountType">
+                            <mat-radio-button value="3">CEO</mat-radio-button>
+                            <mat-radio-button value="4" >Communicator</mat-radio-button>
+                            <mat-radio-button value="5">Department Head</mat-radio-button>
+                            <mat-radio-button value="6">Member</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
                     <div class="usercardcontent">
                         <!-- <select>
                             <option value="">Please select Department</option>
                             <option *ngFor="let dept of departmentlist asyn" [value]="dept.DepatmentID">{{dept.DepartmentName}}</option>
                         </select> -->
-                        <mat-select formControlName="DepartmentID" placeholder="Select Department" (selectionChange)="DepartmentSelectedValue($event)">
+                        <mat-select formControlName="DepartmentID" placeholder="Select Department"
+                            (selectionChange)="DepartmentSelectedValue($event)">
                             <!-- <div class="searchinput">
                                 <div class="searchicon">
                                     <input type="text" class="searchuserinput" placeholder="Search user">
@@ -31,35 +40,38 @@
                                 </div>
                             </div> -->
                             <mat-option *ngFor="let dept of departmentlist asyn"
-                                [value]="dept.DepartmentID"
-                                >{{dept.DepartmentName}}</mat-option>
+                                [value]="dept.DepartmentID">{{dept.DepartmentName}}</mat-option>
                         </mat-select>
                     </div>
                 </div>
 
-                <div class="usercard">
+                <!-- <div class="usercard">
                     <label for="">Membership Type <span>*</span></label>
                     <div class="usercardcontent">
-                        <mat-select formControlName="RolesID" placeholder="Select Membership Type" (selectionChange)="RoleSelectedValue($event)">
+                        <mat-select formControlName="RolesID" placeholder="Select Membership Type"
+                            (selectionChange)="RoleSelectedValue($event)">
                             <mat-option *ngFor="let role of roleslist asyn"
                                 [value]="role.RolesID">{{role.Rolesname}}</mat-option>
                         </mat-select>
                     </div>
-                </div>
+                </div> -->
 
                 <div class="usercard">
                     <label for="">Position <span>*</span></label>
                     <div class="usercardcontent">
                         <mat-select formControlName="PositionID" placeholder="Select Position"
-                            (valueChange)="honDPositionSelectChange()" (selectionChange)="PositionSelectedValue($event)">
+                            (valueChange)="honDPositionSelectChange()"
+                            (selectionChange)="PositionSelectedValue($event)">
                             <mat-option *ngFor="let pos of positionlist asyn"
                                 [value]="pos.PositionID">{{pos.Positionname}}</mat-option>
                         </mat-select>
                     </div>
                 </div>
-                <div class="usercard">
+
+                <!-- <div class="usercard">
                     <div class="iscommunication">
-                        <mat-checkbox [checked]="iscommunicator" (change)="onChangeCommunitcator($event)"></mat-checkbox>
+                        <mat-checkbox [checked]="iscommunicator"
+                            (change)="onChangeCommunitcator($event)"></mat-checkbox>
                         <label for="">is Communication</label>
                     </div>
                 </div>
@@ -68,7 +80,8 @@
                         <mat-checkbox [checked]="isdepthead" (change)="onChangeDeptHead($event)"></mat-checkbox>
                         <label for="">is Dept Head</label>
                     </div>
-                </div>
+                </div> -->
+
             </div>
         </div>
         <div class="personaldetailsheader">
@@ -108,7 +121,8 @@
                             <option value="m">Male</option>
                             <option value="f">Female</option>
                         </select> -->
-                        <mat-select formControlName="Gender" placeholder="Select Gender" #singleSelect  (selectionChange)="GenderSelectedValue($event)">
+                        <mat-select formControlName="Gender" placeholder="Select Gender" #singleSelect
+                            (selectionChange)="GenderSelectedValue($event)">
                             <mat-option [value]="'m'">Male</mat-option>
                             <mat-option [value]="'f'">Female</mat-option>
                         </mat-select>
