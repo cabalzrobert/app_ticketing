@@ -245,12 +245,18 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
     //console.log('this.ticketcomment 219', await this.LastMessage);
   }
   openpopnewticket() {
+    this.ticketlist = [];
     this.ticketDialogRef = this.dialog.open(NewticketmodalComponent, { data: { item: null, Title: 'Create Ticket', SaveButtonText: 'Create Ticket' } });
     this.ticketDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
       console.log('openpopnewticket', o);
       this.ticketpending.unshift(o);
+      this.ticketlist = this.ticketpending;
+      this.ticketpending = [];
+      this.ticketpending = this.ticketpending.concat(this.ticketlist);
+      this.ticketlist = [];
       this.pending = (parseInt(this.pending) + 1).toString();
       this.allticket = (parseInt(this.allticket) + 1).toString();
+      console.log('ticketpending', this.ticketpending);
     });
   }
   hUpdateTicket() {

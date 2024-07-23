@@ -157,6 +157,7 @@ export class ProfileComponent {
       else if(this.userDetail.isCommunicator == false && this.userDetail.isDeptartmentHead == false)
         this.roleaccount == 'User'
     }
+    this.select(0);
   }
 
   updateMobileNumber(){

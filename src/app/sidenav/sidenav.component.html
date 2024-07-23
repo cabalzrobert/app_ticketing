@@ -19,11 +19,11 @@
                         <div *ngFor="let input of input"></div>
                         <span *ngIf="collapsed">{{(input.DepartmentHeadNotificationCount == 0)? '' : input.DepartmentHeadNotificationCount}}</span>
                     </div> -->
-                    <div *ngIf="data.routerLink == 'receivedtickets'"
+                    <!-- <div  *ngIf="data.routerLink == 'receivedtickets'"
                         [ngClass]="input.NotificationCount == 0 ? 'receivedtickets1' : 'receivedtickets'">
                         <div *ngFor="let input of input"></div>
-                        <span *ngIf="collapsed">{{(input.NotificationCount == 0)? '' : input.NotificationCount}}</span>
-                    </div>
+                        <span  *ngIf="collapsed">{{(input.NotificationCount == 0)? '' : input.NotificationCount}}</span>
+                    </div> -->
 
                 </div>
 

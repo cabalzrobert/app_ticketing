@@ -21,16 +21,20 @@
                         <label for="">Account Type</label>
                         <mat-radio-group class="gender-radio-group" formControlName="AccountType">
                             <mat-radio-button value="3">CEO</mat-radio-button>
-                            <mat-radio-button value="4" >Communicator</mat-radio-button>
+                            <mat-radio-button value="4">Communicator</mat-radio-button>
                             <mat-radio-button value="5">Department Head</mat-radio-button>
                             <mat-radio-button value="6">Member</mat-radio-button>
                         </mat-radio-group>
                     </div>
+                </div>
+                <div class="usercard" *ngIf="_isdepartment">
+                    <label for="">Department</label>
                     <div class="usercardcontent">
                         <!-- <select>
                             <option value="">Please select Department</option>
                             <option *ngFor="let dept of departmentlist asyn" [value]="dept.DepatmentID">{{dept.DepartmentName}}</option>
                         </select> -->
+
                         <mat-select formControlName="DepartmentID" placeholder="Select Department"
                             (selectionChange)="DepartmentSelectedValue($event)">
                             <!-- <div class="searchinput">
@@ -39,6 +43,7 @@
                                     <i class="fa fa-light fa-search"></i>
                                 </div>
                             </div> -->
+                            <mat-option>Select Department</mat-option>
                             <mat-option *ngFor="let dept of departmentlist asyn"
                                 [value]="dept.DepartmentID">{{dept.DepartmentName}}</mat-option>
                         </mat-select>
@@ -135,6 +140,12 @@
                     </div>
                 </div>
                 <div class="usercard">
+                    <label for="">Email <span>*</span></label>
+                    <div class="usercardcontent">
+                        <input type="email" formControlName="Email" placeholder="dev@esat.com">
+                    </div>
+                </div>
+                <div class="usercard">
                     <label for="">Mobile Number <span>*</span></label>
                     <div class="usercardcontent">
                         <input type="text" maxlength="13" formControlName="MobileNumber" placeholder="0999-999-9999">
@@ -163,8 +174,9 @@
             <button (click)="closededialogNewUser()">Cancel</button>
         </div>
         <div class="createbutton">
-            <button *ngIf="UserAccount.Title == 'Create User Account'" (click)="CreatedialogNewUser()">Create</button>
-            <button *ngIf="UserAccount.Title == 'Update User Account'" (click)="CreatedialogNewUser()">Update</button>
+            <!-- <button *ngIf="UserAccount.Title == 'Create User Account'" (click)="CreatedialogNewUser()">Create</button>
+            <button *ngIf="UserAccount.Title == 'Update User Account'" (click)="CreatedialogNewUser()">Update</button> -->
+            <button (click)="CreatedialogNewUser()">{{UserAccount.ButtonText}}</button>
         </div>
     </div>
 </div>

@@ -12,12 +12,12 @@
                             Department
                         </button>
                     </li>
-                    <li class="menu-nav-item">
+                    <!-- <li class="menu-nav-item">
                         <button [ngClass]="category == true ? 'menu-nav-button1' : 'menu-nav-button'"
                             (click)="hCategory()">
                             Category
                         </button>
-                    </li>
+                    </li> -->
                     <li class="menu-nav-item">
                         <button [ngClass]="position == true ? 'menu-nav-button1' : 'menu-nav-button'"
                             (click)="hPosition()">
@@ -47,12 +47,12 @@
                                 Department
                             </button>
                         </li>
-                        <li class="menu-nav-item">
+                        <!-- <li class="menu-nav-item">
                             <button [ngClass]="category == true ? 'menu-nav-button1' : 'menu-nav-button'"
                                 (click)="hCategory()">
                                 Category
                             </button>
-                        </li>
+                        </li> -->
                         <li class="menu-nav-item">
                             <button [ngClass]="position == true ? 'menu-nav-button1' : 'menu-nav-button'"
                                 (click)="hPosition()">
@@ -78,24 +78,36 @@
                             <input type="text" placeholder="Seach Department" [formControl]="SearchDepartment"
                                 (change)="hSearchSettings()" (keyup)="hSearchSettings()">
                             <span>
-                                <div class="button fa fa-filter filter"></div>
+                                <!-- <div class="button fa fa-filter filter"></div> -->
+                                 <mat-icon>search</mat-icon>
                             </span>
                         </div>
-                        <button class="newbutton fa fa-plus" (click)="hNewDepartment()">New</button>
+                        <button class="newbutton" (click)="hNewDepartment()">New Department <i class="fa fa-plus"></i></button>
                     </div>
                 </div>
                 <div class="body">
-                    <div class="theader">Department</div>
+                    <div class="theader">
+                        <div class="theader1">
+                            <div class="thdepartment">Department</div>
+                            <div class="thhead">Head</div>
+                            <div class="thnoofstaff">No. of Staff</div>
+                        </div>
+                        
+                        <div class="thevent"> </div>
+                    </div>
                     <div class="tabdetails">
 
                         <div class="trow" *ngFor="let data of departmentlist, let i = index">
-                            <div class="tabcard">
+                            <div class="tabcard" (click)="btnUpdate(data, i)">
                                 <div class="tabcarddetails">{{data.DepartmentName}}</div>
-                                <div class="tabcardbutton">
-                                    <button class="btnview" (click)="btnView(data)">View</button>
-                                    <button class="btnUpdate" (click)="btnUpdate(data, i)">Update</button>
-                                </div>
+                                <div class="tabcarddetailsHead">{{data.DepartmentHead}}</div>
+                                <div class="tabcarddetailsnoofstaff">{{data.NoOfStaff == 0 ? '' : data.NoOfStaff}}</div>
+                                
                             </div>
+                            <!-- <div class="tabcardbutton">
+                                <button class="btnview" (click)="btnView(data)">View</button>
+                                <button class="btnUpdate" (click)="btnUpdate(data, i)">Update</button>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -120,10 +132,11 @@
                         <div class="trow" *ngFor="let data of categorylist, let i = index">
                             <div class="tabcard">
                                 <div class="tabcarddetails">{{data.Categoryname}}</div>
-                                <div class="tabcardbutton">
-                                    <button class="btnview" (click)="btnViewCategory(data)">View</button>
-                                    <button class="btnUpdate" (click)="btnUpdateCategory(data, i)">Update</button>
-                                </div>
+                                
+                            </div>
+                            <div class="tabcardbutton">
+                                <button class="btnview" (click)="btnViewCategory(data)">View</button>
+                                <button class="btnUpdate" (click)="btnUpdateCategory(data, i)">Update</button>
                             </div>
                         </div>
                     </div>
@@ -138,7 +151,8 @@
                             <input type="text" placeholder="Seach Position" [formControl]="SearchPosition"
                                 (change)="hSearchSettings()" (keyup)="hSearchSettings()">
                             <span>
-                                <div class="button fa fa-filter filter"></div>
+                                <!-- <div class="button fa fa-filter filter"></div> -->
+                                <mat-icon>search</mat-icon>
                             </span>
                         </div>
                         <button class="newbutton fa fa-plus" (click)="hNewPosition()">New</button>
@@ -148,13 +162,14 @@
                     <div class="theader">Position</div>
                     <div class="tabdetails">
                         <div class="trow" *ngFor="let data of positionlist, let i = index">
-                            <div class="tabcard">
+                            <div class="tabcard" (click)="btnUpdatePosition(data, i)">
                                 <div class="tabcarddetails">{{data.Positionname}}</div>
-                                <div class="tabcardbutton">
-                                    <button class="btnview" (click)="btnViewPosition(data)">View</button>
-                                    <button class="btnUpdate" (click)="btnUpdatePosition(data, i)">Update</button>
-                                </div>
+                                
                             </div>
+                            <!-- <div class="tabcardbutton">
+                                <button class="btnview" (click)="btnViewPosition(data)">View</button>
+                                <button class="btnUpdate" (click)="btnUpdatePosition(data, i)">Update</button>
+                            </div> -->
                         </div>
                     </div>
                 </div>

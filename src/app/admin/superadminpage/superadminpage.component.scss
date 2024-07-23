@@ -28,14 +28,17 @@
 
                 .header {
                     display: flex;
-                    justify-content: flex-end;
+                    //justify-content: flex-end;
                     padding: 20px 0px 20px 0px;
                     height: 80px;
+                    width: 100%;
 
                     .searchtab {
-                        width: 385px;
+                        // width: 385px;
+                        width: 100%;
                         display: flex;
-                        justify-content: flex-end;
+                        //justify-content: flex-end;
+                        justify-content: space-between;
                         gap: 10px;
 
                         .searchbar {
@@ -47,7 +50,8 @@
                             justify-content: flex-end;
                             gap: 8px;
                             padding: 0px 10px;
-                            width: 100%;
+                            //width: 100%;
+                            width: 300px;
                             align-items: center;
                             height: 100%;
 
@@ -68,7 +72,7 @@
                         .newbutton {
                             background: #3818D9;
                             color: #fff;
-                            width: 100px;
+                            width: 180px;
                             display: flex;
                             gap: 10px;
                             justify-content: center;
@@ -76,11 +80,14 @@
                             border-radius: 10px;
                             border: none;
                             cursor: pointer;
+                            font-size: 16px;
+                            font-weight: 500;
+                            line-height: 24px;
                         }
 
-                        .newbutton:hover {
-                            letter-spacing: 2px;
-                        }
+                        // .newbutton:hover {
+                        //     letter-spacing: 2px;
+                        // }
 
                         .searchicon {
                             font-size: 20px;
@@ -139,18 +146,40 @@
                     height: 92%;
 
                     .theader {
-                        background: #918181;
-                        color: #fff;
+                        //background: #918181;
+                        color: #3f3f3f;
                         height: 40px;
                         display: flex;
                         align-items: center;
                         padding: 0px 20px;
-                        letter-spacing: 2px;
+                        letter-spacing: 1px;
                         font-size: 20px;
-                        font-weight: 700;
+                        font-weight: 400;
                         line-height: 24px;
-                        box-shadow: 3px -3px 10px 5px #918181;
+                        //box-shadow: 3px -3px 10px 5px #918181;
                         margin-bottom: 10px;
+                        border-bottom: solid 1px #9E9E9E;
+                        //display: flex;
+                        //justify-content: space-between;
+                        .theader1{
+                            width: 100%;
+                            display: flex;
+                            justify-content: space-between;
+                            .thdepartment{
+                                width: 250px;
+                            }
+                            .thhead{
+                                width: 250px;
+                            }
+                            .thnoofstaff{
+                                width: 150px;
+                                text-align: center;
+                            }
+                        }
+                        // .thevent{
+                        //     width: 20%;
+                        // }
+                        
                     }
 
                     .tabdetails {
@@ -161,9 +190,12 @@
                         .trow {
                             width: 100%;
                             display: flex;
-                            flex-direction: column;
+                            //flex-direction: column;
                             padding: 10px 0px 0px 0px;
-
+                            //padding: 20px 10px 20px 10px;
+                            border-radius: 10px;
+                            //box-shadow: 2px 2px 10px 1px #91818181;
+                            cursor: pointer;
                             .tabcard {
                                 width: 100%;
                                 //border: solid 1px #000;
@@ -171,42 +203,59 @@
                                 justify-content: space-between;
                                 padding: 20px 10px 20px 10px;
                                 border-radius: 10px;
-                                box-shadow: 2px 2px 10px 1px #91818181;
+                                //box-shadow: 2px 2px 10px 1px #91818181;
+                                .tabcarddetails{
+                                    width: 250px;
+                                }
+                                .tabcarddetailsHead{
+                                    width: 250px;
 
-                                .tabcardbutton {
-                                    display: flex;
-                                    gap: 10px;
-
-                                    .btnview {
-                                        border: solid 1px #3818D9;
-                                        border-radius: 10px;
-                                        width: 80px;
-                                        height: 30px;
-                                        cursor: pointer;
-                                    }
-
-                                    .btnview:hover {
-                                        box-shadow: 2px 2px 10px 1px #3818D9;
-                                        text-shadow: 2px 2px 10px 1px #3818D9;
-                                        letter-spacing: 2px;
-                                    }
-
-                                    .btnUpdate {
-                                        border: solid 1px #18d9c2;
-                                        border-radius: 10px;
-                                        width: 80px;
-                                        height: 30px;
-                                        cursor: pointer;
-                                    }
-
-                                    .btnUpdate:hover {
-                                        box-shadow: 2px 2px 10px 1px #18d9c2;
-                                        text-shadow: 2px 2px 10px 1px #18d9c2;
-                                        letter-spacing: 2px;
-                                    }
+                                }
+                                .tabcarddetailsnoofstaff{
+                                    width: 150px;
+                                    text-align: center;
                                 }
 
+
                             }
+                            
+                            .tabcardbutton {
+                                display: flex;
+                                gap: 10px;
+                                width: 20%;
+                                justify-content: center;
+                                align-items: center;
+
+                                .btnview {
+                                    border: solid 1px #3818D9;
+                                    border-radius: 10px;
+                                    width: 80px;
+                                    height: 30px;
+                                    cursor: pointer;
+                                }
+
+                                .btnview:hover {
+                                    box-shadow: 2px 2px 10px 1px #3818D9;
+                                    text-shadow: 2px 2px 10px 1px #3818D9;
+                                    letter-spacing: 2px;
+                                }
+
+                                .btnUpdate {
+                                    border: solid 1px #18d9c2;
+                                    border-radius: 10px;
+                                    width: 80px;
+                                    height: 30px;
+                                    cursor: pointer;
+                                }
+
+                                .btnUpdate:hover {
+                                    box-shadow: 2px 2px 10px 1px #18d9c2;
+                                    text-shadow: 2px 2px 10px 1px #18d9c2;
+                                    letter-spacing: 2px;
+                                }
+                            }
+
+                            /*
 
                             .tabcard:hover {
                                 background: #918181;
@@ -214,6 +263,13 @@
                                 font-size: 20px;
                                 font-weight: 700;
                             }
+                            */
+                        }
+                        .trow:hover{
+                            background: #e0d7d7;
+                                color: #3f3f3f;
+                                font-size: 20px;
+                                font-weight: 400;
                         }
                     }
                 }

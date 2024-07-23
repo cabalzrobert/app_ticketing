@@ -1451,13 +1451,13 @@ export class UsersPageComponent implements OnInit {
       height: 'fit-content'
     });
     */
-    this.useraccountDialogRef = this.dialog.open(NewusermodalComponent, { data: { item: null, Title: 'Create User Account' } });
+    this.useraccountDialogRef = this.dialog.open(NewusermodalComponent, { data: { item: null, Title: 'Create User Account', ButtonText: 'Create', isDepartment: false } });
     this.useraccountDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => this.usersList.unshift(o));
   }
   useraccountDialogRef?: MatDialogRef<NewusermodalComponent>;
   hViewUuser(item: any, idx: number) {
     console.log('hViewUser item', idx, item);
-    this.useraccountDialogRef = this.dialog.open(NewusermodalComponent, { data: { item: item, Title: 'Update User Account' } });
+    this.useraccountDialogRef = this.dialog.open(NewusermodalComponent, { data: { item: item, Title: 'Update User Account', ButtonText: 'Update', isDepartment: false } });
     this.useraccountDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
       //this.usersList.unshift(o);
       this.usersList[idx] = o;

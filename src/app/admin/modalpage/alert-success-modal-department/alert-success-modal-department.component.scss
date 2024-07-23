@@ -18,7 +18,7 @@
     top: 0;
     bottom: 0;
     right: 0;
-    width: 500px;
+    width: 344px;
     font-family: Arial, Helvetica, sans-serif;
     //height: 600px;
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -27,34 +27,47 @@
     display: flex;
     flex-direction: column;
     height: fit-content;
-    width: max-content;
 
     .modalheader {
-        border-bottom: solid 1px #CCC;
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-start;
         align-items: center;
-        height: 52px;
+        height: 56px;
         padding: 12px 24px;
+        border-bottom: solid 1px #9FA6B2;
+        
 
-        label {
-            color: #4845D2;
-            font-weight: 700;
-            line-height: 28px;
-            font-size: 18px;
+        .success {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* height: 90%; */
+            /* width: 100%; */
+            font-size: 100px;
+            color: white;
+            background: #4845D2;
+            padding: 20px;
+            border-radius: 50%;
+            height: 140px;
+            width: 140px;
         }
-    }
-    .modalheaderlogout {
-        //border-bottom: solid 1px #CCC;
-        border: none;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        height: 52px;
-        padding: 12px 24px;
+        .error{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* height: 90%; */
+            /* width: 100%; */
+            font-size: 100px;
+            color: white;
+            background: #f60303;
+            padding: 20px;
+            border-radius: 50%;
+            height: 140px;
+            width: 140px;
+        }
 
         label {
-            color: #4845D2;
+            color: #14A44D;
             font-weight: 700;
             line-height: 28px;
             font-size: 18px;
@@ -66,6 +79,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        height: 104px;
 
         .deptcard {
             border: solid 1px #CCC;
@@ -89,11 +103,10 @@
 
             .closebutton {
                 padding: 16px 24px 16px 24px;
-                width: 50%;
+                width: 300px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                border: none;
                 border-radius: 20px;
                 background: #F4F3FC;
                 cursor: pointer;
@@ -107,10 +120,6 @@
                     letter-spacing: 1px;
                     cursor: pointer;
                 }
-                button:focus-visible{
-                    outline: none;
-                }
-                
             }
 
             .closebutton:hover {
@@ -125,12 +134,11 @@
             }
 
             .savebutton {
-                width: 50%;
+                width: 300px;
                 padding: 16px 24px 16px 24px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                border: none;
                 border-radius: 20px;
                 background: #4845D2;
                 cursor: pointer;
@@ -145,49 +153,28 @@
                     cursor: pointer;
                 }
             }
-
-            .savebutton:hover {
-                box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-
-                button {
-                    font-size: 18px;
-                    font-weight: 800;
-                    letter-spacing: 2px;
-                    cursor: pointer;
-                }
-            }
-
-            .logout{
-                width: 50%;
+            .errorbutton{
+                width: 300px;
                 padding: 16px 24px 16px 24px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                border: none;
                 border-radius: 20px;
-                background: #FF5C77;
+                background: #F4F3FC;
                 cursor: pointer;
 
                 button {
                     border: none;
                     background: none;
-                    color: white;
+                    color: #4845D2;
                     font-size: 14px;
                     font-weight: 600;
-                    letter-spacing: 1px;
-                    cursor: pointer;
-                }
-            }
-            .logout:hover{
-                box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-
-                button {
-                    font-size: 18px;
-                    font-weight: 800;
                     letter-spacing: 2px;
                     cursor: pointer;
                 }
             }
+
+            
         }
     }
 }

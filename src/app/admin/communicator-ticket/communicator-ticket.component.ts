@@ -76,6 +76,7 @@ export class CommunicatorTicketComponent {
   resolved: number = 0
   allticket: number = 0;
   loader = true;
+  
 
 
   ngOnInit() {

@@ -55,12 +55,15 @@ import { MessageDialog, ProfileComponent, ProgressBar } from './profile/profile.
 import { MatRadioModule } from '@angular/material/radio';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { NgOtpInputModule } from 'ng-otp-input';
 
 import { TicketProgressModalComponent } from './modalpage/ticket-progress-modal/ticket-progress-modal.component';
 import { SubmitModalComponent } from './modalpage/submit-modal/submit-modal.component';
 import { AlertSuccessModalComponent } from './modalpage/alert-success-modal/alert-success-modal.component';
 import { ViewAttachImageModalComponent } from './modalpage/view-attach-image-modal/view-attach-image-modal.component';
+import { AlertSuccessModalDepartmentComponent } from './modalpage/alert-success-modal-department/alert-success-modal-department.component';
+import { SubmitModalDepartmentComponent } from './modalpage/submit-modal-department/submit-modal-department.component';
 
 //import { SettingsdepartmentComponent } from './setting-main-page/settingsdepartment/settingsdepartment.component';
 //import { BrowserModule } from '@angular/platform-browser';
@@ -98,7 +101,9 @@ import { ViewAttachImageModalComponent } from './modalpage/view-attach-image-mod
     TicketProgressModalComponent,
     SubmitModalComponent,
     AlertSuccessModalComponent,
-    ViewAttachImageModalComponent
+    ViewAttachImageModalComponent,
+    AlertSuccessModalDepartmentComponent,
+    SubmitModalDepartmentComponent
 
     // TicketComponent
   ],
@@ -107,6 +112,7 @@ import { ViewAttachImageModalComponent } from './modalpage/view-attach-image-mod
     //BrowserModule,
     //BrowserAnimationsModule,
     AdminRoutingModule,
+    MatAutocompleteModule,
     MatIconModule,
     MatSelectModule,
     MatCheckboxModule,
@@ -134,10 +140,10 @@ import { ViewAttachImageModalComponent } from './modalpage/view-attach-image-mod
     NgOtpInputModule,
     ScrollingModule,
     //SidenavComponent
-    
+
   ],
-  schemas:[CUSTOM_ELEMENTS_SCHEMA],
-  exports:[MatIconModule, MatSelectModule],
-  providers:[LocalStorageService]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  exports: [MatIconModule, MatSelectModule],
+  providers: [LocalStorageService]
 })
 export class AdminModule { }

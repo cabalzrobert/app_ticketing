@@ -1,7 +1,7 @@
 <div class="modaloverlay" (click)="closeddialog()"></div>
 <div class="modalcontainer">
-    <div class="modalheader" [ngClass]="Header != 'Logout' ? 'modalheader' : 'modalheaderlogout'">
-        <label *ngIf="Header != 'Logout'" for="">{{Header}}</label>
+    <div class="modalheader">
+        <label >{{Header}}</label>
         <!-- <button class="fa fa-times" (click)="closeddialog()"></button> -->
     </div>
     <div class="modalbody">
@@ -9,12 +9,8 @@
     </div>
     <div class="modalfooter">
         <div class="footerbody">
-            <div class="closebutton" (click)="closeddialog()">
+            <div [ngClass]="isConfirm ? 'savebutton' : 'errorbutton'" (click)="closeddialog()">
                 <button>Close</button>
-                <!-- <i class="fa fa-times"></i> -->
-            </div>
-            <div [ngClass]="Header != 'Logout' ? 'savebutton' : 'logout'" (click)="hConfirmTicket()">
-                <button>Confirm</button>
                 <!-- <i class="fa fa-plus"></i> -->
             </div>
             

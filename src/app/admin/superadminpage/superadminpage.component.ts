@@ -721,6 +721,7 @@ export class SuperadminpageComponent implements OnInit {
     // console.log('hDepartment const dept', dept);
     //this.departmentlist = await this.authService.GetDepartmentList({ num_row: 0, Search: '' });
     this.departmentlist = await this.GetDepartmentList({ num_row: 0, Search: '' });
+    console.log('hDepartment', this.departmentlist);
     return this.departmentlist;
   }
   hCategory = async () => {
@@ -774,7 +775,7 @@ export class SuperadminpageComponent implements OnInit {
   }
 
   hNewDepartment() {
-    this.departmentDialogRef = this.dialog.open(NewDepartmentModalComponent, { data: { item: null, Title: 'Create Departmen' } });
+    this.departmentDialogRef = this.dialog.open(NewDepartmentModalComponent, { data: { item: null, Title: 'Create Department', SaveButton: 'Create' } });
     this.departmentDialogRef.afterClosed().pipe(filter(name => name)).subscribe(name => {
       this.departmentlist.unshift(name);
     });
@@ -803,7 +804,7 @@ export class SuperadminpageComponent implements OnInit {
   }
 
   btnUpdate(item: any, idx: number) {
-    this.departmentDialogRef = this.dialog.open(NewDepartmentModalComponent, { data: { item: item, Title: 'Update Department' } });
+    this.departmentDialogRef = this.dialog.open(NewDepartmentModalComponent, { data: { item: item, Title: 'Update Department', SaveButton: 'Update' } });
     this.departmentDialogRef.afterClosed().pipe(filter(name => name)).subscribe(name => {
       console.log('btnUpdate', idx, name);
       this.departmentlist[idx] = name;
@@ -833,6 +834,7 @@ export class SuperadminpageComponent implements OnInit {
   }
 
   btnView(item: any) {
+    console.log('Department View', item);
     this.departmentviewDialogRef = this.dialog.open(VIewDepartmentModalComponent, { data: { item } });
   }
 

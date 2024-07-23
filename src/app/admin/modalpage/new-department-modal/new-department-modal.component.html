@@ -11,18 +11,101 @@
                 <input type="text" placeholder="Department Name" formControlName="DepartmentName">
             </div>
         </div>
+        <div class="deptcodecard">
+            <label for="">Department Head</label>
+            <div class="deptinput">
+                <!-- <input type="text" placeholder="Department Name" formControlName="DepartmentName"> -->
+                <!-- <input matInput placeholder="Select Deparment Head" aria-label="DepartmentHead" [matAutocomplete]="auto"
+                    formControlName="DepartmentName" required />
+                <mat-autocomplete #auto="">
+                    <mat-option *ngFor="let country of filteredCountry | async" [value]="country.name"
+                        [id]="country.code">
+                        <span>{{ country.name }} | {{ country.code }}</span>
+                    </mat-option>
+                </mat-autocomplete> -->
+
+                <!-- <mat-select placeholder="Select Department Head" >
+                    <input class="searchbox search-box" (keydown)="hSearchDropDown()" [formControl]="searchTxt"
+                        placeholder="Search" matInput>
+                        <mat-option *ngFor="let country of filteredCountry | async" [value]="country.name"
+                        [id]="country.code">
+                        <span>{{ country.name }} | {{ country.code }}</span>
+                    </mat-option>
+                </mat-select> -->
+
+                <mat-select formControlName="DepartmentHeadID" placeholder="Department Head" (closed)="hclose()"
+                    (selectionChange)="hNewDepartmentHeadselect($event)">
+                    <input class="searchbox search-box" (keydown)="$event.stopPropagation()" (keydown)="hSearchDropDown()" [formControl]="searchTxt"
+                        placeholder="Search" matInput>
+                    <mat-option>Select Department Head</mat-option>
+                    <mat-option *ngFor="let item of departmentheadlist async" [value]="item.UserAccountID">
+                        <span>{{ item.Name }}</span>
+                    </mat-option>
+                </mat-select>
+                <i class="fa fa-plus" (click)="hNewDepartmentHead()"></i>
+
+
+
+
+                <!-- <mat-select formControlName="DepartmentHeadID" placeholder="Select Department Head" (selectionChange)="hNewDepartmentHeadselect($event)">
+                    <mat-option *ngFor="let item of departmentheadlist async" [value]="item.UserAccountID">{{item.Name}}</mat-option>
+                </mat-select>
+                <i class="fa fa-plus" (click)="hNewDepartmentHead()"></i> -->
+            </div>
+
+        </div>
+        <div class="deptcodecard">
+            <label for="">Staff</label>
+            <div class="deptinput">
+                <mat-select [formControl]="DepartmentStaff" placeholder="Select Staff" (closed)="hCloseStaff()">
+                    <input class="searchbox search-box"(keydown)="$event.stopPropagation()" (keydown)="hSearchStaff()" [formControl]="searchStaff"
+                        placeholder="Search" matInput>
+                    <mat-option>Select Staff</mat-option>
+                    <mat-option *ngFor="let item of accountliststaff, let i = index" [value]="item.UserAccountID"
+                        (onSelectionChange)="hSelectStaff(item, i)">{{item.Name}}</mat-option>
+                </mat-select>
+                <i class="fa fa-plus" (click)="hNewStaff()"></i>
+            </div>
+            <label class="catexist" for="" [hidden]="staffexist">Alrady Exist</label>
+            <div class="stafflist">
+                <div class="staff" *ngFor="let item of accountlist, let i = index">{{item.Name}} <button
+                        (click)="hRemoveStaff(item, i)"><i class="fa fa-times"></i></button> </div>
+                <!-- <div>Full Name1</div><div>Full Name2</div><div>Full Name3</div><div>Full Name4</div>
+                <div>Full Name1</div><div>Full Name2</div><div>Full Name3</div><div>Full Name4</div> -->
+            </div>
+        </div>
+        <div class="deptcodecard">
+            <label for="">Category</label>
+            <div class="deptinput">
+                <input type="text" placeholder="Add Category" [formControl]="Categoryname"
+                    (keyup.enter)="hInsertCategory()">
+
+                <!-- <mat-select formControlName="DepartmentCategory" placeholder="Select Category">
+                    <mat-option *ngFor="let item of departmentheadlist async" [value]="item.UserAccountID" (onSelectionChange)="hSelectCategory()">{{item.Name}}</mat-option>
+                </mat-select> -->
+            </div>
+            <label class="catexist" for="" [hidden]="catexist">Alrady Exist</label>
+            <div class="categorylist">
+                <div class="category" *ngFor="let item of categorylist, let i = index">
+                    {{item.Categoryname}} <button (click)="hRemoveCategory(item, i)"><i
+                            class="fa fa-times"></i></button>
+                </div>
+                <!-- <div>Category 1</div><div>Category 2</div><div>Category 3</div><div>Category 4</div><div>Category 5</div>
+                <div>Category 1</div><div>Category 2</div><div>Category 3</div><div>Category 4</div><div>Category 5</div> -->
+            </div>
+        </div>
     </div>
     <div class="modalfooter">
         <div class="footerbody">
-            <div class="savebutton" (click)="newdialogNewDepartment()">
-                <button>Save</button>
-                <i class="fa fa-plus"></i>
-            </div>
             <div class="closebutton" (click)="closeddialogNewDepartment()">
-                <button>Close</button>
-                <i class="fa fa-times"></i>
+                <button>Cancel</button>
+                <!-- <i class="fa fa-times"></i> -->
             </div>
-            
+            <div class="savebutton" (click)="newdialogNewDepartment()">
+                <button>{{Department.SaveButton}}</button>
+                <!-- <i class="fa fa-plus"></i> -->
+            </div>
+
         </div>
     </div>
 </div>

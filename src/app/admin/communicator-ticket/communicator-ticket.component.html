@@ -137,7 +137,7 @@
                 <ng-template class="tab-content" matTabContent>
                     <div class="ticket-list-container">
                         <cdk-virtual-scroll-viewport class="scrolling-container" [itemSize]="196" (scrolledIndexChange)="nextBatch({tab:tabRef.selectedIndex, IsReset: true})">
-                            <mat-card *cdkVirtualFor="let item of collections index as i" (click)="next(item, i)">
+                            <mat-card *cdkVirtualFor="let item of collections index as i" (click)="next(item, i)" draggable="true">
                                 <mat-card-header>
                                     <mat-card-title>{{item.title}}</mat-card-title>
                                     <span style="font-size: 18px;">{{dateFormatted(true,item.dateCreated)}}</span>
@@ -167,6 +167,7 @@
                 </ng-template>
             </mat-tab>
         </mat-tab-group>
+        
     </mat-step>
     <mat-step>
         <div class="ticket-container">

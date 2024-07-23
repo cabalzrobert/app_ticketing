@@ -70,7 +70,11 @@
 
     .modalbody {
         padding: 12px 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
 
+        /*
         .deptcard {
             border: solid 1px #CCC;
             margin: 10px;
@@ -113,14 +117,156 @@
             }
 
         }
+        */
+        .deptcard {
+            /*
+            //border: solid 1px #CCC;
+            margin: 10px;
+            //border-radius: 10px;
+            margin-top: 20px;
+            height: 60px;
+            */
+            //display: flex;
+            //flex-direction: column;
+            //align-items: flex-end;
+            //justify-content: flex-start;
+            //box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
 
+        .deptinput {
+            height: 40px;
+            width: 100%;
+            padding: 0px 30px;
+            display: flex;
+            align-items: center;
+            border: solid 1px #CCC;
+            border-radius: 10px;
+            gap: 20px;
+
+            .searchbox {
+                width: 94%;
+                padding: 10px;
+                border-radius: 10px;
+                margin: 10px;
+                outline: none;
+            }
+
+
+            input {
+                height: 30px;
+                width: 100%;
+                border: none;
+                outline: none;
+                font-size: 18px;
+                //font-weight: 600;
+            }
+
+            i {
+                cursor: pointer;
+                font-size: 12px;
+            }
+
+            i:hover {
+                cursor: pointer;
+                font-size: 18px;
+            }
+
+        }
+
+        .catexist {
+            font-size: 10px;
+            color: #f60303;
+            padding: 0px 0px 0px 20px;
+        }
+
+        .stafflist {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            ;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            justify-content: center;
+            width: 100%;
+            color: #4845D2;
+            padding: 0px 20px;
+            height: 80px;
+            overflow: auto;
+
+            .staff {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                background: #F4F3FC;
+                border-radius: 999px;
+                padding: 4px 8px 4px 8px;
+
+                button {
+                    border: none;
+                    background: none;
+                    cursor: pointer;
+                    font-size: 14px;
+                    font-weight: 400;
+                }
+
+                button:hover {
+                    border: none;
+                    background: none;
+                    cursor: pointer;
+                    font-size: 18px;
+                    font-weight: 600;
+                }
+            }
+        }
+
+        .categorylist {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            justify-content: center;
+            width: 100%;
+            color: #4845D2;
+            padding: 0px 20px;
+            height: 80px;
+            overflow: auto;
+
+            .category {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                background: #F4F3FC;
+                border-radius: 999px;
+                padding: 4px 8px 4px 8px;
+
+
+                button {
+                    border: none;
+                    background: none;
+                    cursor: pointer;
+                    font-size: 14px;
+                    font-weight: 400;
+                }
+
+                button:hover {
+                    border: none;
+                    background: none;
+                    cursor: pointer;
+                    font-size: 18px;
+                    font-weight: 600;
+                }
+            }
+        }
 
     }
 
     .modalfooter {
         border-top: solid 1px #CCC;
         display: flex;
-        justify-content: flex-end;
+        justify-content: center;
         align-items: center;
         height: 52px;
         padding: 12px 24px;
@@ -129,14 +275,18 @@
             display: flex;
             gap: 10px;
 
+
             .savebutton {
-                border: solid 1px #61A66A;
+                //border: solid 1px #61A66A;
+                border: none;
                 border-radius: 20px;
                 cursor: pointer;
-                width: fit-content;
+                width: 200px;
                 height: fit-content;
                 padding: 10px;
                 display: flex;
+                justify-content: center;
+                background: #4845D2;
                 gap: 5px;
 
                 button {
@@ -144,17 +294,17 @@
                     font-weight: 700;
                     border: none;
                     background: none;
-                    color: #61A66A;
+                    color: #fff;
                 }
 
                 i {
-                    color: #61A66A;
+                    color: #fff;
                 }
             }
-            
+
 
             .savebutton:hover {
-                background: #61A66A;
+                background: #4845D2;
                 box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
                 button {
@@ -168,21 +318,23 @@
             }
 
             .closebutton {
-                border: solid 1px #f60303;
+                //border: solid 1px #f60303;
+                border:none;
                 border-radius: 20px;
                 cursor: pointer;
-                width: fit-content;
+                width: 200px;
                 height: fit-content;
                 padding: 10px;
                 display: flex;
+                justify-content: center;
                 gap: 5px;
 
                 button {
                     font-size: 14px;
                     font-weight: 700;
                     border: none;
-                    background: none;
-                    color: #f60303;
+                    background: #F4F3FC;
+                    color: #4845D2;
                 }
 
                 i {
@@ -191,18 +343,26 @@
             }
 
             .closebutton:hover {
-                background: #f60303;
+                background: #F4F3FC;
                 box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
                 button {
-                    color: #fff;
+                    color: #4845D2;
                     letter-spacing: 1px;
                 }
 
                 i {
-                    color: #fff;
+                    color: #4845D2;
                 }
             }
         }
     }
+}
+
+.cdk-text-field-autofill-monitored:not(:-webkit-autofill) {
+    width: 94%;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 10px;
+    outline: none;
 }

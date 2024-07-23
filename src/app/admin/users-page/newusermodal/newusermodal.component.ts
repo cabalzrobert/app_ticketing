@@ -9,7 +9,7 @@ import { rest } from '../../../+services/services';
 import { MatSelectSearchVersion } from 'ngx-mat-select-search';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { faL } from '@fortawesome/free-solid-svg-icons';
-import { isMobileNo } from '../../../tools/global';
+import { isEmail, isMobileNo } from '../../../tools/global';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { SubmitModalComponent } from '../../modalpage/submit-modal/submit-modal.component';
 import { AlertSuccessModalComponent } from '../../modalpage/alert-success-modal/alert-success-modal.component';
@@ -34,6 +34,7 @@ export class NewusermodalComponent implements OnInit {
   }
   selectedData: any = {};
   DepartmentSelectedValue($event: MatSelectChange) {
+    console.log('DepartmentSelectedValue', $event.source.triggerValue)
     this.departmentname = $event.source.triggerValue;
     //this.form.value.Department = $event.source.triggerValue
     // this.selectedData = {
@@ -67,11 +68,12 @@ export class NewusermodalComponent implements OnInit {
     isCommunicator: 0,
     isDepartmentHead: 0,
     AccountType: 0,
+    Email: ''
     //isComm:false,
     //isDeptartment: false
   });
 
-  constructor(@Inject(MAT_DIALOG_DATA) public UserAccount: { item: any, Title: String }, private authService: AuthService, private fb: FormBuilder, public dialog: MatDialog, public dialogRef: MatDialogRef<NewusermodalComponent>, private _cdr: ChangeDetectorRef) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public UserAccount: { item: any, Title: String, ButtonText: String, isDepartment: boolean }, private authService: AuthService, private fb: FormBuilder, public dialog: MatDialog, public dialogRef: MatDialogRef<NewusermodalComponent>, private _cdr: ChangeDetectorRef) { }
 
   departmentlist: any = [];
   positionlist: any = [];
@@ -96,6 +98,7 @@ export class NewusermodalComponent implements OnInit {
   isdepthead: boolean = false;
   _isdepthead: number = 0;
   _iscommunicator: number = 0;
+  _isdepartment:boolean = false;
   private _state: any = {};
   setState(item: any) {
     for (const key of Object.keys(item)) {
@@ -105,8 +108,11 @@ export class NewusermodalComponent implements OnInit {
 
   @ViewChild('singleSelect') singleSelect: MatSelect | undefined;
   ngOnInit(): void {
+    console.log('this.UserAccount.item', this.UserAccount.item);
     this.form.patchValue(this.UserAccount.item);
     this.base64 = this.form.value.ProfilePicture;
+    this._isdepartment = this.UserAccount.isDepartment;
+    console.log('ngOnInit this._isdepartment', this._isdepartment);
     //this.form.value.isComm = this.form.value.isCommunicator;
     //this.form.value.isDeptartment = this.form.value.isDepartmentHead;
     //this.form.value.isDepartment = this.form.value.isDepartmentHead;
@@ -121,6 +127,19 @@ export class NewusermodalComponent implements OnInit {
     this.GetDepartmentList({ num_row: 0, Search: '' });
     this.GetRolesList({ num_row: 0, Search: '' });
     this.GetPositionList({ num_row: 0, Search: '' });
+    // if (this.UserAccount.Title == 'Create Department Head Account'){
+    //   //this.form.value.AccountType = 5
+    //   this.form.patchValue({AccountType:5});
+    // }
+      
+    
+    // else if (this.UserAccount.Title == 'Create Staff Account'){
+    //   //this.form.value.AccountType = 6
+    //   this.form.patchValue({AccountType:6});
+    // }
+      
+
+    console.log('New User', this.form.value);
   }
 
   closededialogNewUser(): void {
@@ -169,6 +188,7 @@ export class NewusermodalComponent implements OnInit {
         this.form.value.UserAccountID = res.Content.UserAccountID
         this.form.value.MobileNumber = res.Content.MobileNumber;
         this.form.value.Name = res.Content.Name;
+        this.form.value.RegisteredDate = res.Content.RegisteredDate;
         this.successDialogRef = this.dialog.open(AlertSuccessModalComponent, { data: { item: { Icon: 'fa fa-solid fa-check', Message: res.Message, ButtonText: 'Success', isConfirm: true } } });
         this.successDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
           if (o.item.isConfirm) {
@@ -201,15 +221,18 @@ export class NewusermodalComponent implements OnInit {
     if (!this.form.value.AccountType) {
       //alert('Please Select Department.');
       this.successDialogRef = this.dialog.open(AlertSuccessModalComponent, { data: { item: { Icon: 'fa fa-solid fa-exclamation', Message: 'Please Select Account Type.', ButtonText: 'Ok', isConfirm: false } } });
-      
+
       return false;
     }
+
+    /*
     if (!this.form.value.DepartmentID) {
       //alert('Please Select Department.');
       this.successDialogRef = this.dialog.open(AlertSuccessModalComponent, { data: { item: { Icon: 'fa fa-solid fa-exclamation', Message: 'Please Select Department.', ButtonText: 'Ok', isConfirm: false } } });
-      
+
       return false;
     }
+    */
     // if (!this.form.value.RolesID) {
     //   alert('Please Select Roles.')
     //   return false;
@@ -217,32 +240,39 @@ export class NewusermodalComponent implements OnInit {
     if (!this.form.value.PositionID) {
       //alert("Please Select Position.");
       this.successDialogRef = this.dialog.open(AlertSuccessModalComponent, { data: { item: { Icon: 'fa fa-solid fa-exclamation', Message: 'Please Select Position.', ButtonText: 'Ok', isConfirm: false } } });
-      
+
       return false;
     }
     if (!this.form.value.Firstname) {
       //alert('Please enter your FIrstname');
       this.successDialogRef = this.dialog.open(AlertSuccessModalComponent, { data: { item: { Icon: 'fa fa-solid fa-exclamation', Message: 'Please enter your FIrstname.', ButtonText: 'Ok', isConfirm: false } } });
-      
+
       return false;
     }
     if (!this.form.value.Lastname) {
       //alert('Please enter Lastname');
       this.successDialogRef = this.dialog.open(AlertSuccessModalComponent, { data: { item: { Icon: 'fa fa-solid fa-exclamation', Message: 'Please enter Lastname.', ButtonText: 'Ok', isConfirm: false } } });
-      
+
       return false;
     }
     if (!this.form.value.MobileNumber) {
       //alert('Please enter valid Mobile Number');
       this.successDialogRef = this.dialog.open(AlertSuccessModalComponent, { data: { item: { Icon: 'fa fa-solid fa-exclamation', Message: 'Please enter valid Mobile Number.', ButtonText: 'Ok', isConfirm: false } } });
-      
+
       return false;
+    }
+    if (!!this.form.value.Email) {
+      if (!isEmail(this.form.value.Email)) {
+        this.successDialogRef = this.dialog.open(AlertSuccessModalComponent, { data: { item: { Icon: 'fa fa-solid fa-exclamation', Message: 'Please enter valid Email Address.', ButtonText: 'Ok', isConfirm: false } } });
+
+        return false;
+      }
     }
     if (!!this.form.value.MobileNumber) {
       if (!isMobileNo(this.form.value.MobileNumber)) {
-       // alert('Please enter valid Mobile Number');
+        // alert('Please enter valid Mobile Number');
         this.successDialogRef = this.dialog.open(AlertSuccessModalComponent, { data: { item: { Icon: 'fa fa-solid fa-exclamation', Message: 'Please enter valid Mobile Number.', ButtonText: 'Ok', isConfirm: false } } });
-        
+
         return false;
       }
     }

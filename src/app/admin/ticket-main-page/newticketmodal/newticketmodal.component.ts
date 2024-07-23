@@ -55,7 +55,8 @@ export class NewticketmodalComponent implements OnInit {
     TicketAttachment: '',
     TransactionNo: '',
     TicketNo: '',
-    Attachment: ''
+    Attachment: '',
+    
   });
   constructor(@Inject(MAT_DIALOG_DATA) public ticketdata: { item: any, Title: String, SaveButtonText: String }, public dialog: MatDialog, public generalSerive: GeneralService, private authService: AuthService, private fb: FormBuilder, public dialogRef: MatDialogRef<NewticketmodalComponent>) { }
   HeaderTitle: String = '';

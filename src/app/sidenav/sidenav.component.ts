@@ -1,5 +1,5 @@
 import { Component, Output, EventEmitter, OnInit, HostListener, input, inject, ElementRef } from '@angular/core';
-import { navbarData, navbarDataCommunicator, navbarDataCommunicatorDepartmentHead, navbarDataDepartmentHead, navbarDataUser } from './nav-data';
+import { navbarData, navbarDataCEO, navbarDataCommunicator, navbarDataCommunicatorDepartmentHead, navbarDataDepartmentHead, navbarDataUser } from './nav-data';
 import { Router } from '@angular/router';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { AuthService } from '../auth.service';
@@ -26,9 +26,16 @@ import { AlertSuccessModalComponent } from '../admin/modalpage/alert-success-mod
 //const { Object }: any = window;
 interface SideNavToggle {
   screenWidth: number;
-  screenHeight:number;
+  screenHeight: number;
   collapsed: boolean;
 }
+/*
+2.) Administrator
+3.) CEO
+4.) Communicator
+5.) Department Head
+6.) Member
+*/
 @Component({
   selector: 'app-sidenav',
   templateUrl: './sidenav.component.html',
@@ -109,11 +116,11 @@ export class SidenavComponent implements OnInit {
     this.screenHeight = window.innerHeight;
     if (this.screenWidth <= 768) {
       this.collapsed = false;
-      this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth, screenHeight:this.screenHeight });
+      this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth, screenHeight: this.screenHeight });
     }
     else {
       this.collapsed = true;
-      this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth, screenHeight:this.screenHeight });
+      this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth, screenHeight: this.screenHeight });
     }
     // this.collapsed = true;
     //   this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth });
@@ -124,11 +131,11 @@ export class SidenavComponent implements OnInit {
     this.screenHeight = window.innerHeight;
     if (this.screenWidth <= 768) {
       this.collapsed = false;
-      this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth, screenHeight:this.screenHeight });
+      this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth, screenHeight: this.screenHeight });
     }
     else {
       this.collapsed = true;
-      this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth, screenHeight:this.screenHeight });
+      this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth, screenHeight: this.screenHeight });
     }
   }
   subs: any = {};
@@ -210,6 +217,7 @@ export class SidenavComponent implements OnInit {
 
   private NavBarItem() {
     //console.log('Navigational Bar this.input', this.input);
+    /*
     if (this.input.ACT_TYP == 1 || this.input.ACT_TYP == 2) {
       this.navData = navbarData;
     }
@@ -228,6 +236,18 @@ export class SidenavComponent implements OnInit {
       }
     }
     //console.log('Navigational Bar', this.navData);
+    */
+    if (this.input.ACT_TYP == 2)
+      this.navData = navbarData;
+    else if(this.input.ACT_TYP == 3)
+      this.navData = navbarDataCEO;
+    else if(this.input.ACT_TYP == 4)
+      this.navData = navbarDataCommunicator;
+    else if(this.input.ACT_TYP == 5)
+      this.navData = navbarDataDepartmentHead;
+    else if(this.input.ACT_TYP == 6)
+      this.navData = navbarDataUser;
+    console.log('Navigational Bar', JSON.stringify(this.navData), this.navData);
   }
   todos: string[] = [];
   isConnected: boolean = false;
@@ -334,6 +354,8 @@ export class SidenavComponent implements OnInit {
 
     //this.subs.ws1 = stomp.subscribe('/1/ticketrequest/iscommunicator', (json: any) => this.receivedRequestTicketCommunicator(json));
     this.subs.ws1 = stomp.subscribe('/' + iscom + '/ticketrequest/iscommunicator', (json: any) => this.receivedRequestTicketCommunicator(json));
+    this.subs.ws1 = stomp.subscribe(`/${this.input.ACT_TYP}/communicator`, (json: any) => this.receivedRequestTicketCommunicator(json));
+    this.subs.ws1 = stomp.subscribe(`/${this.input.ACT_TYP}/${this.input.DEPT_ID}/requestorhead`, (json: any) => this.receivedRequestTicketCommunicator(json));
     this.subs.ws1 = stomp.subscribe('/forwardticket/depthead/' + isdepthead, (json: any) => this.receivedforwardedTicket(json));
     stomp.ready(() => (stomp.refresh(), stomp.connect()));
     //console.log('stompWebsocketReceiver 250 sidenav.components', this.subs);
