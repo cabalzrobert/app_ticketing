@@ -6,11 +6,14 @@
                 <label for="" class="menuprofile">{{UserAccount}}</label>
                 <label for="" class="usertype">{{UserType}}</label>
             </div>
-            <div class="profpic">
-                <img *ngIf="profilePicture == ''" src="assets/image/icon_blank_profile.png" alt="">
-                <img *ngIf="profilePicture != ''" src={{profilePicture}} alt="">
+            <div style="position: relative;">
+                <div class="profpic">
+                    <img *ngIf="profilePicture == ''" src="assets/image/icon_blank_profile.png" alt="">
+                    <img *ngIf="profilePicture != ''" src={{profilePicture}} alt="">
+                </div>
             </div>
-            <div class="profilebutton">
+            
+            <div class="profilebutton" (click)="profile()">
                 <button (click)="profile()">View Profile</button>
             </div>
         </div>
