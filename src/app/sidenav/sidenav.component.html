@@ -3,7 +3,7 @@
         <button class="logo" (click)="toggleCollapse()"><img class="logo" src="assets/image/logo.gif" /></button>
         <div style="display: flex;gap:10px;" *ngIf="collapsed">
             <div class="logo-text">TikSy</div>
-            <div style="color: #3818D9;"> ver: 2</div>
+            <div style="color: #3818D9;">{{appversion}}</div>
         </div>
 
         <!-- <button class="btn-close" *ngIf="collapsed" (click)="closeSidenav()">
