@@ -148,7 +148,7 @@ export class SidenavComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     //this.webSocketService.token();
     //this.webSocketService.stompWebsocketReceiver();
-    //console.log('sidenav component');
+    console.log('sidenav component', (device.appVersion || 'v2.0'));
     //Object = {window};
     //this.navData = navbarData;
 

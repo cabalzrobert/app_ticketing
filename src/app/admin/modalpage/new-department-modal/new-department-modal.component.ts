@@ -40,14 +40,25 @@ export class NewDepartmentModalComponent implements OnInit {
   hNewDepartmentHeadselect(event: MatSelectChange) {
     //console.log('hNewDepartmentHeadSelect event', event.source.selected._element.nativeElement;);
     this.searchTxt.value = '';
-    const selectedDepartmentHead = {
-      text: (event.source.selected as MatOption).viewValue,
-      value: event.source.value
-    };
-    this.selecteddepthead = true;
-    console.log(selectedDepartmentHead.text);
-    this.form.value.DepartmentHead = selectedDepartmentHead.text;
-    this.form.value.DepartmentHeadID = selectedDepartmentHead.value;
+    //console.log('hNewDepartment event', event.value);
+    if(event.value ==  undefined) {
+      this.selecteddepthead = true;
+      this.form.value.DepartmentHead = '';
+      this.form.value.DepartmentHeadID = '';
+      console.log('hNewDepartment event Undefined', this.form.value);
+    }
+    else{
+      const selectedDepartmentHead = {
+        text: (event.source.selected as MatOption).viewValue,
+        value: event.source.value
+      };
+      this.selecteddepthead = true;
+      console.log(selectedDepartmentHead.text);
+      this.form.value.DepartmentHead = selectedDepartmentHead.text;
+      this.form.value.DepartmentHeadID = selectedDepartmentHead.value;
+      console.log('hNewDepartment event Defined Value', this.form.value);
+    }
+    
   }
   submitDialogRef?: MatDialogRef<SubmitModalComponent>;
   successDialogRef?: MatDialogRef<AlertSuccessModalComponent>;
