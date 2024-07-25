@@ -1,8 +1,8 @@
 <div class="sidenav" [ngClass]="collapsed ? 'sidenav-collapsed': ''">
     <div class="logo-container">
         <button class="logo" (click)="toggleCollapse()"><img class="logo" src="assets/image/logo.gif" /></button>
-        <div style="display: flex;gap:10px;">
-            <div class="logo-text" *ngIf="collapsed">TikSy</div>
+        <div style="display: flex;gap:10px;" *ngIf="collapsed">
+            <div class="logo-text">TikSy</div>
             <div style="color: #3818D9;"> ver: 2</div>
         </div>
 
