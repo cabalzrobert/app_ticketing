@@ -24,7 +24,7 @@ export class NewDepartmentModalComponent implements OnInit {
     this.searchStaff.value = ''
   }
   hSearchStaff() {
-    this.GetUserAccountListStaff({ num_row: 0, Search: this.searchStaff.value });
+    this.GetUserAccountListStaff({ num_row: 0, DepartmentID: this.form.value.DepartmentID, Search: this.searchStaff.value });
   }
   hclose() {
     this.searchTxt.value = '';
@@ -32,7 +32,7 @@ export class NewDepartmentModalComponent implements OnInit {
   dept: any;
   backupDept: any = {};
   hSearchDropDown() {
-    this.GetDepartmentList({ num_row: 0, Search: this.searchTxt.value, AccountType: '5' });
+    this.GetDepartmentList({ num_row: 0, DepartmentID: this.form.value.DepartmentID, Search: this.searchTxt.value, AccountType: '5' });
   }
 
   selectedDepartmentHead: any;

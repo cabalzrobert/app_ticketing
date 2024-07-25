@@ -35,8 +35,12 @@
 
                 <mat-select formControlName="DepartmentHeadID" placeholder="Department Head" (closed)="hclose()"
                     (selectionChange)="hNewDepartmentHeadselect($event)">
-                    <input class="searchbox search-box" (keydown)="$event.stopPropagation()" (keydown)="hSearchDropDown()" [formControl]="searchTxt"
+                    <div class="dropdownsearch">
+                        <mat-icon>search</mat-icon>
+                        <input class="searchbox search-box" (keydown)="$event.stopPropagation()" (keydown)="hSearchDropDown()" [formControl]="searchTxt"
                         placeholder="Search" matInput>
+                    </div>
+                    
                     <mat-option>Select Department Head</mat-option>
                     <mat-option *ngFor="let item of departmentheadlist async" [value]="item.UserAccountID">
                         <span>{{ item.Name }}</span>
@@ -58,8 +62,12 @@
             <label for="">Staff</label>
             <div class="deptinput">
                 <mat-select [formControl]="DepartmentStaff" placeholder="Select Staff" (closed)="hCloseStaff()">
-                    <input class="searchbox search-box"(keydown)="$event.stopPropagation()" (keydown)="hSearchStaff()" [formControl]="searchStaff"
-                        placeholder="Search" matInput>
+                    <div class="dropdownsearch">
+                        <mat-icon>search</mat-icon>
+                        <input class="searchbox search-box"(keydown)="$event.stopPropagation()" (keydown)="hSearchStaff()" [formControl]="searchStaff"
+                            placeholder="Search" matInput>
+                    </div>
+                    
                     <mat-option>Select Staff</mat-option>
                     <mat-option *ngFor="let item of accountliststaff, let i = index" [value]="item.UserAccountID"
                         (onSelectionChange)="hSelectStaff(item, i)">{{item.Name}}</mat-option>
