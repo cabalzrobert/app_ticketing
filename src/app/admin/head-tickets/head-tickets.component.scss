@@ -219,6 +219,7 @@ mat-card {
 
 .ticket-header {
     //height: 125px;
+    margin-top: 25px;
     height: auto;
     display: flex;
     flex-direction: column;
@@ -272,7 +273,7 @@ mat-card {
 
 .side-inner-content {
     display: grid;
-    row-gap: 15px;
+    row-gap: 10px;
     justify-content: center;
     mat-card{
         margin-left: unset;
@@ -438,7 +439,7 @@ mat-card {
         }
 
         .requester-name {
-            width: 150px;
+            width: 160px;
             display: grid;
             row-gap: 5px;
         }
@@ -457,8 +458,40 @@ mat-card {
         }
     }
 
+    .requestForwardTo-info mat-card-content{
+        display: grid;
+        row-gap: 20px;
+        padding: 16px;
+
+        .detail {
+            display: flex;
+            align-items: center;
+            padding: 0px 0px 16px 10px;
+            gap: 20px;
+        }
+
+        .requester-name {
+            width: 100%;
+            display: grid;
+            row-gap: 5px;
+        }
+
+        span {
+            display: block;
+            // white-space: nowrap;
+            // text-overflow: ellipsis;
+            // overflow: hidden;
+
+            // width: 150px;
+            &.username {
+                font-size: 14px;
+                color: #7E7E7E;
+            }
+        }
+    }
+
     .footer-inner-container {
-        height: 43vh;
+        // height: 43vh;
         width: 100%;
         display: flex;
         align-items: end;
@@ -468,7 +501,7 @@ mat-card {
 
             div>h2 {
                 text-align: center;
-                margin-bottom: 40px;
+                margin-bottom: 25px;
             }
 
             // .footer-buttons {
@@ -491,7 +524,7 @@ mat-card {
 
                 .custom-select {
                     height: 32px;
-                    width: 262px;
+                    width: 100%;
                     display: flex;
                     align-items: center;
                     border: #4845D2 1px solid;
@@ -502,6 +535,13 @@ mat-card {
             }
         }
     }
+}
+
+.forward-resolve-container {
+    height: 44vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
 }
 
 .footer-buttons {
@@ -527,6 +567,10 @@ mat-card {
 
 .btn-resolve{
     background: #4caf50 !important;
+}
+
+.btn-cancel{
+    background: red !important;
 }
 
 .modal-backdrop {

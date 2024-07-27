@@ -10,6 +10,8 @@ import { MatSelectChange } from '@angular/material/select';
 import { SubmitModalComponent } from '../../modalpage/submit-modal/submit-modal.component';
 import { AlertSuccessModalComponent } from '../../modalpage/alert-success-modal/alert-success-modal.component';
 import { device } from '../../../tools/plugins/device';
+import { LocalStorageService } from '../../../tools/plugins/localstorage';
+import { jUser } from '../../../+app/user-module';
 
 export interface SelectedFiles {
   name: string;
@@ -42,31 +44,40 @@ export class NewticketmodalComponent implements OnInit {
   uploaded: any = [];
   attachment: any = [];
   categorylist: any = [];
+  departments: any = [];
+  personnels: any = [];
   fileSize = '';
   uploadStatus: number | undefined;
   categoryname: String = '';
-  prioritylevelname: String = ''
+  prioritylevelname: String = '';
+
+  userDetail: any;
 
   form: FormGroup = this.fb.group({
-    Category: '',
-    TitleTicket: '',
-    TicketDescription: '',
-    PriorityLevel: '',
-    TicketAttachment: '',
-    TransactionNo: '',
-    TicketNo: '',
-    Attachment: '',
-    
+    Department: null,
+    Category: null,
+    Personnel: null,
+    TitleTicket: null,
+    TicketDescription: null,
+    PriorityLevel: null,
+    TicketAttachment: null,
+    TransactionNo: null,
+    TicketNo: null,
+    Attachment: null
   });
-  constructor(@Inject(MAT_DIALOG_DATA) public ticketdata: { item: any, Title: String, SaveButtonText: String }, public dialog: MatDialog, public generalSerive: GeneralService, private authService: AuthService, private fb: FormBuilder, public dialogRef: MatDialogRef<NewticketmodalComponent>) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public ticketdata: { item: any, Title: String, SaveButtonText: String, IsRequiredOtherDepartment: boolean }, public dialog: MatDialog, public generalSerive: GeneralService, private authService: AuthService, private fb: FormBuilder, public dialogRef: MatDialogRef<NewticketmodalComponent>, private ls: LocalStorageService) { }
   HeaderTitle: String = '';
   SaveButtonText: String = '';
-  ngOnInit(): void {
+  async ngOnInit() {
     //console.log('this.form.value.TicketAttachment ', this.form.value.TicketAttachment);
-
+    this.userDetail = await jUser();
+    console.log('User Detail',this.userDetail);
+    console.log('Ticket Data',this.ticketdata);
     this.form.patchValue(this.ticketdata.item);
     console.log('this.form.value Update Modal', this.form.value);
     this.GetCategoryList({ num_row: 0, Search: '' });
+    this.GetDepartmentList({ num_row: 0, Search: '' });
+    this.GetDepartmentPersonnels();
     console.log('Update Ticket Modal', this.ticketdata);
     this.HeaderTitle = this.ticketdata.Title;
     this.SaveButtonText = this.ticketdata.SaveButtonText;
@@ -74,6 +85,11 @@ export class NewticketmodalComponent implements OnInit {
       if (this.ticketdata.item.Attachment != '')
         this.uploaded = JSON.parse(this.ticketdata.item.Attachment);
 
+    }
+
+    if(!this.ticketdata.IsRequiredOtherDepartment){
+      // console.log('Required other department',this.ticketdata.IsRequiredOtherDepartment);
+      this.form.controls['Department'].setValue(this.userDetail.DEPT_ID);
     }
 
     console.log('Update Ticket Modal HeaderTitle', this.HeaderTitle);
@@ -109,6 +125,7 @@ export class NewticketmodalComponent implements OnInit {
     this.submitDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
       if (o.item.isConfirm) {
         this.performSaveTicket();
+        // this.form.reset();
         return;
       }
       console.log('Close Ticket Progress', o.item);
@@ -128,6 +145,38 @@ export class NewticketmodalComponent implements OnInit {
     console.log('GetCategoryList outside subscribe', this.categorylist);
     return this.categorylist;
   }
+
+  //added by jp july 18, 2024
+  GetDepartmentList = async (item: any) => {
+    const search: any = item;
+    rest.post('department/list', search).subscribe((res: any) => {
+      console.log('Department',res);
+      if (res.Status === 'ok') {
+        this.departments = res.department;
+        return;
+      }
+      alert('Failed to load');
+    }, (error: any) => {
+      alert('System Error!');
+    });
+  }
+
+  GetDepartmentPersonnels = async () => {
+    const search: any = { num_row: 0, Search: '' };
+    rest.post(`head/personnels?departmentId=${this.userDetail.DEPT_ID}`).subscribe((res: any) => {
+      console.log(res);
+      if (res.Status === 'ok') {
+        console.log(res.personnels)
+        this.personnels = res.personnels;
+        // this.personnels = this.personnels.filter((res: any) => res.userId!==this.ticketDetail?.requestId);
+        return;
+      }
+      alert('Failed to load');
+    }, (error: any) => {
+      alert('System Error!');
+    });
+  }
+
   performSaveTicket() {
 
     // this.successDialogRef = this.dialog.open(AlertSuccessModalComponent, { data: { item: { Icon: 'fa fa-solid fa-exclamation', Message: 'Please check data. Try again', ButtonText: 'Error', isConfirm: false } } });
@@ -179,10 +228,10 @@ export class NewticketmodalComponent implements OnInit {
 
   public isValidEntries(): boolean {
     var category = this.form.value.Category;
-    if (!category) {
-      alert('Please Select Category');
-      return false;
-    }
+    // if (!category) {
+    //   alert('Please Select Category');
+    //   return false;
+    // }
     var titleticket = this.form.value.TitleTicket;
     if (!titleticket) {
       alert('Please Enter Title Ticket');

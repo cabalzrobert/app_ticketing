@@ -20,7 +20,7 @@
         <mat-tab-group mat-stretch-tabs="false" [selectedIndex]="tab"  mat-align-tabs="start" #tabRef>
             <mat-tab class="tab-container">
                 <ng-template class="tab-label" mat-tab-label>
-                    <span style="font-size: 20px;">Unassigned</span>
+                    <span style="font-size: 20px;">Pending</span>
                     <span class="mat-badge-icon" *ngIf="unassigend > 0 && unassigend <= 99" matBadge={{unassigend}} matBadgeColor="accent"></span>
                     <span class="mat-badge-icon" *ngIf="unassigend > 99" matBadge="99+" matBadgeColor="accent"></span>
                 </ng-template>
@@ -38,11 +38,14 @@
                                 </mat-card-content>
                                 <mat-card-footer>
                                     <mat-card-actions class="card-section">
-                                        <div class="action-unassign">
+                                        <!-- <div class="action-unassign">
                                             <label>Unassigned</label>
-                                        </div>
+                                        </div> -->
                                         <div [class]="'action-'+item?.priorityName.toLowerCase()">
                                             <label>{{item?.priorityName}}</label>
+                                        </div>
+                                        <div class="action-pending">
+                                            <label>Pending</label>
                                         </div>
                                     </mat-card-actions>
                                 </mat-card-footer>
@@ -53,7 +56,7 @@
             </mat-tab>
             <mat-tab>
                 <ng-template mat-tab-label matBadgeColor="accent">
-                    <span style="font-size: 20px;">Assigned</span>
+                    <span style="font-size: 20px;">Resolve</span>
                     <span class="mat-badge-icon" *ngIf="assigned > 0 && assigned <= 99" matBadge={{assigned}} matBadgeColor="accent"></span>
                     <span class="mat-badge-icon" *ngIf="assigned > 99" matBadge={{assigned}} matBadgeColor="accent"></span>
                 </ng-template>
@@ -70,11 +73,14 @@
                                 </mat-card-content>
                                 <mat-card-footer>
                                     <mat-card-actions class="card-section">
-                                        <div class="action-unassign">
+                                        <!-- <div class="action-unassign">
                                             <label>{{item.assignedName}}</label>
-                                        </div>
+                                        </div> -->
                                         <div [class]="'action-'+item.priorityName.toLowerCase()">
                                             <label>{{item.priorityName}}</label>
+                                        </div>
+                                        <div class="action-done">
+                                            <label>Done</label>
                                         </div>
                                     </mat-card-actions>
                                 </mat-card-footer>
@@ -102,11 +108,14 @@
                                 </mat-card-content>
                                 <mat-card-footer>
                                     <mat-card-actions class="card-section">
-                                        <div class="action-unassign">
+                                        <!-- <div class="action-unassign">
                                             <label>{{item.isAssigned?item.assignedName:'Unassigned'}}</label>
-                                        </div>
+                                        </div> -->
                                         <div [class]="'action-'+item.priorityName.toLowerCase()">
                                             <label>{{item.priorityName}}</label>
+                                        </div>
+                                        <div [class]="item.isDone?'action-done':'action-pending'">
+                                            <label>{{item.isDone?'Done':'Pending'}}</label>
                                         </div>
                                     </mat-card-actions>
                                 </mat-card-footer>
@@ -201,7 +210,7 @@
                     </div>
 
                 </div>
-                <div class="cthfooter" *ngIf="(ticketDetail?.ticketStatusId!==3&&ticketDetail?.isRequiredCommunicator)||(!ticketDetail?.isRequiredCommunicator&&ticketDetail?.status!==3)">
+                <div class="cthfooter" *ngIf="!ticketDetail?.isDone">
                     <div class="footerbody">
                         <div class="commentcontent" [formGroup]="commentform">
                             <textarea formControlName="Message" name="" id="" rows="4"
@@ -227,33 +236,28 @@
                     </div>
 
                 </div>
-                <div class="acknoledgefooter" *ngIf="ticketDetail?.ticketStatusId===3">
+                <div class="acknoledgefooter" *ngIf="ticketDetail?.isDone&&ticketDetail?.ticketStatus==='Open'">
                     <div class="acknowledge">
                         <div class="footerbody">
                             <label class="label1" for="">This ticket is closing</label>
                             <label class="label2" for="">Wait for the requester to confirm to finalize closure</label>
-                            <label class="label3" for="" (click)="decline()">or cancel</label>
+                            <label class="label3" for="" (click)="cancel()">or cancel</label>
                         </div>
                     </div>
                 </div>
 
-                <div class="acknoledgefooter" *ngIf="((ticketDetail?.ticketStatusId===3&&ticketDetail?.isRequiredCommunicator)||(userDetail.USR_ID===ticketDetail?.requestId&&ticketDetail?.ticketStatusId===3))&&ticketDetail?.status!==3">
+                <!-- <div class="acknoledgefooter" *ngIf="ticketDetail">
+                    <div class="acknowledge">
+                        <div class="footerbody" *ngIf="TicketStatus == 1 || TicketStatus == 4">
+                            <label class="label1" for="">This ticket is resolved</label>
+                        </div>
+                    </div>
+                </div> -->
+
+                <div class="acknoledgefooter" *ngIf="userDetail.DEPT_ID!==ticketDetail?.requestDepartmentId&&ticketDetail?.isDone">
                     <div class="acknowledge">
                         <div class="footerbody">
-                            <label class="label1" for="">This ticket is closing</label>
-                            <label class="label2" for="">Has your needs been fulfilled</label>
-                            <div class="acceptbutton">
-                                <button class="no" (click)="hDeclinedProgress()">No</button>
-                                <button class="yes" (click)="hAcceptProgress()">Yes</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="acknoledgefooter" *ngIf="Status == 4">
-                    <div class="acknowledge">
-                        <div class="footerbody" *ngIf="Status == 4">
-                            <label class="label1" for="">This ticket is resolved</label>
+                            <label class="label1" for="">This ticket is finished</label>
                         </div>
                     </div>
                 </div>
@@ -313,11 +317,11 @@
                                 </div>
                                 <div class="requester-name">
                                     <span>{{ticketDetail?.departmentName}}</span>
-                                    <span class="username">&#64;{{(ticketDetail?.categoryName??'Department Head').toLowerCase().replace(' ','')}}</span>
+                                    <span class="username">&#64;{{ticketDetail?.categoryName.toLowerCase().replace(' ','')}}</span>
                                 </div>
                             </div>
-                            <span *ngIf="ticketDetail?.isAssigned"><h4>Name</h4></span>
-                            <div class="detail" *ngIf="ticketDetail?.isAssigned">
+                            <span *ngIf="ticketDetail?.assignedId"><h4>Name</h4></span>
+                            <div class="detail" *ngIf="ticketDetail?.assignedId">
                                 <div class="icon-img">
                                     <mat-icon>flutter_dash</mat-icon>
                                 </div>
@@ -328,7 +332,7 @@
                             </div>
                         </mat-card-content>
                     </mat-card>
-                    <mat-card class="requestForwardTo-info" *ngIf="">
+                    <mat-card class="requestForwardTo-info" *ngIf="userDetail.ACT_TYP===5&&ticketDetail?.departmentId">
                         <mat-card-header>
                             <mat-card-title>Request-To-Forward</mat-card-title>
                         </mat-card-header>
@@ -363,22 +367,22 @@
                             </div>
                         </mat-card-content>
                     </mat-card>
-                    <!-- <div class="forward-resolve-container" *ngIf="ticketDetail?.status===2||ticketDetail?.status===5">
-                        <div [class]="ticketDetail?.isForwarded||ticketDetail?.status===6?'footer-buttons disabled':'footer-buttons'">
-                            <button class="btn-forward" mat-flat-button (click)="forwardingTicket()" [disabled]="ticketDetail?.isForwarded||ticketDetail?.status===6">
-                                <mat-icon iconPositionEnd>east</mat-icon>
-                                Forward
+                    <div class="forward-resolve-container" *ngIf="ticketDetail?.assignedId===userDetail.USR_ID&&ticketDetail?.ticketStatus==='Open'">
+                        <div [class]="ticketDetail?.isDone&&ticketDetail?.requestDepartmentId===userDetail.DEPT_ID?'footer-buttons disabled':'footer-buttons'">
+                            <button class="btn-forward" mat-flat-button (click)="onReturningTicket()" [disabled]="ticketDetail?.isDone&&ticketDetail?.requestDepartmentId===userDetail.DEPT_ID">
+                                <mat-icon>west</mat-icon>
+                                Return
                             </button>
                         </div>
-                        <div [class]="ticketDetail?.isForwarded||ticketDetail?.status===6?'footer-buttons disabled':'footer-buttons'">
-                            <button class="btn-resolve" mat-flat-button (click)="onResolvingTicket()" [disabled]="ticketDetail?.isForwarded||ticketDetail?.status===6">
-                                Resolve
+                        <div [class]="ticketDetail?.isDone?'footer-buttons disabled':'footer-buttons'">
+                            <button class="btn-resolve" mat-flat-button (click)="onResolvingTicket()" [disabled]="ticketDetail?.isDone">
+                                Done
                                 <mat-icon iconPositionEnd>check</mat-icon>
                             </button>
                         </div>
-                    </div> -->
+                    </div>
                     <!-- <div class="footer-inner-container" *ngIf="!ticketDetail?.isAssigned&&ticketDetail?.departmentId"> -->
-                    <!-- <div class="footer-inner-container" *ngIf="ticketDetail?.departmentId===userDetail.DEPT_ID&&!ticketDetail?.isAssigned" >
+                    <div class="footer-inner-container" *ngIf="userDetail.ACT_TYP==='5'&&ticketDetail?.departmentId===userDetail.DEPT_ID&&!ticketDetail?.isAssigned">
                         <div class="inner-content">
                             <div class="assign-to">
                                 <div>
@@ -392,12 +396,12 @@
                                         </mat-select>
                                     </div>
                                 </div>
-                                <div class="footer-buttons">
+                                <!-- <div class="footer-buttons">
                                     <button class="btn-return" mat-flat-button (click)="onReturningTicket()">
                                         <mat-icon>west</mat-icon>
                                         Return
                                     </button>
-                                </div>
+                                </div> -->
                                 <div class="footer-buttons">
                                     <button class="btn-assign" mat-flat-button (click)="onAssigningTicket()">
                                         Assign
@@ -407,54 +411,29 @@
                                 <div class="footer-buttons">
                                     <button class="btn-cancel" mat-flat-button >
                                         Cancel
+                                        <!-- <mat-icon iconPositionEnd>close</mat-icon> -->
                                     </button>
                                 </div>
                             </div>
                         </div>
-                    </div> -->
-                    <div class="forward-resolve-container0" *ngIf="ticketDetail?.ticketStatusId===4">
-                        <div [class]="ticketDetail?.status===1?'footer-buttons disabled':'footer-buttons'">
-                            <button class="btn-forward" mat-flat-button (click)="forwardingTicket()" [disabled]="ticketDetail?.status===1">
-                                <mat-icon iconPositionEnd>east</mat-icon>
-                                Forward
-                            </button>
-                        </div>
-                        <div [class]="ticketDetail?.status===1||(ticketDetail?.status===3&&ticketDetail?.ticketStatusId===4)?'footer-buttons disabled':'footer-buttons'">
-                            <button class="btn-resolve" mat-flat-button (click)="onResolvingTicket()" [disabled]="ticketDetail?.status===1||(ticketDetail?.status===3&&ticketDetail?.ticketStatusId===4)">
-                                Resolve
-                                <mat-icon iconPositionEnd>check</mat-icon>
-                            </button>
-                        </div>
-                        <!-- <div [class]="ticketDetail?.status===1?'footer-buttons disabled':'footer-buttons'">
-                            <button class="btn-return" mat-flat-button [disabled]="ticketDetail?.status===1">
-                                <mat-icon >west</mat-icon>
-                                Return
-                            </button>
-                        </div> -->
                     </div>
-                    <div class="forward-resolve-container" *ngIf="!ticketDetail?.isAssigned">
+                    <div class="forward-resolve-container" *ngIf="!ticketDetail?.departmentId">
                         <div [class]="ticketDetail?.status===1?'footer-buttons disabled':'footer-buttons'">
-                            <button class="btn-forward" mat-flat-button (click)="forwardingTicket()" [disabled]="ticketDetail?.status===1">
+                            <button class="btn-forward" mat-flat-button [disabled]="ticketDetail?.status===1">
                                 <mat-icon iconPositionEnd>east</mat-icon>
                                 Forward
                             </button>
                         </div>
-                        <!-- <div class="footer-buttons">
-                            <button class="btn-assign" mat-flat-button (click)="onAssigningTicket()">
-                                Assign
-                                <mat-icon iconPositionEnd>edit_square</mat-icon>
-                            </button>
-                        </div> -->
                         <div [class]="ticketDetail?.status===1?'footer-buttons disabled':'footer-buttons'">
-                            <button class="btn-resolve" mat-flat-button (click)="onResolvingTicket()" [disabled]="ticketDetail?.status===1">
+                            <button class="btn-resolve" mat-flat-button [disabled]="ticketDetail?.status===1">
                                 Resolve
                                 <mat-icon iconPositionEnd>check</mat-icon>
                             </button>
                         </div>
-                        <div [class]="ticketDetail?.status===1||ticketDetail?.ticketStatusId===4||ticketDetail?.ticketStatusId===3?'footer-buttons disabled':'footer-buttons'">
-                            <button class="btn-cancel" mat-flat-button (click)="onCancellingTicket()" [disabled]="ticketDetail?.status===1||ticketDetail?.ticketStatusId===4||ticketDetail?.ticketStatusId===3">
+                        <div [class]="ticketDetail?.status===1?'footer-buttons disabled':'footer-buttons'">
+                            <button class="btn-cancel" mat-flat-button [disabled]="ticketDetail?.status===1">
                                 Cancel
-                                <!-- <mat-icon iconPositionEnd>close</mat-icon> -->
+                                <mat-icon iconPositionEnd>close</mat-icon>
                             </button>
                         </div>
                     </div>

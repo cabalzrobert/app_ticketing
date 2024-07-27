@@ -10,6 +10,14 @@
 
 }
 
+.spinner{
+    position: absolute;
+    max-height: 75px;
+    max-width: 75px;
+    z-index: 1000;
+    translate: 50vh 50vh;
+}
+
 mat-tab-group {
     position: relative;
     padding: 0 25px;
@@ -91,6 +99,11 @@ mat-card {
         background-color: rgba(red, 0.1);
         border-color: red;
     }
+    .action-done{
+        color: rgb(0, 198, 0);
+        background-color: rgba(green, 0.1);
+        border-color: green;
+    }
 }
 
 .ticket-list-container {
@@ -122,11 +135,6 @@ mat-card {
     height: 100%;
     // width: 100%;
     overflow-y: scroll;
-}
-
-.isnotOpen {
-    background: #ECECEC;
-    //color: white;
 }
 
 
@@ -210,15 +218,17 @@ mat-card {
 .side-info-content {
     height: 100%;
     padding: 25px;
+    //Update by Robert
+    overflow: auto;
 }
 
 .ticket-header {
     //height: 125px;
+    margin-top: 25px;
     height: auto;
     display: flex;
     flex-direction: column;
     gap: 10px;
-    margin-top:25px;
 }
 
 .ticket-toolbar {
@@ -228,6 +238,7 @@ mat-card {
     //height: 75px;
     height: auto;
     margin: 0px 25px;
+    height: auto;;
 
     // font-size: 20px;
     mat-icon {
@@ -267,15 +278,12 @@ mat-card {
 
 .side-inner-content {
     display: grid;
-    row-gap: 15px;
+    row-gap: 10px;
     justify-content: center;
-    width: 262px;
-
-    mat-card {
+    mat-card{
         margin-left: unset;
         margin-right: unset;
     }
-
     .card-requester-detail mat-card-header {
         display: flex;
 
@@ -312,19 +320,17 @@ mat-card {
             }
         }
 
-        .requester-name {
+        .requester-name{
             width: 160px;
             display: grid;
             row-gap: 5px;
         }
-
-        span {
+        span{
             display: block;
             white-space: nowrap;
             text-overflow: ellipsis;
             overflow: hidden;
-
-            // width: 150px;
+            
             &.username {
                 font-size: 14px;
                 color: #7E7E7E;
@@ -340,6 +346,7 @@ mat-card {
 
         span {
             color: #000;
+            
         }
 
         .ticketno {
@@ -437,7 +444,7 @@ mat-card {
         }
 
         .requester-name {
-            width: 150px;
+            width: 160px;
             display: grid;
             row-gap: 5px;
         }
@@ -456,8 +463,40 @@ mat-card {
         }
     }
 
+    .requestForwardTo-info mat-card-content{
+        display: grid;
+        row-gap: 20px;
+        padding: 16px;
+
+        .detail {
+            display: flex;
+            align-items: center;
+            padding: 0px 0px 16px 10px;
+            gap: 20px;
+        }
+
+        .requester-name {
+            width: 100%;
+            display: grid;
+            row-gap: 5px;
+        }
+
+        span {
+            display: block;
+            // white-space: nowrap;
+            // text-overflow: ellipsis;
+            // overflow: hidden;
+
+            // width: 150px;
+            &.username {
+                font-size: 14px;
+                color: #7E7E7E;
+            }
+        }
+    }
+
     .footer-inner-container {
-        // height: 43.5vh;
+        // height: 43vh;
         width: 100%;
         display: flex;
         align-items: end;
@@ -467,30 +506,30 @@ mat-card {
 
             div>h2 {
                 text-align: center;
-                margin-bottom: 40px;
+                margin-bottom: 25px;
             }
 
-            .footer-buttons {
-                margin-top: 25px;
-            }
+            // .footer-buttons {
+            //     margin-top: 5px;
+            // }
 
-            button {
-                width: 100%;
-                background: #4845D2;
-                color: #fff;
-                font-size: 18px;
-            }
+            // button {
+            //     width: 100%;
+            //     background: #4845D2;
+            //     color: #fff;
+            //     font-size: 18px;
+            // }
 
             .searchbar {
-                margin-bottom: 2.5px;
+                margin-bottom: 25px;
 
                 .select-label {
-                    // margin-bottom: 5px;
+                    margin-bottom: 5px;
                 }
 
                 .custom-select {
                     height: 32px;
-                    width: 262px;
+                    width: 100%;
                     display: flex;
                     align-items: center;
                     border: #4845D2 1px solid;
@@ -501,6 +540,35 @@ mat-card {
             }
         }
     }
+}
+
+.footer-buttons {
+    margin-top: 5px;
+    button {
+        width: 100%;
+        background: #4845D2;
+        color: #fff;
+        font-size: 18px;
+    }
+}
+
+.disabled{
+    cursor: not-allowed;
+    opacity: 0.75;
+}
+
+.btn-forward{
+    background: #fff !important;
+    color: #4845D2 !important;
+    border: #4845D2 1px solid;
+}
+
+.btn-resolve{
+    background: #4caf50 !important;
+}
+
+.btn-cancel{
+    background: red !important;
 }
 
 .modal-backdrop {
@@ -700,6 +768,9 @@ mat-card {
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                color: #4845D2;
+                font-size: 18px;
+                font-weight: bold;
             }
             .label2{
                 display: flex;
@@ -936,6 +1007,7 @@ mat-card {
 }
 
 
+
 :host ::ng-deep .mat-horizontal-stepper-header-container {
     display: none;
 }
@@ -953,9 +1025,13 @@ mat-card {
     max-width: 179px;
 }
 
-:host ::ng-deep .mat-mdc-card-header {
+:host ::ng-deep .mat-mdc-card-header{
     justify-content: space-between;
     align-items: center;
+}
+:host ::ng-deep .mat-stepper-horizontal{
+    width: 100%;
+    min-width: 768px;
 }
 
 .nodata {

@@ -1,5 +1,5 @@
 import { AfterViewChecked, ChangeDetectorRef, Component, ElementRef, EventEmitter, HostListener, Inject, OnInit, Output, PLATFORM_ID, ViewChild, output } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { NewticketmodalComponent } from '../ticket-main-page/newticketmodal/newticketmodal.component';
 import { jUser, jUserModify } from '../../+app/user-module';
 import { DOCUMENT } from '@angular/common';
@@ -202,13 +202,14 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
   AssignedAccount: String = '';
   AssignedAccountname: String = '';
   LastMessage: String = '';
-  DepartmenName: String = '';
+  DepartmentName: String = '';
   DepartmentID: String = ''
   AssignedAccountEmail: String = ''
   AssignedAccountProfilePicture: String = ''
   ticketupdate: any = {};
 
   async hViewComment(data: any, idx: number) {
+    console.log(data);
     this.ticketupdate = data;
     this.ticketindex = idx;
     this.viewRequestorPage = true;
@@ -225,8 +226,8 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
     this.isAssigned = data.isAssigned;
     this.AssignedAccountname = data.AssignedAccountname;
     this.LastMessage = data.LastMessage;
-    this.DepartmenName = data.DepartmentName;
-    this.DepartmentID = data.DepartmentID;
+    this.DepartmentName = data.DepartmentName;
+    this.DepartmentID = data.Department;
     this.AssignedAccount = data.AssignedAccount;
     this.AssignedAccountname = data.AssignedAccountname;
     this.AssignedAccountEmail = data.AssignedAccountEmail;
@@ -245,19 +246,31 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
     //console.log('this.ticketcomment 219', await this.LastMessage);
   }
   openpopnewticket() {
-    this.ticketlist = [];
-    this.ticketDialogRef = this.dialog.open(NewticketmodalComponent, { data: { item: null, Title: 'Create Ticket', SaveButtonText: 'Create Ticket' } });
-    this.ticketDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
-      console.log('openpopnewticket', o);
-      this.ticketpending.unshift(o);
-      this.ticketlist = this.ticketpending;
-      this.ticketpending = [];
-      this.ticketpending = this.ticketpending.concat(this.ticketlist);
-      this.ticketlist = [];
-      this.pending = (parseInt(this.pending) + 1).toString();
-      this.allticket = (parseInt(this.allticket) + 1).toString();
-      console.log('ticketpending', this.ticketpending);
-    });
+    if(this.input.ACT_TYP==5){
+      const dialogRef = this.dialog.open(RequestTicketMessageBoxDialog,{
+        width: '15%',
+      });
+  
+      dialogRef.afterClosed().subscribe((result)=>{
+        console.log('Create Ticket',result);
+        this.ticketDialogRef = this.dialog.open(NewticketmodalComponent, { data: { item: null, Title: 'Create Ticket', SaveButtonText: 'Create Ticket', IsRequiredOtherDepartment: result } });
+        this.ticketDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
+          console.log('openpopnewticket', o);
+          this.ticketpending.unshift(o);
+          this.pending = (parseInt(this.pending) + 1).toString();
+          this.allticket = (parseInt(this.allticket) + 1).toString();
+        });
+      });
+    }else{
+      this.ticketDialogRef = this.dialog.open(NewticketmodalComponent, { data: { item: null, Title: 'Create Ticket', SaveButtonText: 'Create Ticket', IsRequiredOtherDepartment: false } });
+      this.ticketDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
+        console.log('openpopnewticket', o);
+        this.ticketpending.unshift(o);
+        this.pending = (parseInt(this.pending) + 1).toString();
+        this.allticket = (parseInt(this.allticket) + 1).toString();
+      });
+    }
+
   }
   hUpdateTicket() {
     console.log('hUdpate this.ticketupdate', this.ticketupdate);
@@ -1793,10 +1806,10 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
     _data.TransactionNo = this.TransactionNo;
     _data.TicketNo = this.TicketNo;
     _data.ActionEvent = ActionEvent;
-    _data.Status = 4;
+    _data.Status = 1;
     title = Title;
     if (ActionEvent == 0) {
-      _data.Status = 3
+      _data.Status = 0
     }
     // else if(ActionEvent == 1)
     //   _data.Status = 4
@@ -1810,7 +1823,7 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
 
         console.log('Close Ticket Progress', o);
         console.log('Close Ticket Progress this.ticketindex', this.ticketindex);
-        this.Status = o.Status;
+        this.TicketStatus = 1;
         this.hRemoveItem();
         //this.ticketpending.slice(this.ticketindex,1);
         //console.log('Close Ticket Progress this.ticketpending', this.ticketpending);
@@ -1821,7 +1834,7 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
 
         //console.log('Close Ticket Progress', o);
         //console.log('Close Ticket Progress this.ticketindex', this.ticketindex);
-        this.Status = o.Status;
+        this.TicketStatus = 0;
         //this.hRemoveItem();
         //this.ticketpending.slice(this.ticketindex,1);
         //console.log('Close Ticket Progress this.ticketpending', this.ticketpending);
@@ -2130,5 +2143,20 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
   ticketCommentListDetails(item: any) {
     console.log('ticketCommentListDetails', item);
     return ({ Branch_ID: item.Branch_ID, CommentDate: item.CommentDate, CommentID: item.CommentID, Company_ID: item.Company_ID, Department: '', DisplayName: item.DisplayName, FileAttachment: item.FileAttachment, ImageAttachment: item.ImageAttachment, IsYou: true, Message: item.Message, ProfilePicture: item.ProfilePicture, SenderID: item.SenderID, TransactionNo: item.TransactionNo, isFile: item.isFile, isImage: item.isImage, isMessage: item.isMessage, isRead: false })
+  }
+}
+
+@Component({
+  selector: 'app-message-box-dialog',
+  templateUrl: 'modal/message-box-dialog.html',
+  styleUrl: 'modal/message-box-dialog.scss'
+})
+
+export class RequestTicketMessageBoxDialog {
+
+  constructor(private dialog: MatDialog, private dialogRef: MatDialogRef<RequestorticketpageComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
+
+  confirm() {
+    this.dialogRef.close(true);
   }
 }

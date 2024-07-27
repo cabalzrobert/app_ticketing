@@ -123,34 +123,64 @@
                 <cdk-virtual-scroll-viewport class="scrolling-container" (scrolledIndexChange)="hScrollIndexChange()"
                     [itemSize]="50">
                     <div *cdkVirtualFor="let data of ticketpending; let i = index">
-                        <div class="cardticketcontent">
-                            <!-- <div class="cardheader">
-                                <div class="headertitle">{{data.TitleTicket}}</div>
-                                <div class="headerdate">{{dateFormatted(true, data.CreatedDate)}}</div>
-                            </div>
-                            <div class="cardticketbody">{{data.TicketDescription}}</div> -->
-    
-    
-                            <div class="cardheader">
-                                <div class="headertitle">{{data.TitleTicket}}</div>
-                                <div class="headerdate">{{dateFormatted(true, data.CreatedDate)}}</div>
-                            </div>
-                            <div class="cardticketbody">{{data.TicketDescription}}</div>
-                            <div class="cardticketfooter">
-                                <button>{{data.Statusname}}</button>
-                                <div class="prioritylevel">
-                                    {{data.PriorityLevelname}}
+                        <div class="cardticket1" *ngIf="!data.isRead">
+                            <div class="cardticketcontent" (click)="hViewComment(data, i)">
+                                <!-- <div class="cardheader">
+                                    <div class="headertitle">{{data.TitleTicket}}</div>
+                                    <div class="headerdate">{{dateFormatted(true, data.CreatedDate)}}</div>
                                 </div>
-                            </div>
-    
-                            <!-- <div class="cardticketfooter">
-                                <button>Unassigned</button>
-                                <div class="prioritylevel">
-                                    {{data.PriorityLevel}}
+                                <div class="cardticketbody">{{data.TicketDescription}}</div> -->
+        
+        
+                                <div class="cardheader">
+                                    <div class="headertitle">{{data.TitleTicket}}</div>
+                                    <div class="headerdate">{{dateFormatted(true, data.CreatedDate)}}</div>
                                 </div>
-                            </div> -->
+                                <div class="cardticketbody">{{data.TicketDescription}}</div>
+                                <div class="cardticketfooter">
+                                    <button>{{data.Statusname}}</button>
+                                    <div class="prioritylevel">
+                                        {{data.PriorityLevelname}}
+                                    </div>
+                                </div>
+        
+                                <!-- <div class="cardticketfooter">
+                                    <button>Unassigned</button>
+                                    <div class="prioritylevel">
+                                        {{data.PriorityLevel}}
+                                    </div>
+                                </div> -->
+                            </div>
                         </div>
-    
+                        <div class="cardticket" *ngIf="data.isRead">
+                            <div class="cardticketcontent" (click)="hViewComment(data, i)">
+                                <!-- <div class="cardheader">
+                                    <div class="headertitle">{{data.TitleTicket}}</div>
+                                    <div class="headerdate">{{dateFormatted(true, data.CreatedDate)}}</div>
+                                </div>
+                                <div class="cardticketbody">{{data.TicketDescription}}</div> -->
+        
+        
+                                <div class="cardheader">
+                                    <div class="headertitle">{{data.TitleTicket}}</div>
+                                    <div class="headerdate">{{dateFormatted(true, data.CreatedDate)}}</div>
+                                </div>
+                                <div class="cardticketbody">{{data.TicketDescription}}</div>
+                                <div class="cardticketfooter">
+                                    <button>{{data.Statusname}}</button>
+                                    <div class="prioritylevel">
+                                        {{data.PriorityLevelname}}
+                                    </div>
+                                </div>
+        
+                                <!-- <div class="cardticketfooter">
+                                    <button>Unassigned</button>
+                                    <div class="prioritylevel">
+                                        {{data.PriorityLevel}}
+                                    </div>
+                                </div> -->
+                            </div>
+                        </div>
                     </div>
                 </cdk-virtual-scroll-viewport>
                 
@@ -289,7 +319,7 @@
 
                 </div>
 
-                <div class="cthfooter" *ngIf="Status != 4 && Status !=6 ">
+                <div class="cthfooter" *ngIf="!(TicketStatus == 3 || TicketStatus == 1)">
                     <div class="footerbody">
                         <div class="commentcontent" [formGroup]="commentform">
                             <textarea formControlName="Message" name="" id="" rows="4"
@@ -325,9 +355,8 @@
                             <button (click)="hSendComment()">Send</button>
                         </div>
                     </div>
-
                 </div>
-                <div class="acknoledgefooter" *ngIf="Status == 6">
+                <div class="acknoledgefooter" *ngIf="TicketStatus == 3">
                     <div class="acknowledge">
                         <div class="footerbody">
                             <label class="label1" for="">This ticket is closing</label>
@@ -340,9 +369,9 @@
                     </div>
                 </div>
 
-                <div class="acknoledgefooter" *ngIf="Status == 4">
+                <div class="acknoledgefooter" *ngIf="TicketStatus == 1 || TicketStatus == 4">
                     <div class="acknowledge">
-                        <div class="footerbody" *ngIf="Status == 4">
+                        <div class="footerbody" *ngIf="TicketStatus == 1 || TicketStatus == 4">
                             <label class="label1" for="">This ticket is resolved</label>
                         </div>
                     </div>
@@ -383,14 +412,14 @@
                 <div>
 
                 </div>
-                <div class="ticketassigninfo" *ngIf="DepartmenName != '' ">
-                    <div *ngIf="DepartmenName != ''">
+                <div class="ticketassigninfo" *ngIf="DepartmentName != '' ">
+                    <div *ngIf="DepartmentName != ''">
                         <div class="assignedto">Assigned to</div>
                         <div class="departmentinfo">Department</div>
                         <div class="departmentheadinfo">
                             <img src="assets/image/icon_blank_profile.png" alt="">
                             <div class="headinfo">
-                                <div class="depthead">{{DepartmenName}}</div>
+                                <div class="depthead">{{DepartmentName}}</div>
                                 <!-- <label for="">{{'teamsneak3&#64;gmail.com'}}</label> -->
                             </div>
                         </div>
@@ -413,7 +442,7 @@
                     </div>
 
                 </div>
-                <div *ngIf="Status != 4" class="update" (click)="hUpdateTicket()">
+                <div *ngIf="TicketStatus != 1" class="update" (click)="hUpdateTicket()">
                     <i class="fa fa-regular fa-edit"></i>
                     <button>Update</button>
                 </div>

@@ -1,0 +1,20 @@
+<div class="confirmation-msg" >
+    <mat-toolbar class="mat-dialog-header">
+        <h3>Confirm</h3>
+        <!-- <mat-icon mat-dialog-close>close</mat-icon> -->
+    </mat-toolbar>
+    <div class="content">
+        <div class="message">
+            <!-- <p>You are about to resolve this ticket. Are you sure all requirements have been meet?</p> -->
+            <p>This ticket is intended to other department?</p>
+        </div>
+        <div class="buttons">
+            <button class="btn-close" mat-button cdkFocusInitial [mat-dialog-close]="false">
+                No
+            </button>
+            <button class="btn-confirm" mat-flat-button (click)="confirm()">
+                Yes
+            </button>
+        </div>
+    </div>
+</div>

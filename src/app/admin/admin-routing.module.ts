@@ -12,6 +12,7 @@ import { SuperadminpageComponent } from './superadminpage/superadminpage.compone
 import { SidenavComponent } from '../sidenav/sidenav.component';
 import { CommunicatorTicketComponent } from './communicator-ticket/communicator-ticket.component';
 import { HeadTicketsComponent } from './head-tickets/head-tickets.component';
+import { MyTaskComponent } from './my-task/my-task.component';
 // import { CommunicatorTicketComponent } from '../communicator/communicator-ticket/communicator-ticket.component';
 
 const routes: Routes = [
@@ -23,6 +24,7 @@ const routes: Routes = [
       //{ path: 'dashboard', component: OverviewPageComponent },
       { path: 'assignedticket', component:HeadTicketsComponent, loadChildren: () => import('./head-tickets/head-tickets.module').then(m=>m.HeadTicketsModule)},
       { path: 'receivedtickets', component:CommunicatorTicketComponent, loadChildren: () => import('./communicator-ticket/communicator-ticket.module').then(m=>m.CommunicatorTicketModule)},
+      { path: 'myTask', component: MyTaskComponent, loadChildren: () => import('./my-task/my-task.module').then(m=>m.MyTaskModule)},
       //{path:'ticket', component:TicketMainPageComponent},
       //{ path: 'adminsettings', loadChildren:()=> import('./setting-main-page/setting-main-page.module').then((m) =>m.SettingMainPageModule)},
       // {

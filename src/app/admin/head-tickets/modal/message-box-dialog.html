@@ -1,6 +1,6 @@
-<div class="message-box-container" *ngIf="data.Type!=='confirmation'">
+<div class="message-box-container" *ngIf="data.Type!=='confirmation'&&data.Type!=='resolve'">
     <div class="progress-container" *ngIf="data.Type==='progress'">
-        <mat-spinner class="spinner"></mat-spinner>
+        <mat-spinner class="spinner1"></mat-spinner>
         <label>Loading please wait...</label>
     </div>
     <div class="success-msg" *ngIf="data.Type==='message'">
@@ -16,19 +16,40 @@
 </div>
 <div class="confirmation-msg" *ngIf="data.Type==='confirmation'">
     <mat-toolbar class="mat-dialog-header">
-        <h3>Confirm Resolution</h3>
+        <h3>Confirm</h3>
         <!-- <mat-icon mat-dialog-close>close</mat-icon> -->
     </mat-toolbar>
     <div class="content">
         <div class="message">
-            <p>You are about to resolve this ticket. Are you sure all requirements have been meet?</p>
+            <!-- <p>You are about to resolve this ticket. Are you sure all requirements have been meet?</p> -->
+            <p>{{data.Message}}</p>
         </div>
         <div class="buttons">
             <button class="btn-close" mat-button cdkFocusInitial [mat-dialog-close]="false">
-                Close
+                {{data.IsForward?'No':'Close'}}
             </button>
             <button class="btn-confirm" mat-flat-button (click)="confirm()">
-                Confirm
+                {{data.IsForward?'Yes':'Confirm'}}
+            </button>
+        </div>
+    </div>
+</div>
+<div class="confirmation-msg" *ngIf="data.Type==='resolve'">
+    <mat-toolbar class="mat-dialog-header">
+        <h3>Confirm</h3>
+        <!-- <mat-icon mat-dialog-close>close</mat-icon> -->
+    </mat-toolbar>
+    <div class="content">
+        <div class="message">
+            <!-- <p>You are about to resolve this ticket. Are you sure all requirements have been meet?</p> -->
+            <p>{{data.Message}}</p>
+        </div>
+        <div class="buttons">
+            <button class="btn-close" mat-button cdkFocusInitial [mat-dialog-close]="false" (click)="onConfirmNo()">
+               No
+            </button>
+            <button class="btn-confirm" mat-flat-button (click)="onConfirmYes()">
+                Yes
             </button>
         </div>
     </div>

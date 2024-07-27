@@ -5,21 +5,31 @@
         <button (click)="closedialogNewTicket()" class="fa fa-times"></button>
     </div>
     <div class="ticketmodalcontent">
-        <div class="categorycard">
+        <div class="categorycard" *ngIf="userDetail?.ACT_TYP==='5'&&ticketdata.IsRequiredOtherDepartment">
+            <label for="">Department</label>
+            <div class="selectcat">
+                <mat-select formControlName="Department" placeholder="Select Department">
+                    <mat-option *ngFor="let department of departments"
+                        [value]="department.DepartmentID" >{{department.DepartmentName}}</mat-option>
+                </mat-select>
+            </div>
+        </div>
+        <div class="categorycard" *ngIf="userDetail?.ACT_TYP==='5'&&!ticketdata.IsRequiredOtherDepartment">
             <label for="">Category</label>
             <div class="selectcat">
-                <!-- <select formControlName="Category" name="" id="">
-                    <option value="">Please Select Catgory</option>
-                    <option value="1">Sample Category 1</option>
-                    <option value="2">Sample Category 2</option>
-                    <option value="3">Sample Category 3</option>
-                    <option value="4">Sample Category 4</option>
-                    <option value="5">Sample Category 5</option>
-                </select> -->
                 <mat-select formControlName="Category" placeholder="Select Category"
                     (selectionChange)="CategorySelectedValue($event)">
                     <mat-option *ngFor="let cat of categorylist asyn"
                         [value]="cat.CategoryID">{{cat.Categoryname}}</mat-option>
+                </mat-select>
+            </div>
+        </div>
+        <div class="categorycard" *ngIf="userDetail?.ACT_TYP==='5'&&!ticketdata.IsRequiredOtherDepartment">
+            <label for="">Personnel</label>
+            <div class="selectcat">
+                <mat-select formControlName="Personnel" placeholder="Select Personnel">
+                    <mat-option *ngFor="let personnel of personnels asyn"
+                        [value]="personnel.userId" >{{personnel.name}}</mat-option>
                 </mat-select>
             </div>
         </div>

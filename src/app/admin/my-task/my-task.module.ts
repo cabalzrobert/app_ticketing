@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { HeadTicketsRoutingModule } from './head-tickets-routing.module';
-import { TicketComponent } from './ticket/ticket.component';
-import { ForwardDialog, HeadTicketsComponent, MessageBoxDialog } from './head-tickets.component';
+import { MyTaskRoutingModule } from './my-task-routing.module';
+import { ForwardDialog, MessageBoxDialog, MyTaskComponent } from './my-task.component';
+import { NewTicketDialogComponent } from './modal/new-ticket-dialog/new-ticket-dialog.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
@@ -17,24 +17,20 @@ import { MatRippleModule } from '@angular/material/core';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSelectModule } from '@angular/material/select';
-import { MatDialogContent, MatDialogModule } from '@angular/material/dialog';
-import { NewTicketDialogComponent } from './modal/new-ticket-dialog/new-ticket-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
   declarations: [
-    // HeadTicketsComponent,
-    TicketComponent,
     NewTicketDialogComponent,
     MessageBoxDialog,
     ForwardDialog
   ],
   imports: [
     CommonModule,
-    HeadTicketsRoutingModule,
+    MyTaskRoutingModule,
     MatSidenavModule,
     MatListModule,
     MatIconModule,
@@ -50,8 +46,7 @@ import { FormsModule } from '@angular/forms';
     MatSelectModule,
     MatDialogModule,
     MatProgressSpinnerModule,
-    FormsModule,
-    MatCheckboxModule
+    FormsModule
   ]
 })
-export class HeadTicketsModule { }
+export class MyTaskModule { }

@@ -64,6 +64,9 @@ import { AlertSuccessModalComponent } from './modalpage/alert-success-modal/aler
 import { ViewAttachImageModalComponent } from './modalpage/view-attach-image-modal/view-attach-image-modal.component';
 import { AlertSuccessModalDepartmentComponent } from './modalpage/alert-success-modal-department/alert-success-modal-department.component';
 import { SubmitModalDepartmentComponent } from './modalpage/submit-modal-department/submit-modal-department.component';
+import { MyTaskModule } from './my-task/my-task.module';
+import { MyTaskComponent } from './my-task/my-task.component';
+import { RequestTicketMessageBoxDialog } from './requestorticketpage/requestorticketpage.component';
 
 //import { SettingsdepartmentComponent } from './setting-main-page/settingsdepartment/settingsdepartment.component';
 //import { BrowserModule } from '@angular/platform-browser';
@@ -93,6 +96,7 @@ import { SubmitModalDepartmentComponent } from './modalpage/submit-modal-departm
     ViewRolesModalComponent,
     CommunicatorTicketComponent,
     HeadTicketsComponent,
+    MyTaskComponent,
 
     ProfileComponent,
     MessageDialog,
@@ -103,7 +107,8 @@ import { SubmitModalDepartmentComponent } from './modalpage/submit-modal-departm
     AlertSuccessModalComponent,
     ViewAttachImageModalComponent,
     AlertSuccessModalDepartmentComponent,
-    SubmitModalDepartmentComponent
+    SubmitModalDepartmentComponent,
+    RequestTicketMessageBoxDialog
 
     // TicketComponent
   ],
@@ -139,6 +144,7 @@ import { SubmitModalDepartmentComponent } from './modalpage/submit-modal-departm
     MatNativeDateModule,
     NgOtpInputModule,
     ScrollingModule,
+    MyTaskModule
     //SidenavComponent
 
   ],

@@ -84,11 +84,7 @@
                     </div>
                 </ng-template>
             </mat-tab>
-
-
-
-            
-            <mat-tab>
+            <!-- <mat-tab>
                 <ng-template mat-tab-label matBadgeColor="accent">
                     <span style="font-size: 20px;">Resolved</span>
                     <span class="mat-badge-icon" *ngIf="assigned > 0" matBadge={{resolved}} matBadgeColor="accent"></span>
@@ -123,12 +119,7 @@
                         </cdk-virtual-scroll-viewport>
                     </div>
                 </ng-template>
-            </mat-tab>
-
-
-
-
-
+            </mat-tab> -->
             <mat-tab>
                 <ng-template mat-tab-label>
                     <span style="font-size: 20px;">All</span>
@@ -137,7 +128,7 @@
                 <ng-template class="tab-content" matTabContent>
                     <div class="ticket-list-container">
                         <cdk-virtual-scroll-viewport class="scrolling-container" [itemSize]="196" (scrolledIndexChange)="nextBatch({tab:tabRef.selectedIndex, IsReset: true})">
-                            <mat-card *cdkVirtualFor="let item of collections index as i" (click)="next(item, i)" draggable="true">
+                            <mat-card *cdkVirtualFor="let item of collections index as i" (click)="next(item, i)">
                                 <mat-card-header>
                                     <mat-card-title>{{item.title}}</mat-card-title>
                                     <span style="font-size: 18px;">{{dateFormatted(true,item.dateCreated)}}</span>
@@ -151,7 +142,7 @@
                                             <label>
                                                 {{
                                                     !!item.assignedId?item.assignedName
-                                                    :!!item.departmentId?item.departmentName
+                                                    :!!item.departmentId&&item.status!==1?item.departmentName
                                                     :'Unassigned'
                                                 }}
                                             </label>
@@ -167,7 +158,6 @@
                 </ng-template>
             </mat-tab>
         </mat-tab-group>
-        
     </mat-step>
     <mat-step>
         <div class="ticket-container">
@@ -182,9 +172,118 @@
                     </p>
                     <p class="ticket-description">{{ticketDetail?.description}}</p>
                 </div>
-                <div class="ticket-comment">
-                    <!-- <router-outlet></router-outlet> -->
+                <!-- <div class="ticket-comment">
                     <app-ticket [detail]="ticketDetail" [messageHandler]="ticketDetail.messageHandler"></app-ticket>
+                </div> -->
+                <div class="cthbody">
+                    <div class="body">
+                        <div class="bodyheader">
+                            <div class="cthbodyheader">
+                                <label for="">Conversation</label>
+                                <mat-icon>more_vert</mat-icon>
+                            </div>
+                        </div>
+                        <div #tabsContentRefComment [scrollTop]="tabsContentRefComment.scrollHeight"
+                            class="bodycontent">
+                            <div class="commentlist" *ngFor="let data of ticketcomment">
+
+                                <div class="notyourcomment" *ngIf="!data.IsYou && data.isMessage">
+                                    <div class="profpic">
+                                        <img src="assets/image/icon_blank_profile.png" alt="">
+                                    </div>
+                                    <div class="commentcard">
+                                        <div class="message" *ngIf="data.isMessage && !data.isImage">{{data.Message}}
+                                        </div>
+                                        <div class="attachmFile" *ngIf="data.isImage">
+                                            <img *ngIf="data.ImageAttachment != ''" src={{data.ImageAttachment}} alt="">
+                                            <img *ngIf="data.ImageAttachment == ''"
+                                                src="assets/image/icon_blank_profile.png" alt="">
+                                        </div>
+
+                                        <div class="commenter">
+                                            <div>{{data.DisplayName}}</div>
+                                            <label for="">{{data.CommentDate}}</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="isyourcomment" *ngIf="data.IsYou && data.isMessage">
+                                    <div class="yourcommentcard">
+                                        <div class="message" *ngIf="data.isMessage && !data.isImage">{{data.Message}}
+                                        </div>
+                                        <div class="attachmFile" *ngIf="data.isImage">
+                                            <img *ngIf="data.ImageAttachment != ''" src={{data.ImageAttachment}} alt="">
+                                            <img *ngIf="data.ImageAttachment == ''"
+                                                src="assets/image/icon_blank_profile.png" alt="">
+                                        </div>
+                                        <div class="commenter">
+                                            <div>{{data.DisplayName}}</div>
+                                            <label for="">{{data.CommentDate}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="profpic">
+                                        <img src="assets/image/icon_blank_profile.png" alt="">
+                                    </div>
+                                </div>
+                                <div class="isforwarded" *ngIf="!data.IsYou && !data.isMessage">
+                                    <div class="forwarded">
+                                        <label for="">Ticket has been forwarded to&nbsp;</label>
+                                        <div class="forwardinfo"> {{data.Department}}&nbsp;>&nbsp;{{data.DisplayName}}
+                                        </div>
+                                    </div>
+                                    <div class="messageinfo">
+                                        <div class="message">{{data.Message}}</div>
+                                        <div class="date">{{data.CommentDate}}</div>
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="cthfooter" *ngIf="Status != 4 && Status !=6 && ticketDetail?.status !== 6 ">
+                    <div class="footerbody">
+                        <div class="commentcontent" [formGroup]="commentform">
+                            <textarea formControlName="Message" name="" id="" rows="4"
+                                placeholder="Write  your response for issue"></textarea>
+                        </div>
+                        <div class="buttoncomment">
+
+                            <div class="attachmentcomment">
+
+                                <label for="file1">
+
+                                    <div class="fa fa-paperclip"></div>
+                                    <span>Attachment</span>
+
+                                </label>
+
+                                <input *ngIf="uploaded.length < 5" #fileInput id="file1" type="file"
+                                    accept=".png, .jpg, .gif" name="file"
+                                    (change)="onFileSelected($event, fileInput)" />
+                            </div>
+                            <button (click)="hSendComment()">Send</button>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- <div class="acknoledgefooter" *ngIf="Status == 6 || ticketDetail?.status === 6">
+                    <div class="acknowledge">
+                        <div class="footerbody">
+                            <label class="label1" for="">This ticket is closing</label>
+                            <label class="label2" for="">Wait for the requester to confirm to finalize closure</label>
+                            <label class="label3" for="" (click)="decline()">or cancel</label>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="acknoledgefooter" *ngIf="Status == 4">
+                    <div class="acknowledge">
+                        <div class="footerbody" *ngIf="Status == 4">
+                            <label class="label1" for="">This ticket is resolved</label>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="side-info-content">
@@ -228,7 +327,7 @@
                         </mat-card-content>
                         <mat-card-footer></mat-card-footer>
                     </mat-card>
-                    <mat-card class="assignedTo-info" *ngIf="ticketDetail?.departmentId">
+                    <mat-card class="assignedTo-info" *ngIf="ticketDetail?.status!==1">
                         <mat-card-header>
                             <mat-card-title>Assigned-To</mat-card-title>
                         </mat-card-header>
@@ -255,10 +354,37 @@
                             </div>
                         </mat-card-content>
                     </mat-card>
-                    <div class="footer-inner-container" *ngIf="!ticketDetail?.departmentId">
+                    <mat-card class="assignedTo-info" *ngIf="ticketDetail?.status===1">
+                        <mat-card-header>
+                            <mat-card-title>Request-To-Forward</mat-card-title>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <span><h4>Department</h4></span>
+                            <div class="detail">
+                                <div class="icon-img">
+                                    <mat-icon>flutter_dash</mat-icon>
+                                </div>
+                                <div class="requester-name">
+                                    <span>{{ticketDetail?.departmentName}}</span>
+                                    <span class="username">&#64;{{ticketDetail?.departmentName.toLowerCase().replace(' ','')}}</span>
+                                </div>
+                            </div>
+                            <!-- <span *ngIf="ticketDetail?.isAssigned"><h4>Name</h4></span>
+                            <div class="detail" *ngIf="ticketDetail?.isAssigned">
+                                <div class="icon-img">
+                                    <mat-icon>flutter_dash</mat-icon>
+                                </div>
+                                <div class="requester-name">
+                                    <span>{{ticketDetail?.assignedName}}</span>
+                                    <span class="username">&#64;{{ticketDetail?.assignedUsername??'terminator'}}</span>
+                                </div>
+                            </div> -->
+                        </mat-card-content>
+                    </mat-card>
+                    <div class="footer-inner-container" *ngIf="ticketDetail?.status===1">
                         <div class="inner-content">
                             <div class="assign-to">
-                                <div class="searchbar">
+                                <!-- <div class="searchbar">
                                     <div class="select-label"><mat-label>Category</mat-label></div>
                                     <div class="custom-select">
                                         <mat-select [value]="ticketDetail?.categoryId" *ngIf="ticketDetail?.categoryId" disabled>
@@ -283,7 +409,7 @@
                                             <mat-option value="2">Urgent</mat-option>
                                         </mat-select>
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="footer-buttons">
                                     <button class="btn-assign" mat-flat-button (click)="onForwardTicket()">
                                         Forward
