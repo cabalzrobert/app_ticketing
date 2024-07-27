@@ -43,9 +43,19 @@
                                     <i class="fa fa-light fa-search"></i>
                                 </div>
                             </div> -->
-                            <mat-option>Select Department</mat-option>
-                            <mat-option *ngFor="let dept of departmentlist asyn"
-                                [value]="dept.DepartmentID">{{dept.DepartmentName}}</mat-option>
+                            <div class="dropdownsearch">
+                                <mat-icon>search</mat-icon>
+                                <input type="text" class="searchbox" [formControl]="deptSearchText"
+                                    (keydown)="$event.stopPropagation()" (keydown)="hSearchDepartment()"
+                                    placeholder="Search Department" matInput>
+                            </div>
+
+                            <div style="height:70%; overflow: auto;">
+                                <mat-option>Select Department</mat-option>
+                                <mat-option *ngFor="let dept of departmentlist asyn"
+                                    [value]="dept.DepartmentID">{{dept.DepartmentName}}</mat-option>
+                            </div>
+
                         </mat-select>
                     </div>
                 </div>
@@ -67,6 +77,13 @@
                         <mat-select formControlName="PositionID" placeholder="Select Position"
                             (valueChange)="honDPositionSelectChange()"
                             (selectionChange)="PositionSelectedValue($event)">
+                            <div class="dropdownsearch">
+                                <mat-icon>search</mat-icon>
+                                <input type="text" class="searchbox" [formControl]="positionSearchText"
+                                    (keydown)="$event.stopPropagation()" (keydown)="hSearchPosition()"
+                                    placeholder="Search Position" matInput>
+                            </div>
+
                             <mat-option *ngFor="let pos of positionlist asyn"
                                 [value]="pos.PositionID">{{pos.Positionname}}</mat-option>
                         </mat-select>

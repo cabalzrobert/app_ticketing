@@ -33,6 +33,8 @@ export class LoginComponent implements OnInit {
   successDialogRef?: MatDialogRef<AlertSuccessModalComponent>;
   screenWidth = 0;
   size = '';
+  sizeWidth = '';
+  sizeHeight = '';
   ngOnInit(): void {
     //console.log('login.components.ts ngOnit');
     //setTimeout(() => this.performCheckDB(), 750);
@@ -47,6 +49,8 @@ export class LoginComponent implements OnInit {
     this.screenWidth = window.innerWidth;
     if (this.screenWidth > 768) {
       this.size = "600px";
+      this.sizeWidth = `${window.innerWidth} px`;
+      this.sizeHeight = `${window.innerHeight} px`;
       //this.onToggleHeadquarterComponent.emit({ screenWidth: this.screenWidth });
     }
     else {

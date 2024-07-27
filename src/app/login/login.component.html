@@ -6,54 +6,56 @@
         <button (click)="login()" [disabled]="!form.valid">Login</button>
     </div>
 </div> -->
-
-<div class="newusercontainer">
-    <!-- <div>New User? Login Here</div> -->
-    <button class="newuserbutton" routerLink="/newUserLogin">New User? Login Here</button>
-</div>
-
-<div class="login_container" [formGroup]="form">
-
-    <div class="logindisplay1">
-        <div class="logindisplay1a">
-            <img class="ticketlogo" src="assets/image/logo.gif" />
-            <div class="ticketlabel"> TikSy</div>
-        </div>
+<div class="container" style="--width: {{sizeWidth}}, --height: {{sizeHeight}}">
+    <div class="newusercontainer">
+        <!-- <div>New User? Login Here</div> -->
+        <button class="newuserbutton" routerLink="/newUserLogin">New User? Login Here</button>
     </div>
-    <div class="logindisplay2">
-        <div class="logincard" style="--width: {{size}}">
-            <!-- <div class="text-center">Login</div> -->
-            <!-- <div class="logincard-header">Ticketing System</div> -->
-            <div class="logincard-body">
-                <div class="mb-3">
-                    <label class="loginlabel">Username</label>
-                    <input class="logininput" formControlName="username" type="text" placeholder="0999-999-9999"
-                        autocomplete="off" (keyup.enter)="hLogin()">
-                </div>
-                <div class="mb-3">
-                    <label class="loginlabel">Password</label>
-                    <span>
-                        <input class="logininput" formControlName="password" type="password" [type]="password"
-                            placeholder="" autocomplete="new-password" required (keyup.enter)="hLogin()">
-                        <button (click)="hHideShowPassword()">
-                            <i class="fa fa-thin fa-eye" aria-hidden="true" *ngIf="!show"></i>
-                            <i class="fa fa-thin fa-eye-slash" aria-hidden="true" *ngIf="show"></i>
-                        </button>
-                    </span>
 
-                </div>
-                <div class="loginfooter">
-                    <div class="loginevent">
-                        <button class="forgotpasswordbutton" (click)="forgotPassword()">Forgot Password?</button>
-                        <button class="loginbutton" (click)="hLogin()" [disabled]="!form.valid">Login <img class="logo"
-                                src="assets/image/signin.gif" /></button>
+    <div class="login_container" [formGroup]="form">
 
-                        <!-- <button class="forgotpasswordbutton" (click)="hReload()">Reload?</button> -->
+        <div class="logindisplay1">
+            <div class="logindisplay1a">
+                <img class="ticketlogo" src="assets/image/logo.gif" />
+                <div class="ticketlabel"> TikSy</div>
+            </div>
+        </div>
+        <div class="logindisplay2">
+            <!-- <div class="logincard" style="--width: {{size}}"> -->
+            <div class="logincard" style="--width: {{size}}">
+                <!-- <div class="text-center">Login</div> -->
+                <!-- <div class="logincard-header">Ticketing System</div> -->
+                <div class="logincard-body">
+                    <div class="mb-3">
+                        <label class="loginlabel">Username</label>
+                        <input class="logininput" formControlName="username" type="text" placeholder="0999-999-9999"
+                            autocomplete="off" (keyup.enter)="hLogin()">
+                    </div>
+                    <div class="mb-3">
+                        <label class="loginlabel">Password</label>
+                        <span>
+                            <input class="logininput" formControlName="password" type="password" [type]="password"
+                                placeholder="" autocomplete="new-password" required (keyup.enter)="hLogin()">
+                            <button (click)="hHideShowPassword()">
+                                <i class="fa fa-thin fa-eye" aria-hidden="true" *ngIf="!show"></i>
+                                <i class="fa fa-thin fa-eye-slash" aria-hidden="true" *ngIf="show"></i>
+                            </button>
+                        </span>
+
+                    </div>
+                    <div class="loginfooter">
+                        <div class="loginevent">
+                            <button class="forgotpasswordbutton" (click)="forgotPassword()">Forgot Password?</button>
+                            <button class="loginbutton" (click)="hLogin()" [disabled]="!form.valid">Login <img
+                                    class="logo" src="assets/image/signin.gif" /></button>
+
+                            <!-- <button class="forgotpasswordbutton" (click)="hReload()">Reload?</button> -->
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
+
     </div>
-
-
 </div>

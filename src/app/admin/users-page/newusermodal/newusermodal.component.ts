@@ -73,8 +73,13 @@ export class NewusermodalComponent implements OnInit {
     //isDeptartment: false
   });
 
-  constructor(@Inject(MAT_DIALOG_DATA) public UserAccount: { item: any, Title: String, ButtonText: String, isDepartment: boolean }, private authService: AuthService, private fb: FormBuilder, public dialog: MatDialog, public dialogRef: MatDialogRef<NewusermodalComponent>, private _cdr: ChangeDetectorRef) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public UserAccount: { item: any, Title: String, ButtonText: String, isDepartment: boolean }, private authService: AuthService, private fb: FormBuilder, public dialog: MatDialog, public dialogRef: MatDialogRef<NewusermodalComponent>, private _cdr: ChangeDetectorRef) {
+    this.deptSearchText = new FormControl();
+    this.positionSearchText = new FormControl();
+  }
 
+  positionSearchText:any;
+  deptSearchText: any;
   departmentlist: any = [];
   positionlist: any = [];
   roleslist: any = []
@@ -98,7 +103,7 @@ export class NewusermodalComponent implements OnInit {
   isdepthead: boolean = false;
   _isdepthead: number = 0;
   _iscommunicator: number = 0;
-  _isdepartment:boolean = false;
+  _isdepartment: boolean = false;
   private _state: any = {};
   setState(item: any) {
     for (const key of Object.keys(item)) {
@@ -131,15 +136,24 @@ export class NewusermodalComponent implements OnInit {
     //   //this.form.value.AccountType = 5
     //   this.form.patchValue({AccountType:5});
     // }
-      
-    
+
+
     // else if (this.UserAccount.Title == 'Create Staff Account'){
     //   //this.form.value.AccountType = 6
     //   this.form.patchValue({AccountType:6});
     // }
-      
+
 
     console.log('New User', this.form.value);
+  }
+  
+  hSearchDepartment() {
+    
+    this.GetDepartmentList({ num_row: 0, Search: this.deptSearchText.value });
+  }
+  hSearchPosition() {
+    
+    this.GetPositionList({ num_row: 0, Search: this.positionSearchText.value });
   }
 
   closededialogNewUser(): void {

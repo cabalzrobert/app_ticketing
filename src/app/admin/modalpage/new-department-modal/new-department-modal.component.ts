@@ -108,14 +108,14 @@ export class NewDepartmentModalComponent implements OnInit {
   useraccountDialogRef?: MatDialogRef<NewusermodalComponent>;
   hNewDepartmentHead() {
     console.log('hNewDepartmentHead DepartmentID', this.form.value.DepartmentID);
-    this.useraccountDialogRef = this.dialog.open(NewusermodalComponent, { data: { item: { AccountID: '', AccountType: '5', Address: '', Birthdate: '', Department: this.form.value.DepartmentName, DepartmentID: this.form.value.DepartmentID, Email: '', Firstname: 'Robert', Gender: '', Gendername: '', LastSeen: '', Lastname: 'Caballero', Middlename: '', MobileNumber: '', Position: '', PositionID: '', ProfilePicture: '', Role: '', RolesID: '', UserAccountID: '', isCommunicator: '', isDepartmentHead: '' }, Title: 'Create Department Head Account', ButtonText: 'Create', isDepartment: true } });
-    //this.useraccountDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => this.usersList.unshift(o));
+    this.useraccountDialogRef = this.dialog.open(NewusermodalComponent, { data: { item: { AccountID: '', AccountType: '5', Address: '', Birthdate: '', Department: this.form.value.DepartmentName, DepartmentID: this.form.value.DepartmentID, Email: '', Firstname: '', Gender: '', Gendername: '', LastSeen: '', Lastname: '', Middlename: '', MobileNumber: '', Position: '', PositionID: '', ProfilePicture: '', Role: '', RolesID: '', UserAccountID: '', isCommunicator: '', isDepartmentHead: '' }, Title: 'Create Department Head Account', ButtonText: 'Create', isDepartment: true } });
+    this.useraccountDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => this.departmentheadlist.unshift(o));
   }
   hNewStaff() {
     //this.DepartmentStaff.reset();
     console.log('hNewStaff', this.form.value);
     this.useraccountDialogRef = this.dialog.open(NewusermodalComponent, { data: { item: { AccountType: '6', Department: this.form.value.DepartmentName, DepartmentID: this.form.value.DepartmentID }, Title: 'Create Staff Account', ButtonText: 'Create', isDepartment: true } });
-
+    this.useraccountDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => this.accountliststaff.unshift(o));
 
   }
   form: FormGroup = this.fb.group({
