@@ -134,6 +134,8 @@ export class CommunicatorTicketComponent {
     this.subs.wsConnect = stomp.subscribe('#connect', () => this.connected());
     this.subs.wsDisconnect = stomp.subscribe('#disconnect', () => this.disconnect());
     this.subs.ws1 = stomp.subscribe('/' + iscom + '/ticketrequest/iscommunicator', (json: any) => this.receivedRequestTicketCommunicator(json));
+    this.subs.ws1 = stomp.subscribe('/communicator', (json: any) => this.receivedRequestTicketCommunicator(json));
+    this.subs.ws1 = stomp.subscribe('/requestorhead', (json: any) => this.receivedRequestTicketCommunicator(json));
     console.log('Communicator Component', iscom);
     stomp.ready(() => (stomp.refresh(), stomp.connect()));
   }

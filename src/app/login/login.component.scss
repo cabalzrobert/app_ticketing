@@ -13,6 +13,9 @@
     padding-left: calc(var(--bs-gutter-x) * 0.5);
     margin-right: auto;
     margin-left: auto;
+    
+    height: var(--height);
+    width: var(--width);
 }
 
 
@@ -893,6 +896,8 @@
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
+            //height: var(--height);
+            width: var(--width);
         }
 
         .ticketlabel {
@@ -1080,6 +1085,17 @@
             align-items: center;
             justify-content: center;
             gap: 20px;
+        }
+        
+        .logindisplay2 {
+            //width: 50%;
+            //height: 50vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            //height: var(--height);
+            width: var(--width);
         }
     }
 

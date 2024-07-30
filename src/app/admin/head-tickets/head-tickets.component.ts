@@ -1100,8 +1100,10 @@ export class ForwardDialog {
   categories: any = [];
   personnels: any = [];
   forwardData: any = {};
+  input:any = {};
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.input = await jUser();
     console.log(this.data.TicketDetail)
     if(this.data.IsRequiredOtherDepartment)
       setTimeout(() => this.getDepartmentList());
@@ -1127,7 +1129,7 @@ export class ForwardDialog {
 
   getCategoryList(): Observable<any> {
 
-    rest.post('category/list', {num_row: 0, Search: ''}).subscribe(async (res: any) => {
+    rest.post('category/listbydepartment', {num_row: 0, Search: '', DepartmentID: this.input.DEPT_ID}).subscribe(async (res: any) => {
       if (res.Status == 'ok') {
         this.categories = res.category;
         console.log('Categories',this.categories);

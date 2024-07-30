@@ -75,7 +75,7 @@ export class NewticketmodalComponent implements OnInit {
     console.log('Ticket Data',this.ticketdata);
     this.form.patchValue(this.ticketdata.item);
     console.log('this.form.value Update Modal', this.form.value);
-    this.GetCategoryList({ num_row: 0, Search: '' });
+    this.GetCategoryList({ num_row: 0, Search: '', DepartmentID: this.userDetail.DEPT_ID});
     this.GetDepartmentList({ num_row: 0, Search: '' });
     this.GetDepartmentPersonnels();
     console.log('Update Ticket Modal', this.ticketdata);
@@ -134,7 +134,7 @@ export class NewticketmodalComponent implements OnInit {
   }
   GetCategoryList(item: any): Observable<any> {
 
-    rest.post('category/list', item).subscribe(async (res: any) => {
+    rest.post('category/listbydepartment', item).subscribe(async (res: any) => {
       if (res.Status == 'ok') {
         this.categorylist = res.category;
         console.log('GetCategoryList inside subscribe', this.categorylist);
@@ -152,12 +152,14 @@ export class NewticketmodalComponent implements OnInit {
     rest.post('department/list', search).subscribe((res: any) => {
       console.log('Department',res);
       if (res.Status === 'ok') {
-        this.departments = res.department;
+
+        this.departments = res.department.filter((o:any) => o.DepartmentID != this.userDetail.DEPT_ID);
+        //this.departments.filter((o:any) => o.DepartmentID != this.userDetail.DEPT_ID);
         return;
       }
       alert('Failed to load');
     }, (error: any) => {
-      alert('System Error!');
+      alert('System Error! GetDepartmentList');
     });
   }
 

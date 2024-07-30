@@ -236,7 +236,9 @@ export class OverviewPageComponent implements OnInit {
     timeout(async () => await requestnotificationCount(item));
     this.UserAccount = this.input.FLL_NM;
     this.profilePicture = this.input.PRF_PIC;
+    this.UserType = this.input.ACT_TYP_NM;
 
+    /*
     if (!this.input.isCommunicator && !this.input.isDeptartmentHead) {
       this.UserType = 'User';
     }
@@ -249,6 +251,7 @@ export class OverviewPageComponent implements OnInit {
     else if (this.input.isCommunicator && this.input.isDeptartmentHead) {
       this.UserType = 'Communicator and Department Head';
     }
+    */
     //window.location.reload();
     //device.ready(() => setTimeout(() => this.getTicketCount(), 275));
     await this.getTicketCount();

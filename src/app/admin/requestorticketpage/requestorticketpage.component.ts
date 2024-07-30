@@ -239,35 +239,48 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
 
     device.ready(() => setTimeout(() => this.getCommentList(this.TransactionNo), 275));
     this.scrollToBottom();
-    if (this.isAssigned){}
-      //console.log('this.isAssigned', this.isAssigned);
+    if (this.isAssigned) { }
+    //console.log('this.isAssigned', this.isAssigned);
     //await this.getlastMessage(this.LastMessage);
     //setTimeout(() => this.getlastMessage(this.LastMessage), 725);
     //console.log('this.ticketcomment 219', await this.LastMessage);
   }
   openpopnewticket() {
-    if(this.input.ACT_TYP==5){
-      const dialogRef = this.dialog.open(RequestTicketMessageBoxDialog,{
+    this.ticketlist = [];
+    if (this.input.ACT_TYP == 5) {
+      const dialogRef = this.dialog.open(RequestTicketMessageBoxDialog, {
         width: '15%',
       });
-  
-      dialogRef.afterClosed().subscribe((result)=>{
-        console.log('Create Ticket',result);
+
+      dialogRef.afterClosed().subscribe((result) => {
+        console.log('Create Ticket', result);
         this.ticketDialogRef = this.dialog.open(NewticketmodalComponent, { data: { item: null, Title: 'Create Ticket', SaveButtonText: 'Create Ticket', IsRequiredOtherDepartment: result } });
         this.ticketDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
           console.log('openpopnewticket', o);
-          this.ticketpending.unshift(o);
+          //this.ticketpending.unshift(o);
+          this.ticketlist = this.ticketpending;
+          this.ticketlist.unshift(o);
+          this.ticketpending = [];
+          this.ticketpending = this.ticketpending.concat(this.ticketlist);
+
+          //this.ticketpending = this.ticketpending.concat(o)
           this.pending = (parseInt(this.pending) + 1).toString();
           this.allticket = (parseInt(this.allticket) + 1).toString();
         });
       });
-    }else{
+    } else {
       this.ticketDialogRef = this.dialog.open(NewticketmodalComponent, { data: { item: null, Title: 'Create Ticket', SaveButtonText: 'Create Ticket', IsRequiredOtherDepartment: false } });
       this.ticketDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
         console.log('openpopnewticket', o);
-        this.ticketpending.unshift(o);
+        //this.ticketpending.unshift(o);
+        this.ticketlist = this.ticketpending;
+        this.ticketlist.unshift(o);
+        this.ticketpending = [];
+        this.ticketpending = this.ticketpending.concat(this.ticketlist);
         this.pending = (parseInt(this.pending) + 1).toString();
         this.allticket = (parseInt(this.allticket) + 1).toString();
+
+        console.log('openpopnewticket this.ticketpending', this.ticketpending);
       });
     }
 
@@ -1937,13 +1950,13 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
     end = this.virtualScroll.getRenderedRange().end;
     total = this.ticketpending.length
     let basefilter: string = ''
-    if(Object.keys(this.ticketpending).length > 0){
+    if (Object.keys(this.ticketpending).length > 0) {
       if (end == 0)
         basefilter = this.ticketpending[end].Num_Row;
       else
         basefilter = this.ticketpending[end - 1].Num_Row;
     }
-    
+
 
     //console.log('hScrollIndexChange', end, basefilter, total);
     if (end == total) {
