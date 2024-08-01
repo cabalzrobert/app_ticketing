@@ -178,9 +178,9 @@
                     <!-- <img ngif src="assets/image/icon_blank_profile.png" alt=""> -->
                     <img *ngIf="base64 == ''" src="assets/image/icon_blank_profile.png" alt="">
                     <img *ngIf="base64 != ''" src={{base64}} alt="">
-                    <button class="file-upload-button1 fa fa-upload">
+                    <button class="file-upload-button1 fa fa-upload" (click)="uploaProfilePict()">
                         <label for="">Upload</label>
-                        <input type="file" #fileInput (change)="onFileSelected($event,fileInput)">
+                        <!-- <input type="file" #fileInput (change)="onFileSelected($event,fileInput)"> -->
                     </button>
                 </div>
             </div>

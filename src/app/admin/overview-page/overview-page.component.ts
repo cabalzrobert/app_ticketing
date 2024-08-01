@@ -28,13 +28,13 @@ export class OverviewPageComponent implements OnInit {
     let end = 0;
     end = this.virtualScroll.getRenderedRange().end;
     let basefilter: string = ''
-    if(Object.keys(this.ticketnotification).length > 0){
+    if (Object.keys(this.ticketnotification).length > 0) {
       if (end == 0)
         basefilter = this.ticketnotification[end].DateTransaction;
       else
         basefilter = this.ticketnotification[end - 1].DateTransaction;
     }
-    
+
     this.iscom = (this.input.isCommunicator == true) ? 1 : 0;
     this.isdepthead = (this.input.isDeptartmentHead == true) ? 1 : 0;
     timeout(() => this.getTicketListDelay({ IsRest: true, isRead: (this.ticketstatus == 0 ? null : this.ticketstatus), BaseFilter: basefilter }), 275);
@@ -383,9 +383,12 @@ export class OverviewPageComponent implements OnInit {
     this.subs.wsErr = stomp.subscribe('#error', (err: any) => this.error());
     this.subs.wsConnect = stomp.subscribe('#connect', () => this.connected());
     this.subs.wsDisconnect = stomp.subscribe('#disconnect', () => this.disconnect());
+    this.subs.ws1 = stomp.subscribe(`/requestorhead`, (json: any) => this.receivedRequestTicketCommunicator(json));
     this.subs.ws1 = stomp.subscribe('/' + iscom + '/ticketrequest/iscommunicator', (json: any) => this.receivedRequestTicketCommunicator(json));
     this.subs.ws1 = stomp.subscribe('/forwardticket/depthead/' + isdepthead, (json: any) => this.receivedforwardedTicket(json));
     this.subs.ws1 = stomp.subscribe('/assigned', (json: any) => this.receivedAssignedTicket(json));
+    
+    this.subs.ws1 = stomp.subscribe('/test/notify', (json: any) => this.receivedNotify(json));
     stomp.ready(() => (stomp.refresh(), stomp.connect()));
   }
   receivedAssignedTicket(data: any) {
@@ -454,10 +457,63 @@ export class OverviewPageComponent implements OnInit {
     }
 
   }
+  overviewnotification: any = {
+    "type": "requestorhead-notification",
+    "content": {
+      "requestId": "00020010000008",
+      "requestName": "Kabungkagon, Tessie S.",
+      "requestUsername": "",
+      "transactionNo": "0000000103",
+      "ticketNo": "7E63F86",
+      "categoryId": "",
+      "categoryName": "",
+      "title": "Sample Ticket 202407310826",
+      "description": "Sample Ticket 202407310826",
+      "priorityLevel": "0",
+      "priorityName": "Low",
+      "forwardDepartmentId": "",
+      "forwardDepartmentName": "",
+      "assignedId": "",
+      "assignedName": "",
+      "departmentId": "00101",
+      "departmentName": "Accounting",
+      "isAssigned": "False",
+      "assignedUsername": "",
+      "forwardToId": "",
+      "forwardToName": "",
+      "forwardRemarks": "",
+      "isForwarded": "False",
+      "status": "0",
+      "ticketStatus": "Open",
+      "dateCreated": "07/31/2024 8:26:55 AM"
+    },
+    "notification": {
+      "NotificationID": "161",
+      "DateTransaction": "07/31/2024 8:26:55 AM",
+      "TransactionNo": "0000000103",
+      "Title": "Kabungkagon, Tessie S.send Ticket with Transaction No.:0000000103",
+      "Description": "Sample Ticket 202407310826",
+      "IsOpen": false,
+      "IsRequest": true,
+      "Type": "Ticket-Request",
+      "DateDisplay": "Jul 31, 2024",
+      "TimeDisplay": "08:26:55 AM",
+      "FulldateDisplay": "Jul 31, 2024 08:26:55 AM"
+    }
+  };
+  notificationid:number = 161;
+  HAdd() {
+    this.notificationid = this.notificationid + 1;
+    this.overviewnotification.notification.NotificationID = this.notificationid
+    this.receivedRequestTicketCommunicator(this.overviewnotification);
+  }
+  private async receivedNotify(data: any) {
+    this.HAdd();
+  }
 
   receivedRequestTicketCommunicator(data: any) {
 
-    // console.log('receivedRequestTicketCommunicator', data);
+    console.log('receivedRequestTicketCommunicator', data);
     // var notification = data.notification;
     // this.lastnotificationid = notification.NotificationID;
     // //console.log('this.TicketNo 296', this.input.LastTransactionNo);
@@ -478,12 +534,19 @@ export class OverviewPageComponent implements OnInit {
     //console.log('Communication Page notificationid 208', notificationid);
     //console.log('this.input', this.input);
     bindLastLastNotificatioinID(content.NotificationID);
-    if (this.input.LastNotificationID == content.NotificationID) return;
+    // if (this.input.LastNotificationID == content.NotificationID) return;
     //this.collections.push(data.content);
     let Exist = this.ticketnotification.find((o: any) => o.NotificationID == notificationid);
     //console.log('let ticketnotificationExist', Exist);
     //if(Exist) return;
+    this.ticketnotification1 = [];
+    this.ticketnotification1 = this.ticketnotification;
+    this.ticketnotification1.unshift(content);
+    this.ticketnotification = [];
+    this.ticketnotification = this.ticketnotification.concat(this.ticketnotification1);
+    console.log('receivedRequestTicketCommunicator this.ticketnotification', this.ticketnotification);
 
+    /*
     this.ticketnotification.forEach((o: any) => {
       this.ticketnotificationReceived.push(this.ListNotificationDetails(o));
     });
@@ -494,9 +557,11 @@ export class OverviewPageComponent implements OnInit {
     this.ticketnotificationReceived.forEach((o: any) => {
       this.ticketnotification.push(this.ListNotificationDetails(o));
     })
+    */
     this.ticketnotificationReceived = [];
     //this.ticketnotification.unshift(content);
     //console.log('this.ticketnotification 223', this.ticketnotification);
+    if (this.input.LastNotificationID == content.NotificationID) return;
     additionalRequestNotification(1);
     this.refreshData();
     return this.ticketnotification;

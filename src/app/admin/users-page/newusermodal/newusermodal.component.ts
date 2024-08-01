@@ -13,6 +13,7 @@ import { isEmail, isMobileNo } from '../../../tools/global';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { SubmitModalComponent } from '../../modalpage/submit-modal/submit-modal.component';
 import { AlertSuccessModalComponent } from '../../modalpage/alert-success-modal/alert-success-modal.component';
+import { NgxImageCompressService } from 'ngx-image-compress';
 
 @Component({
   selector: 'app-newusermodal',
@@ -20,6 +21,7 @@ import { AlertSuccessModalComponent } from '../../modalpage/alert-success-modal/
   styleUrl: './newusermodal.component.scss',
 })
 export class NewusermodalComponent implements OnInit {
+  
   GenderSelectedValue($event: MatSelectChange) {
     //this.form.value.Gendername = $event.source.triggerValue;
     this.gendername = $event.source.triggerValue;
@@ -73,12 +75,12 @@ export class NewusermodalComponent implements OnInit {
     //isDeptartment: false
   });
 
-  constructor(@Inject(MAT_DIALOG_DATA) public UserAccount: { item: any, Title: String, ButtonText: String, isDepartment: boolean }, private authService: AuthService, private fb: FormBuilder, public dialog: MatDialog, public dialogRef: MatDialogRef<NewusermodalComponent>, private _cdr: ChangeDetectorRef) {
+  constructor(@Inject(MAT_DIALOG_DATA) public UserAccount: { item: any, Title: String, ButtonText: String, isDepartment: boolean }, private authService: AuthService, private fb: FormBuilder, public dialog: MatDialog, public dialogRef: MatDialogRef<NewusermodalComponent>, private _cdr: ChangeDetectorRef, private imageCompress: NgxImageCompressService) {
     this.deptSearchText = new FormControl();
     this.positionSearchText = new FormControl();
   }
 
-  positionSearchText:any;
+  positionSearchText: any;
   deptSearchText: any;
   departmentlist: any = [];
   positionlist: any = [];
@@ -112,6 +114,106 @@ export class NewusermodalComponent implements OnInit {
   }
 
   @ViewChild('singleSelect') singleSelect: MatSelect | undefined;
+
+  uploaProfilePict() {
+    this.imageCompress.uploadFile().then(({image, orientation}) => {
+      this.formatBytes(this.imageCompress.byteCount(image));
+      this.imgResultBeforeCompress = image;
+      this.imageCompress
+      .compressFile(image, orientation, 50, 50)
+      .then((result) => {
+        this.src=result;
+        console.log('uploadProfilePict result', result);
+        this.base64 = result;
+        this.imgResultAfterCompress = result;
+        this.formatBytesAfter(this.imageCompress.byteCount(result));
+      })
+    });
+  }
+
+  src = '';
+  thumbSrc = '';
+  imgResultBeforeCompress:any;
+  imgResultAfterCompress:any;
+  imgResultAfterResize:any;
+  imgSizeBefore:any;
+  imgSizeAfter:any;
+
+
+  formatBytes(bytes:any, decimals = 2) {
+    if (bytes === 0) return '0 Bytes';
+
+    const k = 1024;
+    const dm = decimals < 0 ? 0 : decimals;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    this.imgSizeBefore =  parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i]
+
+    console.warn(
+      'Size was:',
+      parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i]
+    );
+
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+  }
+  
+  formatBytesAfter(bytes:any, decimals = 2) {
+    if (bytes === 0) return '0 Bytes';
+
+    const k = 1024;
+    const dm = decimals < 0 ? 0 : decimals;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    this.imgSizeAfter =  parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i]
+
+    console.warn(
+      'Size was:',
+      parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i]
+    );
+
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+  }
+
+  uploadAndResize() {
+    this.imageCompress.uploadFile().then(({ image, orientation }) => {
+      this.imgResultBeforeCompress = image;
+      console.warn('Size in bytes was:', this.imageCompress.byteCount(image));
+      this.formatBytes(this.imageCompress.byteCount(image));
+
+      this.imageCompress
+        .compressFile(image, orientation, 50, 50, 150, 250)
+        .then((result) => {
+          this.thumbSrc = result;
+          this.imgResultAfterCompress = result;
+          console.warn(
+            'Size in bytes is now:',
+            this.imageCompress.byteCount(result)
+          );
+          this.formatBytes(this.imageCompress.byteCount(result));
+        });
+    });
+
+  }
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
   ngOnInit(): void {
     console.log('this.UserAccount.item', this.UserAccount.item);
     this.form.patchValue(this.UserAccount.item);
@@ -146,13 +248,13 @@ export class NewusermodalComponent implements OnInit {
 
     console.log('New User', this.form.value);
   }
-  
+
   hSearchDepartment() {
-    
+
     this.GetDepartmentList({ num_row: 0, Search: this.deptSearchText.value });
   }
   hSearchPosition() {
-    
+
     this.GetPositionList({ num_row: 0, Search: this.positionSearchText.value });
   }
 
@@ -441,6 +543,7 @@ export class NewusermodalComponent implements OnInit {
           this.selectedFiles.push({ name: files[i]?.name, filesize: `${(files[i].size / 1024).toFixed(2)} KB`, file: files[i], base64: reader?.result as string, uploadstatus: 200, progress: 200, rownum: i + 1 })
           result.next(this.selectedFiles);
           this.base64 = this.selectedFiles[0].base64;
+          console.log('toFilesBase64 this.base64', this.base64);
           this.form.value.ProfilePicture = this.base64;
           this.setState({ form: this.form });
           //console.log('toFileBase64 selectedFiles this.selectedFiles[0].base64', this.selectedFiles[0].base64);

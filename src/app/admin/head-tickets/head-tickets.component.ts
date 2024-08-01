@@ -117,11 +117,119 @@ export class HeadTicketsComponent {
     this.subs.wsConnect = stomp.subscribe('#connect', () => this.connected());
     this.subs.wsDisconnect = stomp.subscribe('#disconnect', () => this.disconnect());
     this.subs.ws1 = stomp.subscribe(`/forwardticket/depthead/${isdept}`, (json: any) => this.receivedForwardedTicket(json));
+
+    
+    this.subs.ws1 = stomp.subscribe(`/requestorhead`, (json: any) => this.receivedRequestTicketCommunicator(json));
+    this.subs.ws1 = stomp.subscribe('/' + iscom + '/ticketrequest/iscommunicator', (json: any) => this.receivedRequestTicketCommunicator(json));
+
+    
+    this.subs.ws1 = stomp.subscribe('/test/notify', (json: any) => this.receivedNotify(json));
+
     //console.log('Communicator Component', iscom);
     stomp.ready(() => (stomp.refresh(), stomp.connect()));
   }
   collectionListDetails(item: any) {
     return item;
+  }
+  overviewnotification: any = {
+    "type": "requestorhead-notification",
+    "content": {
+      "requestId": "00020010000008",
+      "requestName": "Kabungkagon, Tessie S.",
+      "requestUsername": "",
+      "transactionNo": "0000000103",
+      "ticketNo": "7E63F86",
+      "categoryId": "",
+      "categoryName": "",
+      "title": "Sample Ticket 202407310826",
+      "description": "Sample Ticket 202407310826",
+      "priorityLevel": "0",
+      "priorityName": "Low",
+      "forwardDepartmentId": "",
+      "forwardDepartmentName": "",
+      "assignedId": "",
+      "assignedName": "",
+      "departmentId": "00101",
+      "departmentName": "Accounting",
+      "isAssigned": "False",
+      "assignedUsername": "",
+      "forwardToId": "",
+      "forwardToName": "",
+      "forwardRemarks": "",
+      "isForwarded": "False",
+      "status": "0",
+      "ticketStatus": "Open",
+      "dateCreated": "07/31/2024 8:26:55 AM"
+    },
+    "notification": {
+      "NotificationID": "161",
+      "DateTransaction": "07/31/2024 8:26:55 AM",
+      "TransactionNo": "0000000103",
+      "Title": "Kabungkagon, Tessie S.send Ticket with Transaction No.:0000000103",
+      "Description": "Sample Ticket 202407310826",
+      "IsOpen": false,
+      "IsRequest": true,
+      "Type": "Ticket-Request",
+      "DateDisplay": "Jul 31, 2024",
+      "TimeDisplay": "08:26:55 AM",
+      "FulldateDisplay": "Jul 31, 2024 08:26:55 AM"
+    }
+  };
+  notificationid:number = 161;
+  HAdd() {
+    this.notificationid = this.notificationid + 1;
+    this.overviewnotification.content.ticketNo = this.notificationid
+    this.receivedRequestTicketCommunicator(this.overviewnotification);
+  }
+  private async receivedNotify(data: any) {
+    this.HAdd();
+  }
+
+  receivedRequestTicketCommunicator(data: any) {
+
+
+    var content = data.content;
+    //this.TicketNo = content.TicketNo;
+    console.log('Requestor Department Head Page', data.content);
+    //this.collections.push(data.content);
+    //let ticketexist = this.collections.find((o: any) => o.ticketNo == data.ticketNo);
+    //let ticketexist = this.collections.find((o: any) => o.ticketNo == data.ticketNo);
+    let ticketexist:any = this.collections.find((o: any) => o.ticketNo == data.content.ticketNo);
+    if (ticketexist) return;
+
+    this.collectionreceived = this.collections;
+    this.collections = [];
+
+    this.collectionreceived.unshift(data.content);
+    this.collections = this.collections.concat(this.collectionreceived);
+    this.collectionreceived = [];
+    return this.collections;
+    
+    /*
+    this.collections.forEach((o: any) => {
+      this.collectionreceived.push(this.collectionListDetails(o));
+    });
+    this.collections = [];
+    this.collectionreceived.unshift(data.content);
+
+    //this.collections = this.collectionreceived.map((o: any) => this.collectionListDetails(o));
+    this.collectionreceived.forEach((o: any) => {
+      this.collections.push(this.collectionListDetails(o));
+    })
+    this.collectionreceived = [];
+    return this.collections;
+    */
+
+    //this.collections.unshift(data.content);
+
+    //console.log('this.collection Websocket', this.collections);
+    // if (this.input.LastTransactionNo == content.TransactionNo) return;
+
+    // //console.log('this.TicketNo 299', content.TransactionNo);
+    // bindLastTransacationNumber(content.TransactionNo);
+    // additionalNotification(1);
+    // this.refreshData();
+    // return this.input.NotificationCount;
   }
   receivedForwardedTicket(data: any) {
     var content = data.content;

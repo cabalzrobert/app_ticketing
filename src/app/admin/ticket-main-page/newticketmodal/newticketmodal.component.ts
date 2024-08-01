@@ -52,6 +52,8 @@ export class NewticketmodalComponent implements OnInit {
   prioritylevelname: String = '';
 
   userDetail: any;
+  
+  loader:boolean = false;
 
   form: FormGroup = this.fb.group({
     Department: null,
@@ -106,6 +108,7 @@ export class NewticketmodalComponent implements OnInit {
   submitDialogRef?: MatDialogRef<SubmitModalComponent>;
   successDialogRef?: MatDialogRef<AlertSuccessModalComponent>;
   createNewTicket(): void {
+    this.loader = true;
     if (!this.isValidEntries()) return;
     console.log('SaveButtonText', this.SaveButtonText);
     console.log('Create New Ticket', this.form.value);
@@ -204,6 +207,7 @@ export class NewticketmodalComponent implements OnInit {
         this.successDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
           if (o.item.isConfirm) {
             this.dialogRef.close(this.form.value);
+            this.loader = false;
             return;
           }
         });
@@ -214,6 +218,7 @@ export class NewticketmodalComponent implements OnInit {
         this.successDialogRef = this.dialog.open(AlertSuccessModalComponent, { data: { item: { Icon: 'fa fa-solid fa-exclamation', Message: res.Message, ButtonText: 'Error', isConfirm: false } } });
         this.successDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
           if (!o.item.isConfirm) {
+            this.loader = false;
             return;
           }
         });
@@ -222,6 +227,7 @@ export class NewticketmodalComponent implements OnInit {
       this.successDialogRef = this.dialog.open(AlertSuccessModalComponent, { data: { item: { Icon: 'fa fa-solid fa-exclamation', Message: 'Network Error', ButtonText: 'Error', isConfirm: false } } });
       this.successDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
         if (!o.item.isConfirm) {
+          this.loader = false;
           return;
         }
       });
