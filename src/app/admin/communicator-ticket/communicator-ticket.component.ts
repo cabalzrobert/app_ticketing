@@ -118,6 +118,7 @@ export class CommunicatorTicketComponent {
       //this.ticketlistcount = ({Pending: res.TicketCount.Pending, Resolve: res.TicketCount.Resolve, AllTicketCount: res.TicketCount.AllTicketCount});
       this.unassigned = res.TicketCount.UnAssigned;
       this.assigned = res.TicketCount.Assigned;
+      this.resolve = res.TicketCount.Ressolved;
       this.allticket = res.TicketCount.AllTicketCount;
 
       console.log('this.ticketlistcountt', this.collectioncount);
@@ -163,6 +164,7 @@ export class CommunicatorTicketComponent {
       this.collections.push(this.collectionListDetails(o));
     })
     this.collectionreceived = [];
+    console.log('Communicator StompWebReceiver this.collections', this.collections);
     return this.collections;
 
     //this.collections.unshift(data.content);
@@ -360,7 +362,7 @@ export class CommunicatorTicketComponent {
 
   next(item: any, idx: number) {
     // if(item.departmentId) return;
-    //console.log('next idx', idx, item);
+    console.log('next idx', idx, item);
     this.router.navigate([item.ticketNo], { relativeTo: this.route });
     // this.router.navigateByUrl('/head/dashboard/tickets/sample');
     this.ticketTitle = item.title;

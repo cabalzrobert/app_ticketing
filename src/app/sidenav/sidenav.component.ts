@@ -343,6 +343,7 @@ export class SidenavComponent implements OnInit {
     //this.subs.ws1 = stomp.subscribe('/1/ticketrequest/iscommunicator', (json: any) => this.receivedRequestTicketCommunicator(json));
     this.subs.ws1 = stomp.subscribe('/' + iscom + '/ticketrequest/iscommunicator', (json: any) => this.receivedRequestTicketCommunicator(json));
     this.subs.ws1 = stomp.subscribe('/forwardticket/depthead/' + isdepthead, (json: any) => this.receivedforwardedTicket(json));
+    this.subs.ws1 = stomp.subscribe('/forwardticket', (json: any) => this.receivedRequestTicketCommunicator(json));
     stomp.ready(() => (stomp.refresh(), stomp.connect()));
     //console.log('stompWebsocketReceiver 250 sidenav.components', this.subs);
   }

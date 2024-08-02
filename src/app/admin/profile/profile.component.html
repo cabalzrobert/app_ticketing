@@ -29,7 +29,8 @@
             </div>
             <div class="role">
                 <!-- <span [ngClass]="userDetail.isDeptartmentHead?'dh':userDetail.isCommunicator?'com':''">{{userDetail.isDeptartmentHead?'Department Head':userDetail.isCommunicator?'Communicator':'User'}}</span> -->
-                <span [ngClass]="userDetail.isDeptartmentHead?'dh':userDetail.isCommunicator?'com':''">{{roleaccount}}</span>
+                <!-- <span [ngClass]="userDetail.isDeptartmentHead?'dh':userDetail.isCommunicator?'com':''">{{roleaccount}}</span> -->
+                <span>{{userDetail.ACT_TYP_NM}}</span>
             </div>
             <br/>
             <div class="display-info" [formGroup]="formBasic">
