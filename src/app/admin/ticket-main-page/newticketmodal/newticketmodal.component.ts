@@ -136,9 +136,9 @@ export class NewticketmodalComponent implements OnInit {
   }
   GetCategoryList(item: any): Observable<any> {
 
-    if(!this.ticketdata.IsRequiredOtherDepartment) return this.categorylist;
-
-    rest.post('category/list', item).subscribe(async (res: any) => {
+    if(this.ticketdata.IsRequiredOtherDepartment) return this.categorylist;
+    rest.post('category/listbydepartment', {num_row: 0, Search: '', DepartmentID: this.userDetail.DEPT_ID}).subscribe(async (res: any) => {
+    // rest.post('category/list', item).subscribe(async (res: any) => {
       if (res.Status == 'ok') {
         this.categorylist = res.category;
         console.log('GetCategoryList inside subscribe', this.categorylist);
@@ -168,7 +168,7 @@ export class NewticketmodalComponent implements OnInit {
   }
 
   GetDepartmentPersonnels = async () => {
-    if(!this.ticketdata.IsRequiredOtherDepartment) return;
+    if(this.ticketdata.IsRequiredOtherDepartment) return;
     const search: any = { num_row: 0, Search: '' };
     rest.post(`head/personnels?departmentId=${this.userDetail.DEPT_ID}`).subscribe((res: any) => {
       console.log(res);
