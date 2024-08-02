@@ -22,9 +22,11 @@ import { ViewAttachImageModalComponent } from '../modalpage/view-attach-image-mo
 const batchDone = new Subject<boolean>();
 
 export interface DialogData {
-  isProgress: boolean,
-  isMessage: boolean,
-  message: string
+  Type: string,
+  Message: string,
+  TicketDetail: any,
+  IsCancel: boolean,
+  IsForward: boolean
 }
 
 @Component({
@@ -455,7 +457,7 @@ export class CommunicatorTicketComponent {
 
   onForwardTicket() {
     if (!this.ticketDetail.departmentId) return;
-    const dialogRef = this.showMessageBox(true, false, null);
+    const dialogRef = this.showMessageBox('progress', null, null, false, false);
     this.ticketDetail.status = 2;
     setTimeout(() => this.onSubmitForwardTicket(dialogRef), 725);
   }
@@ -468,7 +470,7 @@ export class CommunicatorTicketComponent {
     rest.post('communicator/ticket/forward', param).subscribe((res: any) => {
       if (res.Status === 'ok') {
         ref.close();
-        const dialogRef = this.showMessageBox(false, true, 'Ticket has been forwarded');
+        const dialogRef = this.showMessageBox('message', null, 'Ticket has been forwarded', false, false);
         dialogRef.afterClosed().subscribe(() => {
           this.goBack();
           // this.onTabChange(this.tab);
@@ -486,11 +488,86 @@ export class CommunicatorTicketComponent {
     });
   }
 
-  showMessageBox(isProgress: boolean, isMessage: boolean, message: any): any {
+  onResolvingTicket(){
+    const dialogRef = this.showMessageBox('confirmation', this.ticketDetail, 'You are about to resolve this ticket. Are you sure all requirements have been meet?',false,false);
+      dialogRef.afterClosed().subscribe((result: any) => {
+        console.log('onResolving',result);
+        if (result) {
+
+          const progDialogRef = this.showMessageBox('progress',null,null,false,false);
+          setTimeout(()=>this.onPerformResolveTicket(progDialogRef),725); 
+
+          // if(this.ticketDetail.isAssigned){
+          //   this.ticketDetail.status = 1;
+          //   this.ticketDetail.ticketStatusId = 3;
+          // }
+          // else
+          // {
+          //   this.ticketDetail.isDone = true;
+          // }
+        }
+      })
+  }
+
+  onPerformResolveTicket(ref: MatDialogRef<MessageBoxDialog>) {
+    rest.post(`head/ticket/resolve?ticketNo=${this.ticketDetail.ticketNo}`).subscribe((res: any) => {
+      if (res.Status === 'ok') {
+        ref.close();
+        const dialogRef = this.showMessageBox('message', null, 'Ticket has been resolved.',false,false);
+        dialogRef.afterClosed().subscribe(() => {
+          this.ticketDetail.ticketStatusId = 3;
+        });
+        return;
+      }
+      alert('Failed');
+      ref.close();
+    }, (err: any) => {
+      alert('System Error!');
+      ref.close();
+    })
+  }
+
+  decline(){
+    rest.post(`head/ticket/cancel?ticketNo=${this.ticketDetail.ticketNo}`, {}).subscribe((res: any) => {
+      if (res.Status === 'ok') {
+        if(this.ticketDetail.status===1&&this.ticketDetail.ticketStatusId===3){
+          this.ticketDetail.ticketStatusId = 4;
+        }
+        // console.log(this.ticketDetail.status,this.ticketDetail.ticketStatusId);
+        // if(this.ticketDetail.status===3&&this.ticketDetail.ticketStatusId===3&&this.userDetail.USR_ID!==this.ticketDetail.assignedId){
+        //   this.ticketDetail.status = 4;
+        //   this.ticketDetail.ticketStatusId = 4;
+        // }
+        // if(this.ticketDetail.status===3&&this.ticketDetail.ticketStatusId===3&&this.userDetail.USR_ID===this.ticketDetail.assignedId){
+        //   this.ticketDetail.status = 0;
+        //   this.ticketDetail.ticketStatusId = 0;
+        //   this.ticketDetail.isAssigned = false;
+        //   this.ticketDetail.assignedName = null;
+        // }
+        // else
+        //   this.ticketDetail.isDone = false;
+        return;
+      }
+      alert('Failed');
+    }, (err: any) => {
+      alert('System Error!');
+    });
+  }
+
+  // showMessageBox(isProgress: boolean, isMessage: boolean, message: any): any {
+  //   return this.dialog.open(MessageBoxDialog, {
+  //     disableClose: true,
+  //     width: isMessage ? '20%' : 'auto',
+  //     data: { isProgress: isProgress, isMessage: isMessage, message: message }
+  //   });
+  // }
+  
+  showMessageBox(type: string, ticketDetail: any, message: any, isCancel: boolean, isForward: boolean): any {
     return this.dialog.open(MessageBoxDialog, {
+      panelClass: type === 'progress'?'mat-dialog-progress':'mat-dialog-not-progress',
       disableClose: true,
-      width: isMessage ? '20%' : 'auto',
-      data: { isProgress: isProgress, isMessage: isMessage, message: message }
+      width: type !== 'progress' ? '17%' : 'auto',
+      data: { Type: type, Message: message, TicketDetail: ticketDetail, IsCancel: isCancel, IsForward: isForward }
     });
   }
 
@@ -789,4 +866,8 @@ export class CommunicatorTicketComponent {
 export class MessageBoxDialog {
 
   constructor(private dialogRef: MatDialogRef<CommunicatorTicketComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
+
+  confirm(){
+    this.dialogRef.close(true);
+  }
 }

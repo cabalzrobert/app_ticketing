@@ -1,20 +1,16 @@
-<div class="sidenav" [ngClass]="collapsed ? 'sidenav-collapsed': ''">
+<div class="sidenav" [ngClass]="collapsed ? 'sidenav-collapsed': ''" >
     <div class="logo-container">
         <button class="logo" (click)="toggleCollapse()"><img class="logo" src="assets/image/logo.gif" /></button>
-        <div style="display: flex;gap:10px;" *ngIf="collapsed">
-            <div class="logo-text">TikSy</div>
-            <div style="color: #3818D9;">{{appversion}}</div>
-        </div>
-
+        <div class="logo-text" *ngIf="collapsed">TikSy</div>
         <!-- <button class="btn-close" *ngIf="collapsed" (click)="closeSidenav()">
             <i class="fa fa-bars close-icon"></i>
         </button> -->
     </div>
     <ul class="sidenav-nav">
-        <li class="sidenav-nav-item" *ngFor="let data of navData">
+        <li class="sidenav-nav-item" *ngFor="let data of navData" >
 
-            <a class="sidenav-nav-link" [routerLink]="[data.routerLink]" (click)="hClearRequest()"
-                routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+            <a class="sidenav-nav-link" [routerLink]="[data.routerLink]" (click)="hClearRequest()" routerLinkActive="active"
+                [routerLinkActiveOptions]="{exact:true}">
                 <i class="sidenav-link-icon" [class]="data.icon"></i>
                 <div class="receivedticketstab" *ngIf="collapsed">
                     <span class="sidenav-link-text">{{data.label}}</span>
@@ -23,11 +19,11 @@
                         <div *ngFor="let input of input"></div>
                         <span *ngIf="collapsed">{{(input.DepartmentHeadNotificationCount == 0)? '' : input.DepartmentHeadNotificationCount}}</span>
                     </div> -->
-                    <!-- <div  *ngIf="data.routerLink == 'receivedtickets'"
+                    <div *ngIf="data.routerLink == 'receivedtickets'"
                         [ngClass]="input.NotificationCount == 0 ? 'receivedtickets1' : 'receivedtickets'">
                         <div *ngFor="let input of input"></div>
-                        <span  *ngIf="collapsed">{{(input.NotificationCount == 0)? '' : input.NotificationCount}}</span>
-                    </div> -->
+                        <span *ngIf="collapsed">{{(input.NotificationCount == 0)? '' : input.NotificationCount}}</span>
+                    </div>
 
                 </div>
 

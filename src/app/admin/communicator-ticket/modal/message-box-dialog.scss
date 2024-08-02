@@ -43,3 +43,53 @@
         font-size: 100px;
     }
 }
+
+.confirmation-msg{
+    .mat-dialog-header{
+        height: 50px;
+        display: flex;
+        justify-content: space-between;
+        background: #fff;
+        border-bottom: 1px solid rgba(#000,0.1);
+        h3{
+            color: #4845D2;
+        }
+        mat-icon{
+            cursor: pointer;
+        }
+    }
+
+    .content{
+        display: grid;
+        justify-content: center;
+        padding: 16px;
+        font-size: 18px;
+    }
+
+    .message{
+        width: 100%;
+        padding: 16px 24px 32px 24px;
+        text-align: center;
+        // overflow-wrap: break-word;
+        // padding: 16px;
+    }
+    
+    .buttons{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        padding: 0px 4px;
+        .btn-close{
+            width: 50%;
+            color: #4845D2;
+            // font-size: 17px;
+        }
+        .btn-confirm{
+            width: 50%;
+            background: #4845D2;
+            color: #fff;
+            // font-size: 17px;
+        }
+    }
+}

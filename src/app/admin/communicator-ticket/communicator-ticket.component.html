@@ -243,7 +243,7 @@
                     </div>
 
                 </div>
-                <div class="cthfooter" *ngIf="Status != 4 && Status !=6 && ticketDetail?.status !== 6 ">
+                <div class="cthfooter" *ngIf="ticketDetail?.status!==1||ticketDetail?.ticketStatusId!==3">
                     <div class="footerbody">
                         <div class="commentcontent" [formGroup]="commentform">
                             <textarea formControlName="Message" name="" id="" rows="4"
@@ -282,6 +282,15 @@
                     <div class="acknowledge">
                         <div class="footerbody" *ngIf="Status == 4">
                             <label class="label1" for="">This ticket is resolved</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="acknoledgefooter" *ngIf="ticketDetail?.status===1&&ticketDetail?.ticketStatusId===3">
+                    <div class="acknowledge">
+                        <div class="footerbody">
+                            <label class="label1" for="">This ticket is closing</label>
+                            <label class="label2" for="">Wait for the requester to confirm to finalize closure</label>
+                            <label class="label3" for=""> <span (click)="decline()">or cancel</span></label>
                         </div>
                     </div>
                 </div>
@@ -356,7 +365,7 @@
                     </mat-card>
                     <mat-card class="assignedTo-info" *ngIf="ticketDetail?.status===1">
                         <mat-card-header>
-                            <mat-card-title>Request-To-Forward</mat-card-title>
+                            <mat-card-title>{{this.ticketDetail?.status===1&&(this.ticketDetail?.ticketStatusId===3||this.ticketDetail?.ticketStatusId===4)?'For-Resolve':'Request-To-Forward'}}</mat-card-title>
                         </mat-card-header>
                         <mat-card-content>
                             <span><h4>Department</h4></span>
@@ -410,9 +419,13 @@
                                         </mat-select>
                                     </div>
                                 </div> -->
-                                <div class="footer-buttons">
-                                    <button class="btn-assign" mat-flat-button (click)="onForwardTicket()">
+                                <div class="footer-buttons" *ngIf="ticketDetail?.ticketStatusId!==3">
+                                    <button class="btn-forward" mat-flat-button (click)="onForwardTicket()">
                                         Forward
+                                        <mat-icon iconPositionEnd>east</mat-icon>
+                                    </button>
+                                    <button class="btn-resolve" mat-flat-button (click)="onResolvingTicket()" *ngIf="ticketDetail?.status===1&&ticketDetail.ticketStatusId===4">
+                                        Resolve
                                         <mat-icon iconPositionEnd>east</mat-icon>
                                     </button>
                                 </div>

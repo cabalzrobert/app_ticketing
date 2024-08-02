@@ -52,7 +52,6 @@ export class NewticketmodalComponent implements OnInit {
   prioritylevelname: String = '';
 
   userDetail: any;
-  
   loader:boolean = false;
 
   form: FormGroup = this.fb.group({
@@ -77,7 +76,7 @@ export class NewticketmodalComponent implements OnInit {
     console.log('Ticket Data',this.ticketdata);
     this.form.patchValue(this.ticketdata.item);
     console.log('this.form.value Update Modal', this.form.value);
-    this.GetCategoryList({ num_row: 0, Search: '', DepartmentID: this.userDetail.DEPT_ID});
+    this.GetCategoryList({ num_row: 0, Search: '' });
     this.GetDepartmentList({ num_row: 0, Search: '' });
     this.GetDepartmentPersonnels();
     console.log('Update Ticket Modal', this.ticketdata);
@@ -137,7 +136,9 @@ export class NewticketmodalComponent implements OnInit {
   }
   GetCategoryList(item: any): Observable<any> {
 
-    rest.post('category/listbydepartment', item).subscribe(async (res: any) => {
+    if(!this.ticketdata.IsRequiredOtherDepartment) return this.categorylist;
+
+    rest.post('category/list', item).subscribe(async (res: any) => {
       if (res.Status == 'ok') {
         this.categorylist = res.category;
         console.log('GetCategoryList inside subscribe', this.categorylist);
@@ -151,22 +152,23 @@ export class NewticketmodalComponent implements OnInit {
 
   //added by jp july 18, 2024
   GetDepartmentList = async (item: any) => {
+
+    if(!this.ticketdata.IsRequiredOtherDepartment) return;
     const search: any = item;
     rest.post('department/list', search).subscribe((res: any) => {
       console.log('Department',res);
       if (res.Status === 'ok') {
-
-        this.departments = res.department.filter((o:any) => o.DepartmentID != this.userDetail.DEPT_ID);
-        //this.departments.filter((o:any) => o.DepartmentID != this.userDetail.DEPT_ID);
+        this.departments = res.department.filter((o: any) => o.DepartmentID!==this.userDetail.DEPT_ID);
         return;
       }
       alert('Failed to load');
     }, (error: any) => {
-      alert('System Error! GetDepartmentList');
+      alert('System Error!');
     });
   }
 
   GetDepartmentPersonnels = async () => {
+    if(!this.ticketdata.IsRequiredOtherDepartment) return;
     const search: any = { num_row: 0, Search: '' };
     rest.post(`head/personnels?departmentId=${this.userDetail.DEPT_ID}`).subscribe((res: any) => {
       console.log(res);

@@ -1,18 +1,16 @@
 import { RouterLink } from "@angular/router";
 import { faWindowClose, faBookBible, faDashboard } from "@fortawesome/free-solid-svg-icons";
-
-//Super Admin = 2
 export const navbarData = [
     {
         routerLink: 'overview',
         icon: 'fa fa-th-large',
         label: 'Overview'
     },
-    {
-        routerLink: 'ticket',
-        icon: 'fa fa-light fa-ticket-alt',
-        label: 'My Tickets'
-    },
+    // {
+    //     routerLink: 'ticket',
+    //     icon: 'fa fa-light fa-ticket-alt',
+    //     label: 'My Tickets'
+    // },
     {
         routerLink: 'assignedticket',
         icon: 'fa fa-light fa-ticket-alt',
@@ -40,20 +38,8 @@ export const navbarData = [
         icon: 'fa fa-cog',
         label: 'Settings'
     }
-
+    
 ];
-
-//CEO = 3
-export const navbarDataCEO = [
-    {
-        routerLink: 'assignedticket',
-        icon: 'fa fa-light fa-ticket-alt',
-        label: "Assigned Tickets"
-    },
-
-];
-
-//Communicator =4
 export const navbarDataCommunicator = [
     {
         routerLink: 'overview',
@@ -71,8 +57,6 @@ export const navbarDataCommunicator = [
         label: 'Tickets'
     },
 ];
-
-//Department Head = 5
 export const navbarDataDepartmentHead = [
     {
         routerLink: 'overview',
@@ -89,10 +73,8 @@ export const navbarDataDepartmentHead = [
         icon: 'fa fa-light fa-ticket-alt',
         label: "Assigned Tickets"
     }
-
+    
 ];
-
-
 export const navbarDataCommunicatorDepartmentHead = [
     {
         routerLink: 'overview',
@@ -114,7 +96,7 @@ export const navbarDataCommunicatorDepartmentHead = [
         icon: 'fa fa-light fa-ticket-alt',
         label: 'Tickets'
     }
-
+    
 ];
 
 export const navbarDataPersonnel = [
@@ -129,13 +111,12 @@ export const navbarDataPersonnel = [
         label: 'Submitted Tickets'
     },
     {
-        routerLink: 'assignedticket',
+        routerLink: 'myTask',
         icon: 'fa fa-light fa-ticket-alt',
-        label: "Assigned Tickets"
+        label: "My Tasks"
     }
-
+    
 ];
-//Member = 6
 export const navbarDataUser = [
     {
         routerLink: 'overview',
@@ -147,10 +128,10 @@ export const navbarDataUser = [
         icon: 'fa fa-light fa-ticket-alt',
         label: 'Submitted Tickets'
     },
-    {
+     {
         routerLink: 'assignedticket',
         icon: 'fa fa-light fa-ticket-alt',
         label: "Assigned Tickets"
     },
-
+    
 ];

@@ -5,7 +5,7 @@
         <button (click)="closedialogNewTicket()" class="fa fa-times"></button>
     </div>
     <div class="ticketmodalcontent">
-        <div class="categorycard" *ngIf="userDetail?.ACT_TYP==='5'&&ticketdata.IsRequiredOtherDepartment">
+        <div class="categorycard" *ngIf="userDetail?.ACT_TYP==='5'&&ticketdata.IsRequiredOtherDepartment&&!ticketdata.item">
             <label for="">Department</label>
             <div class="selectcat">
                 <mat-select formControlName="Department" placeholder="Select Department">
@@ -14,7 +14,7 @@
                 </mat-select>
             </div>
         </div>
-        <div class="categorycard" *ngIf="userDetail?.ACT_TYP==='5'&&!ticketdata.IsRequiredOtherDepartment">
+        <div class="categorycard" *ngIf="userDetail?.ACT_TYP==='5'&&!ticketdata.IsRequiredOtherDepartment&&!ticketdata.item">
             <label for="">Category</label>
             <div class="selectcat">
                 <mat-select formControlName="Category" placeholder="Select Category"
@@ -24,7 +24,7 @@
                 </mat-select>
             </div>
         </div>
-        <div class="categorycard" *ngIf="userDetail?.ACT_TYP==='5'&&!ticketdata.IsRequiredOtherDepartment">
+        <div class="categorycard" *ngIf="userDetail?.ACT_TYP==='5'&&!ticketdata.IsRequiredOtherDepartment&&!ticketdata.item">
             <label for="">Personnel</label>
             <div class="selectcat">
                 <mat-select formControlName="Personnel" placeholder="Select Personnel">

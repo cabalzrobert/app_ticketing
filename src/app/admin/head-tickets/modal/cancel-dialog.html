@@ -1,0 +1,20 @@
+<mat-toolbar class="mat-dialog-header">
+    <h3>Cancel Ticket</h3>
+    <!-- <mat-icon mat-dialog-close>close</mat-icon> -->
+</mat-toolbar>
+<mat-dialog-content>
+    <div class="dialog-content">
+        <div class="tp-ticket-description">
+            <p class="custom-label">Reason</p>
+            <textarea  placeholder="Remarks" class="custom-textarea" [rows]="5" #remarks></textarea>
+        </div>
+        <div class="footer">
+            <button class="btn-close" mat-button (click)="close()">
+                Close
+            </button>
+            <button class="btn-confirm" mat-flat-button (click)="confirm(remarks.value)">
+                Confirm
+            </button>
+        </div>
+    </div>
+</mat-dialog-content>

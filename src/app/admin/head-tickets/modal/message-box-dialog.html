@@ -26,10 +26,10 @@
         </div>
         <div class="buttons">
             <button class="btn-close" mat-button cdkFocusInitial [mat-dialog-close]="false">
-                {{data.IsForward?'No':'Close'}}
+                {{data.IsForward||data.IsCancel?'No':'Close'}}
             </button>
             <button class="btn-confirm" mat-flat-button (click)="confirm()">
-                {{data.IsForward?'Yes':'Confirm'}}
+                {{data.IsForward||data.IsCancel?'Yes':'Confirm'}}
             </button>
         </div>
     </div>

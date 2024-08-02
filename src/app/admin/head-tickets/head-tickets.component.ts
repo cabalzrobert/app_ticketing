@@ -557,12 +557,19 @@ export class HeadTicketsComponent {
   }
 
   onReturningTicket() {
-    const dialogRef = this.showMessageBox('progress', null, null, false, false);
-    setTimeout(() => this.onSubmitReturnTicket(dialogRef), 725);
+    if(this.ticketDetail.ticketStatusId===4){
+      const dialogRef = this.showMessageBox('confirmation', null, 'This ticket is for resolve. Are you sure all requirements have been meet?', false, true);
+      dialogRef.afterClosed().subscribe((result:any)=>{
+        if(result){
+          const dialogRef = this.showMessageBox('progress', null, null, false, false);
+          setTimeout(() => this.onSubmitReturnTicket(dialogRef), 725);
+        }
+      })
+    }
   }
 
   onSubmitReturnTicket(ref: MatDialogRef<MessageBoxDialog>) {
-    rest.post('head/ticket/return', this.ticketDetail).subscribe((res: any) => {
+    rest.post(`head/ticket/return?ticketNo=${this.ticketDetail.ticketNo}`, {}).subscribe((res: any) => {
       if (res.Status === 'ok') {
         ref.close();
         const dialogRef = this.showMessageBox('message', null, 'Ticket has been returned.', false, false);
@@ -612,6 +619,8 @@ export class HeadTicketsComponent {
     //   });
     // }
 
+
+
     if(this.ticketDetail.ticketStatusId===4){
       const dialogRef = this.dialog.open(ForwardDialog, {
         data: { TicketDetail: this.ticketDetail, IsRequiredOtherDepartment: true, Department: null }
@@ -622,7 +631,7 @@ export class HeadTicketsComponent {
           this.goBack();
           this.collections = [];
           this.virtualScroll.setRenderedRange({ start: 0, end: 0 });
-          this.nextBatch(this.tab);
+          this.nextBatch({tab: this.tab});
         }
       });
     }
@@ -646,6 +655,25 @@ export class HeadTicketsComponent {
           }
       });
     }
+
+
+    // const dialogRef = this.showMessageBox('confirmation', this.ticketDetail, 'Does it require other department?', false, true);
+    // dialogRef.afterClosed().subscribe((result: any) => {
+    //   console.log('Forwarding Ticket',result);
+    //   if(!result && this.ticketDetail.statu===4 && this.ticketDetail.ticketStatusId===4 && this.ticketDetail.isRequiredCommunicator){
+        
+    //   }
+    //   else{
+    //     const dialogRef = this.dialog.open(ForwardDialog, {
+    //       data: { TicketDetail: this.ticketDetail, IsRequiredOtherDepartment: result, Department: !result?this.userDetail.DEPT_ID:null }
+    //     })
+    //     dialogRef.afterClosed().subscribe((result: any) => {
+    //       if (result) {
+    //         console.log(result);
+    //       }
+    //     });
+    //   }
+    // });
 
     
   }
@@ -697,22 +725,22 @@ export class HeadTicketsComponent {
       })
     }
     else {
-      const dialogRef = this.showMessageBox('confirmation', this.ticketDetail, 'You are about to resolve this ticket. Are you sure all requirements have been meet?', false, false);
-      dialogRef.afterClosed().subscribe((result: any) => {
-        console.log('onResolving',result);
-        if (result) {
-          if(this.ticketDetail.isAssigned){
-            this.ticketDetail.status = 3;
-            this.ticketDetail.ticketStatusId = 3;
-          }
-          else
-          {
-            this.ticketDetail.isDone = true;
-          }
-          // this.goBack();
-          // this.onTabChange(this.tab);
-        }
-      })
+      // const dialogRef = this.showMessageBox('confirmation', this.ticketDetail, 'You are about to resolve this ticket. Are you sure all requirements have been meet?', false, false);
+      // dialogRef.afterClosed().subscribe((result: any) => {
+      //   console.log('onResolving',result);
+      //   if (result) {
+      //     if(this.ticketDetail.isAssigned){
+      //       this.ticketDetail.status = 3;
+      //       this.ticketDetail.ticketStatusId = 3;
+      //     }
+      //     else
+      //     {
+      //       this.ticketDetail.isDone = true;
+      //     }
+      //     // this.goBack();
+      //     // this.onTabChange(this.tab);
+      //   }
+      // })
     }
   }
 
@@ -742,16 +770,34 @@ export class HeadTicketsComponent {
   }
 
   onCancellingTicket() {
-    const dialogRef = this.showMessageBox('confirmation', this.ticketDetail, 'Are you sure you want to cancel this ticket?', true, false);
-    dialogRef.afterClosed().subscribe((result: any) => {
-      console.log(result);
-      if (result) {
+    const dialogRef = this.dialog.open(CancelDialog,{
+      panelClass: 'mat-dialog-not-progress',
+      width:'18%',
+      data: this.ticketDetail
+    });
+
+    dialogRef.afterClosed().subscribe((result)=>{
+      if(result){
         this.goBack();
         this.collections = [];
         this.virtualScroll.setRenderedRange({ start: 0, end: 0 });
-        this.nextBatch(this.tab);
+        this.nextBatch({tab: this.tab});
+
+        
+        // this.ticketDetail.RFC = result.RFC;
+        // const _dialogRef = this.showMessageBox('confirmation', this.ticketDetail, 'Are you sure you want to cancel this ticket?', true, false);
+        // _dialogRef.afterClosed().subscribe((result: any) => {
+        //   console.log(result);
+        //   if (result) {
+        //     this.goBack();
+        //     this.collections = [];
+        //     this.virtualScroll.setRenderedRange({ start: 0, end: 0 });
+        //     this.nextBatch({tab: this.tab});
+        //   }
+        // });
       }
-    })
+    });
+
   }
 
   // cancel = async () => {
@@ -1061,7 +1107,7 @@ export class HeadTicketsComponent {
     _data.Status = 4;
     title = Title;
     if (ActionEvent == 0) {
-      _data.Status = 0
+      _data.Status = 0;
     }
     // else if(ActionEvent == 1)
     //   _data.Status = 4
@@ -1076,6 +1122,7 @@ export class HeadTicketsComponent {
         console.log('Close Ticket Progress', o);
         console.log('Close Ticket Progress this.ticketindex', this.ticketindex);
         this.Status = o.Status;
+        this.ticketDetail.ticketStatusId = 4;
         this.hRemoveItem();
         //this.ticketpending.slice(this.ticketindex,1);
         //console.log('Close Ticket Progress this.ticketpending', this.ticketpending);
@@ -1090,6 +1137,7 @@ export class HeadTicketsComponent {
         //this.hRemoveItem();
         //this.ticketpending.slice(this.ticketindex,1);
         //console.log('Close Ticket Progress this.ticketpending', this.ticketpending);
+        this.ticketDetail.ticketStatusId = 0;
       });
     }
   }
@@ -1141,7 +1189,7 @@ export class MessageBoxDialog {
         const dialogRef = this.showMessageBox('message', null, 'Ticket has been resolved.');
         dialogRef.afterClosed().subscribe(() => {
           this.dialogRef.close(true);
-        })
+        });
         return;
       }
       alert('Failed');
@@ -1171,7 +1219,10 @@ export class MessageBoxDialog {
   }
 
   onPerfomCancelTicket(ref: MatDialogRef<MessageBoxDialog>) {
-    rest.post(`head/ticket/dismiss?ticketNo=${this.data.TicketDetail.ticketNo}`, {}).subscribe((res: any) => {
+    const param: any = {};
+    param.ticketNo = this.data.TicketDetail.ticketNo;
+    param.RFC = this.data.TicketDetail.RFC;
+    rest.post(`head/ticket/dismiss`, param).subscribe((res: any) => {
       if (res.Status === 'ok') {
         ref.close();
         const dialogRef = this.showMessageBox('message', null, 'Ticket has been canceled.');
@@ -1208,9 +1259,9 @@ export class ForwardDialog {
   categories: any = [];
   personnels: any = [];
   forwardData: any = {};
-  input:any = {};
+  input: any = {};
 
-  async ngOnInit() {
+   async ngOnInit() {
     this.input = await jUser();
     console.log(this.data.TicketDetail)
     if(this.data.IsRequiredOtherDepartment)
@@ -1354,6 +1405,40 @@ export class ForwardDialog {
       disableClose: true,
       width: type !== 'progress' ? '20%' : 'auto',
       data: { Type: type, Message: message, TicketDetail: ticketDetail }
+    });
+  }
+}
+
+@Component({
+  selector: 'app-cancel-dialog',
+  templateUrl: 'modal/cancel-dialog.html',
+  styleUrl: 'modal/cancel-dialog.scss',
+})
+
+export class CancelDialog {
+  constructor(private dialog: MatDialog, private dialogRef: MatDialogRef<HeadTicketsComponent>, @Inject(MAT_DIALOG_DATA) public data: any){ }
+
+  confirm(rfc: any) {
+    // this.dialogRef.close(true);
+    this.data.RFC = rfc;
+    const _dialogRef = this.showMessageBox('confirmation', this.data, 'Are you sure you want to cancel this ticket?', true, false);
+    _dialogRef.afterClosed().subscribe((result: any) => {
+      console.log(result);
+      if (result) {
+        this.dialogRef.close(true);
+      }
+    });
+  }
+
+  close() {
+    this.dialogRef.close(false);
+  }
+
+  showMessageBox(type: string, ticketDetail: any, message: any, isCancel: boolean, isForward: boolean): any {
+    return this.dialog.open(MessageBoxDialog, {
+      disableClose: true,
+      width: type !== 'progress' ? '15%' : 'auto',
+      data: { Type: type, Message: message, TicketDetail: ticketDetail, IsCancel: isCancel, IsForward: isForward }
     });
   }
 }

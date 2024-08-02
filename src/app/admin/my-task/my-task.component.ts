@@ -441,7 +441,7 @@ export class MyTaskComponent {
   }
 
   onSubmitReturnTicket(ref: MatDialogRef<MessageBoxDialog>) {
-    rest.post('user/ticket/return', this.ticketDetail).subscribe((res: any) => {
+    rest.post(`user/ticket/return?ticketNo=${this.ticketDetail.ticketNo}`, {}).subscribe((res: any) => {
       if (res.Status === 'ok') {
         ref.close();
         const dialogRef = this.showMessageBox('message', null, 'Ticket has been returned.');

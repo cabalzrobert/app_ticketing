@@ -26,7 +26,7 @@ import { FormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     // CommunicatorTicketComponent,
-    NewTicketDialogComponent,
+    NewTicketDialogComponent,  
     TicketComponent,
     MessageBoxDialog,
     CancelDialog

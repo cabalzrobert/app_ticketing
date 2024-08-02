@@ -1,4 +1,4 @@
-<div class="message-box-container">
+<!-- <div class="message-box-container">
     <div class="progress-container" *ngIf="data.isProgress">
         <mat-spinner class="spinner1"></mat-spinner>
         <label>Loading please wait...</label>
@@ -13,4 +13,42 @@
             Close
         </button>
     </div>
+</div> -->
+
+<div class="message-box-container" *ngIf="data.Type!=='confirmation'&&data.Type!=='resolve'">
+    <div class="progress-container" *ngIf="data.Type==='progress'">
+        <mat-spinner class="spinner1"></mat-spinner>
+        <label>Loading please wait...</label>
+    </div>
+    <div class="success-msg" *ngIf="data.Type==='message'">
+        <div>
+            <mat-icon color="primary">check_circle</mat-icon>
+            <h2>Success</h2>
+            <p>{{data.Message}}</p>
+        </div>
+        <button class="btn-close" mat-flat-button mat-dialog-close>
+            Close
+        </button>
+    </div>
 </div>
+<div class="confirmation-msg" *ngIf="data.Type==='confirmation'">
+    <mat-toolbar class="mat-dialog-header">
+        <h3>Confirm</h3>
+        <!-- <mat-icon mat-dialog-close>close</mat-icon> -->
+    </mat-toolbar>
+    <div class="content">
+        <div class="message">
+            <!-- <p>You are about to resolve this ticket. Are you sure all requirements have been meet?</p> -->
+            <p>{{data.Message}}</p>
+        </div>
+        <div class="buttons">
+            <button class="btn-close" mat-button cdkFocusInitial [mat-dialog-close]="false">
+                Close
+            </button>
+            <button class="btn-confirm" mat-flat-button (click)="confirm()">
+                Confirm
+            </button>
+        </div>
+    </div>
+</div>
+

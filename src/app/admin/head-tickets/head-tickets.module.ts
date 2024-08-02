@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { HeadTicketsRoutingModule } from './head-tickets-routing.module';
 import { TicketComponent } from './ticket/ticket.component';
-import { ForwardDialog, HeadTicketsComponent, MessageBoxDialog } from './head-tickets.component';
+import { CancelDialog, ForwardDialog, HeadTicketsComponent, MessageBoxDialog } from './head-tickets.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
@@ -30,7 +30,8 @@ import { FormsModule } from '@angular/forms';
     TicketComponent,
     NewTicketDialogComponent,
     MessageBoxDialog,
-    ForwardDialog
+    ForwardDialog,
+    CancelDialog
   ],
   imports: [
     CommonModule,

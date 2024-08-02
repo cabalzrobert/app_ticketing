@@ -214,3 +214,11 @@ body {
   width: 100vw;
   height: 100vh;
 }
+
+.mat-dialog-not-progress {
+  --mdc-dialog-container-shape: 10px;
+}
+
+.mat-dialog-progress {
+  --mdc-dialog-container-shape: 4px;
+}

@@ -319,7 +319,7 @@
 
                 </div>
 
-                <div class="cthfooter" *ngIf="!(TicketStatus == 3 || TicketStatus == 1)">
+                <div class="cthfooter" *ngIf="!(TicketStatus == 3 || TicketStatus == 1 || TicketStatus == 2)">
                     <div class="footerbody">
                         <div class="commentcontent" [formGroup]="commentform">
                             <textarea formControlName="Message" name="" id="" rows="4"
@@ -369,9 +369,17 @@
                     </div>
                 </div>
 
-                <div class="acknoledgefooter" *ngIf="TicketStatus == 1 || TicketStatus == 4">
+                <div class="acknoledgefooter" *ngIf="TicketStatus == 2">
                     <div class="acknowledge">
-                        <div class="footerbody" *ngIf="TicketStatus == 1 || TicketStatus == 4">
+                        <div class="footerbody" *ngIf="TicketStatus == 2">
+                            <label class="label1" for="">This ticket is canceled</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="acknoledgefooter" *ngIf="TicketStatus == 1">
+                    <div class="acknowledge">
+                        <div class="footerbody" *ngIf="TicketStatus == 1">
                             <label class="label1" for="">This ticket is resolved</label>
                         </div>
                     </div>
@@ -442,7 +450,7 @@
                     </div>
 
                 </div>
-                <div *ngIf="TicketStatus != 1" class="update" (click)="hUpdateTicket()">
+                <div *ngIf="!(TicketStatus == 1 || TicketStatus == 2)" class="update" (click)="hUpdateTicket()">
                     <i class="fa fa-regular fa-edit"></i>
                     <button>Update</button>
                 </div>
