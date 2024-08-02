@@ -510,6 +510,9 @@ export class HeadTicketsComponent {
     this.router.navigate(['../assignedticket'], { relativeTo: this.route });
     this.stepper.previous();
     this.personnels = [];
+    this.collections = [];
+    this.virtualScroll.setRenderedRange({ start: 0, end: 0 });
+    this.nextBatch({tab: this.tab});
   }
 
   openDialog() {
@@ -542,9 +545,9 @@ export class HeadTicketsComponent {
         const dialogRef = this.showMessageBox('message', null, 'Ticket has been assigned.', false, false);
         dialogRef.afterClosed().subscribe(() => {
           this.goBack();
-          this.collections = [];
-          this.virtualScroll.setRenderedRange({ start: 0, end: 0 });
-          this.nextBatch(this.tab);
+          // this.collections = [];
+          // this.virtualScroll.setRenderedRange({ start: 0, end: 0 });
+          // this.nextBatch(this.tab);
         })
         return;
       }
@@ -575,9 +578,9 @@ export class HeadTicketsComponent {
         const dialogRef = this.showMessageBox('message', null, 'Ticket has been returned.', false, false);
         dialogRef.afterClosed().subscribe(() => {
           this.goBack();
-          this.collections = [];
-          this.virtualScroll.setRenderedRange({ start: 0, end: 0 });
-          this.nextBatch(this.tab);
+          // this.collections = [];
+          // this.virtualScroll.setRenderedRange({ start: 0, end: 0 });
+          // this.nextBatch(this.tab);
         })
         return;
       }
@@ -629,9 +632,9 @@ export class HeadTicketsComponent {
       dialogRef.afterClosed().subscribe((result: any) => {
         if (result) {
           this.goBack();
-          this.collections = [];
-          this.virtualScroll.setRenderedRange({ start: 0, end: 0 });
-          this.nextBatch({tab: this.tab});
+          // this.collections = [];
+          // this.virtualScroll.setRenderedRange({ start: 0, end: 0 });
+          // this.nextBatch({tab: this.tab});
         }
       });
     }
@@ -714,12 +717,14 @@ export class HeadTicketsComponent {
           this.ticketDetail.status = 3;
           this.ticketDetail.ticketStatusId = 3;
           this.ticketDetail.isAssigned = true;
+          this.ticketDetail.assignedId = this.userDetail.USR_ID;
           this.ticketDetail.assignedName = this.userDetail.FLL_NM;
         }else
         {
           this.ticketDetail.status = 3;
           this.ticketDetail.ticketStatusId = 4;
           this.ticketDetail.isAssigned = true;
+          this.ticketDetail.assignedId = this.userDetail.USR_ID;
           this.ticketDetail.assignedName = this.userDetail.FLL_NM;
         }
       })
@@ -779,9 +784,9 @@ export class HeadTicketsComponent {
     dialogRef.afterClosed().subscribe((result)=>{
       if(result){
         this.goBack();
-        this.collections = [];
-        this.virtualScroll.setRenderedRange({ start: 0, end: 0 });
-        this.nextBatch({tab: this.tab});
+        // this.collections = [];
+        // this.virtualScroll.setRenderedRange({ start: 0, end: 0 });
+        // this.nextBatch({tab: this.tab});
 
         
         // this.ticketDetail.RFC = result.RFC;

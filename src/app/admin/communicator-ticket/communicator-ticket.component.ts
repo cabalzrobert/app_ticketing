@@ -420,6 +420,9 @@ export class CommunicatorTicketComponent {
     // location.assign(this.router.url);
     this.stepper.reset();
     this.departments = [];
+    this.collections = [];
+    this.virtualScroll.setRenderedRange({ start: 0, end: 0 });
+    this.nextBatch({tab: this.tab});
   }
 
   openDialog() {
@@ -473,10 +476,9 @@ export class CommunicatorTicketComponent {
         const dialogRef = this.showMessageBox('message', null, 'Ticket has been forwarded', false, false);
         dialogRef.afterClosed().subscribe(() => {
           this.goBack();
-          // this.onTabChange(this.tab);
-          this.collections = [];
-          this.virtualScroll.setRenderedRange({ start: 0, end: 0 });
-          this.nextBatch({ tab: this.tab, IsReset: true });
+          // this.collections = [];
+          // this.virtualScroll.setRenderedRange({ start: 0, end: 0 });
+          // this.nextBatch({ tab: this.tab, IsReset: true });
         })
         return;
       }
