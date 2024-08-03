@@ -77,7 +77,23 @@
                 <cdk-virtual-scroll-viewport class="scrolling-container" (scrolledIndexChange)="hScrollIndexChange()"
                     [itemSize]="50">
                     <div *cdkVirtualFor="let data of ticketpending; let i = index">
-                        <div class="cardticket1" *ngIf="!data.isRead">
+                        <div class="cardticket">
+                            <div class="cardticketcontent" (click)="hViewComment(data, i)">
+                                <div class="cardheader">
+                                    <div class="headertitle">{{data.TitleTicket}}</div>
+                                    <div class="headerdate">{{dateFormatted(true, data.CreatedDate)}}</div>
+                                </div>
+                                <div class="cardticketbody">{{data.TicketDescription}}</div>
+                                <div class="cardticketfooter">
+                                    <button>{{data.Statusname}}</button>
+                                    <div class="prioritylevel">
+                                        {{data.PriorityLevelname}}
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- <div class="cardticket1" *ngIf="!data.isRead">
                             <div class="cardticketcontent" (click)="hViewComment(data, i)">
                                 <div class="cardheader">
                                     <div class="headertitle">{{data.TitleTicket}}</div>
@@ -108,7 +124,7 @@
                                 </div>
                             </div>
 
-                        </div>
+                        </div> -->
                         <!-- <div *ngIf="data.NextFilter" class="loadmore">
                             <div (click)="hLoadMore(data, i)">Load More.. {{data.NextFilter.NextFilter}}</div>
                         </div> -->
@@ -123,13 +139,8 @@
                 <cdk-virtual-scroll-viewport class="scrolling-container" (scrolledIndexChange)="hScrollIndexChange()"
                     [itemSize]="50">
                     <div *cdkVirtualFor="let data of ticketpending; let i = index">
-                        <div class="cardticket1" *ngIf="!data.isRead">
+                        <!-- <div class="cardticket1" *ngIf="!data.isRead">
                             <div class="cardticketcontent" (click)="hViewComment(data, i)">
-                                <!-- <div class="cardheader">
-                                    <div class="headertitle">{{data.TitleTicket}}</div>
-                                    <div class="headerdate">{{dateFormatted(true, data.CreatedDate)}}</div>
-                                </div>
-                                <div class="cardticketbody">{{data.TicketDescription}}</div> -->
         
         
                                 <div class="cardheader">
@@ -144,21 +155,10 @@
                                     </div>
                                 </div>
         
-                                <!-- <div class="cardticketfooter">
-                                    <button>Unassigned</button>
-                                    <div class="prioritylevel">
-                                        {{data.PriorityLevel}}
-                                    </div>
-                                </div> -->
                             </div>
                         </div>
                         <div class="cardticket" *ngIf="data.isRead">
                             <div class="cardticketcontent" (click)="hViewComment(data, i)">
-                                <!-- <div class="cardheader">
-                                    <div class="headertitle">{{data.TitleTicket}}</div>
-                                    <div class="headerdate">{{dateFormatted(true, data.CreatedDate)}}</div>
-                                </div>
-                                <div class="cardticketbody">{{data.TicketDescription}}</div> -->
         
         
                                 <div class="cardheader">
@@ -172,13 +172,23 @@
                                         {{data.PriorityLevelname}}
                                     </div>
                                 </div>
+                            </div>
+                        </div> -->
+                        <div class="cardticket">
+                            <div class="cardticketcontent" (click)="hViewComment(data, i)">
         
-                                <!-- <div class="cardticketfooter">
-                                    <button>Unassigned</button>
+        
+                                <div class="cardheader">
+                                    <div class="headertitle">{{data.TitleTicket}}</div>
+                                    <div class="headerdate">{{dateFormatted(true, data.CreatedDate)}}</div>
+                                </div>
+                                <div class="cardticketbody">{{data.TicketDescription}}</div>
+                                <div class="cardticketfooter">
+                                    <button>{{data.Statusname}}</button>
                                     <div class="prioritylevel">
-                                        {{data.PriorityLevel}}
+                                        {{data.PriorityLevelname}}
                                     </div>
-                                </div> -->
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -189,7 +199,7 @@
                 <cdk-virtual-scroll-viewport class="scrolling-container" (scrolledIndexChange)="hScrollIndexChange()"
                     [itemSize]="50">
                     <div *cdkVirtualFor="let data of ticketpending; let i = index">
-                        <div class="cardticket1" *ngIf="!data.isRead">
+                        <!-- <div class="cardticket1" *ngIf="!data.isRead">
                             <div class="cardticketcontent" (click)="hViewComment(data, i)">
                                 <div class="cardheader">
                                     <div class="headertitle">{{data.TitleTicket}}</div>
@@ -220,7 +230,24 @@
                                 </div>
                             </div>
 
+                        </div> -->
+                        <div class="cardticket">
+                            <div class="cardticketcontent" (click)="hViewComment(data, i)">
+                                <div class="cardheader">
+                                    <div class="headertitle">{{data.TitleTicket}}</div>
+                                    <div class="headerdate">{{dateFormatted(true, data.CreatedDate)}}</div>
+                                </div>
+                                <div class="cardticketbody">{{data.TicketDescription}}</div>
+                                <div class="cardticketfooter">
+                                    <button>{{data.Statusname}}</button>
+                                    <div class="prioritylevel">
+                                        {{data.PriorityLevelname}}
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
+
 
                         <!-- <div *ngIf="data.NextFilter" class="loadmore">
                             <div (click)="hLoadMore(data, i)">Load More.. {{data.NextFilter.NextFilter}}</div>
