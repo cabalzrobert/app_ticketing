@@ -367,8 +367,10 @@ export class CommunicatorTicketComponent {
     // this.router.navigateByUrl('/head/dashboard/tickets/sample');
     this.ticketTitle = item.title;
     this.ticketDetail = item;
+    this.TransactionNo = item.transactionNo;
     console.log('Ticket Detail',this.ticketDetail);
     this.stepper.next();
+    this.getCommentList(this.ticketDetail.transactionNo);
     if (!item.departmentId)
       setTimeout(() => this.getDepartmentList());
     else if (item.isAssigned)

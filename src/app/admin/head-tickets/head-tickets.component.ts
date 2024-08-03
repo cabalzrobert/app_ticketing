@@ -498,7 +498,8 @@ export class HeadTicketsComponent {
     // this.router.navigateByUrl('/head/dashboard/tickets/sample');
     this.ticketTitle = item.title;
     this.ticketDetail = item;
-    console.log(this.ticketDetail);
+    this.TransactionNo = item.transactionNo;
+    //console.log('next',this.ticketDetail);
     this.stepper.next();
     this.getCommentList(this.ticketDetail.transactionNo);
     // if (!item.isAssigned)
@@ -943,6 +944,7 @@ export class HeadTicketsComponent {
       alert('Invalid Message')
       return;
     }
+    //console.log('hSendComment', this.TransactionNo);
     this.performSendComment({ TransactionNo: this.TransactionNo, Message: this.commentform.controls["Message"].value, isImage: false, isFile: false, isRead: false, isMessage: true, FileAttachment: this.commentform.value.FileAttachment });
     this.commentform.reset();
   }
