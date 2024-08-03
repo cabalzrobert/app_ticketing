@@ -652,7 +652,14 @@ export class HeadTicketsComponent {
   
             dialogRef.afterClosed().subscribe((result: any) => {
               if (result) {
-                console.log(result);
+                if(result.status===4){
+                  this.ticketDetail.isAssigned = true;
+                  this.ticketDetail.assignedId = result.assignedTo;
+                  this.ticketDetail.assignedName = result.assignedName;
+                }
+                else{
+                  this.goBack();
+                }
               }
             });
           }
@@ -1332,8 +1339,9 @@ export class ForwardDialog {
     this.forwardData.forwardCategory = val;
   }
 
-  selectPersonnel(val: string) {
-    this.forwardData.forwardTo = val;
+  selectPersonnel(val: any) {
+    this.forwardData.forwardTo = val.userId;
+    this.forwardData.forwardToName = val.name;
   }
 
   setRemarks(val: string) {
@@ -1387,13 +1395,15 @@ export class ForwardDialog {
     param.assignedDepartment = this.data.Department;
     param.categoryId = this.forwardData.forwardCategory;
     param.assignedTo = this.forwardData.forwardTo;
+    param.assignedName = this.forwardData.forwardToName;
+    param.forwardRemarks = this.forwardData.forwardRemarks;
     param.status = 4;
     rest.post('head/ticket/assign', param).subscribe((res: any) => {
       if (res.Status === 'ok') {
         ref.close();
         const dialogRef = this.showMessageBox('message', null, 'Ticket has been assigned.');
         dialogRef.afterClosed().subscribe(() => {
-          this.dialogRef.close(true);
+          this.dialogRef.close(param);
         })
         return;
       }

@@ -193,7 +193,7 @@
                                         <img src="assets/image/icon_blank_profile.png" alt="">
                                     </div>
                                     <div class="commentcard">
-                                        <div class="message" *ngIf="data.isMessage && !data.isImage">{{data.Message}}
+                                        <div class="message" *ngIf="data.isMessage && !data.isImage" [innerText]="data.Message">
                                         </div>
                                         <div class="attachmFile" *ngIf="data.isImage">
                                             <img *ngIf="data.ImageAttachment != ''" src={{data.ImageAttachment}} alt="">
@@ -209,7 +209,7 @@
                                 </div>
                                 <div class="isyourcomment" *ngIf="data.IsYou && data.isMessage">
                                     <div class="yourcommentcard">
-                                        <div class="message" *ngIf="data.isMessage && !data.isImage">{{data.Message}}
+                                        <div class="message" *ngIf="data.isMessage && !data.isImage" [innerText]="data.Message">
                                         </div>
                                         <div class="attachmFile" *ngIf="data.isImage">
                                             <img *ngIf="data.ImageAttachment != ''" src={{data.ImageAttachment}} alt="">
