@@ -471,7 +471,7 @@ mat-card {
             }
 
             .footer-buttons {
-                height: 23vh;
+                height: 19vh;
                 display: flex;
                 flex-direction: column;
                 justify-content: end;
@@ -483,6 +483,11 @@ mat-card {
                 // background: #4845D2;
                 // color: #fff;
                 font-size: 18px;
+            }
+
+            .btn-attachment{
+                color: #fff;
+                background: #4845D2;
             }
 
             .btn-forward{

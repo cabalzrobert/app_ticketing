@@ -391,7 +391,7 @@
                             </div> -->
                         </mat-card-content>
                     </mat-card>
-                    <div class="footer-inner-container" *ngIf="ticketDetail?.status===1">
+                    <div class="footer-inner-container" >
                         <div class="inner-content">
                             <div class="assign-to">
                                 <!-- <div class="searchbar">
@@ -420,7 +420,14 @@
                                         </mat-select>
                                     </div>
                                 </div> -->
-                                <div class="footer-buttons" *ngIf="!(ticketDetail?.ticketStatusId===3||ticketDetail?.ticketStatusId==1)">
+
+                                <div class="footer-buttons0" *ngIf="ticketDetail?.ticketStatusId!==4">
+                                    <button class="btn-attachment" mat-flat-button (click)="hViewAttachment()">
+                                        <mat-icon iconPositionEnd>image</mat-icon>
+                                        Attachments
+                                    </button>
+                                </div>
+                                <div class="footer-buttons" *ngIf="ticketDetail?.status===1&&!(ticketDetail?.ticketStatusId===3||ticketDetail?.ticketStatusId==1)">
                                     <button class="btn-forward" mat-flat-button (click)="onForwardTicket()">
                                         Forward
                                         <mat-icon iconPositionEnd>east</mat-icon>
