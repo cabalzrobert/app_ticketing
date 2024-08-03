@@ -188,7 +188,7 @@
                             class="bodycontent">
                             <div class="commentlist" *ngFor="let data of ticketcomment">
 
-                                <div class="notyourcomment" *ngIf="!data.IsYou && data.isMessage">
+                                <div class="notyourcomment" *ngIf="!data.IsYou && data.isMessage && !!data.Message">
                                     <div class="profpic">
                                         <img src="assets/image/icon_blank_profile.png" alt="">
                                     </div>
@@ -207,7 +207,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="isyourcomment" *ngIf="data.IsYou && data.isMessage">
+                                <div class="isyourcomment" *ngIf="data.IsYou && data.isMessage && !!data.Message">
                                     <div class="yourcommentcard">
                                         <div class="message" *ngIf="data.isMessage && !data.isImage" [innerText]="data.Message">
                                         </div>
@@ -244,7 +244,7 @@
                     </div>
 
                 </div>
-                <div class="cthfooter" *ngIf="ticketDetail?.status!==1||ticketDetail?.ticketStatusId!==3">
+                <div class="cthfooter" *ngIf="ticketDetail?.status!==1||!(ticketDetail?.ticketStatusId===3||ticketDetail?.ticketStatusId===1)">
                     <div class="footerbody">
                         <div class="commentcontent" [formGroup]="commentform">
                             <textarea formControlName="Message" name="" id="" rows="4"
@@ -420,7 +420,7 @@
                                         </mat-select>
                                     </div>
                                 </div> -->
-                                <div class="footer-buttons" *ngIf="ticketDetail?.ticketStatusId!==3">
+                                <div class="footer-buttons" *ngIf="!(ticketDetail?.ticketStatusId===3||ticketDetail?.ticketStatusId==1)">
                                     <button class="btn-forward" mat-flat-button (click)="onForwardTicket()">
                                         Forward
                                         <mat-icon iconPositionEnd>east</mat-icon>
