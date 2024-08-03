@@ -46,7 +46,8 @@
     background-color: #fff;
     display: flex;
     flex-direction: column;
-    height: fit-content;
+    //height: fit-content;
+    height: auto;
 
     .usermodalheader {
         border-bottom: solid 1px #CCC;
@@ -72,11 +73,13 @@
 
     .usermodalcontent {
         flex-grow: 1;
-        padding: 30px;
+        padding: 20px 20px 20px 20px;
         font-size: 18px;
         display: flex;
         //flex-direction: column;
-        gap: 16px;
+        gap: 8px;
+        height: calc(100% - 122px);
+        overflow: auto;
 
         .postionheader {
             display: flex;

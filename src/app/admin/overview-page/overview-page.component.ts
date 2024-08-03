@@ -123,6 +123,7 @@ export class OverviewPageComponent implements OnInit {
       this.markasread = false;
       return;
     }
+    console.log('hOpenNotification data', data);
     this.performSeenTicket(data.NotificationID);
     this.ticketnotification[idx] = data;
     data.S_OPN = true;
