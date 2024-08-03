@@ -24,8 +24,8 @@
         <div class="tp-personnel" *ngIf="!this.data.IsRequiredOtherDepartment">
             <p class="custom-label">Personnel</p>
             <div class="custom-select">
-                <mat-select placeholder="Select a personnel" (valueChange)="selectPersonnel($event)">
-                    <mat-option [value]="personnel.userId" *ngFor="let personnel of personnels">{{personnel.name}}</mat-option>
+                <mat-select placeholder="Select a personnel" >
+                    <mat-option [value]="personnel.userId" *ngFor="let personnel of personnels" (click)="selectPersonnel(personnel)">{{personnel.name}}</mat-option>
                 </mat-select>
             </div>
         </div>
