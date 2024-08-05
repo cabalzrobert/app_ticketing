@@ -1869,6 +1869,9 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
 
   hRemoveItem() {
     this.ticketpending.splice(this.ticketindex, 1);
+    this.ticketlist = this.ticketpending;
+    this.ticketpending = [];
+    this.ticketpending = this.ticketpending.concat(this.ticketlist);
     this.pending = (parseInt(this.pending) - 1).toString();
     this.resolve = (parseInt(this.resolve) + 1).toString();
   }

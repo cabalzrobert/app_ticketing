@@ -86,7 +86,8 @@ export class CommunicatorTicketComponent {
   ngOnInit() {
     // alert('Yeeee');
     // this.onTabChange({ tab: 0, IsReset: true });
-    //console.log('Communicator ngOnit AuthServie this.authService.requesttickect.data.IsAssigned', this.authService.requesttickect.data.IsAssigned);
+    console.log('Communicator ngOnit AuthServie this.authService.requesttickect.data.IsAssigned', this.authService.requesttickect.data);
+    console.log('Communicator ngOnit AuthServie this.authService.requesttickect.data.IsAssigned', this.authService.requesttickect.IsAssigned);
 
     this.getTicketCount();
     device.ready(() => this.stompWebsocketReceiver());
@@ -94,15 +95,15 @@ export class CommunicatorTicketComponent {
 
     if (Object.keys(this.authService.requesttickect).length > 0) {
       this.tab = 0
-      if (this.authService.requesttickect.data.IsAssigned) {
-        this.tab = 1;
+      if (this.authService.requesttickect.IsAssigned) {
+        this.tab = 3;
       }
       else {
-        this.tab = 0;
+        this.tab = 3;
       }
-
+      console.log('receivedtickets', this.authService.requesttickect.TransactionNo)
       //this.nextBatch({tab:this.tab, search:this.authService.requesttickect.TransactionNo, IsReset: false})
-      this.searchTicket(this.authService.requesttickect.data.TransactionNo);
+      this.searchTicket(this.authService.requesttickect.TransactionNo);
     }
 
   }
@@ -368,7 +369,7 @@ export class CommunicatorTicketComponent {
     this.ticketTitle = item.title;
     this.ticketDetail = item;
     this.TransactionNo = item.transactionNo;
-    console.log('Ticket Detail',this.ticketDetail);
+    console.log('Ticket Detail', this.ticketDetail);
     this.stepper.next();
     this.getCommentList(this.ticketDetail.transactionNo);
     if (!item.departmentId)
@@ -426,7 +427,7 @@ export class CommunicatorTicketComponent {
     this.departments = [];
     this.collections = [];
     this.virtualScroll.setRenderedRange({ start: 0, end: 0 });
-    this.nextBatch({tab: this.tab});
+    this.nextBatch({ tab: this.tab });
   }
 
   openDialog() {
@@ -494,32 +495,32 @@ export class CommunicatorTicketComponent {
     });
   }
 
-  onResolvingTicket(){
-    const dialogRef = this.showMessageBox('confirmation', this.ticketDetail, 'You are about to resolve this ticket. Are you sure all requirements have been meet?',false,false);
-      dialogRef.afterClosed().subscribe((result: any) => {
-        console.log('onResolving',result);
-        if (result) {
+  onResolvingTicket() {
+    const dialogRef = this.showMessageBox('confirmation', this.ticketDetail, 'You are about to resolve this ticket. Are you sure all requirements have been meet?', false, false);
+    dialogRef.afterClosed().subscribe((result: any) => {
+      console.log('onResolving', result);
+      if (result) {
 
-          const progDialogRef = this.showMessageBox('progress',null,null,false,false);
-          setTimeout(()=>this.onPerformResolveTicket(progDialogRef),725); 
+        const progDialogRef = this.showMessageBox('progress', null, null, false, false);
+        setTimeout(() => this.onPerformResolveTicket(progDialogRef), 725);
 
-          // if(this.ticketDetail.isAssigned){
-          //   this.ticketDetail.status = 1;
-          //   this.ticketDetail.ticketStatusId = 3;
-          // }
-          // else
-          // {
-          //   this.ticketDetail.isDone = true;
-          // }
-        }
-      })
+        // if(this.ticketDetail.isAssigned){
+        //   this.ticketDetail.status = 1;
+        //   this.ticketDetail.ticketStatusId = 3;
+        // }
+        // else
+        // {
+        //   this.ticketDetail.isDone = true;
+        // }
+      }
+    })
   }
 
   onPerformResolveTicket(ref: MatDialogRef<MessageBoxDialog>) {
     rest.post(`head/ticket/resolve?ticketNo=${this.ticketDetail.ticketNo}`).subscribe((res: any) => {
       if (res.Status === 'ok') {
         ref.close();
-        const dialogRef = this.showMessageBox('message', null, 'Ticket has been resolved.',false,false);
+        const dialogRef = this.showMessageBox('message', null, 'Ticket has been resolved.', false, false);
         dialogRef.afterClosed().subscribe(() => {
           this.ticketDetail.ticketStatusId = 3;
         });
@@ -533,10 +534,10 @@ export class CommunicatorTicketComponent {
     })
   }
 
-  decline(){
+  decline() {
     rest.post(`head/ticket/cancel?ticketNo=${this.ticketDetail.ticketNo}`, {}).subscribe((res: any) => {
       if (res.Status === 'ok') {
-        if(this.ticketDetail.status===1&&this.ticketDetail.ticketStatusId===3){
+        if (this.ticketDetail.status === 1 && this.ticketDetail.ticketStatusId === 3) {
           this.ticketDetail.ticketStatusId = 4;
         }
         // console.log(this.ticketDetail.status,this.ticketDetail.ticketStatusId);
@@ -567,10 +568,10 @@ export class CommunicatorTicketComponent {
   //     data: { isProgress: isProgress, isMessage: isMessage, message: message }
   //   });
   // }
-  
+
   showMessageBox(type: string, ticketDetail: any, message: any, isCancel: boolean, isForward: boolean): any {
     return this.dialog.open(MessageBoxDialog, {
-      panelClass: type === 'progress'?'mat-dialog-progress':'mat-dialog-not-progress',
+      panelClass: type === 'progress' ? 'mat-dialog-progress' : 'mat-dialog-not-progress',
       disableClose: true,
       width: type !== 'progress' ? '17%' : 'auto',
       data: { Type: type, Message: message, TicketDetail: ticketDetail, IsCancel: isCancel, IsForward: isForward }
@@ -873,7 +874,7 @@ export class MessageBoxDialog {
 
   constructor(private dialogRef: MatDialogRef<CommunicatorTicketComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
 
-  confirm(){
+  confirm() {
     this.dialogRef.close(true);
   }
 }

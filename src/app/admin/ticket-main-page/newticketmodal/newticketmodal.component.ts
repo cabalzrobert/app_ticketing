@@ -204,6 +204,9 @@ export class NewticketmodalComponent implements OnInit {
         this.form.value.Statusname = res.Content.Statusname;
         this.form.value.CreatedDate = res.Content.CreatedDate;
         this.form.value.Attachment = res.Content.Attachment;
+        this.form.value.TicketStatus = res.Content.Status;
+        this.form.value.TicketStatusname = res.Content.Statusname;
+
 
         this.successDialogRef = this.dialog.open(AlertSuccessModalComponent, { data: { item: { Icon: 'fa fa-solid fa-check', Message: res.Message, ButtonText: 'Success', isConfirm: true } } });
         this.successDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {

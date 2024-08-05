@@ -117,6 +117,7 @@ export class OverviewPageComponent implements OnInit {
   }
   async hOpenNotification(data: any, idx: number) {
     //timeout(() => this.performIsAssignedTicket(data.TransactionNo));
+    console.log('Overview', this.input);
 
 
     if (this.markasread) {
@@ -128,7 +129,22 @@ export class OverviewPageComponent implements OnInit {
     this.ticketnotification[idx] = data;
     data.S_OPN = true;
     additionalRequestNotification(-1);
+    if(this.input.ACT_TYP == 4){
+      this.authService.requesttickect = data;
+      console.log('Account Type:', this.input.ACT_TYP_NM);
+      this.router.navigateByUrl('dashboard/receivedtickets');
+    }
+    else if(this.input.ACT_TYP == 5){
+      this.authService.requesttickect = data;
+      console.log('Account Type:', this.input.ACT_TYP_NM)
+      this.router.navigateByUrl('dashboard/assignedticket');
+    }
+    else if(this.input.ACT_TYP == 6){
+      console.log('Account Type:', this.input.ACT_TYP_NM)
+    }
+    /*
     if (data.Type == 'Ticket-Request') {
+      console.log('performIsAssignedTicket hOpenNotification', this.authService.requesttickect)
       await this.performIsAssignedTicket(data.TransactionNo, data)
 
 
@@ -136,21 +152,34 @@ export class OverviewPageComponent implements OnInit {
     }
     if (data.Type == 'Forward-Ticket' || data.Type == 'Assigned-Ticket') {
       this.authService.requesttickect = data;
-      this.router.navigateByUrl('dashboard/assignedticket');
+      
+      //this.router.navigateByUrl('dashboard/assignedticket');
+      
+      console.log('performIsAssignedTicket hOpenNotification', this.authService.requesttickect)
+
+      this.router.navigateByUrl('dashboard/receivedtickets');
+
       //timeout(() => this._communicator.hSearchReceivedTicket(data.Description));
     }
+      */
   }
   public performIsAssignedTicket(transactionNo: any, data: any) {
+    console.log('Overview', this.input);
     this.isassigned = false;
     this.subs.s2 = rest.post('ticket/isassigned?transactionNo=' + transactionNo).subscribe(async (res: any) => {
       if ((res || {}).status != 'error') {
         this.ticketisassigned.transactionNo = transactionNo;
         this.ticketisassigned.IsAssigned = res;
         this.authService.requesttickect.IsAssigned = res;
+        console.log('performIsAssignedTicket data.Type', data.Type);
         if (data.Type == 'Ticket-Request') {
           data.IsAssigned = res;
           this.authService.requesttickect = { data };
-          this.router.navigateByUrl('dashboard/receivedtickets');
+          console.log('performIsAssignedTicket', this.authService.requesttickect)
+          if (this.input.ACT_TYP == 4)
+            this.router.navigateByUrl('dashboard/receivedtickets');
+          else if (this.input.ACT_TYP == 5)
+            this.router.navigateByUrl('dashboard/assignedticket');
         }
 
         //this.ticketisassigned = ({transactionNo: transactionNo, IsAssigned: res});
@@ -388,7 +417,7 @@ export class OverviewPageComponent implements OnInit {
     this.subs.ws1 = stomp.subscribe('/' + iscom + '/ticketrequest/iscommunicator', (json: any) => this.receivedRequestTicketCommunicator(json));
     this.subs.ws1 = stomp.subscribe('/forwardticket/depthead/' + isdepthead, (json: any) => this.receivedforwardedTicket(json));
     this.subs.ws1 = stomp.subscribe('/assigned', (json: any) => this.receivedAssignedTicket(json));
-    
+
     this.subs.ws1 = stomp.subscribe('/test/notify', (json: any) => this.receivedNotify(json));
     stomp.ready(() => (stomp.refresh(), stomp.connect()));
   }
@@ -502,7 +531,7 @@ export class OverviewPageComponent implements OnInit {
       "FulldateDisplay": "Jul 31, 2024 08:26:55 AM"
     }
   };
-  notificationid:number = 161;
+  notificationid: number = 161;
   HAdd() {
     this.notificationid = this.notificationid + 1;
     this.overviewnotification.notification.NotificationID = this.notificationid

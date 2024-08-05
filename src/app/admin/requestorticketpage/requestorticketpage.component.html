@@ -81,7 +81,8 @@
                             <div class="cardticketcontent" (click)="hViewComment(data, i)">
                                 <div class="cardheader">
                                     <div class="headertitle">{{data.TitleTicket}}</div>
-                                    <div class="headerdate">{{dateFormatted(true, data.CreatedDate)}}</div>
+                                    <!-- <div class="headerdate">{{dateFormatted(true, data.CreatedDate)}}</div> -->
+                                    <div class="headerdate">{{data.CreatedDate}}</div>
                                 </div>
                                 <div class="cardticketbody">{{data.TicketDescription}}</div>
                                 <div class="cardticketfooter">
@@ -180,7 +181,8 @@
         
                                 <div class="cardheader">
                                     <div class="headertitle">{{data.TitleTicket}}</div>
-                                    <div class="headerdate">{{dateFormatted(true, data.CreatedDate)}}</div>
+                                    <!-- <div class="headerdate">{{dateFormatted(true, data.CreatedDate)}}</div> -->
+                                    <div class="headerdate">{{data.CreatedDate}}</div>
                                 </div>
                                 <div class="cardticketbody">{{data.TicketDescription}}</div>
                                 <div class="cardticketfooter">
@@ -235,7 +237,8 @@
                             <div class="cardticketcontent" (click)="hViewComment(data, i)">
                                 <div class="cardheader">
                                     <div class="headertitle">{{data.TitleTicket}}</div>
-                                    <div class="headerdate">{{dateFormatted(true, data.CreatedDate)}}</div>
+                                    <!-- <div class="headerdate">{{dateFormatted(true, data.CreatedDate)}}</div> -->
+                                    <div class="headerdate">{{data.CreatedDate}}</div>
                                 </div>
                                 <div class="cardticketbody">{{data.TicketDescription}}</div>
                                 <div class="cardticketfooter">
@@ -493,5 +496,5 @@
 
 </div>
 
-<div class="nodata" *ngIf="ticketpending.length == 0">No data</div>
+<!-- <div class="nodata" *ngIf="ticketpending.length == 0">No data</div> -->
 <div class="loader" *ngIf="loader"></div>
