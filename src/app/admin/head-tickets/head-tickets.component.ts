@@ -659,6 +659,7 @@ export class HeadTicketsComponent {
           }
           else{
             const dialogRef = this.dialog.open(ForwardDialog, {
+              panelClass: 'mat-dialog-not-progress',
               data: { TicketDetail: this.ticketDetail, IsRequiredOtherDepartment: result, Department: !result?this.userDetail.DEPT_ID:null }
             })
   
@@ -728,44 +729,100 @@ export class HeadTicketsComponent {
   }
 
   onResolvingTicket() {
-    if(!this.ticketDetail.isAssigned) {
-      const dialogRef = this.showMessageBox('resolve', this.ticketDetail, 'Does it require other department?', false, false);
-      dialogRef.afterClosed().subscribe((result: any) => {
-        console.log('onResolving',result);
-        if (!result) {
+
+    if(!this.ticketDetail.isRequiredCommunicator){
+      const dialogRef = this.showMessageBox('progress', null, null, false, false);
+      setTimeout(()=>this.onPerformResolveTicket(dialogRef), 725);
+    }
+    else{
+      const dialogRef = this.showMessageBox('progress', null, null, false, false);
+      setTimeout(()=>this.onPerformHDResolveTicket(dialogRef), 725);
+    }
+
+
+    // if(!this.ticketDetail.isAssigned) {
+    //   const dialogRef = this.showMessageBox('resolve', this.ticketDetail, 'Does it require other department?', false, false);
+    //   dialogRef.afterClosed().subscribe((result: any) => {
+    //     console.log('onResolving',result);
+    //     if (!result) {
+    //       this.ticketDetail.status = 3;
+    //       this.ticketDetail.ticketStatusId = 3;
+    //       this.ticketDetail.isAssigned = true;
+    //       this.ticketDetail.assignedId = this.userDetail.USR_ID;
+    //       this.ticketDetail.assignedName = this.userDetail.FLL_NM;
+    //     }else
+    //     {
+    //       this.ticketDetail.status = 3;
+    //       this.ticketDetail.ticketStatusId = 4;
+    //       this.ticketDetail.isAssigned = true;
+    //       this.ticketDetail.assignedId = this.userDetail.USR_ID;
+    //       this.ticketDetail.assignedName = this.userDetail.FLL_NM;
+    //     }
+    //   })
+    // }
+    // else {
+    //   const dialogRef = this.showMessageBox('confirmation', this.ticketDetail, 'You are about to resolve this ticket. Are you sure all requirements have been meet?', false, false);
+    //   dialogRef.afterClosed().subscribe((result: any) => {
+    //     console.log('onResolving',result);
+    //     if (result) {
+    //       if(this.ticketDetail.isAssigned){
+    //         this.ticketDetail.status = 3;
+    //         this.ticketDetail.ticketStatusId = 3;
+    //       }
+    //       else
+    //       {
+    //         this.ticketDetail.isDone = true;
+    //       }
+    //       // this.goBack();
+    //       // this.onTabChange(this.tab);
+    //     }
+    //   })
+    // }
+  }
+
+  onPerformResolveTicket(ref: MatDialogRef<MessageBoxDialog>) {
+    rest.post(`head/ticket/resolve?ticketNo=${this.ticketDetail.ticketNo}`).subscribe((res: any) => {
+      if (res.Status === 'ok') {
+        ref.close();
+        const dialogRef = this.showMessageBox('message', null, 'Ticket has been resolved.',false,false);
+        dialogRef.afterClosed().subscribe(() => {
+          // this.dialogRef.close(true);
           this.ticketDetail.status = 3;
           this.ticketDetail.ticketStatusId = 3;
           this.ticketDetail.isAssigned = true;
           this.ticketDetail.assignedId = this.userDetail.USR_ID;
           this.ticketDetail.assignedName = this.userDetail.FLL_NM;
-        }else
-        {
+        });
+        return;
+      }
+      alert('Failed');
+      ref.close();
+    }, (err: any) => {
+      alert('System Error!');
+      ref.close();
+    })
+  }
+  
+  onPerformHDResolveTicket(ref: MatDialogRef<MessageBoxDialog>) {
+    rest.post(`head/ticket/hdresolve?ticketNo=${this.ticketDetail.ticketNo}`).subscribe((res: any) => {
+      if (res.Status === 'ok') {
+        ref.close();
+        const dialogRef = this.showMessageBox('message', null, 'Ticket has been resolved.',false,false);
+        dialogRef.afterClosed().subscribe(() => {
           this.ticketDetail.status = 3;
           this.ticketDetail.ticketStatusId = 4;
           this.ticketDetail.isAssigned = true;
           this.ticketDetail.assignedId = this.userDetail.USR_ID;
           this.ticketDetail.assignedName = this.userDetail.FLL_NM;
-        }
-      })
-    }
-    else {
-      // const dialogRef = this.showMessageBox('confirmation', this.ticketDetail, 'You are about to resolve this ticket. Are you sure all requirements have been meet?', false, false);
-      // dialogRef.afterClosed().subscribe((result: any) => {
-      //   console.log('onResolving',result);
-      //   if (result) {
-      //     if(this.ticketDetail.isAssigned){
-      //       this.ticketDetail.status = 3;
-      //       this.ticketDetail.ticketStatusId = 3;
-      //     }
-      //     else
-      //     {
-      //       this.ticketDetail.isDone = true;
-      //     }
-      //     // this.goBack();
-      //     // this.onTabChange(this.tab);
-      //   }
-      // })
-    }
+        })
+        return;
+      }
+      alert('Failed');
+      ref.close();
+    }, (err: any) => {
+      alert('System Error!');
+      ref.close();
+    })
   }
 
   decline = async () => {
@@ -878,9 +935,10 @@ export class HeadTicketsComponent {
 
   showMessageBox(type: string, ticketDetail: any, message: any, isCancel: boolean, isForward: boolean): any {
     return this.dialog.open(MessageBoxDialog, {
+      panelClass: type==='progress'||type==='message'?'mat-dialog-progress':'mat-dialog-not-progress',
       disableClose: true,
       width: type !== 'progress' ? '15%' : 'auto',
-      data: { Type: type, Message: message, TicketDetail: ticketDetail, IsCancel: isCancel, IsForward: isForward }
+      data: { Type: type, Message: message, TicketDetail: ticketDetail, IsCancel: isCancel, IsForward: isForward, IsSuccess: true }
     });
   }
 
@@ -1183,7 +1241,7 @@ export class HeadTicketsComponent {
 })
 export class MessageBoxDialog {
 
-  constructor(private dialog: MatDialog, private dialogRef: MatDialogRef<HeadTicketsComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
+  constructor(private dialog: MatDialog, private dialogRef: MatDialogRef<HeadTicketsComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   confirm() {
     if(this.data.IsForward)
@@ -1265,6 +1323,7 @@ export class MessageBoxDialog {
 
   showMessageBox(type: string, ticketDetail: any, message: any): any {
     return this.dialog.open(MessageBoxDialog, {
+      panelClass: type==='progress'||type==='message'?'mat-dialog-progress':'mat-dialog-not-progress',
       disableClose: true,
       width: type !== 'progress' ? '20%' : 'auto',
       data: { Type: type, Message: message, TicketDetail: ticketDetail }
@@ -1365,8 +1424,16 @@ export class ForwardDialog {
     console.log(val);
   }
 
+  forwardInputValidation(): boolean{
+    let isValid = true;
+    if(!this.forwardData.forwardDepartment){
+      isValid = false;
+    }
+    return isValid;
+  }
+
   onConfirmForwardTicket() {
-    const dialogRef = this.showMessageBox('progress', null, null);
+    const dialogRef = this.showMessageBox('progress', null, false);
     if(!this.data.IsRequiredOtherDepartment){
       if(this.data.TicketDetail.ticketStatusId===4)
         setTimeout(() => this.onPerformConfirmForwardTicket(dialogRef), 725);
@@ -1378,17 +1445,17 @@ export class ForwardDialog {
   }
 
   onPerformConfirmForwardTicket(ref: MatDialogRef<MessageBoxDialog>) {
-    // ref.close();
-    // const dialogRef = this.showMessageBox(false,true,'Ticket has been forwarded.');
-    // dialogRef.afterClosed().subscribe((result: any)=>{
-    //   this.dialogRef.close();
-    // });
+    if(!this.forwardInputValidation()){
+      ref.close();
+      this.showMessageBox('message', 'Please fill the required fields', false);
+      return;
+    }
     this.forwardData.ticketNo = this.data.TicketDetail.ticketNo;
     this.forwardData.status = 1;
     rest.post('head/ticket/forward', this.forwardData).subscribe((res: any) => {
       if (res.Status === 'ok') {
         ref.close();
-        const dialogRef = this.showMessageBox('message', null, 'Ticket has been forwarded.');
+        const dialogRef = this.showMessageBox('message', 'Ticket has been forwarded.', true);
         dialogRef.afterClosed().subscribe(() => {
           this.dialogRef.close(this.forwardData);
         })
@@ -1402,7 +1469,23 @@ export class ForwardDialog {
     });
   }
 
+  assignInputValidation(): boolean{
+    let isValid = true;
+    if(!this.forwardData.forwardTo){
+      isValid = false;
+    }
+    else if(!this.forwardData.forwardCategory){
+      isValid = false;
+    }
+    return isValid;
+  }
+
   onSubmitAssignTicket(ref: MatDialogRef<MessageBoxDialog>) {
+    if(!this.assignInputValidation()){
+      ref.close();
+      this.showMessageBox('message', 'Please fill the required fields', false);
+      return;
+    }
     const param: any = {};
     param.ticketNo = this.data.TicketDetail.ticketNo;
     param.assignedDepartment = this.data.Department;
@@ -1414,7 +1497,7 @@ export class ForwardDialog {
     rest.post('head/ticket/assign', param).subscribe((res: any) => {
       if (res.Status === 'ok') {
         ref.close();
-        const dialogRef = this.showMessageBox('message', null, 'Ticket has been assigned.');
+        const dialogRef = this.showMessageBox('message', 'Ticket has been assigned.', true);
         dialogRef.afterClosed().subscribe(() => {
           this.dialogRef.close(param);
         })
@@ -1428,11 +1511,12 @@ export class ForwardDialog {
     });
   }
 
-  showMessageBox(type: string, ticketDetail: any, message: any): any {
+  showMessageBox(type: string, message: any, isSuccess: boolean): any {
     return this.dialog.open(MessageBoxDialog, {
+      panelClass: type==='progress'||type==='message'?'mat-dialog-progress':'mat-dialog-not-progress',
       disableClose: true,
       width: type !== 'progress' ? '20%' : 'auto',
-      data: { Type: type, Message: message, TicketDetail: ticketDetail }
+      data: { Type: type, Message: message, IsSuccess: isSuccess}
     });
   }
 }
@@ -1464,6 +1548,7 @@ export class CancelDialog {
 
   showMessageBox(type: string, ticketDetail: any, message: any, isCancel: boolean, isForward: boolean): any {
     return this.dialog.open(MessageBoxDialog, {
+      panelClass: type==='progress'||type==='message'?'mat-dialog-progress':'mat-dialog-not-progress',
       disableClose: true,
       width: type !== 'progress' ? '15%' : 'auto',
       data: { Type: type, Message: message, TicketDetail: ticketDetail, IsCancel: isCancel, IsForward: isForward }

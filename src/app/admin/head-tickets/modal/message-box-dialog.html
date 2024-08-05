@@ -4,9 +4,14 @@
         <label>Loading please wait...</label>
     </div>
     <div class="success-msg" *ngIf="data.Type==='message'">
-        <div>
+        <div *ngIf="data.IsSuccess">
             <mat-icon color="primary">check_circle</mat-icon>
             <h2>Success</h2>
+            <p>{{data.Message}}</p>
+        </div>
+        <div *ngIf="!data.IsSuccess">
+            <mat-icon color="warn">cancel</mat-icon>
+            <h2 style="color:red">Failed</h2>
             <p>{{data.Message}}</p>
         </div>
         <button class="btn-close" mat-flat-button mat-dialog-close>
