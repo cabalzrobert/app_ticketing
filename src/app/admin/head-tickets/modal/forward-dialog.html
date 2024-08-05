@@ -6,7 +6,7 @@
     <div class="dialog-content">
         <h3>Transfer this ticket to other department</h3>
         <div class="tp-category" *ngIf="this.data.IsRequiredOtherDepartment">
-            <p class="custom-label">Department</p>
+            <p class="custom-label"><span style="color:red">*</span> Department</p>
             <div class="custom-select">
                 <mat-select placeholder="Select a department" (valueChange)="selectDepartment($event)">
                     <mat-option [value]="department.DepartmentID" *ngFor="let department of departments">{{department.DepartmentName}}</mat-option>
@@ -14,7 +14,7 @@
             </div>
         </div>
         <div class="tp-category" *ngIf="!this.data.IsRequiredOtherDepartment">
-            <p class="custom-label">Category</p>
+            <p class="custom-label"><span style="color:red">*</span> Category</p>
             <div class="custom-select">
                 <mat-select placeholder="Select a category" (valueChange)="selectCategory($event)">
                     <mat-option [value]="category.CategoryID" *ngFor="let category of categories">{{category.Categoryname}}</mat-option>
@@ -22,7 +22,7 @@
             </div>
         </div>
         <div class="tp-personnel" *ngIf="!this.data.IsRequiredOtherDepartment">
-            <p class="custom-label">Personnel</p>
+            <p class="custom-label"><span style="color:red">*</span> Personnel</p>
             <div class="custom-select">
                 <mat-select placeholder="Select a personnel" >
                     <mat-option [value]="personnel.userId" *ngFor="let personnel of personnels" (click)="selectPersonnel(personnel)">{{personnel.name}}</mat-option>
@@ -37,7 +37,7 @@
             <mat-checkbox (change)="updateCheck($event.checked)">Forward to other department</mat-checkbox>
         </div> -->
         <div class="footer">
-            <button class="btn-close" mat-button cdkFocusInitial [mat-dialog-close]="false">
+            <button class="btn-close" mat-button [mat-dialog-close]="false">
                 Close
             </button>
             <button class="btn-confirm" mat-flat-button (click)="onConfirmForwardTicket()">

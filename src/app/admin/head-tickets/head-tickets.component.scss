@@ -538,7 +538,7 @@ mat-card {
 }
 
 .forward-resolve-container {
-    height: 44vh;
+    height: 39vh;
     display: flex;
     flex-direction: column;
     justify-content: end;
@@ -557,6 +557,11 @@ mat-card {
 .disabled{
     cursor: not-allowed;
     opacity: 0.75;
+}
+
+.btn-attachment{
+    color: #fff;
+    background: #4845D2;
 }
 
 .btn-forward{

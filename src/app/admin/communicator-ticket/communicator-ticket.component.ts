@@ -443,6 +443,17 @@ export class CommunicatorTicketComponent {
     });
   }
 
+  hViewAttachment() {
+    console.log('hViewAttachment', this.ticketDetail);
+    let viewattachment: any = [];
+    viewattachment = JSON.parse(this.ticketDetail.attachment);
+    let attachment: any = [];
+    viewattachment.forEach((o: any) => attachment.push({ URL: o.base64 }));
+    console.log('hViewAttachment URL 281', attachment);
+    console.log('hViewAttachment URL 282', attachment[0]);
+    this.ticketViewAttachment = this.dialog.open(ViewAttachImageModalComponent, { data: { item: attachment } });
+  }
+
   getDepartmentList = async () => {
     const search: any = { num_row: 0, Search: '' };
     rest.post('department/list', search).subscribe((res: any) => {

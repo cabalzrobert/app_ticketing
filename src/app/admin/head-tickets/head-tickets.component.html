@@ -412,6 +412,14 @@
                             </div>
                         </div>
                     </div> -->
+                    <div class="forward-resolve-container0" *ngIf="ticketDetail?.ticketStatusId!==4">
+                        <div class='footer-buttons'>
+                            <button class="btn-attachment" mat-flat-button (click)="hViewAttachment()">
+                                <mat-icon iconPositionEnd>image</mat-icon>
+                                Attachments
+                            </button>
+                        </div>
+                    </div>
                     <div class="forward-resolve-container0" *ngIf="ticketDetail?.ticketStatusId===4">
                         <div [class]="ticketDetail?.status===1?'footer-buttons disabled':'footer-buttons'">
                             <button class="btn-forward" mat-flat-button (click)="forwardingTicket()" [disabled]="ticketDetail?.status===1">

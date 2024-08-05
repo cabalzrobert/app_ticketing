@@ -56,9 +56,11 @@
     gap: 10px;
     button{
         width: 100%;
+        border-radius: 10px;
     }
     .btn-close{
         color: #4845D2;
+        background: rgba(#000,0.1);
     }
     .btn-confirm{
         color: #fff;
