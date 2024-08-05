@@ -88,8 +88,8 @@ export class HeadTicketsComponent {
 
 
     this.userDetail = await jUser();
-    console.log('account', this.userDetail);
-
+    console.log('account',this.userDetail);
+    
     // this.onTabChange(0);
     //this.getDepartmentTicketCount();
     device.ready(() => this.stompWebsocketReceiver());
@@ -97,12 +97,12 @@ export class HeadTicketsComponent {
       console.log('nisulod', this.authService.requesttickect);
       //  this.nextBatch({tab:0, search:this.authService.requesttickect.Description, IsReset: false})
       console.log('nisulod', this.authService.requesttickect.IsAssigned);
-      this.tab = 2
+      this.tab = 0
       if (this.authService.requesttickect.IsAssigned)
-        this.tab = 2;
+        this.tab = 1
       else
-        this.tab = 2;
-      console.log('nisulod', this.authService.requesttickect.TransactionNo);
+        this.tab = 0
+      console.log('nisulod', this.authService.requesttickect.IsAssigned);
       this.searchTicket(this.authService.requesttickect.TransactionNo);
     }
   }
@@ -119,11 +119,11 @@ export class HeadTicketsComponent {
     this.subs.wsDisconnect = stomp.subscribe('#disconnect', () => this.disconnect());
     this.subs.ws1 = stomp.subscribe(`/forwardticket/depthead/${isdept}`, (json: any) => this.receivedForwardedTicket(json));
 
-
+    
     this.subs.ws1 = stomp.subscribe(`/requestorhead`, (json: any) => this.receivedRequestTicketCommunicator(json));
     this.subs.ws1 = stomp.subscribe('/' + iscom + '/ticketrequest/iscommunicator', (json: any) => this.receivedRequestTicketCommunicator(json));
 
-
+    
     this.subs.ws1 = stomp.subscribe('/test/notify', (json: any) => this.receivedNotify(json));
 
     //console.log('Communicator Component', iscom);
@@ -176,7 +176,7 @@ export class HeadTicketsComponent {
       "FulldateDisplay": "Jul 31, 2024 08:26:55 AM"
     }
   };
-  notificationid: number = 161;
+  notificationid:number = 161;
   HAdd() {
     this.notificationid = this.notificationid + 1;
     this.overviewnotification.content.ticketNo = this.notificationid
@@ -195,7 +195,7 @@ export class HeadTicketsComponent {
     //this.collections.push(data.content);
     //let ticketexist = this.collections.find((o: any) => o.ticketNo == data.ticketNo);
     //let ticketexist = this.collections.find((o: any) => o.ticketNo == data.ticketNo);
-    let ticketexist: any = this.collections.find((o: any) => o.ticketNo == data.content.ticketNo);
+    let ticketexist:any = this.collections.find((o: any) => o.ticketNo == data.content.ticketNo);
     if (ticketexist) return;
 
     this.collectionreceived = this.collections;
@@ -205,7 +205,7 @@ export class HeadTicketsComponent {
     this.collections = this.collections.concat(this.collectionreceived);
     this.collectionreceived = [];
     return this.collections;
-
+    
     /*
     this.collections.forEach((o: any) => {
       this.collectionreceived.push(this.collectionListDetails(o));
@@ -301,10 +301,10 @@ export class HeadTicketsComponent {
     if (ping) ping.unsubscribe();
   }
 
-  nameSplitter(val: any) {
+  nameSplitter(val: any){
     let name = '';
-    if (!val) name = this.ticketDetail?.categoryName.split('(')[0];
-    else name = val;
+      if(!val) name = this.ticketDetail?.categoryName.split('(')[0];
+      else name = val;
 
     return name;
   }
@@ -484,7 +484,7 @@ export class HeadTicketsComponent {
       if (res.Status === 'ok') {
         console.log(res.personnels)
         this.personnels = res.personnels;
-        this.personnels = this.personnels.filter((res: any) => res.userId !== this.ticketDetail?.requestId);
+        this.personnels = this.personnels.filter((res: any) => res.userId!==this.ticketDetail?.requestId);
         return;
       }
       alert('Failed to load');
@@ -514,18 +514,7 @@ export class HeadTicketsComponent {
     this.personnels = [];
     this.collections = [];
     this.virtualScroll.setRenderedRange({ start: 0, end: 0 });
-    this.nextBatch({ tab: this.tab });
-  }
-
-  hViewAttachment() {
-    console.log('hViewAttachment', this.ticketDetail);
-    let viewattachment: any = [];
-    viewattachment = JSON.parse(this.ticketDetail.attachment);
-    let attachment: any = [];
-    viewattachment.forEach((o: any) => attachment.push({ URL: o.base64 }));
-    console.log('hViewAttachment URL 281', attachment);
-    console.log('hViewAttachment URL 282', attachment[0]);
-    this.ticketViewAttachment = this.dialog.open(ViewAttachImageModalComponent, { data: { item: attachment } });
+    this.nextBatch({tab: this.tab});
   }
 
   openDialog() {
@@ -573,10 +562,10 @@ export class HeadTicketsComponent {
   }
 
   onReturningTicket() {
-    if (this.ticketDetail.ticketStatusId === 4) {
+    if(this.ticketDetail.ticketStatusId===4){
       const dialogRef = this.showMessageBox('confirmation', null, 'This ticket is for resolve. Are you sure all requirements have been meet?', false, true);
-      dialogRef.afterClosed().subscribe((result: any) => {
-        if (result) {
+      dialogRef.afterClosed().subscribe((result:any)=>{
+        if(result){
           const dialogRef = this.showMessageBox('progress', null, null, false, false);
           setTimeout(() => this.onSubmitReturnTicket(dialogRef), 725);
         }
@@ -611,7 +600,7 @@ export class HeadTicketsComponent {
     //   const dialogRef = this.dialog.open(ForwardDialog, {
     //     data: { TicketDetail: this.ticketDetail , IsRequiredOtherDepartment: true, Department: null }
     //   })
-
+  
     //   dialogRef.afterClosed().subscribe((result: any) => {
     //     if (result) {
     //       console.log(result);
@@ -637,7 +626,7 @@ export class HeadTicketsComponent {
 
 
 
-    if (this.ticketDetail.ticketStatusId === 4) {
+    if(this.ticketDetail.ticketStatusId===4){
       const dialogRef = this.dialog.open(ForwardDialog, {
         data: { TicketDetail: this.ticketDetail, IsRequiredOtherDepartment: true, Department: null }
       })
@@ -684,7 +673,7 @@ export class HeadTicketsComponent {
     // dialogRef.afterClosed().subscribe((result: any) => {
     //   console.log('Forwarding Ticket',result);
     //   if(!result && this.ticketDetail.statu===4 && this.ticketDetail.ticketStatusId===4 && this.ticketDetail.isRequiredCommunicator){
-
+        
     //   }
     //   else{
     //     const dialogRef = this.dialog.open(ForwardDialog, {
@@ -698,7 +687,7 @@ export class HeadTicketsComponent {
     //   }
     // });
 
-
+    
   }
 
   onPerformConfirmForwardTicket(ref: MatDialogRef<MessageBoxDialog>) {
@@ -716,7 +705,7 @@ export class HeadTicketsComponent {
       if (res.Status === 'ok') {
         const dialogRef = this.showMessageBox('message', null, 'Ticket has been forwarded.', false, false);
         dialogRef.afterClosed().subscribe(() => {
-
+          
         });
         return;
       }
@@ -746,27 +735,39 @@ export class HeadTicketsComponent {
           this.ticketDetail.isAssigned = true;
           this.ticketDetail.assignedId = this.userDetail.USR_ID;
           this.ticketDetail.assignedName = this.userDetail.FLL_NM;
-        })
-        return;
-      }
-      alert('Failed');
-      ref.close();
-    }, (err: any) => {
-      alert('System Error!');
-      ref.close();
-    })
+        }
+      })
+    }
+    else {
+      // const dialogRef = this.showMessageBox('confirmation', this.ticketDetail, 'You are about to resolve this ticket. Are you sure all requirements have been meet?', false, false);
+      // dialogRef.afterClosed().subscribe((result: any) => {
+      //   console.log('onResolving',result);
+      //   if (result) {
+      //     if(this.ticketDetail.isAssigned){
+      //       this.ticketDetail.status = 3;
+      //       this.ticketDetail.ticketStatusId = 3;
+      //     }
+      //     else
+      //     {
+      //       this.ticketDetail.isDone = true;
+      //     }
+      //     // this.goBack();
+      //     // this.onTabChange(this.tab);
+      //   }
+      // })
+    }
   }
 
   decline = async () => {
     // const dialogRef = this.showMessageBox('confirmation', this.ticketDetail, 'You are about to resolve this ticket. Are you sure all requirements have been meet?', false, false);
     rest.post(`head/ticket/cancel?ticketNo=${this.ticketDetail.ticketNo}`, {}).subscribe((res: any) => {
       if (res.Status === 'ok') {
-        console.log(this.ticketDetail.status, this.ticketDetail.ticketStatusId);
-        if (this.ticketDetail.status === 3 && this.ticketDetail.ticketStatusId === 3 && this.userDetail.USR_ID !== this.ticketDetail.assignedId) {
+        console.log(this.ticketDetail.status,this.ticketDetail.ticketStatusId);
+        if(this.ticketDetail.status===3&&this.ticketDetail.ticketStatusId===3&&this.userDetail.USR_ID!==this.ticketDetail.assignedId){
           this.ticketDetail.status = 4;
           this.ticketDetail.ticketStatusId = 4;
         }
-        if (this.ticketDetail.status === 3 && this.ticketDetail.ticketStatusId === 3 && this.userDetail.USR_ID === this.ticketDetail.assignedId) {
+        if(this.ticketDetail.status===3&&this.ticketDetail.ticketStatusId===3&&this.userDetail.USR_ID===this.ticketDetail.assignedId){
           this.ticketDetail.status = 0;
           this.ticketDetail.ticketStatusId = 0;
           this.ticketDetail.isAssigned = false;
@@ -783,20 +784,20 @@ export class HeadTicketsComponent {
   }
 
   onCancellingTicket() {
-    const dialogRef = this.dialog.open(CancelDialog, {
+    const dialogRef = this.dialog.open(CancelDialog,{
       panelClass: 'mat-dialog-not-progress',
-      width: '18%',
+      width:'18%',
       data: this.ticketDetail
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
+    dialogRef.afterClosed().subscribe((result)=>{
+      if(result){
         this.goBack();
         // this.collections = [];
         // this.virtualScroll.setRenderedRange({ start: 0, end: 0 });
         // this.nextBatch({tab: this.tab});
 
-
+        
         // this.ticketDetail.RFC = result.RFC;
         // const _dialogRef = this.showMessageBox('confirmation', this.ticketDetail, 'Are you sure you want to cancel this ticket?', true, false);
         // _dialogRef.afterClosed().subscribe((result: any) => {
@@ -867,10 +868,9 @@ export class HeadTicketsComponent {
 
   showMessageBox(type: string, ticketDetail: any, message: any, isCancel: boolean, isForward: boolean): any {
     return this.dialog.open(MessageBoxDialog, {
-      panelClass: type==='progress'||type==='message'?'mat-dialog-progress':'mat-dialog-not-progress',
       disableClose: true,
       width: type !== 'progress' ? '15%' : 'auto',
-      data: { Type: type, Message: message, TicketDetail: ticketDetail, IsCancel: isCancel, IsForward: isForward, IsSuccess: true }
+      data: { Type: type, Message: message, TicketDetail: ticketDetail, IsCancel: isCancel, IsForward: isForward }
     });
   }
 
@@ -1173,14 +1173,14 @@ export class HeadTicketsComponent {
 })
 export class MessageBoxDialog {
 
-  constructor(private dialog: MatDialog, private dialogRef: MatDialogRef<HeadTicketsComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
+  constructor(private dialog: MatDialog, private dialogRef: MatDialogRef<HeadTicketsComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
 
   confirm() {
-    if (this.data.IsForward)
+    if(this.data.IsForward)
       this.dialogRef.close(true);
     else {
       const dialogRef = this.showMessageBox('progress', null, null);
-      if (!this.data.IsCancel)
+      if(!this.data.IsCancel)
         setTimeout(() => this.onPerformResolveTicket(dialogRef), 725);
       else
         setTimeout(() => this.onPerfomCancelTicket(dialogRef), 725);
@@ -1255,7 +1255,6 @@ export class MessageBoxDialog {
 
   showMessageBox(type: string, ticketDetail: any, message: any): any {
     return this.dialog.open(MessageBoxDialog, {
-      panelClass: type==='progress'||type==='message'?'mat-dialog-progress':'mat-dialog-not-progress',
       disableClose: true,
       width: type !== 'progress' ? '20%' : 'auto',
       data: { Type: type, Message: message, TicketDetail: ticketDetail }
@@ -1277,12 +1276,12 @@ export class ForwardDialog {
   forwardData: any = {};
   input: any = {};
 
-  async ngOnInit() {
+   async ngOnInit() {
     this.input = await jUser();
     console.log(this.data.TicketDetail)
-    if (this.data.IsRequiredOtherDepartment)
+    if(this.data.IsRequiredOtherDepartment)
       setTimeout(() => this.getDepartmentList());
-    else {
+    else{
       setTimeout(() => this.getCategoryList());
       setTimeout(() => this.getDepartmentPersonnels());
     }
@@ -1291,9 +1290,9 @@ export class ForwardDialog {
   getDepartmentList = async () => {
     const search: any = { num_row: 0, Search: '' };
     rest.post('department/list', search).subscribe((res: any) => {
-      console.log('Department', res);
+      console.log('Department',res);
       if (res.Status === 'ok') {
-        this.departments = res.department.filter((o: any) => o.DepartmentID != this.data.TicketDetail.departmentId);
+        this.departments = res.department.filter((o:any) => o.DepartmentID!=this.data.TicketDetail.departmentId);
         return;
       }
       alert('Failed to load');
@@ -1304,10 +1303,10 @@ export class ForwardDialog {
 
   getCategoryList(): Observable<any> {
 
-    rest.post('category/listbydepartment', { num_row: 0, Search: '', DepartmentID: this.input.DEPT_ID }).subscribe(async (res: any) => {
+    rest.post('category/listbydepartment', {num_row: 0, Search: '', DepartmentID: this.input.DEPT_ID}).subscribe(async (res: any) => {
       if (res.Status == 'ok') {
         this.categories = res.category;
-        console.log('Categories', this.categories);
+        console.log('Categories',this.categories);
         // console.log('GetCategoryList inside subscribe', this.categories);
         return this.categories;
         //this.categorylist;
@@ -1321,11 +1320,11 @@ export class ForwardDialog {
 
   getDepartmentPersonnels = async () => {
     const search: any = { num_row: 0, Search: '' };
-    const department = this.data?.Department ?? this.forwardData.forwardDepartment;
+    const department = this.data?.Department??this.forwardData.forwardDepartment;
     rest.post(`head/personnels?departmentId=${department}`).subscribe((res: any) => {
-      console.log('Personnels', res);
+      console.log('Personnels',res);
       if (res.Status === 'ok') {
-        this.personnels = res.personnels.filter((o: any) => o.userId !== this.data.TicketDetail?.requestId);
+        this.personnels = res.personnels.filter((o:any) => o.userId !== this.data.TicketDetail?.requestId);
         return;
       }
       alert('Failed to load');
@@ -1339,7 +1338,7 @@ export class ForwardDialog {
     setTimeout(() => this.getDepartmentPersonnels());
   }
 
-  selectCategory(val: string) {
+  selectCategory(val: string){
     this.forwardData.forwardCategory = val;
   }
 
@@ -1352,16 +1351,8 @@ export class ForwardDialog {
     this.forwardData.forwardRemarks = val;
   }
 
-  updateCheck(val: any) {
+  updateCheck(val: any){
     console.log(val);
-  }
-
-  forwardInputValidation(): boolean{
-    let isValid = true;
-    if(!this.forwardData.forwardDepartment){
-      isValid = false;
-    }
-    return isValid;
   }
 
   onConfirmForwardTicket() {
@@ -1377,17 +1368,17 @@ export class ForwardDialog {
   }
 
   onPerformConfirmForwardTicket(ref: MatDialogRef<MessageBoxDialog>) {
-    if(!this.forwardInputValidation()){
-      ref.close();
-      this.showMessageBox('message', 'Please fill the required fields', false);
-      return;
-    }
+    // ref.close();
+    // const dialogRef = this.showMessageBox(false,true,'Ticket has been forwarded.');
+    // dialogRef.afterClosed().subscribe((result: any)=>{
+    //   this.dialogRef.close();
+    // });
     this.forwardData.ticketNo = this.data.TicketDetail.ticketNo;
     this.forwardData.status = 1;
     rest.post('head/ticket/forward', this.forwardData).subscribe((res: any) => {
       if (res.Status === 'ok') {
         ref.close();
-        const dialogRef = this.showMessageBox('message', 'Ticket has been forwarded.', true);
+        const dialogRef = this.showMessageBox('message', null, 'Ticket has been forwarded.');
         dialogRef.afterClosed().subscribe(() => {
           this.dialogRef.close(this.forwardData);
         })
@@ -1401,23 +1392,7 @@ export class ForwardDialog {
     });
   }
 
-  assignInputValidation(): boolean{
-    let isValid = true;
-    if(!this.forwardData.forwardTo){
-      isValid = false;
-    }
-    else if(!this.forwardData.forwardCategory){
-      isValid = false;
-    }
-    return isValid;
-  }
-
   onSubmitAssignTicket(ref: MatDialogRef<MessageBoxDialog>) {
-    if(!this.assignInputValidation()){
-      ref.close();
-      this.showMessageBox('message', 'Please fill the required fields', false);
-      return;
-    }
     const param: any = {};
     param.ticketNo = this.data.TicketDetail.ticketNo;
     param.assignedDepartment = this.data.Department;
@@ -1429,7 +1404,7 @@ export class ForwardDialog {
     rest.post('head/ticket/assign', param).subscribe((res: any) => {
       if (res.Status === 'ok') {
         ref.close();
-        const dialogRef = this.showMessageBox('message', 'Ticket has been assigned.', true);
+        const dialogRef = this.showMessageBox('message', null, 'Ticket has been assigned.');
         dialogRef.afterClosed().subscribe(() => {
           this.dialogRef.close(param);
         })
@@ -1443,12 +1418,11 @@ export class ForwardDialog {
     });
   }
 
-  showMessageBox(type: string, message: any, isSuccess: boolean): any {
+  showMessageBox(type: string, ticketDetail: any, message: any): any {
     return this.dialog.open(MessageBoxDialog, {
-      panelClass: type==='progress'||type==='message'?'mat-dialog-progress':'mat-dialog-not-progress',
       disableClose: true,
       width: type !== 'progress' ? '20%' : 'auto',
-      data: { Type: type, Message: message, IsSuccess: isSuccess}
+      data: { Type: type, Message: message, TicketDetail: ticketDetail }
     });
   }
 }
@@ -1460,7 +1434,7 @@ export class ForwardDialog {
 })
 
 export class CancelDialog {
-  constructor(private dialog: MatDialog, private dialogRef: MatDialogRef<HeadTicketsComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
+  constructor(private dialog: MatDialog, private dialogRef: MatDialogRef<HeadTicketsComponent>, @Inject(MAT_DIALOG_DATA) public data: any){ }
 
   confirm(rfc: any) {
     // this.dialogRef.close(true);
@@ -1480,7 +1454,6 @@ export class CancelDialog {
 
   showMessageBox(type: string, ticketDetail: any, message: any, isCancel: boolean, isForward: boolean): any {
     return this.dialog.open(MessageBoxDialog, {
-      panelClass: type==='progress'||type==='message'?'mat-dialog-progress':'mat-dialog-not-progress',
       disableClose: true,
       width: type !== 'progress' ? '15%' : 'auto',
       data: { Type: type, Message: message, TicketDetail: ticketDetail, IsCancel: isCancel, IsForward: isForward }
