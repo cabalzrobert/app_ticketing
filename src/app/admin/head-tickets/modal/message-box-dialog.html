@@ -30,7 +30,7 @@
             <p>{{data.Message}}</p>
         </div>
         <div class="buttons">
-            <button class="btn-close" mat-button cdkFocusInitial [mat-dialog-close]="false">
+            <button class="btn-close" mat-button [mat-dialog-close]="false">
                 {{data.IsForward||data.IsCancel?'No':'Close'}}
             </button>
             <button class="btn-confirm" mat-flat-button (click)="confirm()">
@@ -50,7 +50,7 @@
             <p>{{data.Message}}</p>
         </div>
         <div class="buttons">
-            <button class="btn-close" mat-button cdkFocusInitial [mat-dialog-close]="false" (click)="onConfirmNo()">
+            <button class="btn-close" mat-button [mat-dialog-close]="false" (click)="onConfirmNo()">
                No
             </button>
             <button class="btn-confirm" mat-flat-button (click)="onConfirmYes()">
