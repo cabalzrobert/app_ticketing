@@ -23,6 +23,7 @@ import { AuthService } from '../../auth.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { TicketProgressModalComponent } from '../modalpage/ticket-progress-modal/ticket-progress-modal.component';
 import { ViewAttachImageModalComponent } from '../modalpage/view-attach-image-modal/view-attach-image-modal.component';
+import { stringify } from 'node:querystring';
 const batchDone = new Subject<boolean>();
 
 
@@ -459,18 +460,21 @@ export class HeadTicketsComponent {
 
   dateFormatted(isList: boolean, date: any) {
     if (isList) {
-      const formattedDate = moment(date).format('D MMM');
+      const formattedDate = moment(date).format('MMM D yyyy hh:mm A');
       let splitDate = formattedDate.split(' ');
-      if (splitDate[0] === '1' || splitDate[0] === '21' || splitDate[0] === '31')
-        splitDate[0] = splitDate[0] + 'st';
-      else if (splitDate[0] === '2' || splitDate[0] === '22')
-        splitDate[0] = splitDate[0] + 'nd';
-      else if (splitDate[0] === '3' || splitDate[0] === '23')
-        splitDate[0] = splitDate[0] + 'rd';
+      if (splitDate[1] === '1' || splitDate[1] === '21' || splitDate[1] === '31')
+        splitDate[1] = splitDate[1] + 'st';
+      else if (splitDate[1] === '2' || splitDate[1] === '22')
+        splitDate[1] = splitDate[1] + 'nd';
+      else if (splitDate[1] === '3' || splitDate[1] === '23')
+        splitDate[1] = splitDate[1] + 'rd';
       else
-        splitDate[0] = splitDate[0] + 'th';
+        splitDate[1] = splitDate[1] + 'th';
 
-      return `${splitDate[0]} ${splitDate[1]}`;
+        // console.log(new Date(date).getFullYear(),'=',new Date().getFullYear());
+      if(new Date(date).getFullYear() !== new Date().getFullYear())
+        return `${splitDate[1]} ${splitDate[0]}, ${splitDate[2]}`;
+      return `${splitDate[1]} ${splitDate[0]} ${splitDate[3]} ${splitDate[4]}`;
     }
     else {
       return moment(date).format('DD MMM yyyy');

@@ -33,9 +33,13 @@ export class NewUserLoginComponent {
   onLogin() {
     let _username = this.form.value.username;
     const data: any = {};
-    if(!_username.startsWith('09'))
-      this.errorMessage = 'Username doesn\'t exist';
-    if(!isNaN(_username)||_username.startsWith('+639')){
+    if(!_username.startsWith('09')){
+      if(!_username.startsWith('+639')){
+        this.errorMessage = 'Invalid username';
+        return
+      }
+    }
+    if(!isNaN(_username)){
       _username = _username.replace('+63','0');
       _username = _username.substring(1,_username.length);
     }

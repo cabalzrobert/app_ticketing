@@ -270,7 +270,7 @@ export class ProfileComponent {
         });
         return;
       }
-      this.messageDialog('failed','Failed!',`Failed to update your mobile number`,null,null);
+      // this.messageDialog('failed','Failed!',`Failed to update your mobile number`,null,null);
     }, (error:any)=>{
       this.messageDialog('failed','Failed!',`System Error!`,null,null);
     });

@@ -53,6 +53,10 @@ export class OtpComponent {
     }
   }
 
+  goBack(){
+    this.router.navigate(['newUserLogin']);
+  }
+
   onOtpChange(otp: string) {
     this.otp = otp;
     // console.log(otp);
@@ -95,7 +99,7 @@ export class OtpComponent {
 
   startTimer() {
     // this.generateOtp();
-    this._timer = 300;
+    this._timer = 120;
     timer(1000, 1000)
       .pipe(takeUntil(timerDone))
       .subscribe({

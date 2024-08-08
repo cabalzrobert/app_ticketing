@@ -31,7 +31,7 @@
                             <mat-card *cdkVirtualFor="let item of collections" matRipple (click)="next(item)">
                                 <mat-card-header>
                                     <mat-card-title>{{item.title}}</mat-card-title>
-                                    <span style="font-size: 18px;">{{dateFormatted(true,item.dateCreated)}}</span>
+                                    <span style="font-size: 18px;">{{dateFormatted(true,item.assignedDate)}}</span>
                                 </mat-card-header>
                                 <mat-card-content>
                                     <p>{{item?.description}}</p>
@@ -66,7 +66,7 @@
                             <mat-card *cdkVirtualFor="let item of collections" (click)="next(item)">
                                 <mat-card-header>
                                     <mat-card-title>{{item.title}}</mat-card-title>
-                                    <span style="font-size: 18px;">{{dateFormatted(true,item.dateCreated)}}</span>
+                                    <span style="font-size: 18px;">{{dateFormatted(true,item.assignedDate)}}</span>
                                 </mat-card-header>
                                 <mat-card-content>
                                     <p>{{item.description}}</p>
@@ -101,7 +101,7 @@
                             <mat-card *cdkVirtualFor="let item of collections" (click)="next(item)">
                                 <mat-card-header>
                                     <mat-card-title>{{item.title}}</mat-card-title>
-                                    <span style="font-size: 18px;">{{dateFormatted(true,item.dateCreated)}}</span>
+                                    <span style="font-size: 18px;">{{dateFormatted(true,item.assignedDate)}}</span>
                                 </mat-card-header>
                                 <mat-card-content>
                                     <p>{{item.description}}</p>
@@ -150,6 +150,14 @@
                                 <mat-icon>more_vert</mat-icon>
                             </div>
                         </div>
+                        <!-- Optional only -->
+                        <!-- <h3 style="padding-left: 8px">Attachments</h3>
+                        <div class="attachment-content">
+                            <div class="attachment-panel" *ngFor="let image of attachments">
+                                <img [src]="image.URL">
+                            </div>
+                        </div> -->
+                        <!-- Optional only -->
                         <div #tabsContentRefComment [scrollTop]="tabsContentRefComment.scrollHeight"
                             class="bodycontent">
                             <div class="commentlist" *ngFor="let data of ticketcomment">
@@ -270,11 +278,12 @@
                         </mat-card-header>
                         <mat-card-content>
                             <div class="icon-img">
-                                <mat-icon>flutter_dash</mat-icon>
+                                <!-- <mat-icon>flutter_dash</mat-icon> -->
+                                <img [src]="(ticketDetail?.requestProfImage||'assets/image/icon_blank_profile.png')">
                             </div>
                             <div class="requester-name">
                                 <span>{{ticketDetail?.requestName??'Arnold Schwarzenegger'}}</span>
-                                <span class="username">&#64;{{ticketDetail?.requestUsername??'terminator'}}</span>
+                                <span class="username">&#64;{{ticketDetail?.requestNickname??'terminator'}}</span>
                                 <!-- <span>Arnold Schwarzenegger</span><br>
                                 <span class="username">{{'\@terminator'}}</span> -->
                             </div>
@@ -291,7 +300,7 @@
                                 <p>Ticket ID:&emsp;<span class="ticketno">#{{ticketDetail?.ticketNo}}</span></p>
                             </label>
                             <label>
-                                <p>Created:&emsp;<span>{{ticketDetail?.dateCreated}}</span></p>
+                                <p>Created:&emsp;<span>{{dateFormatted(false,ticketDetail?.dateCreated)}}</span></p>
                             </label>
                             <label>
                                 <p>Last message:&emsp;<span>#1E233</span></p>
@@ -323,7 +332,8 @@
                             <span *ngIf="ticketDetail?.assignedId"><h4>Name</h4></span>
                             <div class="detail" *ngIf="ticketDetail?.assignedId">
                                 <div class="icon-img">
-                                    <mat-icon>flutter_dash</mat-icon>
+                                    <!-- <mat-icon>flutter_dash</mat-icon> -->
+                                    <img [src]="(ticketDetail?.assignedProfImage||'assets/image/icon_blank_profile.png')">
                                 </div>
                                 <div class="requester-name">
                                     <span>{{ticketDetail?.assignedName}}</span>
@@ -368,6 +378,12 @@
                         </mat-card-content>
                     </mat-card>
                     <div class="forward-resolve-container" *ngIf="ticketDetail?.assignedId===userDetail.USR_ID&&ticketDetail?.ticketStatus==='Open'">
+                        <div class='footer-buttons'>
+                            <button class="btn-attachment" mat-flat-button (click)="hViewAttachment()">
+                                <mat-icon iconPositionEnd>photo_library</mat-icon>
+                                Attachments
+                            </button>
+                        </div>
                         <div [class]="ticketDetail?.isDone&&ticketDetail?.requestDepartmentId===userDetail.DEPT_ID?'footer-buttons disabled':'footer-buttons'">
                             <button class="btn-forward" mat-flat-button (click)="onReturningTicket()" [disabled]="ticketDetail?.isDone&&ticketDetail?.requestDepartmentId===userDetail.DEPT_ID">
                                 <mat-icon>west</mat-icon>

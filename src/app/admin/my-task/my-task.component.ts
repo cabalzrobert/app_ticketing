@@ -230,6 +230,18 @@ export class MyTaskComponent {
   //     alert('System Error');
   //   })
 
+  hViewAttachment() {
+    if(!this.ticketDetail.attachment) return;
+    console.log('hViewAttachments', this.ticketDetail);
+    let viewattachment: any = [];
+    viewattachment = JSON.parse(this.ticketDetail.attachment);
+    let attachment: any = [];
+    viewattachment.forEach((o: any) => attachment.push({ URL: o.base64 }));
+    console.log('hViewAttachment URL 281', attachment);
+    console.log('hViewAttachment URL 282', attachment[0]);
+    this.ticketViewAttachment = this.dialog.open(ViewAttachImageModalComponent, { data: { item: attachment } });
+  }
+
   onTabChange(val: any) {
     this.searchValue = null;
     this.tab = val;
@@ -336,18 +348,21 @@ export class MyTaskComponent {
 
   dateFormatted(isList: boolean, date: any) {
     if (isList) {
-      const formattedDate = moment(date).format('D MMM');
+      const formattedDate = moment(date).format('MMM D yyyy hh:mm A');
       let splitDate = formattedDate.split(' ');
-      if (splitDate[0] === '1' || splitDate[0] === '21' || splitDate[0] === '31')
-        splitDate[0] = splitDate[0] + 'st';
-      else if (splitDate[0] === '2' || splitDate[0] === '22')
-        splitDate[0] = splitDate[0] + 'nd';
-      else if (splitDate[0] === '3' || splitDate[0] === '23')
-        splitDate[0] = splitDate[0] + 'rd';
+      if (splitDate[1] === '1' || splitDate[1] === '21' || splitDate[1] === '31')
+        splitDate[1] = splitDate[1] + 'st';
+      else if (splitDate[1] === '2' || splitDate[1] === '22')
+        splitDate[1] = splitDate[1] + 'nd';
+      else if (splitDate[1] === '3' || splitDate[1] === '23')
+        splitDate[1] = splitDate[1] + 'rd';
       else
-        splitDate[0] = splitDate[0] + 'th';
+        splitDate[1] = splitDate[1] + 'th';
 
-      return `${splitDate[0]} ${splitDate[1]}`;
+        // console.log(new Date(date).getFullYear(),'=',new Date().getFullYear());
+      if(new Date(date).getFullYear() !== new Date().getFullYear())
+        return `${splitDate[1]} ${splitDate[0]}, ${splitDate[2]}`;
+      return `${splitDate[1]} ${splitDate[0]} ${splitDate[3]} ${splitDate[4]}`;
     }
     else {
       return moment(date).format('DD MMM yyyy');
@@ -370,13 +385,16 @@ export class MyTaskComponent {
     });
   }
 
+  attachments: any = [];
   next(item: any) {
+    console.log(item);
     // if(item.isAssigned) return;
     this.router.navigate([item.ticketNo], { relativeTo: this.route });
     // this.router.navigateByUrl('/head/dashboard/tickets/sample');
     this.ticketTitle = item.title;
     this.ticketDetail = item;
     this.TransactionNo = item.transactionNo;
+    JSON.parse(item.attachment).forEach((e:any) => { this.attachments.push({URL: e.base64}) });
     //console.log('My Task',this.ticketDetail);
     this.stepper.next();
     this.getCommentList(this.ticketDetail.transactionNo);

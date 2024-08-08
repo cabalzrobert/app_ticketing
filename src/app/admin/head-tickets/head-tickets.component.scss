@@ -306,12 +306,19 @@ mat-card {
             align-items: center;
             border-radius: 50%;
             box-shadow: 1px 5px 15px rgba(128, 128, 128, 0.5);
+            overflow: hidden;
 
             mat-icon {
                 position: absolute;
                 height: auto;
                 width: auto;
                 font-size: xx-large;
+            }
+
+            img{
+                height: 100%;
+                width: 100%;
+                overflow: hidden;
             }
         }
 
@@ -429,12 +436,18 @@ mat-card {
             align-items: center;
             border-radius: 50%;
             box-shadow: 1px 5px 15px rgba(128, 128, 128, 0.5);
-
+            overflow: hidden;
             mat-icon {
                 position: absolute;
                 height: auto;
                 width: auto;
                 font-size: xx-large;
+            }
+
+            img{
+                height: 100%;
+                width: 100%;
+                overflow: hidden;
             }
         }
 
@@ -538,7 +551,7 @@ mat-card {
 }
 
 .forward-resolve-container {
-    height: 39vh;
+    height: 41vh;
     display: flex;
     flex-direction: column;
     justify-content: end;

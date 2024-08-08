@@ -49,6 +49,10 @@ export class SetPasswordComponent {
     }
   }
 
+  goBack(){
+    this.router.navigate(['otp']);
+  }
+
   isValidate(): boolean {
     var isValid = true;
 

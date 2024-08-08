@@ -266,11 +266,12 @@
                         </mat-card-header>
                         <mat-card-content>
                             <div class="icon-img">
-                                <mat-icon>flutter_dash</mat-icon>
+                                <!-- <mat-icon>flutter_dash</mat-icon> -->
+                                 <img [src]="(ticketDetail?.requestProfImage||'assets/image/icon_blank_profile.png')">
                             </div>
                             <div class="requester-name">
                                 <span>{{ticketDetail?.requestName??'Arnold Schwarzenegger'}}</span>
-                                <span class="username">&#64;{{ticketDetail?.requestUsername??'terminator'}}</span>
+                                <span class="username">&#64;{{ticketDetail?.requestNickname??'terminator'}}</span>
                                 <!-- <span>Arnold Schwarzenegger</span><br>
                                 <span class="username">{{'\@terminator'}}</span> -->
                             </div>
@@ -287,7 +288,7 @@
                                 <p>Ticket ID:&emsp;<span class="ticketno">#{{ticketDetail?.ticketNo}}</span></p>
                             </label>
                             <label>
-                                <p>Created:&emsp;<span>{{ticketDetail?.dateCreated}}</span></p>
+                                <p>Created:&emsp;<span>{{dateFormatted(false,ticketDetail?.dateCreated)}}</span></p>
                             </label>
                             <label>
                                 <p>Last message:&emsp;<span>#1E233</span></p>
@@ -319,7 +320,8 @@
                             <span *ngIf="ticketDetail?.isAssigned"><h4>Name</h4></span>
                             <div class="detail" *ngIf="ticketDetail?.isAssigned">
                                 <div class="icon-img">
-                                    <mat-icon>flutter_dash</mat-icon>
+                                    <!-- <mat-icon>flutter_dash</mat-icon> -->
+                                    <img [src]="(ticketDetail?.requestProfImage||'assets/image/icon_blank_profile.png')">
                                 </div>
                                 <div class="requester-name">
                                     <span>{{ticketDetail?.assignedName}}</span>
@@ -354,7 +356,8 @@
                             <span *ngIf="ticketDetail?.assignedId"><h4>Name</h4></span>
                             <div class="detail" *ngIf="ticketDetail?.assignedId">
                                 <div class="icon-img">
-                                    <mat-icon>flutter_dash</mat-icon>
+                                    <!-- <mat-icon>flutter_dash</mat-icon> -->
+                                    <img [src]="(ticketDetail?.assignedProfImage||'assets/image/icon_blank_profile.png')">
                                 </div>
                                 <div class="requester-name">
                                     <span>{{ticketDetail?.assignedName}}</span>

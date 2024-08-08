@@ -47,10 +47,11 @@
         color: #000;
         padding-inline: 24px;
         transition: all 300ms ease-in-out;
+        margin: 10px auto;
     }
     .items:hover{
-        background: #3818D9;
-        color: #fff;
+        background: rgba(#3818D9, 0.25);
+        color: #000;
         cursor: pointer;
     }
     .active{

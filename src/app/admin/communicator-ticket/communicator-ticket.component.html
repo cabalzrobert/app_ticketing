@@ -304,11 +304,12 @@
                         </mat-card-header>
                         <mat-card-content>
                             <div class="icon-img">
-                                <mat-icon>flutter_dash</mat-icon>
+                                <!-- <mat-icon>flutter_dash</mat-icon> -->
+                                <img [src]="(ticketDetail?.requestProfImage||'assets/image/icon_blank_profile.png')">
                             </div>
                             <div class="requester-name">
                                 <span>{{ticketDetail?.requestName}}</span>
-                                <span class="username">&#64;{{ticketDetail?.requestUsername??'terminator'}}</span>
+                                <span class="username">&#64;{{ticketDetail?.requestNickname??'terminator'}}</span>
                             </div>
                         </mat-card-content>
                         <!-- <mat-card-footer>
@@ -355,11 +356,12 @@
                             <span *ngIf="ticketDetail?.isAssigned"><h4>Name</h4></span>
                             <div class="detail" *ngIf="ticketDetail?.isAssigned">
                                 <div class="icon-img">
-                                    <mat-icon>flutter_dash</mat-icon>
+                                    <!-- <mat-icon>flutter_dash</mat-icon> -->
+                                    <img [src]="(ticketDetail?.assignedProfImage||'assets/image/icon_blank_profile.png')">
                                 </div>
                                 <div class="requester-name">
                                     <span>{{ticketDetail?.assignedName}}</span>
-                                    <span class="username">&#64;{{ticketDetail?.assignedUsername??'terminator'}}</span>
+                                    <span class="username">&#64;{{ticketDetail?.assignedNickname??'terminator'}}</span>
                                 </div>
                             </div>
                         </mat-card-content>
