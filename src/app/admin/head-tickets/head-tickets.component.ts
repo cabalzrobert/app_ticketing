@@ -1337,7 +1337,8 @@ export class MessageBoxDialog {
         const dialogRef = this.showMessageBox('message', null, 'Ticket has been canceled.');
         dialogRef.afterClosed().subscribe(() => {
           this.dialogRef.close(true);
-        })
+        });
+        return;
       }
       alert('Failed');
       ref.close();
@@ -1352,7 +1353,7 @@ export class MessageBoxDialog {
       panelClass: type === 'progress' || type === 'message' ? 'mat-dialog-progress' : 'mat-dialog-not-progress',
       disableClose: true,
       width: type !== 'progress' ? '17%' : 'auto',
-      data: { Type: type, Message: message, TicketDetail: ticketDetail }
+      data: { Type: type, Message: message, TicketDetail: ticketDetail, IsSuccess: true }
     });
   }
 }

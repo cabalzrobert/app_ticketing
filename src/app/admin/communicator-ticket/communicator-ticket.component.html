@@ -244,7 +244,7 @@
                     </div>
 
                 </div>
-                <div class="cthfooter" *ngIf="ticketDetail?.status!==1||!(ticketDetail?.ticketStatusId===3||ticketDetail?.ticketStatusId===1)">
+                <div class="cthfooter" *ngIf="(ticketDetail?.status!==1&&ticketDetail.ticketStatusId!==2)||!(ticketDetail?.ticketStatusId===3||ticketDetail?.ticketStatusId===1||ticketDetail?.ticketStatusId===2)">
                     <div class="footerbody">
                         <div class="commentcontent" [formGroup]="commentform">
                             <textarea formControlName="Message" name="" id="" rows="4"
@@ -279,9 +279,16 @@
                         </div>
                     </div>
                 </div> -->
-                <div class="acknoledgefooter" *ngIf="Status == 4">
+                <div class="acknoledgefooter" *ngIf="ticketDetail?.ticketStatusId===2">
                     <div class="acknowledge">
-                        <div class="footerbody" *ngIf="Status == 4">
+                        <div class="footerbody" *ngIf="ticketDetail?.ticketStatusId===2">
+                            <label class="label1" for="">This ticket is cancelled</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="acknoledgefooter" *ngIf="ticketDetail?.ticketStatusId===1">
+                    <div class="acknowledge">
+                        <div class="footerbody" *ngIf="ticketDetail?.ticketStatusId===1">
                             <label class="label1" for="">This ticket is resolved</label>
                         </div>
                     </div>
@@ -423,7 +430,7 @@
                                     </div>
                                 </div> -->
 
-                                <div class="footer-buttons0" *ngIf="ticketDetail?.ticketStatusId!==4">
+                                <div class="footer-buttons0" *ngIf="ticketDetail?.ticketStatusId!==2&&ticketDetail?.ticketStatusId!==1">
                                     <button class="btn-attachment" mat-flat-button (click)="hViewAttachment()">
                                         <mat-icon iconPositionEnd>photo_library</mat-icon>
                                         Attachments
