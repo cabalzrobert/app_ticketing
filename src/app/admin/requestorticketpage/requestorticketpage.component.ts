@@ -1715,6 +1715,7 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
     this.subs.wsConnect = stomp.subscribe('#connect', () => this.connected());
     //this.subs.ws1 = stomp.subscribe('/ticketrequest/iscommunicator', (json: any) => this.receivedRequestTicketCommunicator(json));
     this.subs.ws1 = stomp.subscribe('/' + this.input.isCommunicator + '/ticketrequest/iscommunicator', (json: any) => this.receivedRequestTicketCommunicator(json));
+    this.subs.ws1 = stomp.subscribe(`/comment`, (json: any) => this.receivedComment(json));
     //console.log('stompReceiver this.subs', this.subs);
     stomp.ready(() => (stomp.refresh(), stomp.connect()));
   }
@@ -1727,6 +1728,12 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
     const { tmPing, ping } = subs;
     if (tmPing) tmPing.unsubscribe();
     if (ping) ping.unsubscribe();
+  }
+  logNotify() {
+    rest.post('ticket/test/notify').subscribe(async (res: any) => {
+      //console.log('logNotify res', res);
+      //additionalNotification(1);
+    });
   }
   private testPing() {
     const { subs } = this;
@@ -1757,6 +1764,15 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
   }
   receivedRequestTicketCommunicator(data: any) {
     console.log('Received Ticket', data);
+  }
+  receivedComment(data: any) {
+    var content = data.content;
+    var transaction = data.transactionno;
+    if (transaction == this.TransactionNo) {
+      console.log('Received Comment Content', content);
+      this.ticketcomment.push(content);
+    }
+
   }
 
   performAuth = async () => {

@@ -394,7 +394,8 @@ export class MyTaskComponent {
     this.ticketTitle = item.title;
     this.ticketDetail = item;
     this.TransactionNo = item.transactionNo;
-    JSON.parse(item.attachment).forEach((e:any) => { this.attachments.push({URL: e.base64}) });
+    if(item.attachment !== null)
+      JSON.parse(item.attachment).forEach((e:any) => { this.attachments.push({URL: e.base64}) });
     //console.log('My Task',this.ticketDetail);
     this.stepper.next();
     this.getCommentList(this.ticketDetail.transactionNo);

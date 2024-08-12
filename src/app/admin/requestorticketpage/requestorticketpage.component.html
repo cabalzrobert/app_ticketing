@@ -316,7 +316,7 @@
                                         <div class="message" *ngIf="data.isMessage && !data.isImage">{{data.Message}}
                                         </div>
                                         <div class="attachmFile" *ngIf="data.isImage">
-                                            <img *ngIf="data.ImageAttachment != ''" src={{data.ImageAttachment}} alt="">
+                                            <img *ngIf="data.ImageAttachment != ''" src={{data.ImageAttachment}} alt="" onerror="">
                                             <img *ngIf="data.ImageAttachment == ''"
                                                 src="assets/image/icon_blank_profile.png" alt="">
                                         </div>
@@ -488,6 +488,10 @@
                     <i class="fa fa-regular fa-paperclip"></i>
                     <button>View Attachment</button>
                 </div>
+                <!-- <div class="viewattachment" (click)="logNotify()">
+                    <i class="fa fa-regular fa-paperclip"></i>
+                    <button>Test Notification</button>
+                </div> -->
             </div>
         </div>
 

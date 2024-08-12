@@ -141,9 +141,21 @@ export class CommunicatorTicketComponent {
     this.subs.ws1 = stomp.subscribe('/communicator', (json: any) => this.receivedRequestTicketCommunicator(json));
     this.subs.ws1 = stomp.subscribe('/requestorhead', (json: any) => this.receivedRequestTicketCommunicator(json));
     this.subs.ws1 = stomp.subscribe('/forwardticket', (json: any) => this.receivedRequestTicketCommunicator(json));
+    this.subs.ws1 = stomp.subscribe(`/comment`, (json: any) => this.receivedComment(json));
     console.log('Communicator Component', iscom);
     stomp.ready(() => (stomp.refresh(), stomp.connect()));
   }
+
+  receivedComment(data: any) {
+    var content = data.content;
+    var transaction = data.transactionno;
+    if (transaction == this.TransactionNo) {
+      console.log('Received Comment Content', content);
+      this.ticketcomment.push(content);
+    }
+
+  }
+  
   receivedRequestTicketCommunicator(data: any) {
 
 
