@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
     if (await this.ls.getItem1('isReload') == null) {
       console.log('isReload is not defined');
       this.ls.setItem('isReload', '1');
-      window.location.reload();
+      location.reload();
     }
     //window.location.reload();
   }
@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
   sizeWidth = '';
   sizeHeight = '';
   ngOnInit(): void {
-    //console.log('login.components.ts ngOnit');
+    console.log('login.components.ts ngOnit');
     //setTimeout(() => this.performCheckDB(), 750);
 
     device.ready(() => this.sessionNotEmpty());
@@ -156,8 +156,8 @@ export class LoginComponent implements OnInit {
         this.successDialogRef = this.dialog.open(AlertSuccessModalComponent, { data: { item: { Icon: 'fa fa-solid fa-check', Message: 'Login Successfully', ButtonText: 'Success', isConfirm: true } } });
         this.successDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
           if (o.item.isConfirm) {
-            this.zone.run(() => this.router.navigate(['/dashboard']));
             this.hReload();
+            //this.zone.run(() => this.router.navigate(['/dashboard']));
             //return;
           }
         });

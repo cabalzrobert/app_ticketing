@@ -148,7 +148,7 @@ export class SidenavComponent implements OnInit {
     //device.ready(() => this.stompWebsocketReceiver());
     //this.webSocketService.stompWebsocketReceiver();
     this.input = await jUser();
-    console.log('account',input);
+    //console.log('account',input);
     //console.log('this.input 96', this.input);
     //device.ready(async () => (await departmentnotificationCount)());
     device.ready(() => notificationCount());
@@ -197,7 +197,7 @@ export class SidenavComponent implements OnInit {
   navData: any = [];
 
   toggleCollapse(): void {
-    console.log('Collapsed', this.collapsed)
+    //console.log('Collapsed', this.collapsed)
     if (!this.collapsed)
       this.collapsed = !this.collapsed;
     else

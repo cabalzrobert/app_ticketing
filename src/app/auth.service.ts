@@ -59,7 +59,7 @@ export class AuthService {
     let session: any = this.ls.getItem1('Auth');
     if (session) {
       session = JSON.parse(session);
-      device.ready(() => setTimeout(() => this.performAuth(), 275));
+      //device.ready(() => setTimeout(() => this.performAuth(), 275));
 
       this.stompWebsocketReceiver();
       //session = session

@@ -18,84 +18,86 @@
             </div>
         </div>
     </div>
-    <div class="ticketdata" *ngFor="let data of ticketcount">
-        <div class="totaltickets">
-            <div class="ticketcounts">
-                <label for="">Total Tickets</label>
-                <div class="counts">{{data.TotalTickets}}</div>
-            </div>
-            <div>
-                <div class="assignedicon">
-                    <div class="icon">
-                        <mat-icon color="fa-light">extension</mat-icon>
+    <div *ngIf="input.ACT_TYP>2">
+        <div class="ticketdata" *ngFor="let data of ticketcount" >
+            <div class="totaltickets">
+                <div class="ticketcounts">
+                    <label for="">Total Tickets</label>
+                    <div class="counts">{{data.TotalTickets}}</div>
+                </div>
+                <div>
+                    <div class="assignedicon">
+                        <div class="icon">
+                            <mat-icon color="fa-light">extension</mat-icon>
+                        </div>
+    
                     </div>
-
                 </div>
             </div>
-        </div>
-        <div class="assignedtickets">
-            <div class="assignedticketdetails">
-                <div class="assignedtotyou">
-                    <label for="">Assigned to you:</label>
-                    <div class="counts">{{data.TotalAssignedTicket}}</div>
-                </div>
-                <div class="assignedtotyou">
-                    <label for="">Pending:</label>
-                    <div class="counts">{{data.AssignedPending}}</div>
-                </div>
-
-                <div class="assignedtotyou">
-                    <label for="">Resolve:</label>
-                    <div class="counts">{{data.AssignedResolve}}</div>
-                </div>
-
-
-            </div>
-            <div class="assignedticketicon">
-                <div class="assignedicon">
-                    <div class="icon">
-                        <mat-icon color="fa-light">extension</mat-icon>
+            <div class="assignedtickets">
+                <div class="assignedticketdetails">
+                    <div class="assignedtotyou">
+                        <label for="">Assigned to you:</label>
+                        <div class="counts">{{data.TotalAssignedTicket}}</div>
                     </div>
-
-                </div>
-                <button (click)="hViewAssignedTickets()">View More
-                    <i class="fa fa-light fa-arrow-right"></i>
-                </button>
-            </div>
-
-        </div>
-        <div class="submittedtickets">
-            <div class="assignedticketdetails">
-                <div class="assignedtotyou">
-                    <label for="">You submitted:</label>
-                    <div class="counts">{{data.TotalSubmitTicket}}</div>
-                </div>
-                <div class="assignedtotyou">
-                    <label for="">Pending:</label>
-                    <div class="counts">{{data.SubmittedPending}}</div>
-                </div>
-
-                <div class="assignedtotyou">
-                    <label for="">Resolve:</label>
-                    <div class="counts">{{data.SubmittedResolve}}</div>
-                </div>
-
-
-            </div>
-            <div class="assignedticketicon">
-                <div class="assignedicon">
-                    <div class="icon">
-                        <mat-icon color="fa-light">extension</mat-icon>
+                    <div class="assignedtotyou">
+                        <label for="">Pending:</label>
+                        <div class="counts">{{data.AssignedPending}}</div>
                     </div>
-
+    
+                    <div class="assignedtotyou">
+                        <label for="">Resolve:</label>
+                        <div class="counts">{{data.AssignedResolve}}</div>
+                    </div>
+    
+    
                 </div>
-                <button (click)="hViewSubmittedTickets()">View More
-                    <i class="fa fa-light fa-arrow-right"></i>
-                </button>
+                <div class="assignedticketicon">
+                    <div class="assignedicon">
+                        <div class="icon">
+                            <mat-icon color="fa-light">extension</mat-icon>
+                        </div>
+    
+                    </div>
+                    <button (click)="hViewAssignedTickets()">View More
+                        <i class="fa fa-light fa-arrow-right"></i>
+                    </button>
+                </div>
+    
+            </div>
+            <div class="submittedtickets">
+                <div class="assignedticketdetails">
+                    <div class="assignedtotyou">
+                        <label for="">You submitted:</label>
+                        <div class="counts">{{data.TotalSubmitTicket}}</div>
+                    </div>
+                    <div class="assignedtotyou">
+                        <label for="">Pending:</label>
+                        <div class="counts">{{data.SubmittedPending}}</div>
+                    </div>
+    
+                    <div class="assignedtotyou">
+                        <label for="">Resolve:</label>
+                        <div class="counts">{{data.SubmittedResolve}}</div>
+                    </div>
+    
+    
+                </div>
+                <div class="assignedticketicon">
+                    <div class="assignedicon">
+                        <div class="icon">
+                            <mat-icon color="fa-light">extension</mat-icon>
+                        </div>
+    
+                    </div>
+                    <button (click)="hViewSubmittedTickets()">View More
+                        <i class="fa fa-light fa-arrow-right"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-    <div class="notification">
+    <div class="notification" *ngIf="input.ACT_TYP>2">
         <div class="notificationheader">
             <div class="notificationlabel">
                 <mat-icon color="fa-light">settings</mat-icon>
@@ -191,7 +193,12 @@
             </div> -->
         </div>
     </div>
+    <div>
+        
+    </div>
+    
+    
 
 </div>
-<div class="nodata" *ngIf="ticketnotification.length == 0">No data</div>
+<div class="nodata" *ngIf="ticketnotification.length == 0" && input.ACT_TYP > 2>No data</div>
 <div class="loader" *ngIf="loader"></div>

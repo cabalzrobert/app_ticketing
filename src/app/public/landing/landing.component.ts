@@ -44,10 +44,11 @@ export class LandingComponent implements OnInit {
   }
   dbIsEmpty(_isEmpty: boolean) {
     if (_isEmpty == true) {
-      //console.log('dbIsEmpty', _isEmpty)
+      console.log('dbIsEmpty is not Empty', _isEmpty)
       this.router.navigateByUrl('/login');
     }
     else {
+      console.log('dbIsEmpty is Empty', _isEmpty)
       this.router.navigateByUrl('/headquarter');
     }
   }
@@ -58,13 +59,14 @@ export class LandingComponent implements OnInit {
   }
   private async checkDevice() { }
   private performCheckDB() {
-    //console.log('performCheckDB');
+    console.log('performCheckDB');
     rest.post('dashboardticketing', {}).subscribe(async (res: any) => {
       //console.log('performCheckDB', res);
       //console.log('performCheckDB device.isBrowser', device.isBrowser);
       if (res.Result == 'ok') {
         //console.log('Session', localStorage.getItem('session'));
         if (this.sessionNotEmpty()) {
+          console.log('this.sessionNotEmpty() /dashboard');
           this.router.navigateByUrl('/dashboard');
         }
         else

@@ -11,16 +11,16 @@ export const navbarData = [
     //     icon: 'fa fa-light fa-ticket-alt',
     //     label: 'My Tickets'
     // },
-    {
-        routerLink: 'assignedticket',
-        icon: 'fa fa-light fa-ticket-alt',
-        label: "Assigned Tickets"
-    },
-    {
-        routerLink: 'receivedtickets',
-        icon: 'fa fa-light fa-ticket-alt',
-        label: 'Tickets'
-    },
+    // {
+    //     routerLink: 'assignedticket',
+    //     icon: 'fa fa-light fa-ticket-alt',
+    //     label: "Assigned Tickets"
+    // },
+    // {
+    //     routerLink: 'receivedtickets',
+    //     icon: 'fa fa-light fa-ticket-alt',
+    //     label: 'Tickets'
+    // },
     {
         routerLink: 'users',
         icon: 'fa fa-light fa-user-friends',

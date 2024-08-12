@@ -131,16 +131,19 @@ export class OverviewPageComponent implements OnInit {
     additionalRequestNotification(-1);
     if(this.input.ACT_TYP == 4){
       this.authService.requesttickect = data;
-      console.log('Account Type:', this.input.ACT_TYP_NM);
+      console.log('Account Type:', this.input.ACT_TYP, this.input.ACT_TYP_NM);
       this.router.navigateByUrl('dashboard/receivedtickets');
     }
     else if(this.input.ACT_TYP == 5){
       this.authService.requesttickect = data;
-      console.log('Account Type:', this.input.ACT_TYP_NM)
+      console.log('Account Type:', this.input.ACT_TYP, this.input.ACT_TYP_NM);
       this.router.navigateByUrl('dashboard/assignedticket');
     }
     else if(this.input.ACT_TYP == 6){
-      console.log('Account Type:', this.input.ACT_TYP_NM)
+      this.authService.requesttickect = data;
+      console.log('Data Select', data);
+      console.log('Account Type:', this.input.ACT_TYP, this.input.ACT_TYP_NM);
+      this.router.navigateByUrl('dashboard/myTask');
     }
     /*
     if (data.Type == 'Ticket-Request') {
@@ -259,6 +262,7 @@ export class OverviewPageComponent implements OnInit {
     // });
     //console.log('ngOnInt this.subs 1', this.subs);
     this.input = await jUser();
+    console.log('Overview this.input', this.input);
     let item: any = { isCom: this.input.isCommunicator ? 1 : 0, isDept: this.input.isDeptartmentHead ? 1 : 0 };
     //console.log('let item', item);
     item.DepartmentID = this.input.DEPT_ID
@@ -543,7 +547,7 @@ export class OverviewPageComponent implements OnInit {
 
   receivedRequestTicketCommunicator(data: any) {
 
-    console.log('receivedRequestTicketCommunicator', data);
+    //console.log('receivedRequestTicketCommunicator', data);
     // var notification = data.notification;
     // this.lastnotificationid = notification.NotificationID;
     // //console.log('this.TicketNo 296', this.input.LastTransactionNo);
@@ -574,7 +578,7 @@ export class OverviewPageComponent implements OnInit {
     this.ticketnotification1.unshift(content);
     this.ticketnotification = [];
     this.ticketnotification = this.ticketnotification.concat(this.ticketnotification1);
-    console.log('receivedRequestTicketCommunicator this.ticketnotification', this.ticketnotification);
+    //console.log('receivedRequestTicketCommunicator this.ticketnotification', this.ticketnotification);
 
     /*
     this.ticketnotification.forEach((o: any) => {

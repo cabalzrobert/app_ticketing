@@ -80,15 +80,17 @@ export class MyTaskComponent {
     // this.onTabChange(0);
     //this.getDepartmentTicketCount();
     device.ready(() => this.stompWebsocketReceiver());
+    console.log('My Task', this.authService.requesttickect);
     if (Object.keys(this.authService.requesttickect).length > 0) {
       console.log('nisulod', this.authService.requesttickect);
       //  this.nextBatch({tab:0, search:this.authService.requesttickect.Description, IsReset: false})
       console.log('nisulod', this.authService.requesttickect.IsAssigned);
       this.tab = 0
-      if (this.authService.requesttickect.IsAssigned)
-        this.tab = 1
+      if (this.authService.requesttickect.IsOpen)
+        this.tab = 0;
       else
-        this.tab = 0
+        this.tab = 1;
+      console.log('This Tab:', this.tab);
       this.searchTicket(this.authService.requesttickect.TransactionNo);
     }
   }
@@ -401,6 +403,8 @@ export class MyTaskComponent {
     this.getCommentList(this.ticketDetail.transactionNo);
     if (!item.isAssigned)
       setTimeout(() => this.getDepartmentPersonnels());
+    
+    
   }
 
   goBack() {
