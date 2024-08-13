@@ -15,7 +15,7 @@ import { stomp } from '../../+services/stomp.service';
 import { timeout } from '../../tools/plugins/delay';
 import { device } from '../../tools/plugins/device';
 
-import { AsyncSubject, BehaviorSubject, Observable, Subject, empty, filter, takeUntil } from 'rxjs';
+import { AsyncSubject, BehaviorSubject, Observable, Subject, empty, filter, takeUntil, timer } from 'rxjs';
 import { jUser } from '../../+app/user-module';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { faL } from '@fortawesome/free-solid-svg-icons';
@@ -25,6 +25,7 @@ import { TicketProgressModalComponent } from '../modalpage/ticket-progress-modal
 import { ViewAttachImageModalComponent } from '../modalpage/view-attach-image-modal/view-attach-image-modal.component';
 import { stringify } from 'node:querystring';
 const batchDone = new Subject<boolean>();
+const timerDone = new Subject<boolean>();
 
 
 export interface DialogData {
@@ -524,11 +525,75 @@ export class HeadTicketsComponent {
     this.ticketDetail = item;
     this.TransactionNo = item.transactionNo;
     //console.log('next',this.ticketDetail);
+    this.elapsedTimeStart();
     this.stepper.next();
     this.getCommentList(this.ticketDetail.transactionNo);
     this.scrollToBottom();
     // if (!item.isAssigned)
     //   setTimeout(() => this.getDepartmentPersonnels());
+  }
+
+  elapsedTimeStart(){
+    timer(1000,1000)
+    .pipe(takeUntil(timerDone))
+    .subscribe({
+      next:()=>{
+        this.getLElapsedTime();
+      },
+      complete: () => {
+        this.performUpdateElapsedTime();
+      },
+    });
+  }
+
+  getLElapsedTime(){
+    const dateCreated = new Date(this.ticketDetail.dateCreated);
+    const today = new Date();
+    const hours = today.getHours();
+    const minutes = today.getMinutes();
+    const seconds = today.getSeconds();
+    let elapsedTime = '';
+    if(hours >= 8 && hours <= 17){
+      if(dateCreated.getMonth() === today.getMonth() && dateCreated.getDate() === today.getDate()){
+        const time = (today.getTime() - dateCreated.getTime())
+        const hours = time / 1000 / 3600;
+        const minutes = (hours % 1) * 60;
+        const seconds = (minutes % 1) * 60;
+        this.ticketDetail.elapsedTime = time;
+        elapsedTime = Math.floor(hours) + 'h ' + Math.floor(minutes) + 'm ' + String(Math.floor(seconds)).padStart(2,'0') + 's';
+      }
+      else{
+        const date  = moment(today).format('yyyy-MM-DD') + ' 8:00:00';
+        const workStartDate = new Date(date);
+        const time = (today.getTime() - workStartDate.getTime()) + (this.ticketDetail?.elapsedTime??0);
+        const hours = time / 1000 / 3600;
+        const minutes = (hours % 1) * 60;
+        const seconds = (minutes % 1) * 60;
+        this.ticketDetail.timeElapses = time;
+        elapsedTime = Math.floor(hours) + 'h ' + Math.floor(minutes) + 'm ' + String(Math.floor(seconds)).padStart(2,'0') + 's';
+      }
+
+      if(hours === 17){
+        timerDone.next(true);
+      }
+    }
+    // console.log('Elapsed Time: ',elapsedTime);
+    this.ticketDetail.elapsedTimeString = elapsedTime;
+  }
+
+  performUpdateElapsedTime(){
+    const param: any = {};
+    param.ticketNo = this.ticketDetail.ticketNo;
+    param.time = this.ticketDetail.timeElapses;
+    rest.post('ticket/elapsedtime/update',param).subscribe((res:any) => {
+      if(res.Status === 'ok'){
+        console.log('success');
+        return;
+      }
+      alert('failed')
+    },(error: any) =>{
+      alert('System Error!');
+    });
   }
 
   goBack() {

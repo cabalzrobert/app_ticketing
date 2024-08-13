@@ -334,7 +334,7 @@
                                 <p>Created:&emsp;<span>{{dateFormatted(false,ticketDetail?.dateCreated)}}</span></p>
                             </label>
                             <label>
-                                <p>Last message:&emsp;<span>#1E233</span></p>
+                                <p>Elapsed Time:&emsp;<span>{{ticketDetail?.elapsedTimeString}}</span></p>
                             </label>
                             <label>
                                 <p>Status:&emsp;<span [class]="'ticket-'+ticketDetail?.ticketStatus.toLowerCase()">{{ticketDetail?.ticketStatus}}</span></p>
