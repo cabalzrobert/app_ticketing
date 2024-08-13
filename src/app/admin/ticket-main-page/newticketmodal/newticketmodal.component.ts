@@ -260,10 +260,16 @@ export class NewticketmodalComponent implements OnInit {
       alert('Please select Priority Level');
       return false
     }
-    if (this.uploaded.length == 0)
+    if (this.uploaded.length == 0){
       this.form.value.TicketAttachment = '';
-    else if (this.uploaded.length > 0)
+      this.form.value.Attachment = '';
+    }
+      
+    else if (this.uploaded.length > 0){
       this.form.value.TicketAttachment = this.uploaded.map((m: any) => m.base64);
+      this.form.value.Attachment = JSON.stringify(this.form.value.TicketAttachment);
+    }
+      
     //this.form.value.TicketAttachment = JSON.stringify(this.uploaded);
     this.form.value.Categoryname = this.categoryname;
     this.form.value.PriorityLevelname = this.prioritylevelname;

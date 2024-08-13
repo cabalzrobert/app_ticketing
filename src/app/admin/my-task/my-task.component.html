@@ -377,7 +377,7 @@
                             </div>
                         </mat-card-content>
                     </mat-card>
-                    <div class="forward-resolve-container" *ngIf="ticketDetail?.assignedId===userDetail.USR_ID&&ticketDetail?.ticketStatus==='Open'">
+                    <div class="forward-resolve-container"  *ngIf="ticketDetail?.attachment != null">
                         <div class='footer-buttons'>
                             <button class="btn-attachment" mat-flat-button (click)="hViewAttachment()">
                                 <mat-icon iconPositionEnd>photo_library</mat-icon>

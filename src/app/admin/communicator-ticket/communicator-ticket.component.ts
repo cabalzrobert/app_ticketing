@@ -456,7 +456,7 @@ export class CommunicatorTicketComponent {
         timerDone.next(true);
       }
     }
-    // console.log('Elapsed Time: ',elapsedTime);
+    //console.log('Elapsed Time: ',elapsedTime);
     this.ticketDetail.elapsedTimeString = elapsedTime;
   }
 

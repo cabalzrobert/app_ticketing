@@ -415,7 +415,7 @@
                             </div>
                         </div>
                     </div> -->
-                    <div class="forward-resolve-container0" *ngIf="ticketDetail?.ticketStatusId!==4">
+                    <div class="forward-resolve-container0"  *ngIf="ticketDetail?.attachment != null">
                         <div class='footer-buttons'>
                             <button class="btn-attachment" mat-flat-button (click)="hViewAttachment()">
                                 <mat-icon iconPositionEnd>photo_library</mat-icon>
