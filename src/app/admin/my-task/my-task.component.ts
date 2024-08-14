@@ -400,7 +400,6 @@ export class MyTaskComponent {
     if(item.attachment !== null)
       JSON.parse(item.attachment).forEach((e:any) => { this.attachments.push({URL: e.base64}) });
     //console.log('My Task',this.ticketDetail);
-    this.elapsedTimeStart();
     this.stepper.next();
     this.getCommentList(this.ticketDetail.transactionNo);
     if (!item.isAssigned)

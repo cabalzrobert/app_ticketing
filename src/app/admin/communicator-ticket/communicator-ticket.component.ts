@@ -386,7 +386,6 @@ export class CommunicatorTicketComponent {
     this.ticketDetail = item;
     this.TransactionNo = item.transactionNo;
     console.log('Ticket Detail', this.ticketDetail);
-    this.elapsedTimeStart();
     this.stepper.next();
     this.getCommentList(this.ticketDetail.transactionNo);
     if (!item.departmentId)

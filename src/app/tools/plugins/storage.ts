@@ -4,7 +4,7 @@ import { device } from './device';
 import { ready } from './ready';
 import { mtPCb, mtObj } from './static';
 
-const{ Storage  } = Plugins;
+const{ Storage  }: any = Plugins;
 const{ Proxy }:any = window;
 
 export const storage = (()=>{

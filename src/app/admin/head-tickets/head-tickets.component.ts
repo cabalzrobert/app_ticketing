@@ -525,7 +525,6 @@ export class HeadTicketsComponent {
     this.ticketDetail = item;
     this.TransactionNo = item.transactionNo;
     //console.log('next',this.ticketDetail);
-    this.elapsedTimeStart();
     this.stepper.next();
     this.getCommentList(this.ticketDetail.transactionNo);
     this.scrollToBottom();
