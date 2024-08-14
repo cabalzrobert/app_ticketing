@@ -13,6 +13,7 @@ import { SidenavComponent } from '../sidenav/sidenav.component';
 import { CommunicatorTicketComponent } from './communicator-ticket/communicator-ticket.component';
 import { HeadTicketsComponent } from './head-tickets/head-tickets.component';
 import { MyTaskComponent } from './my-task/my-task.component';
+import { ReportPageComponent } from './report/report-page.component';
 // import { CommunicatorTicketComponent } from '../communicator/communicator-ticket/communicator-ticket.component';
 
 const routes: Routes = [
@@ -21,6 +22,7 @@ const routes: Routes = [
     path: '', component: AdminComponent, children: [
       { path: '', component: OverviewPageComponent },
       { path: 'overview', component: OverviewPageComponent },
+      { path: 'report', component: ReportPageComponent },
       //{ path: 'dashboard', component: OverviewPageComponent },
       { path: 'assignedticket', component:HeadTicketsComponent, loadChildren: () => import('./head-tickets/head-tickets.module').then(m=>m.HeadTicketsModule)},
       { path: 'receivedtickets', component:CommunicatorTicketComponent, loadChildren: () => import('./communicator-ticket/communicator-ticket.module').then(m=>m.CommunicatorTicketModule)},

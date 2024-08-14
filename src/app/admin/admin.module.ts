@@ -67,6 +67,7 @@ import { SubmitModalDepartmentComponent } from './modalpage/submit-modal-departm
 import { MyTaskModule } from './my-task/my-task.module';
 import { MyTaskComponent } from './my-task/my-task.component';
 import { RequestTicketMessageBoxDialog } from './requestorticketpage/requestorticketpage.component';
+import { ReportPageComponent } from './report/report-page.component';
 
 //import { SettingsdepartmentComponent } from './setting-main-page/settingsdepartment/settingsdepartment.component';
 //import { BrowserModule } from '@angular/platform-browser';
@@ -81,6 +82,7 @@ import { RequestTicketMessageBoxDialog } from './requestorticketpage/requestorti
     BodyComponent,
     NewticketmodalComponent,
     OverviewPageComponent,
+    ReportPageComponent,
     ChatPageComponent,
     TicketMainPageComponent,
     NewusermodalComponent,

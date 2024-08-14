@@ -1,0 +1,61 @@
+
+<div class="container">
+    <div class="userheader">
+        <div class="headerlabel">
+            <h1>Report </h1>
+        </div>
+
+        <!-- <div class="hedaersearchtab">
+            <div class="searchinput">
+                <div class="searchicon">
+                    <i class="fa fa-light fa-search"></i>
+                    <input type="text" class="searchuserinput" placeholder="Search user" [formControl]="Search"
+                        (change)="hSearchUsers()" (keyup)="hSearchUsers()">
+                </div>
+            </div>
+        </div> -->
+    </div>
+
+    <div class="userbody">
+        <div class="contentheader">
+            <div class="contentheadercard1">
+                <div class="contentheadercard">
+                    <div class="headerpic">Department</div>
+                    <div class="headername">Pending</div>
+                    <div class="headerdepartment">Ongoing</div>
+                    <div class="headerorle">Resolve</div>
+                    <div class="headerlastseen">Cancell</div>
+                </div>
+                
+            </div>
+            
+        </div>
+        <div class="contentdetails">
+            <div class="usercard1" *ngFor="let data of reportlist, let i = index">
+                <div class="usercard">
+                    <div class="detailspic">
+                        <div class="name">{{data.Department}}</div>
+                    </div>
+                    <div class="detailsname">
+                        <div class="name">{{data.Pending}}</div>
+                    </div>
+                    <div class="detailsname">
+                        <div class="name">{{data.Ongoing}}</div>
+                    </div>
+                    <div class="detailsname">
+                        <div class="name">{{data.Resolve}}</div>
+                    </div>
+                    <div class="detailsname">
+                        <div class="name">{{data.Cancell}}</div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="nodata" *ngIf="reportlist.length == 0">No data</div>
+    <div class="loader" *ngIf="loader"></div>
+
+</div>
