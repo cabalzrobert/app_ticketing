@@ -206,6 +206,7 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
   DepartmentID: String = ''
   AssignedAccountEmail: String = ''
   AssignedAccountProfilePicture: String = ''
+  ElapsedTime: String = ''
   ticketupdate: any = {};
 
   async hViewComment(data: any, idx: number) {
@@ -232,6 +233,7 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
     this.AssignedAccountname = data.AssignedAccountname;
     this.AssignedAccountEmail = data.AssignedAccountEmail;
     this.AssignedAccountProfilePicture = data.AssignedAccountProfilePicture;
+    this.ElapsedTime = data.ElapsedTime;
     this.ticketupdate = data;
     //console.log('Ticket data Update')
     //await this.getCommentList(this.TransactionNo);
