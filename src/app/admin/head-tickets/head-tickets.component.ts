@@ -515,10 +515,26 @@ export class HeadTicketsComponent {
       alert('System Error!');
     });
   }
+  _hour: number = 0;
+  _minute: number = 0;
+  _second: number = 0;
+  _elapsedtime: string = '';
+  interval: any;
 
   next(item: any) {
     // if(item.isAssigned) return;
     console.log('View Ticket at Department Head Requestor');
+
+    let elapsedtime: any = (item.elapsedTime).split(" ", 3);
+    let _h: string = (elapsedtime[0]).replace('h', '');
+    let _m: string = (elapsedtime[1]).replace('m', '');
+    let _s: string = elapsedtime[2];
+
+    this._hour = parseInt(_h);
+    this._minute = parseInt(_m);
+    this._second = parseInt(_s);
+
+
     this.router.navigate([item.ticketNo], { relativeTo: this.route });
     // this.router.navigateByUrl('/head/dashboard/tickets/sample');
     this.ticketTitle = item.title;
@@ -527,52 +543,97 @@ export class HeadTicketsComponent {
     //console.log('next',this.ticketDetail);
     this.stepper.next();
     this.getCommentList(this.ticketDetail.transactionNo);
+    if (item.ticketStatus != 'Closed' && item.ticketStatus != 'Cancel')
+      this.getLElapsedTime1();
+    else
+      clearInterval(this.interval);
     this.scrollToBottom();
     // if (!item.isAssigned)
     //   setTimeout(() => this.getDepartmentPersonnels());
+
   }
 
-  elapsedTimeStart(){
-    timer(1000,1000)
-    .pipe(takeUntil(timerDone))
-    .subscribe({
-      next:()=>{
-        this.getLElapsedTime();
-      },
-      complete: () => {
-        this.performUpdateElapsedTime();
-      },
-    });
+  elapsedTimeStart1() {
+    timer(1000, 1000)
+      .pipe(takeUntil(timerDone))
+      .subscribe({
+        next: () => {
+          this.getLElapsedTime1();
+        },
+        complete: () => {
+          this.getLElapsedTime1();
+        },
+      });
   }
 
-  getLElapsedTime(){
+  getLElapsedTime1() {
+    const dateCreated = new Date(this.ticketDetail.dateCreated);
+    const today = new Date();
+    const hours = this._hour;
+    const minutes = this._minute;
+    const seconds = this._second;
+    let elapsedTime = '';
+    this.interval = setInterval(() => this.startTime(), 1000);
+  }
+  startTime() {
+    this._second = this._second + 1;
+    if (this._second == 60) {
+      this._minute = this._minute + 1;
+      this._second = 0;
+    }
+    if (this._minute == 60) {
+      this._hour = this._hour + 1;
+      this._minute = 0;
+      this._second = 0;
+    }
+    let _h:string = ((this._hour).toString().length == 1) ? `0${this._hour}` : (this._hour).toString();
+    let _m:string = ((this._minute).toString().length == 1) ? `0${this._minute}` : (this._minute).toString();
+    let _s:string = ((this._second).toString().length == 1) ? `0${this._second}` : (this._second).toString();
+    this._elapsedtime = `${_h}h ${_m}m ${_s}s`;
+    this.ticketDetail.elapsedTime = this._elapsedtime;
+  }
+
+  elapsedTimeStart() {
+    timer(1000, 1000)
+      .pipe(takeUntil(timerDone))
+      .subscribe({
+        next: () => {
+          this.getLElapsedTime();
+        },
+        complete: () => {
+          this.performUpdateElapsedTime();
+        },
+      });
+  }
+
+  getLElapsedTime() {
     const dateCreated = new Date(this.ticketDetail.dateCreated);
     const today = new Date();
     const hours = today.getHours();
     const minutes = today.getMinutes();
     const seconds = today.getSeconds();
     let elapsedTime = '';
-    if(hours >= 8 && hours <= 17){
-      if(dateCreated.getMonth() === today.getMonth() && dateCreated.getDate() === today.getDate()){
+    if (hours >= 8 && hours <= 17) {
+      if (dateCreated.getMonth() === today.getMonth() && dateCreated.getDate() === today.getDate()) {
         const time = (today.getTime() - dateCreated.getTime())
         const hours = time / 1000 / 3600;
         const minutes = (hours % 1) * 60;
         const seconds = (minutes % 1) * 60;
         this.ticketDetail.elapsedTime = time;
-        elapsedTime = Math.floor(hours) + 'h ' + Math.floor(minutes) + 'm ' + String(Math.floor(seconds)).padStart(2,'0') + 's';
+        elapsedTime = Math.floor(hours) + 'h ' + Math.floor(minutes) + 'm ' + String(Math.floor(seconds)).padStart(2, '0') + 's';
       }
-      else{
-        const date  = moment(today).format('yyyy-MM-DD') + ' 8:00:00';
+      else {
+        const date = moment(today).format('yyyy-MM-DD') + ' 8:00:00';
         const workStartDate = new Date(date);
-        const time = (today.getTime() - workStartDate.getTime()) + (this.ticketDetail?.elapsedTime??0);
+        const time = (today.getTime() - workStartDate.getTime()) + (this.ticketDetail?.elapsedTime ?? 0);
         const hours = time / 1000 / 3600;
         const minutes = (hours % 1) * 60;
         const seconds = (minutes % 1) * 60;
         this.ticketDetail.timeElapses = time;
-        elapsedTime = Math.floor(hours) + 'h ' + Math.floor(minutes) + 'm ' + String(Math.floor(seconds)).padStart(2,'0') + 's';
+        elapsedTime = Math.floor(hours) + 'h ' + Math.floor(minutes) + 'm ' + String(Math.floor(seconds)).padStart(2, '0') + 's';
       }
 
-      if(hours === 17){
+      if (hours === 17) {
         timerDone.next(true);
       }
     }
@@ -580,22 +641,23 @@ export class HeadTicketsComponent {
     this.ticketDetail.elapsedTimeString = elapsedTime;
   }
 
-  performUpdateElapsedTime(){
+  performUpdateElapsedTime() {
     const param: any = {};
     param.ticketNo = this.ticketDetail.ticketNo;
     param.time = this.ticketDetail.timeElapses;
-    rest.post('ticket/elapsedtime/update',param).subscribe((res:any) => {
-      if(res.Status === 'ok'){
+    rest.post('ticket/elapsedtime/update', param).subscribe((res: any) => {
+      if (res.Status === 'ok') {
         console.log('success');
         return;
       }
       alert('failed')
-    },(error: any) =>{
+    }, (error: any) => {
       alert('System Error!');
     });
   }
 
   goBack() {
+    clearInterval(this.interval);
     // this.router.navigate(['../tickets'], {relativeTo: this.route});
     this.router.navigate(['../assignedticket'], { relativeTo: this.route });
     this.stepper.previous();

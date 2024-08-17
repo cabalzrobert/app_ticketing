@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { NewticketmodalComponent } from '../ticket-main-page/newticketmodal/newticketmodal.component';
 import { jUser, jUserModify } from '../../+app/user-module';
 import { DOCUMENT } from '@angular/common';
-import { AsyncSubject, Observable, Subject, filter, takeUntil } from 'rxjs';
+import { AsyncSubject, Observable, Subject, filter, takeUntil, timer } from 'rxjs';
 import { rest } from '../../+services/services';
 import { FormControl, FormGroup } from '@angular/forms';
 import { device } from '../../tools/plugins/device';
@@ -20,6 +20,7 @@ import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 //const{Object1}:any = {};
 //const Object:Window = window;
 const batchDone = new Subject<boolean>();
+const timerDone = new Subject<boolean>();
 interface MenuNavToggle {
   screenWidth: number;
   collapsed: boolean;
@@ -173,6 +174,7 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
 
 
   hViewRequestorPage() {
+    clearInterval(this.interval);
     console.log('hViewRequestorPage', this.LastMessage);
     this.viewRequestorPage = false;
     this.viewTicketComment = true;
@@ -210,6 +212,7 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
   ticketupdate: any = {};
 
   async hViewComment(data: any, idx: number) {
+    console.log('elapsedTimeStart1', timerDone);
     console.log(data);
     this.ticketupdate = data;
     this.ticketindex = idx;
@@ -240,31 +243,92 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
     //setTimeout(() => this.getCommentList(this.TransactionNo), 725);
 
     device.ready(() => setTimeout(() => this.getCommentList(this.TransactionNo), 275));
+
+    let elapsedtime: any = (data.ElapsedTime).split(" ", 3);
+    let _h: string = (elapsedtime[0]).replace('h', '');
+    let _m: string = (elapsedtime[1]).replace('m', '');
+    let _s: string = elapsedtime[2];
+
+    this._hour = parseInt(_h);
+    this._minute = parseInt(_m);
+    this._second = parseInt(_s);
+    console.log('hViewComment', data.TicketStatusname);
+    if (data.TicketStatusname != 'Closed' && data.TicketStatusname != 'Cancel')
+      this.getLElapsedTime1();
+    else
+      clearInterval(this.interval);
+
     this.scrollToBottom();
-    if (this.isAssigned){}
-      //console.log('this.isAssigned', this.isAssigned);
+    if (this.isAssigned) { }
+    //console.log('this.isAssigned', this.isAssigned);
     //await this.getlastMessage(this.LastMessage);
     //setTimeout(() => this.getlastMessage(this.LastMessage), 725);
     //console.log('this.ticketcomment 219', await this.LastMessage);
+  }
+
+
+  _hour: number = 0;
+  _minute: number = 0;
+  _second: number = 0;
+  _elapsedtime: string = '';
+
+  elapsedTimeStart1() {
+    timer(1000, 1000)
+      .pipe(takeUntil(timerDone))
+      .subscribe({
+        next: () => {
+          this.getLElapsedTime1();
+        },
+        complete: () => {
+          this.getLElapsedTime1();
+        },
+      });
+  }
+  interval: any;
+  getLElapsedTime1() {
+    const dateCreated = new Date(this.ticketpending.CreatedDate);
+    const today = new Date();
+    const hours = this._hour;
+    const minutes = this._minute;
+    const seconds = this._second;
+    let elapsedTime = '';
+    this.interval = setInterval(() => this.startTime(), 1000);
+  }
+  startTime() {
+    this._second = this._second + 1;
+    if (this._second == 60) {
+      this._minute = this._minute + 1;
+      this._second = 0;
+    }
+    if (this._minute == 60) {
+      this._hour = this._hour + 1;
+      this._minute = 0;
+      this._second = 0;
+    }
+    let _h:string = ((this._hour).toString().length == 1) ? `0${this._hour}` : (this._hour).toString();
+    let _m:string = ((this._minute).toString().length == 1) ? `0${this._minute}` : (this._minute).toString();
+    let _s:string = ((this._second).toString().length == 1) ? `0${this._second}` : (this._second).toString();
+    this._elapsedtime = `${_h}h ${_m}m ${_s}s`;
+    this.ElapsedTime = this._elapsedtime;
   }
 
   IsRequireOtherDepartment: boolean = false;
 
   openpopnewticket() {
     this.ticketlist = [];
-    if(this.input.ACT_TYP==5){
-      const dialogRef = this.dialog.open(RequestTicketMessageBoxDialog,{
+    if (this.input.ACT_TYP == 5) {
+      const dialogRef = this.dialog.open(RequestTicketMessageBoxDialog, {
         width: '15%',
       });
-  
-      dialogRef.afterClosed().subscribe((result)=>{
-        console.log('Create Ticket',result);
+
+      dialogRef.afterClosed().subscribe((result) => {
+        console.log('Create Ticket', result);
         this.IsRequireOtherDepartment = result;
         this.ticketDialogRef = this.dialog.open(NewticketmodalComponent, { data: { item: null, Title: 'Create Ticket', SaveButtonText: 'Create Ticket', IsRequiredOtherDepartment: result } });
         this.ticketDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
           console.log('openpopnewticket', o);
           // this.ticketpending.unshift(o);
-          
+
           this.ticketlist = this.ticketpending;
           this.ticketlist.unshift(o);
           this.ticketpending = [];
@@ -274,7 +338,7 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
           this.allticket = (parseInt(this.allticket) + 1).toString();
         });
       });
-    }else{
+    } else {
       this.ticketDialogRef = this.dialog.open(NewticketmodalComponent, { data: { item: null, Title: 'Create Ticket', SaveButtonText: 'Create Ticket', IsRequiredOtherDepartment: false } });
       this.ticketDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
         console.log('openpopnewticket', o);
@@ -1975,13 +2039,13 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
     end = this.virtualScroll.getRenderedRange().end;
     total = this.ticketpending.length
     let basefilter: string = ''
-    if(Object.keys(this.ticketpending).length > 0){
+    if (Object.keys(this.ticketpending).length > 0) {
       if (end == 0)
         basefilter = this.ticketpending[end].Num_Row;
       else
         basefilter = this.ticketpending[end - 1].Num_Row;
     }
-    
+
 
     //console.log('hScrollIndexChange', end, basefilter, total);
     if (end == total) {
