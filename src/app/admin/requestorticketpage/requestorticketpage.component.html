@@ -80,7 +80,9 @@
                         <div class="cardticket">
                             <div class="cardticketcontent" (click)="hViewComment(data, i)">
                                 <div class="cardheader">
-                                    <div class="headertitle">{{data.TitleTicket}}</div>
+                                    <div class="headertitle">{{data.TitleTicket}}
+                                        <span><mat-icon *ngIf="data.Attachment != ''">attach_file</mat-icon></span>
+                                    </div>
                                     <!-- <div class="headerdate">{{dateFormatted(true, data.CreatedDate)}}</div> -->
                                     <div class="headerdate">{{data.CreatedDate}}</div>
                                 </div>
@@ -180,7 +182,9 @@
         
         
                                 <div class="cardheader">
-                                    <div class="headertitle">{{data.TitleTicket}}</div>
+                                    <div class="headertitle">{{data.TitleTicket}}
+                                        <span><mat-icon *ngIf="data.Attachment != ''">attach_file</mat-icon></span>
+                                    </div>
                                     <!-- <div class="headerdate">{{dateFormatted(true, data.CreatedDate)}}</div> -->
                                     <div class="headerdate">{{data.CreatedDate}}</div>
                                 </div>
@@ -236,7 +240,9 @@
                         <div class="cardticket">
                             <div class="cardticketcontent" (click)="hViewComment(data, i)">
                                 <div class="cardheader">
-                                    <div class="headertitle">{{data.TitleTicket}}</div>
+                                    <div class="headertitle">{{data.TitleTicket}}
+                                        <span><mat-icon *ngIf="data.Attachment != ''">attach_file</mat-icon></span>
+                                    </div>
                                     <!-- <div class="headerdate">{{dateFormatted(true, data.CreatedDate)}}</div> -->
                                     <div class="headerdate">{{data.CreatedDate}}</div>
                                 </div>
