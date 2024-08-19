@@ -68,6 +68,7 @@ import { MyTaskModule } from './my-task/my-task.module';
 import { MyTaskComponent } from './my-task/my-task.component';
 import { RequestTicketMessageBoxDialog } from './requestorticketpage/requestorticketpage.component';
 import { ReportPageComponent } from './report/report-page.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 //import { SettingsdepartmentComponent } from './setting-main-page/settingsdepartment/settingsdepartment.component';
 //import { BrowserModule } from '@angular/platform-browser';
@@ -146,7 +147,8 @@ import { ReportPageComponent } from './report/report-page.component';
     MatNativeDateModule,
     NgOtpInputModule,
     ScrollingModule,
-    MyTaskModule
+    MyTaskModule,
+    MatTooltipModule
     //SidenavComponent
 
   ],

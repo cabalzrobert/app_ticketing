@@ -8,7 +8,7 @@
         </div>
         <div class="filter-container">
             <div class="txt-search">
-                <input type="text" placeholder="Search tickets" #search [(ngModel)]="searchValue" (keyup)="searchTicket(search.value)">
+                <input type="text" placeholder="Search tickets" #search [(ngModel)]="searchValue" (keydown.Enter)="searchTicket(search.value)">
                 <mat-icon>search</mat-icon>
             </div>
             <div class="btn-filter">
@@ -323,7 +323,7 @@
                                 <img [src]="(ticketDetail?.requestProfImage||'assets/image/icon_blank_profile.png')">
                             </div>
                             <div class="requester-name">
-                                <span>{{ticketDetail?.requestName}}</span>
+                                <span [matTooltip]="ticketDetail?.requestName">{{ticketDetail?.requestName}}</span>
                                 <span class="username">&#64;{{ticketDetail?.requestNickname??'terminator'}}</span>
                             </div>
                         </mat-card-content>
@@ -375,7 +375,7 @@
                                     <img [src]="(ticketDetail?.assignedProfImage||'assets/image/icon_blank_profile.png')">
                                 </div>
                                 <div class="requester-name">
-                                    <span>{{ticketDetail?.assignedName}}</span>
+                                    <span [matTooltip]="ticketDetail?.assignedName">{{ticketDetail?.assignedName}}</span>
                                     <span class="username">&#64;{{ticketDetail?.assignedNickname??'terminator'}}</span>
                                 </div>
                             </div>
