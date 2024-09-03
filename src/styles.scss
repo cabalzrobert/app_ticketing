@@ -222,3 +222,39 @@ body {
 .mat-dialog-progress {
   --mdc-dialog-container-shape: 4px;
 }
+app-dashboard .body-trimmed{
+  width: calc(100% - 362px);
+  margin-left: 362px;
+  min-width: 768px;
+}
+
+@media print {
+
+  // #sidenav{
+  //   display: none;
+  // }
+  app-sidenav {
+    display: none;
+  }
+
+
+  app-body .appbody {
+    width: 100%;
+    display: none;
+  }
+
+  app-body .body {
+    width: 100%;
+
+    .body-trimmed {
+      width: 100%;
+    }
+
+  }
+
+  app-root app-dashboard .body-trimmed app-report-page .container .userbody1 .timeelapsedheader{
+    display: none;
+  }
+
+
+}

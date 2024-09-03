@@ -130,49 +130,7 @@ mat-card {
 }
 
 
-.filter-container {
-    position: absolute;
-    right: 35px;
-    display: flex;
-    align-items: center;
-    z-index: 2;
-    gap: 10px;
 
-    .txt-search {
-        position: relative;
-        display: flex;
-        align-items: center;
-
-        mat-icon {
-            position: absolute;
-            left: 17px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 32px;
-        }
-
-        input {
-            height: 56px;
-            width: 350px; //221px;
-            border-radius: 12px;
-            outline: none;
-            border-width: 1px;
-            font-size: 16px;
-            padding: 0px 16px 0px 56px;
-        }
-    }
-
-    .btn-filter {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        width: 104px;
-        font-size: 16px;
-        padding-inline: 8px;
-    }
-}
 
 .mat-tab-label {
     width: 50%;
@@ -1045,3 +1003,95 @@ mat-card {
 //     --mat-tab-header-inactive-ripple-color: #ff4081;
 
 //     --mdc-tab-indicator-active-indicator-color: ff4081;
+
+@media only screen and (max-width: 1570px) {
+        .filter-container{
+            position:absolute;
+            display: flex;
+            align-items: center;
+            gap:10px;
+            top:110px;
+            padding: 0px 0px 0px 25px;
+        }
+        .txt-search {
+            position: relative;
+            display: flex;
+            align-items: center;
+    
+            mat-icon {
+                position: absolute;
+                left: 17px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 32px;
+            }
+    
+            input {
+                height: 56px;
+                width: 350px; //221px;
+                border-radius: 12px;
+                outline: none;
+                border-width: 1px;
+                font-size: 16px;
+                padding: 0px 16px 0px 56px;
+            }
+        }
+    
+        .btn-filter {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 104px;
+            font-size: 16px;
+            padding-inline: 8px;
+        }
+        .ticket-list-container{
+            margin-top: 70px;
+        }
+}
+@media only screen and (min-width:1571px){
+    .filter-container{
+        position: absolute;
+        right: 35px;
+        display: flex;
+        align-items: center;
+        z-index: 2;
+        gap: 10px;
+        .txt-search {
+            position: relative;
+            display: flex;
+            align-items: center;
+    
+            mat-icon {
+                position: absolute;
+                left: 17px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 32px;
+            }
+    
+            input {
+                height: 56px;
+                width: 350px; //221px;
+                border-radius: 12px;
+                outline: none;
+                border-width: 1px;
+                font-size: 16px;
+                padding: 0px 16px 0px 56px;
+            }
+        }
+    
+        .btn-filter {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 104px;
+            font-size: 16px;
+            padding-inline: 8px;
+        }
+    }
+}

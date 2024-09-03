@@ -1,9 +1,23 @@
-
 <div class="container">
     <div class="userheader">
         <div class="headerlabel">
             <h1>Report </h1>
         </div>
+        <button class="hamburger" [matMenuTriggerFor]="menu"><mat-icon>menu</mat-icon></button>
+        <mat-menu #menu="matMenu" class="custom">
+
+            <ul class="menu-nav1">
+                <li class="menu-nav-item ">
+                    <button [ngClass]="ticket == true ? 'menu-nav-button2' : 'menu-nav-button'"
+                        (click)="hTicket()">Ticket</button>
+                </li>
+                <li class="menu-nav-item ">
+                    <button [ngClass]="ticketelapsedtime == true ? 'menu-nav-button2' : 'menu-nav-button'"
+                        (click)="hTicketElapsed()">Ticket with elapsed time</button>
+                </li>
+            </ul>
+
+        </mat-menu>
 
         <!-- <div class="hedaersearchtab">
             <div class="searchinput">
@@ -16,7 +30,8 @@
         </div> -->
     </div>
 
-    <div class="userbody">
+    <div class="userbody" [hidden]="!ticket">
+        <div class="esatlogo"><img style="width:100%" src="assets/image/esatheader.png" alt=""></div>
         <div class="contentheader">
             <div class="contentheadercard1">
                 <div class="contentheadercard">
@@ -25,10 +40,11 @@
                     <div class="headerdepartment">Ongoing</div>
                     <div class="headerorle">Resolved</div>
                     <div class="headerlastseen">Cancelled</div>
+                    <div class="headerlastseen">Total</div>
                 </div>
-                
+
             </div>
-            
+
         </div>
         <div class="contentdetails">
             <div class="usercard1" *ngFor="let data of reportlist, let i = index">
@@ -48,14 +64,160 @@
                     <div class="detailsname">
                         <div class="name">{{data.Cancell}}</div>
                     </div>
+                    <div class="detailsname">
+                        <div class="name" style="font-size: 16px;font-weight: 700;">{{ConvertStringToInt(data.Cancell) +
+                            ConvertStringToInt(data.Pending) + ConvertStringToInt(data.Ongoing) +
+                            ConvertStringToInt(data.Resolve)}}</div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="usercard1" *ngIf="reportlist.length > 0">
+                <div class="usercard">
+                    <div class="detailspic">
+                        <div class="name" style="font-size: 16px;font-weight: 700;">Total</div>
+                    </div>
+                    <div class="detailsname">
+                        <div class="name" style="font-size: 16px;font-weight: 700;">{{totalpending}}</div>
+                    </div>
+                    <div class="detailsname">
+                        <div class="name" style="font-size: 16px;font-weight: 700;">{{totalongoing}}</div>
+                    </div>
+                    <div class="detailsname">
+                        <div class="name" style="font-size: 16px;font-weight: 700;">{{totalresolve}}</div>
+                    </div>
+                    <div class="detailsname">
+                        <div class="name" style="font-size: 16px;font-weight: 700;">{{totalcancelled}}</div>
+                    </div>
+                    <div class="detailsname">
+                        <div class="name" style="font-size: 16px;font-weight: 700;">{{ConvertStringToInt(totalpending) +
+                            ConvertStringToInt(totalongoing) + ConvertStringToInt(totalresolve) +
+                            ConvertStringToInt(totalcancelled)}}</div>
+                    </div>
                 </div>
 
             </div>
 
         </div>
     </div>
+    <div class="userbody1" [hidden]="!ticketelapsedtime">
+        <div class="timeelapsedheader">
+            <mat-form-field appearance="fill">
+                <mat-label>Enter a date range</mat-label>
+                <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+                    <input matStartDate formControlName="start" placeholder="Start date">
+                    <input matEndDate formControlName="end" placeholder="End date">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker>
+                    <mat-date-range-picker-actions>
+                        <button mat-button matDateRangePickerCancel (click)="hClear()">Clear</button>
+                        <!-- <button mat-raised-button color="primary" matDateRangePickerApply>Apply</button> -->
+                        <button mat-button matDateRangePickerApply (click)="hApply()">Apply</button>
+                    </mat-date-range-picker-actions>
+                </mat-date-range-picker>
 
-    <div class="nodata" *ngIf="reportlist.length == 0">No data</div>
-    <div class="loader" *ngIf="loader"></div>
+                <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+                <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+            </mat-form-field>
+            <div class="btn">
+                <!-- <button (click)="hGenerateExportExcel()"><i
+                        class="fa fa-file-excel"></i></button> -->
+                <!-- <button (click)="hGenerateReportElapsedTime()"><i class="fa fa-print"></i></button> -->
+                <button id="btnPrintElapsedTime" (click)="hOnprintTicketElapsedTime()"><i
+                        class="fa fa-print"></i></button>
+            </div>
 
-</div>
+
+
+        </div>
+        <div #ticketelapsedtimecontent id="timeelapsedcontent" style="height: calc(100% - 3.313rem);">
+            <div class="esatlogo"><img style="width:100%" src="assets/image/esatheader.png" alt=""></div>
+            <div class="userbody1" style="--width: {{swidth}};">
+                <div class="contentheader">
+                    <div class="contentheadercard1">
+                        <div class="contentheadercard">
+                            <div class="headerpic">Requestor</div>
+                            <div class="headername">Ticket No.</div>
+                            <div class="headerdepartment">Subject</div>
+                            <div class="headerorle">Date Request</div>
+                            <div class="headerlastseen">Status</div>
+                            <div class="headerlastseen">Elapsed Time</div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="contentdetails">
+                    <div class="usercard1" *ngFor="let data of ticketrequestreportlist, let i = index">
+
+                        <div class="usercard2" (click)="hViewTicketRequestEvent(data, i)">
+                            <div class="detailspic">
+                                <div class="name" style="display: flex;gap:8px">
+                                    <i class="fa fa-caret-right" style="font-size: small;" *ngIf="!data.ViewEvent"></i>
+                                    <i class="fa fa-caret-down" style="font-size: small;" *ngIf="data.ViewEvent"></i>
+                                    <div>{{data.RequestorName}}</div>
+                                </div>
+                            </div>
+                            <div class="detailsname">
+                                <div class="name">{{data.TicketNo}}</div>
+                            </div>
+                            <div class="detailsname">
+                                <div class="name">{{data.TitleTicket}}</div>
+                            </div>
+                            <div class="detailsname">
+                                <div class="name">{{data.CreatedDate}}</div>
+                            </div>
+                            <div class="detailsname">
+                                <div class="name">{{data.Status}}</div>
+                            </div>
+                            <div class="detailsname">
+                                <div class="elapsedtime">{{data.ElapsedTime}}</div>
+                            </div>
+                        </div>
+                        <div [hidden]="!data.ViewEvent">
+                            <div class="elapsedbody">
+                                <div class="elapsedcontent">
+                                    <div class="elapsedtimeHeader">
+                                        <div class="contentheadercard1">
+                                            <div class="contentheadercard">
+                                                <div class="headerpic">Forward To</div>
+                                                <div class="headername">Date</div>
+                                                <div class="headerdepartment">Elapsed Time</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="elapsedcontentdetails"
+                                        *ngFor="let item of JsonFormatted(data.TicketRequestEvent, i)">
+                                        <div class="usercard1">
+                                            <div class="usercard">
+                                                <div class="edetailsname">
+                                                    <div class="name">{{item.ForwardTo}}</div>
+                                                </div>
+                                                <div class="edetailsname">
+                                                    <div class="name">{{dateFormatted(true,item.TKT_HST_DT)}}</div>
+                                                </div>
+                                                <div class="edetailsname">
+                                                    <div class="elapsedtime">{{item.elapsedTime}}</div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="nodata" *ngIf="reportlist.length == 0">No data</div>
+        <div class="loader" *ngIf="loader"></div>
+
+    </div>

@@ -28,3 +28,9 @@
     min-width: 768px;
     //background: #F4F3FC;
 }
+@media print {
+    .body-trimmed{
+        width: 100%;
+        margin-left: 0px;
+    }
+}

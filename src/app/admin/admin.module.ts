@@ -69,6 +69,7 @@ import { MyTaskComponent } from './my-task/my-task.component';
 import { RequestTicketMessageBoxDialog } from './requestorticketpage/requestorticketpage.component';
 import { ReportPageComponent } from './report/report-page.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { PrintticketelapsedtimePageComponentComponent } from './report/printticketelapsedtime-page-component/printticketelapsedtime-page-component.component';
 
 //import { SettingsdepartmentComponent } from './setting-main-page/settingsdepartment/settingsdepartment.component';
 //import { BrowserModule } from '@angular/platform-browser';
@@ -111,7 +112,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     ViewAttachImageModalComponent,
     AlertSuccessModalDepartmentComponent,
     SubmitModalDepartmentComponent,
-    RequestTicketMessageBoxDialog
+    RequestTicketMessageBoxDialog,
+    PrintticketelapsedtimePageComponentComponent,
 
     // TicketComponent
   ],

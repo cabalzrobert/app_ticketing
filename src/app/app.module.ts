@@ -32,6 +32,7 @@ import { OtpComponent } from './otp/otp.component';
 import { SetPasswordComponent } from './set-password/set-password.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatButton } from '@angular/material/button';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,6 +55,7 @@ import { MatButton } from '@angular/material/button';
     HttpClientModule,
     MatIconModule,
     MatSelectModule,
+    MatDatepickerModule,
     NgxMatSelectSearchModule,
     
     MatMenuModule,
