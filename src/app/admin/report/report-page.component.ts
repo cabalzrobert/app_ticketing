@@ -150,11 +150,11 @@ export class ReportPageComponent implements OnInit {
     this.fromDateMax.setDate(this.fromDateMax.getDate());
     console.log('Date Today', this.fromDateMax);
     console.log('Sample Print', this.obj);
-    this.getMenuTatList();
+    await this.getMenuTatList();
   }
   getMenuTatList(){
     
-    console.log('Menu Tab Report', this.authService._menutab);
+    console.log('Menu Tab Report', this.authService);
   }
   hSearchUsers() {
     this.GetUserAccountList({ num_row: 0, Search: this.Search.value });

@@ -54,7 +54,6 @@ export class AuthService {
   subs: any = {};
   prop: any = {};
   requesttickect: any = {};
-  _menutab:any=[];
   constructor(private router: Router, public ls: LocalStorageService, private websocketservice: WebSocketService) {
     //let session: any = localStorage.getItem('Auth');
     let session: any = this.ls.getItem1('Auth');

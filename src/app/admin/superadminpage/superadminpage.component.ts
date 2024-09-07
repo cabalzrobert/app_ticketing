@@ -938,7 +938,6 @@ export class SuperadminpageComponent implements OnInit {
   }
 
   hViewMenuTabl(data: any, idx: number) {
-    console.log('ViewMenuTab AuthService', this.authService._menutab);
     if (!data.ViewMenu)
       data.ViewMenu = true;
     else
