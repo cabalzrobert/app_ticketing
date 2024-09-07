@@ -231,17 +231,17 @@ export class SidenavComponent implements OnInit {
     //   }
     // }
 
-    // if (this.input.ACT_TYP == 4) this.navData = navbarDataCommunicator;
-    // else if (this.input.ACT_TYP == 5) this.navData = navbarDataDepartmentHead;
-    // else if (this.input.ACT_TYP == 6) this.navData = navbarDataPersonnel;
-    // else this.navData = navbarData;
-    if (this.input.ACT_TYP == 2) {
-      this.authService._menutab = navbarData;
-      this.navData = navbarData;
+    if (this.input.ACT_TYP == 4) this.navData = navbarDataCommunicator;
+    else if (this.input.ACT_TYP == 5) this.navData = navbarDataDepartmentHead;
+    else if (this.input.ACT_TYP == 6) this.navData = navbarDataPersonnel;
+    else this.navData = navbarData;
+    // if (this.input.ACT_TYP == 2) {
+    //   this.authService._menutab = navbarData;
+    //   this.navData = navbarData;
 
-      this.input.MenuTab = JSON.stringify(this.navData);
-      console.log('Side Nav this.authService._menutab', this.authService._menutab);
-    }
+    //   this.input.MenuTab = JSON.stringify(this.navData);
+    //   console.log('Side Nav this.authService._menutab', this.authService._menutab);
+    // }
 
 
     //console.log('Navigational Bar', this.navData);
