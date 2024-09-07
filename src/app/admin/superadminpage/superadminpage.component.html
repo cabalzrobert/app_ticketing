@@ -29,11 +29,12 @@
                             Roles
                         </button>
                     </li> -->
-                    <!-- <li class="menu-nav-item">
-                        <button [ngClass]="useraccess == true ? 'menu-nav-button1' : 'menu-nav-button'" (click)="hUserAccess()">
+                    <li class="menu-nav-item">
+                        <button [ngClass]="useraccess == true ? 'menu-nav-button1' : 'menu-nav-button'"
+                            (click)="hUserAccess()">
                             User Access
                         </button>
-                    </li> -->
+                    </li>
                 </ul>
             </div>
             <button class="hamburger" [matMenuTriggerFor]="menu" [hidden]="collapsed"><mat-icon>menu</mat-icon></button>
@@ -79,10 +80,11 @@
                                 (change)="hSearchSettings()" (keyup)="hSearchSettings()">
                             <span>
                                 <!-- <div class="button fa fa-filter filter"></div> -->
-                                 <mat-icon>search</mat-icon>
+                                <mat-icon>search</mat-icon>
                             </span>
                         </div>
-                        <button class="newbutton" (click)="hNewDepartment()">New Department <i class="fa fa-plus"></i></button>
+                        <button class="newbutton" (click)="hNewDepartment()">New Department <i
+                                class="fa fa-plus"></i></button>
                     </div>
                 </div>
                 <div class="body">
@@ -92,7 +94,7 @@
                             <div class="thhead">Head</div>
                             <div class="thnoofstaff">No. of Staff</div>
                         </div>
-                        
+
                         <div class="thevent"> </div>
                     </div>
                     <div class="tabdetails">
@@ -102,7 +104,7 @@
                                 <div class="tabcarddetails">{{data.DepartmentName}}</div>
                                 <div class="tabcarddetailsHead">{{data.DepartmentHead}}</div>
                                 <div class="tabcarddetailsnoofstaff">{{data.NoOfStaff == 0 ? '' : data.NoOfStaff}}</div>
-                                
+
                             </div>
                             <!-- <div class="tabcardbutton">
                                 <button class="btnview" (click)="btnView(data)">View</button>
@@ -132,7 +134,7 @@
                         <div class="trow" *ngFor="let data of categorylist, let i = index">
                             <div class="tabcard">
                                 <div class="tabcarddetails">{{data.Categoryname}}</div>
-                                
+
                             </div>
                             <div class="tabcardbutton">
                                 <button class="btnview" (click)="btnViewCategory(data)">View</button>
@@ -155,7 +157,8 @@
                                 <mat-icon>search</mat-icon>
                             </span>
                         </div>
-                        <button class="newbutton fa fa-plus" (click)="hNewPosition()">New</button>
+                        <button class="newbutton" (click)="hNewPosition()">New Position <i
+                                class="fa fa-plus"></i></button>
                     </div>
                 </div>
                 <div class="body">
@@ -164,7 +167,7 @@
                         <div class="trow" *ngFor="let data of positionlist, let i = index">
                             <div class="tabcard" (click)="btnUpdatePosition(data, i)">
                                 <div class="tabcarddetails">{{data.Positionname}}</div>
-                                
+
                             </div>
                             <!-- <div class="tabcardbutton">
                                 <button class="btnview" (click)="btnViewPosition(data)">View</button>
@@ -204,7 +207,7 @@
                 </div>
                 <div class="nodata" *ngIf="roleslist.length == 0 && roles">No data</div>
             </div>
-            <div class="cardcontent" *ngSwitchCase="('useraccess')">User Access
+            <div class="cardcontent" *ngSwitchCase="('useraccess')">
                 <div class="header">
                     <div class="searchtab">
                         <div class="searchbar">
@@ -213,21 +216,83 @@
                                 <div class="button fa fa-filter filter"></div>
                             </span>
                         </div>
-                        <button class="newbutton fa fa-plus" (click)="hNewCategory()">New</button>
+                        <!-- <button class="newbutton" (click)="hNewUserAccessProfile()">New <i
+                                class="fa fa-plus"></i></button> -->
                     </div>
                 </div>
                 <div class="body">
-                    <div class="theader">Category</div>
-                    <div class="tabdetails">
-                        <div class="trow" *ngFor="let data of categorylist, let i = index">
-                            <div class="tabcard">
-                                <div class="tabcarddetails">{{data.Categoryname}}</div>
-                                <div class="tabcardbutton">
-                                    <button class="btnview" (click)="btnViewCategory(data)">View</button>
-                                    <button class="btnUpdate" (click)="btnUpdateCategory(data, i)">Update</button>
+                    <div class="theader">User Access</div>
+                    <div class="tabheader">
+                        <div class="contentheadercard1">
+                            <div class="contentheadercard">
+                                <div class="headeraccountname">Account Name</div>
+                                <div class="headerdepartment">Department</div>
+                                <div class="headertype">Type</div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="tabuseraccessdetails">
+                        <div class="useraccessdetails" *ngFor="let data of useraccesslist, let i = index">
+                            <div class="tabuseraccesscard1">
+                                <div class="tabuseraccesscard" (click)="hViewMenuTabl(data, i)">
+                                    <div class="cardaccountname">
+                                        <div *ngIf="data.MenuTab != ''">
+                                            <i class="fa fa-caret-right" style="font-size: small;"
+                                                *ngIf="data.ViewMenu"></i>
+                                            <i class="fa fa-caret-down" style="font-size: small;"
+                                                *ngIf="!data.ViewMenu"></i>
+                                        </div>
+
+                                        <div class="accountname">{{data.UserAccount}}</div>
+                                    </div>
+                                    <div class="carddepartment">
+                                        <div class="department">{{data.DepartmentName}}</div>
+                                    </div>
+                                    <div class="cardtype">
+                                        <div class="type">{{data.AccountTypeName}}</div>
+                                    </div>
                                 </div>
+                                <div [hidden]="data.ViewMenu">
+                                    <div style="display: flex;flex-direction: column;gap: 10px;">
+                                        <div style="display: flex;gap:10px;padding:0px 0px 20px 80px;"
+                                            *ngFor="let data of JsonFormatted(data.MenuTab, i)">
+                                            <i [class]="data.icon"></i>
+                                            <div>{{data.label}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="tabcardbutton">
+                                <button class="btnUpdate" (click)="btnUpdateUserAccessProfile(data, i)"
+                                    [matTooltip]="'Update User Access Profile'"><i class="fa fa-edit"></i></button>
                             </div>
                         </div>
+
+
+
+                        <!-- <div class="trow" *ngFor="let data of useraccesslist, let i = index">
+                            <div class="tabcard">
+                                <div class="tabcarduseraccessdetails">
+                                    <div style="width: 100%;display: flex;gap:20px;">
+                                        <div>
+                                            <i class="fa fa-caret-right" style="font-size: small;"></i>
+                                            {{data.UserAccount}}
+                                        </div>
+                                        <div>{{data.DepartmentName}}</div>
+                                        <div>{{data.AccountTypeName}}</div>
+                                    </div>
+
+                                </div>
+                                <div class="tabcardbutton">
+                                    <button class="btnUpdate" (click)="btnUpdateUserAccessProfile(data, i)"
+                                        [matTooltip]="'Update User Access Profile'"><i class="fa fa-edit"></i></button>
+                                </div>
+                            </div>
+                        </div> -->
                     </div>
                 </div>
             </div>

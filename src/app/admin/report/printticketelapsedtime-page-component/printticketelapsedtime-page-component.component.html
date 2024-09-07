@@ -1,1 +1,30 @@
-<p>printticketelapsedtime-page-component works!</p>
+<div class="modaloverlay" (click)="closeddialog()"></div>
+<div class="modalcontainer" >
+    <div *ngFor="let data of reportlist, let i = index">
+        <div style="cursor: pointer;" [className]="data.active == true ? 'isActive':''" (click)="hSelectReport(data, i)">
+            {{data.report}}
+        </div>
+    </div>
+</div>
+
+<!-- <div class="modaloverlay" (click)="closeddialog()"></div>
+<mat-toolbar class="mat-dialog-header">
+    <h3>Title</h3>
+</mat-toolbar>
+<mat-dialog-content>
+    <div class="dialog-content">
+        <span class="message">Message</span>
+        <mat-dialog-cations class="footer">
+            <button class="btn-close" mat-button [mat-dialog-close]="false" >
+                Cancel
+            </button>
+            <button class="btn-confirm" mat-button (click)="closeddialog()" >
+                Confirm
+            </button>
+            <button class="btn-close" mat-button [mat-dialog-close]="false" >
+                Close
+            </button>
+        </mat-dialog-cations>
+    </div>
+</mat-dialog-content> -->
+

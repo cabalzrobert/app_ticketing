@@ -962,6 +962,13 @@ mat-card {
     align-items: center;
 }
 
+// :host ::ng-deep .cdk-virtual-scrollable{
+//     overflow: visible;
+// }
+// :host ::ng-deep .scrolling-container{
+//     overflow: visible;
+// }
+
 .nodata {
     width: 200px;
     height: 100px;

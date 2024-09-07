@@ -70,6 +70,7 @@ import { RequestTicketMessageBoxDialog } from './requestorticketpage/requestorti
 import { ReportPageComponent } from './report/report-page.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { PrintticketelapsedtimePageComponentComponent } from './report/printticketelapsedtime-page-component/printticketelapsedtime-page-component.component';
+import { NewUserAccessProfileModalComponent } from './modalpage/new-user-access-profile-modal/new-user-access-profile-modal.component';
 
 //import { SettingsdepartmentComponent } from './setting-main-page/settingsdepartment/settingsdepartment.component';
 //import { BrowserModule } from '@angular/platform-browser';
@@ -114,6 +115,7 @@ import { PrintticketelapsedtimePageComponentComponent } from './report/printtick
     SubmitModalDepartmentComponent,
     RequestTicketMessageBoxDialog,
     PrintticketelapsedtimePageComponentComponent,
+    NewUserAccessProfileModalComponent,
 
     // TicketComponent
   ],

@@ -159,27 +159,32 @@
                         //box-shadow: 3px -3px 10px 5px #918181;
                         margin-bottom: 10px;
                         border-bottom: solid 1px #9E9E9E;
+
                         //display: flex;
                         //justify-content: space-between;
-                        .theader1{
+                        .theader1 {
                             width: 100%;
                             display: flex;
                             justify-content: space-between;
-                            .thdepartment{
+
+                            .thdepartment {
                                 width: 250px;
                             }
-                            .thhead{
+
+                            .thhead {
                                 width: 250px;
                             }
-                            .thnoofstaff{
+
+                            .thnoofstaff {
                                 width: 150px;
                                 text-align: center;
                             }
                         }
+
                         // .thevent{
                         //     width: 20%;
                         // }
-                        
+
                     }
 
                     .tabdetails {
@@ -196,6 +201,7 @@
                             border-radius: 10px;
                             //box-shadow: 2px 2px 10px 1px #91818181;
                             cursor: pointer;
+
                             .tabcard {
                                 width: 100%;
                                 //border: solid 1px #000;
@@ -203,22 +209,29 @@
                                 justify-content: space-between;
                                 padding: 20px 10px 20px 10px;
                                 border-radius: 10px;
+
                                 //box-shadow: 2px 2px 10px 1px #91818181;
-                                .tabcarddetails{
+                                .tabcarddetails {
                                     width: 250px;
                                 }
-                                .tabcarddetailsHead{
+
+                                .tabcarduseraccessdetails {
+                                    width: 80%;
+                                }
+
+                                .tabcarddetailsHead {
                                     width: 250px;
 
                                 }
-                                .tabcarddetailsnoofstaff{
+
+                                .tabcarddetailsnoofstaff {
                                     width: 150px;
                                     text-align: center;
                                 }
 
 
                             }
-                            
+
                             .tabcardbutton {
                                 display: flex;
                                 gap: 10px;
@@ -265,11 +278,12 @@
                             }
                             */
                         }
-                        .trow:hover{
+
+                        .trow:hover {
                             background: #e0d7d7;
-                                color: #3f3f3f;
-                                font-size: 20px;
-                                font-weight: 400;
+                            color: #3f3f3f;
+                            font-size: 20px;
+                            font-weight: 400;
                         }
                     }
                 }
@@ -358,7 +372,7 @@
                 margin-left: 1.5rem;
             }
         }
-        
+
     }
 
     .menu-nav-item:hover {
@@ -491,13 +505,16 @@
         }
     }
 }
+
 .hamburger {
     border: none;
     background: none;
 }
-::ng-deep .cdk-overlay-connected-position-bounding-box{
+
+::ng-deep .cdk-overlay-connected-position-bounding-box {
     position: relative;
 }
+
 .nodata {
     width: 200px;
     height: 100px;
@@ -526,4 +543,124 @@
     to {
         text-shadow: 0px 0px 40px #fff, 0px 0px 40px #000;
     }
+}
+
+.body .tabheader {
+    display: flex;
+    width: 100%;
+    height: 52px;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: solid 1px #7E7E7E;
+}
+
+.body .tabheader .contentheadercard1 {
+    width: 80%;
+}
+
+.body .tabheader .contentheadercard1 .contentheadercard {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: auto;
+    gap: 20px;
+    padding: 0px 20px;
+
+    .headerdepartment,
+    .headeraccountname,
+    .headertype {
+        width: 100%;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 24px;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        font-size: 20px;
+        font-weight: 700;
+    }
+}
+
+.body .tabuseraccessdetails {
+    height: calc(100% - 3.313rem);
+    width: 100%;
+    overflow: auto;
+    padding: 30px 0px 0px 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .useraccessdetails {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        //min-height: 40px;
+        gap: 20px;
+        padding: 10px 20px 10px 0px;
+        height: 100%;
+
+        .tabcardbutton {
+            width: 20%;
+            display: flex;
+            justify-content: flex-end;
+            button{
+                border: none;
+                background: none;
+                cursor: pointer;
+            }
+            button:hover{
+                font-size:18px;
+                font-weight: 700;
+            }
+        }
+        .tabuseraccesscard1 {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            //align-items: center;
+            height: auto;
+            gap: 20px;
+            padding: 0px 20px;
+
+            .cardaccountname {
+                width: 100%;
+                display: flex;
+                gap: 5px;
+            }
+        }
+
+        .tabuseraccesscard {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: auto;
+            gap: 20px;
+            padding: 0px 20px;
+
+            .cardaccountname {
+                width: 100%;
+                display: flex;
+                gap: 5px;
+            }
+        }
+
+        .tabuseraccesscard .carddepartment,
+        .cardtype {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+    }
+
+    // .useraccessdetails:hover {
+    //     background: #e0d7d7;
+    //     color: #3f3f3f;
+    //     font-size: 20px;
+    //     font-weight: 400;
+    // }
 }

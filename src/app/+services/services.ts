@@ -13,10 +13,10 @@ import { Router } from '@angular/router';
 
 
 export const rest = (() => {
-    //const localhost = 'localhost:5000';
+    const localhost = 'localhost:5000';
     //const localhost = 'localhost:55517'
 
-    const localhost = '119.92.80.34:55517'
+    //const localhost = '103.18.64.67:55517'
     
     //const localhost = '119.93.89.82:55517';
     //const localhost = 'localhost:55512';

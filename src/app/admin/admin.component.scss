@@ -1,4 +1,18 @@
 .appbody{
     display: flex;
+    height: 100%;
+    overflow: auto;
     //padding: 60px 30px 60px 30px
 }
+@media print {
+
+  
+  
+    .appbody {
+      width: 100%;
+      //height: auto;
+      overflow: visible;
+    }
+  
+  
+  }

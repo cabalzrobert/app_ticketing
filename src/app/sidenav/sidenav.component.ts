@@ -26,7 +26,7 @@ import { AlertSuccessModalComponent } from '../admin/modalpage/alert-success-mod
 //const { Object }: any = window;
 interface SideNavToggle {
   screenWidth: number;
-  screenHeight:number;
+  screenHeight: number;
   collapsed: boolean;
 }
 @Component({
@@ -109,11 +109,11 @@ export class SidenavComponent implements OnInit {
     this.screenHeight = window.innerHeight;
     if (this.screenWidth <= 768) {
       this.collapsed = false;
-      this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth, screenHeight:this.screenHeight });
+      this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth, screenHeight: this.screenHeight });
     }
     else {
       this.collapsed = true;
-      this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth, screenHeight:this.screenHeight });
+      this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth, screenHeight: this.screenHeight });
     }
     // this.collapsed = true;
     //   this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth });
@@ -124,11 +124,11 @@ export class SidenavComponent implements OnInit {
     this.screenHeight = window.innerHeight;
     if (this.screenWidth <= 768) {
       this.collapsed = false;
-      this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth, screenHeight:this.screenHeight });
+      this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth, screenHeight: this.screenHeight });
     }
     else {
       this.collapsed = true;
-      this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth, screenHeight:this.screenHeight });
+      this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth, screenHeight: this.screenHeight });
     }
   }
   subs: any = {};
@@ -151,6 +151,7 @@ export class SidenavComponent implements OnInit {
     //console.log('account',input);
     //console.log('this.input 96', this.input);
     //device.ready(async () => (await departmentnotificationCount)());
+
     device.ready(() => notificationCount());
     getLastTransactionNumber();
 
@@ -230,10 +231,18 @@ export class SidenavComponent implements OnInit {
     //   }
     // }
 
-    if (this.input.ACT_TYP == 4) this.navData = navbarDataCommunicator;
-    else if (this.input.ACT_TYP == 5) this.navData = navbarDataDepartmentHead;
-    else if (this.input.ACT_TYP == 6) this.navData = navbarDataPersonnel;
-    else this.navData = navbarData;
+    // if (this.input.ACT_TYP == 4) this.navData = navbarDataCommunicator;
+    // else if (this.input.ACT_TYP == 5) this.navData = navbarDataDepartmentHead;
+    // else if (this.input.ACT_TYP == 6) this.navData = navbarDataPersonnel;
+    // else this.navData = navbarData;
+    if (this.input.ACT_TYP == 2) {
+      this.authService._menutab = navbarData;
+      this.navData = navbarData;
+
+      this.input.MenuTab = JSON.stringify(this.navData);
+      console.log('Side Nav this.authService._menutab', this.authService._menutab);
+    }
+
 
     //console.log('Navigational Bar', this.navData);
   }

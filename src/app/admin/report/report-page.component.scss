@@ -295,6 +295,12 @@
     }
 }
 
+.userbody .timeelapsedheader {
+    display: flex;
+    justify-content: end;
+    padding: 0px 30px 0px 0px;
+}
+
 .userbody1 {
 
     .filter {
@@ -605,6 +611,7 @@
 .userbody1 .timeelapsedheader {
     display: flex;
     justify-content: space-between;
+    padding: 0px 30px 0px 0px;
 }
 
 .userbody1 .timeelapsedheader .btn {
@@ -623,7 +630,7 @@
     display: flex;
     justify-content: space-between;
     gap: 33px;
-    padding: 0px 30px 10px 30px;
+    padding: 0px 0px 10px 30px;
 
     .hamburger {
         border: none;
@@ -870,7 +877,14 @@
     max-width: none !important;
 }
 
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled){
+    background: none;
+}
+
 .esatlogo {
+    display: none;
+}
+.printreportheader{
     display: none;
 }
 
@@ -886,7 +900,15 @@
     }
 }
 
-
+.primary {
+    display: flex;
+    align-items: center;
+    background: none;
+    color: black;
+    height: 70%;
+    //padding:16px 0px;
+    //border:solid 1px black
+}
 
 .elapsedbody {
     width: 100%;
@@ -1181,7 +1203,10 @@
     }
 }
 
+
+
 @media print {
+    
     .container .userheader {
         display: none
     }
@@ -1196,7 +1221,23 @@
         width: 100%;
         margin-bottom: 10px;
     }
-    .container .userbody{
+    .container .printreportheader{
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin-bottom: 20px;
+        font-size: 26px;
+        font-weight: 700;
+    }
+
+    .container .userbody {
         overflow: visible;
     }
+    .container .userbody .timeelapsedheader{
+        display: none;
+    }
+    .print:last-child {
+        page-break-after: auto;
+   }
+   
 }

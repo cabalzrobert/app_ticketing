@@ -1,7 +1,7 @@
-import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, Inject, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { AuthService } from '../../auth.service';
 import { GeneralService } from '../../shared/services/general.service';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, DialogPosition } from '@angular/material/dialog';
 import { Observable, filter } from 'rxjs';
 import { rest } from '../../+services/services';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -11,8 +11,14 @@ import moment from 'moment';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 import { PrintService } from '../../+services/print.serice';
+import { PrintticketelapsedtimePageComponentComponent } from './printticketelapsedtime-page-component/printticketelapsedtime-page-component.component';
+import { jUser } from '../../+app/user-module';
+import { Router } from 'express';
 //declare var jsPDF: any;
 
+export interface DialogData {
+  report: "Ticket" | "Ticket with elapsed time";
+}
 @Component({
   selector: 'app-report-page',
   templateUrl: './report-page.component.html',
@@ -58,13 +64,43 @@ export class ReportPageComponent implements OnInit {
     }
   }
   hClear() {
-    this.range.value.start = '';
-    this.range.value.end = '';
-    this.range.reset();
+    // this.range.value.start = '';
+    // this.range.value.end = '';
+    // this.range.reset();
+    this.filterForm.value.fromDate = '';
+    this.filterForm.value.toDate = '';
+    this.filterForm.reset();
+    this.istodateDisable = true;
+    if (this.filterForm.value.toDate != '')
+      this.GetTicetRequestWIthElapsedTimetList({ From: this.filterForm.value.fromDate, To: this.filterForm.value.toDate });
   }
   hApply() {
     //console.log('hApply', { From: this.range.value.start, To: this.range.value.end });
-    this.GetTicetRequestWIthElapsedTimetList({ From: this.range.value.start, To: this.range.value.end });
+    //this.GetTicetRequestWIthElapsedTimetList({ From: this.range.value.start, To: this.range.value.end });
+    console.log('Date Range: ', this.filterForm.value);
+    this.GetTicetRequestWIthElapsedTimetList({ From: this.filterForm.value.fromDate, To: this.filterForm.value.toDate });
+  }
+  filterForm = new FormGroup({
+    fromDate: new FormControl(),
+    toDate: new FormControl(),
+  });
+  fromDateMax: Date = new Date;
+  toDateMin!: Date;
+  istodateDisable: boolean = true;
+
+  getisTodateDisable() {
+    return this.istodateDisable;
+  }
+  hDateChange() {
+    let sdate = new Date();
+    let sdate1 = new Date();
+    //sdate1 = this.filterForm.get('fromDate').value;
+    sdate1 = this.filterForm.get('fromDate')?.value;
+    //sdate1 = this.filterForm.value.fromDate;
+    //sdate.setDate(sdate1.getDate());
+    console.log('You Click', this.filterForm.value);
+    this.toDateMin = sdate1;
+    this.istodateDisable = false;
   }
   range = new FormGroup({
     start: new FormControl(),
@@ -76,11 +112,12 @@ export class ReportPageComponent implements OnInit {
   departments: any = [];
   ticket: boolean = true;
   ticketelapsedtime: boolean = false;
-  constructor(private authService: AuthService, public dialog: MatDialog, public generalSerive: GeneralService, public printService: PrintService) {
-
+  constructor(private authService: AuthService, public dialog: MatDialog, public generalSerive: GeneralService, public printService: PrintService, private route: Router) {
+    this.fromDateMax.setDate(this.fromDateMax.getDate());
     this.Search = new FormControl();
     this.startDate = new FormControl();
     this.endDate = new FormControl();
+    console.log('Date Today', this.fromDateMax);
 
   }
   startDate: any = {};
@@ -92,11 +129,32 @@ export class ReportPageComponent implements OnInit {
   totalresolve: number = 0;
   totalcancelled: number = 0;
   swidth: string = '';
-  ngOnInit(): void {
+  input:any={};
+  _isTrue:boolean = false;
+  async ngOnInit(): Promise<void> {
+    this.input = await jUser();
+    //this.authService._menutab = JSON.parse(this.input.MenuTab);
+    // this.authService._menutab.forEach((o:any) => {
+    //   if(o.routerLink == 'report')
+    //     this._isTrue = true
+    // });
+    // if(!this._isTrue){
+    //   return;
+    //   //this.route.navigateByUrl('/');
+    //   //console.log('Router', this.route.name);
+    // }
+    console.log('User Details this.input.MenuTab', this.input);
     this.GetUserAccountList({ num_row: 0, Search: this.Search.value });
     this.getDepartmentList();
     this.swidth = window.innerWidth.toString() + 'px';
+    this.fromDateMax.setDate(this.fromDateMax.getDate());
+    console.log('Date Today', this.fromDateMax);
     console.log('Sample Print', this.obj);
+    this.getMenuTatList();
+  }
+  getMenuTatList(){
+    
+    console.log('Menu Tab Report', this.authService._menutab);
   }
   hSearchUsers() {
     this.GetUserAccountList({ num_row: 0, Search: this.Search.value });
@@ -277,6 +335,7 @@ export class ReportPageComponent implements OnInit {
   hOnprintTicketElapsedTime() {
     window.print();
   }
+
 
   async hGenerateReportElapsedTime() {
     let printContents, popupWin, htmlcontent;
@@ -902,6 +961,14 @@ export class ReportPageComponent implements OnInit {
       ],
     },
   ];
+  data: any = [{
+    report: "Ticket",
+    active: true
+  },
+  {
+    report: "Ticket with elapsed time",
+    active: false
+  }];
 
   generatePDF(divRef: HTMLDivElement) {
     let images = divRef.getElementsByTagName('img');
@@ -936,5 +1003,40 @@ export class ReportPageComponent implements OnInit {
       })
       .then((doc) => doc.save('postres.pdf'));
   }
+  opeReportDialog?: MatDialogRef<PrintticketelapsedtimePageComponentComponent>
+  openDialog(event: any) {
+    console.log(event.clientX);
+    console.log(event.clientY);
+
+    let po: DialogPosition = { top: (event.clientY + 20) + 'px', right: '10px' };
+
+    this.dialog.closeAll();
+
+    this.opeReportDialog = this.dialog.open(PrintticketelapsedtimePageComponentComponent, {
+      data: this.data,
+      hasBackdrop: false,
+      position: po,
+      // disableClose: false
+      // direction: 'rtl'
+      // backdropClass: 
+    });
+    this.opeReportDialog.afterClosed().pipe(filter(o => o)).subscribe(o => {
+      console.log('Open Report Dialog After Close', o.report);
+      if(o.report == "Ticket")
+        this.hTicket();
+      else if(o.report == "Ticket with elapsed time")
+        this.hTicketElapsed();
+    })
+  }
 
 }
+
+@Component({
+  selector: "dialogselectreport",
+  templateUrl: "dialogselectreport.html"
+})
+export class DialogDataExampleDialog {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) { }
+}
+
+

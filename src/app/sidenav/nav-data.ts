@@ -37,8 +37,14 @@ export const navbarData = [
         routerLink: 'adminsettings',
         icon: 'fa fa-cog',
         label: 'Settings'
+    },
+    {
+        routerLink: 'useraccess',
+        icon: 'fa fa-unlock',
+        label: 'User Access'
     }
-    
+
+
 ];
 export const navbarDataCommunicator = [
     {
@@ -78,7 +84,7 @@ export const navbarDataDepartmentHead = [
         icon: 'fa fa-light fa-ticket-alt',
         label: "Assigned Tickets"
     }
-    
+
 ];
 export const navbarDataCommunicatorDepartmentHead = [
     {
@@ -101,7 +107,7 @@ export const navbarDataCommunicatorDepartmentHead = [
         icon: 'fa fa-light fa-ticket-alt',
         label: 'Tickets'
     }
-    
+
 ];
 
 export const navbarDataPersonnel = [
@@ -120,7 +126,7 @@ export const navbarDataPersonnel = [
         icon: 'fa fa-light fa-ticket-alt',
         label: "My Tasks"
     }
-    
+
 ];
 export const navbarDataUser = [
     {
@@ -133,10 +139,10 @@ export const navbarDataUser = [
         icon: 'fa fa-light fa-ticket-alt',
         label: 'Submitted Tickets'
     },
-     {
+    {
         routerLink: 'assignedticket',
         icon: 'fa fa-light fa-ticket-alt',
         label: "Assigned Tickets"
     },
-    
+
 ];

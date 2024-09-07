@@ -15,6 +15,8 @@ import { rest } from '../../+services/services';
 import { timeout } from '../../tools/plugins/delay';
 import { Observable } from 'rxjs';
 import { FormControl } from '@angular/forms';
+import { NewUserAccessProfileModalComponent } from '../modalpage/new-user-access-profile-modal/new-user-access-profile-modal.component';
+import { faL } from '@fortawesome/free-solid-svg-icons';
 
 interface MenuNavToggle {
   screenWidth: number;
@@ -27,7 +29,8 @@ interface MenuNavToggle {
   styleUrl: './superadminpage.component.scss'
 })
 export class SuperadminpageComponent implements OnInit {
-  
+
+
 
   menuData = menusettingsbarData;
   constructor(public dialog: MatDialog, private authService: AuthService) {
@@ -111,6 +114,7 @@ export class SuperadminpageComponent implements OnInit {
 
   departmentDialogRef?: MatDialogRef<NewDepartmentModalComponent>;
   departmentviewDialogRef?: MatDialogRef<VIewDepartmentModalComponent>;
+  userprofileDialogRef?: MatDialogRef<NewUserAccessProfileModalComponent>
 
   newcategoryDialogref?: MatDialogRef<NewCategoryModalComponent>;
   viewcategoryDialogref?: MatDialogRef<ViewCategoryModalComponent>;
@@ -691,19 +695,20 @@ export class SuperadminpageComponent implements OnInit {
   categorylist: any = [];
   positionlist: any = [];
   roleslist: any = [];
-  loader:boolean = true;
+  useraccesslist: any = [];
+  loader: boolean = true;
   hSearchSettings() {
     console.log('Keyup', this.SearchDepartment.value);
     if (this.selectedTab == 'department') {
       this.GetDepartmentList({ num_row: 0, Search: this.SearchDepartment.value });
     }
-    else if(this.selectedTab == 'category'){
+    else if (this.selectedTab == 'category') {
       this.GetCategoryList({ num_row: 0, Search: this.SearchCategory.value });
     }
-    else if(this.selectedTab == 'position'){
+    else if (this.selectedTab == 'position') {
       this.GetPositionList({ num_row: 0, Search: this.SearchPosition.value });
     }
-    else if(this.selectedTab == 'roles'){
+    else if (this.selectedTab == 'roles') {
       this.GetRolesList({ num_row: 0, Search: this.SearchRoles.value });
     }
   }
@@ -772,6 +777,8 @@ export class SuperadminpageComponent implements OnInit {
     this.roles = false;
     this.useraccess = true;
     this.selectedTab = "useraccess";
+    this.useraccesslist = this.GetUserAccessList({ num_row: 0, Search: '' });
+    console.log('User Access List', this.useraccesslist);
   }
 
   hNewDepartment() {
@@ -779,6 +786,9 @@ export class SuperadminpageComponent implements OnInit {
     this.departmentDialogRef.afterClosed().pipe(filter(name => name)).subscribe(name => {
       this.departmentlist.unshift(name);
     });
+  }
+  hNewUserAccessProfile() {
+    this.userprofileDialogRef = this.dialog.open(NewUserAccessProfileModalComponent, { data: { item: null, Title: 'User Access Profile', SaveButton: "Save" } });
   }
   hNewCategory() {
     this.newcategoryDialogref = this.dialog.open(NewCategoryModalComponent, { data: { item: null, Title: 'Create Category' } });
@@ -818,6 +828,13 @@ export class SuperadminpageComponent implements OnInit {
       this.categorylist[idx] = name;
     })
   }
+  btnUpdateUserAccessProfile(item: any, idx: number) {
+    this.userprofileDialogRef = this.dialog.open(NewUserAccessProfileModalComponent, { data: { item: item, Title: 'Update Category' } });
+    this.userprofileDialogRef.afterClosed().pipe(filter(name => name)).subscribe(name => {
+      console.log('btnUpdateCategory name', name);
+      this.categorylist[idx] = name;
+    })
+  }
 
   btnUpdatePosition(item: any, idx: number) {
     this.newpositionDialogref = this.dialog.open(NewPositionModalComponent, { data: { item: item, Title: 'Update Position' } });
@@ -851,7 +868,7 @@ export class SuperadminpageComponent implements OnInit {
     rest.post('department/list', item).subscribe(async (res: any) => {
       if (res.Status == 'ok') {
         this.departmentlist = res.department;
-        this.loader=false;
+        this.loader = false;
         //this.departmentlist;
       }
     });
@@ -864,7 +881,7 @@ export class SuperadminpageComponent implements OnInit {
       if (res.Status == 'ok') {
         this.categorylist = res.category;
         console.log('GetCategoryList inside subscribe', this.categorylist);
-        this.loader =false;
+        this.loader = false;
         return this.categorylist;
         //this.categorylist;
       }
@@ -900,5 +917,34 @@ export class SuperadminpageComponent implements OnInit {
     //console.log('GetPositionList outside subscribe', this.roleslist);
     return this.roleslist;
   }
+  GetUserAccessList(item: any): Observable<any> {
 
+    rest.post('useraccess/list', item).subscribe(async (res: any) => {
+      if (res.Status == 'ok') {
+        this.useraccesslist = res.useraccess;
+        //console.log('GetPositionList inside subscribe', this.roles);
+        this.loader = false;
+        console.log('GetUserAccessList', res.useraccess);
+        return this.useraccesslist;
+        //this.categorylist;
+      }
+    });
+    //console.log('GetPositionList outside subscribe', this.roleslist);
+    return this.useraccesslist;
+  }
+  JsonFormatted(data: any, idx: number) {
+    if (data == '') return null;
+    return JSON.parse(data);
+  }
+
+  hViewMenuTabl(data: any, idx: number) {
+    console.log('ViewMenuTab AuthService', this.authService._menutab);
+    if (!data.ViewMenu)
+      data.ViewMenu = true;
+    else
+      data.ViewMenu = false;
+    this.useraccesslist[idx] = data;
+    console.log('User Access Profilve View Menu Tab', this.useraccesslist);
+
+  }
 }

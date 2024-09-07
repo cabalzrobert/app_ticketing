@@ -1,0 +1,76 @@
+<div class="modaloverlay" (click)="closedDialog()"></div>
+<div class="modalcontainer">
+    <div class="modalheader">
+        <label for="">User Access Profile</label>
+        <button class="fa fa-times" (click)="closedDialog()"></button>
+    </div>
+    <div class="modalcontent">
+        <div class="usercard">
+            <label for="">User</label>
+            <div class="userinput">
+                <label for="">{{_useraccount}}</label>
+                <!-- <mat-select>
+                    <div class="dropdownsearch">
+                        <mat-icon>search</mat-icon>
+                        <input type="text" class="searchbox search-box">
+                    </div>
+                </mat-select> -->
+            </div>
+        </div>
+        
+        <div class="usercard">
+            <label for="">Department</label>
+            <div class="userinput">
+                <label for="">{{_department}}</label>
+                <!-- <mat-select>
+                    <div class="dropdownsearch">
+                        <mat-icon>search</mat-icon>
+                        <input type="text" class="searchbox search-box">
+                    </div>
+                </mat-select> -->
+            </div>
+        </div>
+
+        <div class="usercard">
+            <label for="">Type</label>
+            <div class="userinput">
+                <label for="">{{_type}}</label>
+                <!-- <mat-select>
+                    <div class="dropdownsearch">
+                        <mat-icon>search</mat-icon>
+                        <input type="text" class="searchbox search-box">
+                    </div>
+                </mat-select> -->
+            </div>
+        </div>
+        
+        <div class="accesscard">
+            <label for="">Access</label>
+            <div class="accessinput">
+                <div class="selectall">
+                    <input type="checkbox" [(ngModel)]="_isselected" name="list_name" value="m1" (change)="checkUncheckAll()"/>
+                    <strong>Select/ Unselect All</strong>
+                </div>
+                
+                <div *ngFor="let data of datamenu">
+                    <div class="datalist">
+                        <input type="checkbox" [(ngModel)]="data.isSelect" name="list_name" value="{{data.routerLink}}" (change)="isAllSelected()"/>
+                        <div style="display: flex;gap:10px;"><i [class]="data.icon"></i> {{data.label}}</div>
+                    </div>
+                    
+                </div>
+                <!-- <div>{{checkedList}}</div> -->
+            </div>
+        </div>
+    </div>
+    <div class="modalfooter">
+        <div class="footerbody">
+            <div class="closebutton">
+                <button (click)="closedDialog()">Cancel</button>
+            </div>
+            <div class="savebutton">
+                <button (click)="hUpdateUserProfile()" >Save</button>
+            </div>
+        </div>
+    </div>
+</div>
