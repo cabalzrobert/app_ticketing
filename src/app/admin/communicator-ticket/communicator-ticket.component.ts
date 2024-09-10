@@ -244,11 +244,6 @@ export class CommunicatorTicketComponent {
   }
 
 
-
-
-
-
-
   searchTicket(val: any) {
     try {
       this.searchValue = !val ? null : val;
@@ -261,6 +256,20 @@ export class CommunicatorTicketComponent {
     // this.collections = this.backupCollections;
     // this.collections = this.collections.filter((i:any)=>i.title.includes(val));
     // console.log(this.collections);
+  }
+
+  isFilterAscending = false;
+  filter(){
+    const ascending: any = this.backupCollections;
+    const descending: any = this.backupCollections;
+    let _collections: any = []; 
+    this.isFilterAscending = !this.isFilterAscending;
+    if(this.isFilterAscending)
+      _collections = [...descending].sort((a,b) => a.rowNum < b.rowNum ? -1: 1);
+    else
+      _collections = [...ascending].sort((a,b) => a.rowNum > b.rowNum ? -1 : 1);
+    this.collections = [..._collections];
+    console.log(this.collections,this.backupCollections);
   }
 
   // onTabChange(val: any) {
@@ -334,6 +343,7 @@ export class CommunicatorTicketComponent {
         // return this.collections;
         if (res.length > 0)
           this.collections = this.collections.concat(res);
+        this.backupCollections = this.collections;
         //console.log('collections batch = ',this.batch,this.collections);
         let cnt = parseInt((this.collections).length);
         //console.log('collections batch 285 = ',this.collections[cnt-1]);

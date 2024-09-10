@@ -630,6 +630,20 @@ export class MyTaskComponent {
 
   }
 
+  isFilterAscending = false;
+  filter(){
+    const ascending: any = this.backupCollections;
+    const descending: any = this.backupCollections;
+    let _collections: any = []; 
+    this.isFilterAscending = !this.isFilterAscending;
+    if(this.isFilterAscending)
+      _collections = [...descending].sort((a,b) => a.rowNum > b.rowNum ? -1: 1);
+    else
+      _collections = [...ascending].sort((a,b) => a.rowNum < b.rowNum ? -1 : 1);
+    this.collections = [..._collections];
+    console.log(this.collections,this.backupCollections);
+  }
+
   showMessageBox(type: string, ticketNo: any, message: any): any {
     return this.dialog.open(MessageBoxDialog, {
       panelClass: type !== 'progress' ? 'mat-dialog-not-progress' : 'mat-dialog-progress',

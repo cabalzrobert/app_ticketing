@@ -462,6 +462,7 @@ export class HeadTicketsComponent {
         // return this.collections;
         if (res.length > 0)
           this.collections = this.collections.concat(res);
+        this.backupCollections = this.collections;
         console.log('collections batch = ', this.batch, this.collections);
         this.loader = false;
         this.loader = false;
@@ -1083,6 +1084,20 @@ export class HeadTicketsComponent {
     // this.collections = this.collections.filter((i:any)=>i.title.includes(val));
     // console.log(this.collections);
 
+  }
+
+  isFilterAscending = false;
+  filter(){
+    const ascending: any = this.backupCollections;
+    const descending: any = this.backupCollections;
+    let _collections: any = []; 
+    this.isFilterAscending = !this.isFilterAscending;
+    if(this.isFilterAscending)
+      _collections = [...descending].sort((a,b) => a.rowNum > b.rowNum ? -1: 1);
+    else
+      _collections = [...ascending].sort((a,b) => a.rowNum < b.rowNum ? -1 : 1);
+    this.collections = [..._collections];
+    console.log(this.collections,this.backupCollections);
   }
 
   showMessageBox(type: string, ticketDetail: any, message: any, isCancel: boolean, isForward: boolean): any {

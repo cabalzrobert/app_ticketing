@@ -7,14 +7,19 @@
                 New Ticket
             </button> -->
         </div>
-        <div class="filter-container">
+        <div class="filter-container" >
             <div class="txt-search">
                 <input type="text" placeholder="Search tickets" #search [(ngModel)]="searchValue" (keydown.Enter)="searchTicket(search.value)">
                 <mat-icon>search</mat-icon>
             </div>
             <div class="btn-filter">
-                <mat-icon>filter_alt</mat-icon>
-                <span>Filter</span>
+                <!-- <mat-icon>filter_alt</mat-icon>
+                <span>Filter</span> -->
+                <button mat-button (click)="filter()">
+                    <mat-icon class="swap-icon">swap_vert</mat-icon>
+                    <mat-icon class="filter-icon">filter_list</mat-icon>
+                    Filter
+                </button>
             </div>
         </div>
         <mat-tab-group mat-stretch-tabs="false" [selectedIndex]="tab"  mat-align-tabs="start" #tabRef>
