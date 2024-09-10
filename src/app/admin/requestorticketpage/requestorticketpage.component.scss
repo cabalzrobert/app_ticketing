@@ -2,6 +2,7 @@
     overflow-y: scroll;
     scroll-behavior: auto;
 }
+
 .scrolling-container {
     display: block;
     height: 100%;
@@ -331,7 +332,7 @@
                                 flex-direction: column;
                                 align-items: center;
                                 justify-content: center;
-                                gap:5px;
+                                gap: 5px;
                             }
                         }
 
@@ -360,25 +361,30 @@
                     }
                 }
             }
-            .acknoledgefooter{
+
+            .acknoledgefooter {
                 height: 14%;
                 padding: 10px 30px;
-                .acknowledge{
+
+                .acknowledge {
                     height: 100%;
                     width: 100%;
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    .footerbody{
+
+                    .footerbody {
                         display: flex;
                         flex-direction: column;
-                        gap:10px;
-                        .label1{
+                        gap: 10px;
+
+                        .label1 {
                             display: flex;
                             align-items: center;
                             justify-content: center;
                         }
-                        .label2{
+
+                        .label2 {
                             display: flex;
                             align-items: center;
                             justify-content: center;
@@ -386,11 +392,13 @@
                             size: 16px;
                             font-weight: 600;
                         }
-                        .acceptbutton{
+
+                        .acceptbutton {
                             display: flex;
-                            gap:10px;
+                            gap: 10px;
                             height: 40px;
-                            .no{
+
+                            .no {
                                 //padding:20px;
                                 width: 50%;
                                 border: none;
@@ -399,13 +407,15 @@
                                 color: #fff;
                                 cursor: pointer;
                             }
-                            .no:hover{
+
+                            .no:hover {
                                 font-size: 16px;
                                 font-weight: 800;
                                 cursor: pointer;
-                                 box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                                box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
                             }
-                            .yes{
+
+                            .yes {
                                 //padding:20px;
                                 width: 50%;
                                 border: none;
@@ -414,7 +424,8 @@
                                 color: #fff;
                                 cursor: pointer;
                             }
-                            .yes:hover{
+
+                            .yes:hover {
                                 font-size: 16px;
                                 font-weight: 800;
                                 cursor: pointer;
@@ -738,20 +749,23 @@
                         }
                     }
                 }
-                .viewattachment{
-                    background: #059177
-                    ;display: flex;
+
+                .viewattachment {
+                    background: #059177;
+                    display: flex;
                     align-items: center;
                     justify-content: center;
                     padding: 10px;
                     border-radius: 10px;
                     cursor: pointer;
                     display: flex;
-                    gap:10px;
-                    i{
+                    gap: 10px;
+
+                    i {
                         color: white;
                     }
-                    button{
+
+                    button {
                         border: none;
                         background: none;
                         color: white;
@@ -761,20 +775,23 @@
                         cursor: pointer;
                     }
                 }
-                .update{
-                    background: #4845D2
-                    ;display: flex;
+
+                .update {
+                    background: #4845D2;
+                    display: flex;
                     align-items: center;
                     justify-content: center;
                     padding: 10px;
                     border-radius: 10px;
                     cursor: pointer;
                     display: flex;
-                    gap:10px;
-                    i{
+                    gap: 10px;
+
+                    i {
                         color: white;
                     }
-                    button{
+
+                    button {
                         border: none;
                         background: none;
                         color: white;
@@ -784,7 +801,8 @@
                         cursor: pointer;
                     }
                 }
-                .update:hover{
+
+                .update:hover {
                     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
                 }
             }
@@ -1484,9 +1502,11 @@
         }
     }
 }
-::ng-deep .cdk-overlay-connected-position-bounding-box{
+
+::ng-deep .cdk-overlay-connected-position-bounding-box {
     position: relative;
 }
+
 .nodata {
     width: 200px;
     height: 100px;
@@ -1515,6 +1535,54 @@
     to {
         text-shadow: 0px 0px 40px #fff, 0px 0px 40px #000;
     }
+}
+
+@media print {
+    .ticketbody .scrolling-container {
+        overflow: visible;
+        height: 100%;
+        margin: 20px;
+    }
+
+    .ticketbody {
+        height: 100%;
+        margin: 20px;
+
+        .bodycontent {
+            overflow: visible;
+            margin: 20px;
+
+            //height: 1000px;
+            //height: auto;
+            .cardcontent {
+                height: 100%;
+                margin: 20px;
+            }
+        }
+
+    }
+
+    .cdk-virtual-scrollable {
+        overflow: visible;
+        height: 100%;
+        margin: 20px;
+        //height: auto;
+    }
+
+    .no-page-break {
+        page-break-inside: avoid;
+        /* Prevent breaks inside this element */
+    }
+
+    .page-break {
+        page-break-before: always;
+        /* Force a new page before this element */
+    }
+    .no-print{
+        display: none;
+    }
+
+
 }
 
 // .bodycontent{
