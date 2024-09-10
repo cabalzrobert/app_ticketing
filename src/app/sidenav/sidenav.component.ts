@@ -244,38 +244,38 @@ export class SidenavComponent implements OnInit {
   }
 
   private async NavBarItem() {
-    console.log('Navigational Bar this.input', this.input);
+    // console.log('Navigational Bar this.input', this.input);
 
-    if (this.input.ACT_TYP == 1 || this.input.ACT_TYP == 2) {
-      this.navData = navbarData;
-    }
-    else {
-      if (this.input.isCommunicator == true && this.input.isDeptartmentHead == false) {
-        this.navData = navbarDataCommunicator;
-      }
-      else if (this.input.isCommunicator == false && this.input.isDeptartmentHead == true) {
-        this.navData = navbarDataDepartmentHead;
-      }
-      else if (this.input.isCommunicator == true && this.input.isDeptartmentHead == true) {
-        this.navData = navbarDataCommunicatorDepartmentHead;
-      }
-      else if (this.input.isCommunicator == false && this.input.isDeptartmentHead == false) {
-        this.navData = navbarDataUser;
-      }
-    }
-
-    if (this.input.ACT_TYP == 4) this.navData = navbarDataCommunicator;
-    else if (this.input.ACT_TYP == 5) this.navData = navbarDataDepartmentHead;
-    else if (this.input.ACT_TYP == 6) this.navData = navbarDataPersonnel;
-    else this.navData = navbarData;
-
-    // if (this.input.ACT_TYP == 2) {
+    // if (this.input.ACT_TYP == 1 || this.input.ACT_TYP == 2) {
     //   this.navData = navbarData;
-    //   this.authService._menutab = this.navData;
     // }
-    // else
-    //   await this.getUserAccessProfile();
-    // console.log('NavData', this.navData);
+    // else {
+    //   if (this.input.isCommunicator == true && this.input.isDeptartmentHead == false) {
+    //     this.navData = navbarDataCommunicator;
+    //   }
+    //   else if (this.input.isCommunicator == false && this.input.isDeptartmentHead == true) {
+    //     this.navData = navbarDataDepartmentHead;
+    //   }
+    //   else if (this.input.isCommunicator == true && this.input.isDeptartmentHead == true) {
+    //     this.navData = navbarDataCommunicatorDepartmentHead;
+    //   }
+    //   else if (this.input.isCommunicator == false && this.input.isDeptartmentHead == false) {
+    //     this.navData = navbarDataUser;
+    //   }
+    // }
+
+    // if (this.input.ACT_TYP == 4) this.navData = navbarDataCommunicator;
+    // else if (this.input.ACT_TYP == 5) this.navData = navbarDataDepartmentHead;
+    // else if (this.input.ACT_TYP == 6) this.navData = navbarDataPersonnel;
+    // else this.navData = navbarData;
+
+    if (this.input.ACT_TYP == 2) {
+      this.navData = navbarData;
+      this.authService._menutab = this.navData;
+    }
+    else
+      await this.getUserAccessProfile();
+    console.log('NavData', this.navData);
 
 
 
