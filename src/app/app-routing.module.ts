@@ -29,6 +29,8 @@ const routes: Routes = [
   // { path: 'otp', component: OtpComponent, canActivate: [authGuard], canDeactivate: [authDeactivateGuard] },
   { path: 'setPassword', component: SetPasswordComponent, canActivate: [authGuard], canDeactivate: [authDeactivateGuard] },
   { path: 'otp', component: OtpComponent, canActivate: [authGuard], canDeactivate: [authDeactivateGuard] },
+  //wildcard route for 404 pageXOffset;
+  { path: '**', redirectTo: '/' }
 ];
 
 @NgModule({

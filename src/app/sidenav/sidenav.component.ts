@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter, OnInit, HostListener, input, inject, ElementRef } from '@angular/core';
 import { navbarData, navbarDataCommunicator, navbarDataCommunicatorDepartmentHead, navbarDataDepartmentHead, navbarDataPersonnel, navbarDataUser } from './nav-data';
-import { Router } from '@angular/router';
+import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { AuthService } from '../auth.service';
 import { rest } from '../+services/services';
@@ -152,11 +152,12 @@ export class SidenavComponent implements OnInit {
     //console.log('this.input 96', this.input);
     //device.ready(async () => (await departmentnotificationCount)());
 
+    this.NavBarItem();;
+
     device.ready(() => notificationCount());
     getLastTransactionNumber();
 
     //this.subs.u = jUserModify(async () => this.setState({u:await jUser()}));
-    this.NavBarItem();
     this.screenWidth = window.innerWidth;
     this.screenHeight = window.innerHeight;
     if (this.screenWidth <= 768)
@@ -180,8 +181,40 @@ export class SidenavComponent implements OnInit {
 
     this.onWindowInitialize();
     //console.log('This is input 129', this.input);
+    // this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event: any) => {
+    //   this.previousUrl = this.currentUrl;
+    //   this.currentUrl = event.url;
+
+    //   console.log('URL', this.router.url);
+    //   console.log('URL SPLIT', this.router.url.split('/')[2]);
+
+    //   console.log('Sidenav Previous URL:', this.previousUrl);
+    //   console.log('Sidenav Current URL:', this.currentUrl);
+
+    // });
+
+    console.log('URL', this.router.url);
+    console.log('URL SPLIT', this.router.url.split('/')[2]);
+    let tab = this.router.url.split('/')[2];
+    let isAccess: boolean = false;
+    this.authService._menutab.forEach((o: any) => {
+      if (o.routerLink == tab)
+        isAccess = true
+    });
+    if (isAccess)
+      console.log('You have access on this tab', tab);
+    else {
+
+      this.router.navigateByUrl('/dashboard');
+      console.log('You dont have access on this tab', tab);
+      //this.router.navigateByUrl('/overview');
+    }
+
 
   }
+  currentUrl: string = '';
+  previousUrl: string = '';
+
   onSendMessage() {
     const message = `Message generated at ${new Date()}`;
     this.rxStompService.publish({ destination: '/ticketrequest/iscommunicator', body: message });
@@ -210,37 +243,57 @@ export class SidenavComponent implements OnInit {
     this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth, screenHeight: this.screenHeight });
   }
 
-  private NavBarItem() {
-    //console.log('Navigational Bar this.input', this.input);
+  private async NavBarItem() {
+    console.log('Navigational Bar this.input', this.input);
 
-    // if (this.input.ACT_TYP == 1 || this.input.ACT_TYP == 2) {
-    //   this.navData = navbarData;
-    // }
-    // else {
-    //   if (this.input.isCommunicator == true && this.input.isDeptartmentHead == false) {
-    //     this.navData = navbarDataCommunicator;
-    //   }
-    //   else if (this.input.isCommunicator == false && this.input.isDeptartmentHead == true) {
-    //     this.navData = navbarDataDepartmentHead;
-    //   }
-    //   else if (this.input.isCommunicator == true && this.input.isDeptartmentHead == true) {
-    //     this.navData = navbarDataCommunicatorDepartmentHead;
-    //   }
-    //   else if (this.input.isCommunicator == false && this.input.isDeptartmentHead == false) {
-    //     this.navData = navbarDataUser;
-    //   }
-    // }
+    if (this.input.ACT_TYP == 1 || this.input.ACT_TYP == 2) {
+      this.navData = navbarData;
+    }
+    else {
+      if (this.input.isCommunicator == true && this.input.isDeptartmentHead == false) {
+        this.navData = navbarDataCommunicator;
+      }
+      else if (this.input.isCommunicator == false && this.input.isDeptartmentHead == true) {
+        this.navData = navbarDataDepartmentHead;
+      }
+      else if (this.input.isCommunicator == true && this.input.isDeptartmentHead == true) {
+        this.navData = navbarDataCommunicatorDepartmentHead;
+      }
+      else if (this.input.isCommunicator == false && this.input.isDeptartmentHead == false) {
+        this.navData = navbarDataUser;
+      }
+    }
 
     if (this.input.ACT_TYP == 4) this.navData = navbarDataCommunicator;
     else if (this.input.ACT_TYP == 5) this.navData = navbarDataDepartmentHead;
     else if (this.input.ACT_TYP == 6) this.navData = navbarDataPersonnel;
     else this.navData = navbarData;
 
+    // if (this.input.ACT_TYP == 2) {
+    //   this.navData = navbarData;
+    //   this.authService._menutab = this.navData;
+    // }
+    // else
+    //   await this.getUserAccessProfile();
+    // console.log('NavData', this.navData);
+
+
 
     //console.log('Navigational Bar', this.navData);
   }
   todos: string[] = [];
   isConnected: boolean = false;
+
+  getUserAccessProfile(): Observable<any> {
+    rest.post('useraccess/getuseraccess').subscribe(async (res: any) => {
+      if (res.Status == 'ok') {
+        this.navData = JSON.parse(res.useraccess[0].MenuTab);
+        console.log('getUserAccessProfile NavData', JSON.parse(res.useraccess[0].MenuTab));
+        return this.navData;
+      }
+    });
+    return this.navData
+  }
 
   private stompReceivers() {
     console.log('sidenav.components.ts stompReceivers')

@@ -135,7 +135,6 @@ export class LoginComponent implements OnInit {
       console.log('SessionNotEmpty', this.authService.session, this.router);
       this.zone.run(() => this.router.navigateByUrl('/'));
     }
-
   }
   sessionNotEmpty1(): boolean {
     //console.log('sessionNotEmpty this.authService.session', this.authService.session);

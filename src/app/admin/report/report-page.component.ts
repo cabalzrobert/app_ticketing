@@ -13,7 +13,7 @@ import html2canvas from 'html2canvas';
 import { PrintService } from '../../+services/print.serice';
 import { PrintticketelapsedtimePageComponentComponent } from './printticketelapsedtime-page-component/printticketelapsedtime-page-component.component';
 import { jUser } from '../../+app/user-module';
-import { Router } from 'express';
+import { NavigationStart, Router } from '@angular/router';
 //declare var jsPDF: any;
 
 export interface DialogData {
@@ -112,7 +112,7 @@ export class ReportPageComponent implements OnInit {
   departments: any = [];
   ticket: boolean = true;
   ticketelapsedtime: boolean = false;
-  constructor(private authService: AuthService, public dialog: MatDialog, public generalSerive: GeneralService, public printService: PrintService, private route: Router) {
+  constructor(private authService: AuthService, public dialog: MatDialog, public generalSerive: GeneralService, public printService: PrintService, private router: Router ) {
     this.fromDateMax.setDate(this.fromDateMax.getDate());
     this.Search = new FormControl();
     this.startDate = new FormControl();
@@ -151,10 +151,23 @@ export class ReportPageComponent implements OnInit {
     console.log('Date Today', this.fromDateMax);
     console.log('Sample Print', this.obj);
     await this.getMenuTatList();
+
+    // this.router.events.pipe(
+    //   filter(event => event instanceof NavigationStart)
+    // ).subscribe((event: any) => {
+    //   this.previousUrl = this.currentUrl;
+    //   this.currentUrl = event.url;
+    //   console.log('Previous URL:', this.previousUrl);
+    //   console.log('Current URL:', this.currentUrl);
+    // });
+
   }
+  currentUrl: string='';
+  previousUrl: string='';
+
   getMenuTatList(){
     
-    console.log('Menu Tab Report', this.authService);
+    console.log('Menu Tab Report', this.authService._menutab);
   }
   hSearchUsers() {
     this.GetUserAccountList({ num_row: 0, Search: this.Search.value });

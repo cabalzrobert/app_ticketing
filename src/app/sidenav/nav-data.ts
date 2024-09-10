@@ -38,11 +38,6 @@ export const navbarData = [
         icon: 'fa fa-cog',
         label: 'Settings'
     },
-    {
-        routerLink: 'useraccess',
-        icon: 'fa fa-unlock',
-        label: 'User Access'
-    }
 
 
 ];

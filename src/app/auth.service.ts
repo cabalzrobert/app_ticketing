@@ -51,6 +51,7 @@ export class AuthService {
   categorylist: any = [];
   positionlist: any = [];
   roleslist: any = [];
+  _menutab:any = [];
   subs: any = {};
   prop: any = {};
   requesttickect: any = {};

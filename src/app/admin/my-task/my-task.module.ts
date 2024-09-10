@@ -20,6 +20,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FormsModule } from '@angular/forms';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 @NgModule({
@@ -46,7 +47,7 @@ import { FormsModule } from '@angular/forms';
     MatSelectModule,
     MatDialogModule,
     MatProgressSpinnerModule,
-    FormsModule
+    FormsModule,
   ]
 })
 export class MyTaskModule { }
