@@ -1,4 +1,4 @@
-<div class="container" [hidden]="viewRequestorPage">
+<div class="container"  [hidden]="viewRequestorPage" style="--width: {{sWidth}}, --height: {{sHeight}}">
     <div class="header">
         <div class="headerlabel">
             Tickets
@@ -10,8 +10,8 @@
         </div>
     </div>
     <div class="ticketbody">
-        <div class="bodyheader" [ngClass]="changeclass ? 'bodyheader-column' : ''">
-            <div class="menu-nav-bar" *ngIf="collapsed">
+        <div class="bodyheader" >
+            <div class="menu-nav-bar">
                 <ul class="menu-nav">
                     <li class="menu-nav-item ">
                         <button [ngClass]="unassigned == true ? 'menu-nav-button1' : 'menu-nav-button'"
@@ -33,7 +33,7 @@
                     </li>
                 </ul>
             </div>
-            <button class="hamburger" [matMenuTriggerFor]="menu" [hidden]="collapsed"><mat-icon>menu</mat-icon></button>
+            <button class="hamburger" style="display: none;" [matMenuTriggerFor]="menu"><mat-icon>menu</mat-icon></button>
             <mat-menu #menu="matMenu" class="custom">
 
                 <ul class="menu-nav1">
@@ -58,7 +58,7 @@
                 </ul>
 
             </mat-menu>
-            <div class="searchtab">
+            <div class="searchtab" style="--width: {{sWidth}}">
                 <div class="searchinput">
                     <div class="searchicon">
                         <i class="fa fa-light fa-search"></i>

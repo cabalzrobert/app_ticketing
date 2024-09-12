@@ -66,12 +66,12 @@ export class NewUserAccessProfileModalComponent implements OnInit {
       label: 'Report',
       isSelect: false
     },
-    {
-      routerLink: 'useraccess',
-      icon: 'fa fa-unlock',
-      label: 'User Access',
-      isSelect: false
-    }
+    // {
+    //   routerLink: 'useraccess',
+    //   icon: 'fa fa-unlock',
+    //   label: 'User Access',
+    //   isSelect: false
+    // }
 
   ];
   loaddatamenu: any = [];

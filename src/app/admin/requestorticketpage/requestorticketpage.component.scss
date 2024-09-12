@@ -16,8 +16,11 @@
 .container {
     height: 99%;
     padding: 30px;
-    width: 100%;
-    min-width: 768px;
+    //width: 100%;
+    //min-width: 768px;
+    //min-width: calc(var(--width) - 5rem) ;
+    width: var(--width);
+    min-width: 500px;
 
     .header {
         display: flex;
@@ -34,8 +37,8 @@
 
         .bodyheader {
             display: flex;
-            align-items: center;
-            height: 94px;
+            //align-items: center;
+            //height: 94px;
             justify-content: space-between;
             padding: 10px 0px;
 
@@ -55,7 +58,7 @@
         }
 
         .searchtab {
-            width: 385px;
+            //width: 385px;
 
             .searchicon {
                 font-size: 20px;
@@ -1578,11 +1581,89 @@
         page-break-before: always;
         /* Force a new page before this element */
     }
-    .no-print{
+
+    .no-print {
         display: none;
     }
 
 
+}
+
+@media screen and (min-width: 768px) and (max-width: 1570px) {
+    .ticketbody {
+        height: 89%;
+        //width: 768px;
+    }
+
+    .ticketbody .bodyheader {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        height: 150px;
+        //justify-content: space-between;
+        padding: 10px 0px;
+    }
+
+    .ticketbody .searchtab {
+        position: absolute;
+        top: 100px;
+    }
+
+    .menu-nav-bar {
+        position: absolute;
+        top: 180px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .ticketbody {
+        height: 89%;
+        width: var();
+    }
+
+    .ticketbody .bodyheader {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        height: 150px;
+        //justify-content: space-between;
+        padding: 10px 0px;
+    }
+
+    .ticketbody .searchtab {
+        position: absolute;
+        top: 100px;
+        width: calc(var(--width) - (5rem + 60px));
+    }
+
+    .menu-nav-bar {
+        position: absolute;
+        top: 180px;
+    }
+}
+@media screen and (min-width: 768px) and (max-width: 1571px) {
+    .ticketbody {
+        height: 89%;
+        //width: 768px;
+    }
+
+    .ticketbody .bodyheader {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        height: 150px;
+        //justify-content: space-between;
+        padding: 10px 0px;
+    }
+
+    .ticketbody .searchtab {
+        width: 385px;
+    }
+
+    .menu-nav-bar {
+        position: absolute;
+        top: 180px;
+    }
 }
 
 // .bodycontent{

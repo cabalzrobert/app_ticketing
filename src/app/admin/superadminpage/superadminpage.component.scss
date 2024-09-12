@@ -1,8 +1,10 @@
 .container {
     height: 100%;
     padding: 30px;
-    width: 100%;
-    min-width: 768px;
+    // width: 100%;
+    // min-width: 768px;
+    width: var(--width);
+    min-width: 500px;
 
     .pageheader {
         display: flex;
@@ -297,10 +299,6 @@
 
 
 }
-
-
-
-
 .menu-nav-bar {
     //background: #e5e4e5;
     border-radius: 20px;
@@ -413,9 +411,11 @@
 
     //border-top-left-radius: 20px;
     height: 3rem;
-    width: 170px;
+    //width: 170px;
+    width: fit-content;
     border: none;
     border-bottom: solid #3818D9;
+    text-align: start;
 }
 
 .menu-nav-bar1 {
@@ -663,4 +663,9 @@
     //     font-size: 20px;
     //     font-weight: 400;
     // }
+}
+@media screen and (max-width:767px) {
+    .container{
+        width: var(--width);
+    }
 }

@@ -39,11 +39,13 @@ export class SuperadminpageComponent implements OnInit {
     this.SearchCategory = new FormControl();
     this.SearchPosition = new FormControl();
     this.SearchRoles = new FormControl();
+    this.SearchUserAccess = new FormControl();
   }
   SearchDepartment: any = {};
   SearchCategory: any = {};
   SearchPosition: any = {};
   SearchRoles: any = {};
+  SearchUserAccess: any = {};
   ngOnInit(): void {
     //this.hCategory();
     this.onScreenSize();
@@ -52,6 +54,8 @@ export class SuperadminpageComponent implements OnInit {
 
 
   onWindowInitialize() {
+    this.sWidth = `${window.innerWidth}px`;
+    this.sHeight = `${window.innerHeight}px`;
     this.screenWidth = window.innerWidth;
     if (this.screenWidth <= 768) {
       this.collapsed = false;
@@ -74,7 +78,13 @@ export class SuperadminpageComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   //@Output() onToggleSideNav: EventEmitter<MenuNavToggle> = new EventEmitter();
   //screenWidth = 0;
+  
+  sWidth:string = ''
+  sHeight:string = ''
+  
   onScreenSize() {
+    this.sWidth = `${window.innerWidth}px`;
+    this.sHeight = `${window.innerHeight}px`;
     this.screenWidth = window.innerWidth;
     if (this.screenWidth <= 768) {
       this.collapsed = false;
@@ -710,6 +720,10 @@ export class SuperadminpageComponent implements OnInit {
     }
     else if (this.selectedTab == 'roles') {
       this.GetRolesList({ num_row: 0, Search: this.SearchRoles.value });
+    }
+    else if(this.selectedTab == 'useraccess'){
+      console.log('this.SearchUserAccess.value', this.SearchUserAccess.value);
+      this.useraccesslist = this.GetUserAccessList({ num_row: 0, Search: this.SearchUserAccess.value });
     }
   }
 

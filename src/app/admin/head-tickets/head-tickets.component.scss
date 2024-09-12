@@ -1155,7 +1155,7 @@ mat-card {
         }
     }
 }
-@media screen and (min-width:481px) and (max-width: 768px) {
+@media screen and (min-width:481px) and (max-width: 767px) {
     .filter-container{
         height: 56px;
         position: relative;
@@ -1226,11 +1226,12 @@ mat-card {
     }
 }
 
-@media screen and (min-width:769px) and (max-width:1570px) {
+@media screen and (min-width:768px) and (max-width:1570px) {
     .filter-container{
         height: 56px;
         position: relative;
-        right: -54%;
+        //right: -54%;
+        margin: 10px 25px 10px 25px;
         display: flex;
         align-items: center;
         z-index: 2;

@@ -240,7 +240,7 @@ mat-card {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    margin-top:25px;
+    margin-top: 25px;
 }
 
 .ticket-toolbar {
@@ -333,8 +333,8 @@ mat-card {
                 width: auto;
                 font-size: xx-large;
             }
-            
-            img{
+
+            img {
                 height: 100%;
                 width: 100%;
                 overflow: hidden;
@@ -476,7 +476,7 @@ mat-card {
                 font-size: xx-large;
             }
 
-            img{
+            img {
                 height: 100%;
                 width: 100%;
                 overflow: hidden;
@@ -532,16 +532,17 @@ mat-card {
                 font-size: 18px;
             }
 
-            .btn-attachment{
+            .btn-attachment {
                 color: #fff;
                 background: #4845D2;
             }
 
-            .btn-forward{
+            .btn-forward {
                 border: #4845D2 1px solid;
                 color: #4845D2;
             }
-            .btn-resolve{
+
+            .btn-resolve {
                 background: #4CAF50;
                 color: #fff;
             }
@@ -719,7 +720,7 @@ mat-card {
                     flex-direction: column;
                     align-items: center;
                     justify-content: center;
-                    gap:5px;
+                    gap: 5px;
                 }
             }
 
@@ -748,25 +749,30 @@ mat-card {
         }
     }
 }
-.acknoledgefooter{
+
+.acknoledgefooter {
     height: 14%;
     padding: 10px 30px;
-    .acknowledge{
+
+    .acknowledge {
         height: 100%;
         width: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
-        .footerbody{
+
+        .footerbody {
             display: flex;
             flex-direction: column;
-            gap:10px;
-            .label1{
+            gap: 10px;
+
+            .label1 {
                 display: flex;
                 align-items: center;
                 justify-content: center;
             }
-            .label2{
+
+            .label2 {
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -774,7 +780,8 @@ mat-card {
                 size: 16px;
                 font-weight: 600;
             }
-            .label3{
+
+            .label3 {
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -783,17 +790,20 @@ mat-card {
                 font-weight: 400;
                 text-decoration: underline;
                 text-underline-offset: 5px;
+
                 // cursor: pointer;
-                span{
+                span {
                     cursor: pointer;
                 }
 
             }
-            .acceptbutton{
+
+            .acceptbutton {
                 display: flex;
-                gap:10px;
+                gap: 10px;
                 height: 40px;
-                .no{
+
+                .no {
                     //padding:20px;
                     width: 50%;
                     border: none;
@@ -802,13 +812,15 @@ mat-card {
                     color: #fff;
                     cursor: pointer;
                 }
-                .no:hover{
+
+                .no:hover {
                     font-size: 16px;
                     font-weight: 800;
                     cursor: pointer;
-                     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
                 }
-                .yes{
+
+                .yes {
                     //padding:20px;
                     width: 50%;
                     border: none;
@@ -817,7 +829,8 @@ mat-card {
                     color: #fff;
                     cursor: pointer;
                 }
-                .yes:hover{
+
+                .yes:hover {
                     font-size: 16px;
                     font-weight: 800;
                     cursor: pointer;
@@ -1068,7 +1081,7 @@ mat-card {
 
 //all media queries
 @media screen and (max-width:480px) {
-    .filter-container{
+    .filter-container {
         height: 56px;
         position: relative;
         // right: -63%;
@@ -1085,7 +1098,7 @@ mat-card {
             display: flex;
             align-items: center;
             width: 100%;
-    
+
             mat-icon {
                 position: absolute;
                 left: 17px;
@@ -1095,7 +1108,7 @@ mat-card {
                 font-size: 32px;
                 color: dimgray;
             }
-    
+
             input {
                 height: 56px;
                 width: 100%;
@@ -1106,21 +1119,23 @@ mat-card {
                 padding: 0px 16px 0px 56px;
             }
         }
-    
+
         .btn-filter {
             height: 100%;
             // width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
+
             // gap: 10px;
             // width: 104px;
             // padding-inline: 8px;
-            button{
+            button {
                 height: 100%;
                 width: 100%;
                 font-size: 0px;
-                mat-icon{
+
+                mat-icon {
                     height: auto;
                     width: auto;
                     position: absolute;
@@ -1128,18 +1143,20 @@ mat-card {
                     margin-right: unset;
                 }
 
-                .swap-icon{
+                .swap-icon {
                     translate: -13px;
                 }
-                .filter-icon{
+
+                .filter-icon {
                     translate: 9px;
                 }
             }
         }
     }
 }
-@media screen and (min-width:481px) and (max-width: 768px) {
-    .filter-container{
+
+@media screen and (min-width:481px) and (max-width: 767px) {
+    .filter-container {
         height: 56px;
         position: relative;
         // right: -63%;
@@ -1156,7 +1173,7 @@ mat-card {
             display: flex;
             align-items: center;
             width: 100%;
-    
+
             mat-icon {
                 position: absolute;
                 left: 17px;
@@ -1166,7 +1183,7 @@ mat-card {
                 font-size: 32px;
                 color: dimgray;
             }
-    
+
             input {
                 height: 56px;
                 width: 100%;
@@ -1177,31 +1194,35 @@ mat-card {
                 padding: 0px 16px 0px 56px;
             }
         }
-    
+
         .btn-filter {
             height: 100%;
             // width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
+
             // gap: 10px;
             // width: 104px;
             // padding-inline: 8px;
-            button{
+            button {
                 height: 100%;
                 width: 100%;
                 font-size: 0px;
-                mat-icon{
+
+                mat-icon {
                     height: auto;
                     width: auto;
                     position: absolute;
                     font-size: xx-large;
                     margin-right: unset;
                 }
-                .swap-icon{
+
+                .swap-icon {
                     translate: -13px;
                 }
-                .filter-icon{
+
+                .filter-icon {
                     translate: 9px;
                 }
             }
@@ -1209,22 +1230,24 @@ mat-card {
     }
 }
 
-@media screen and (min-width:769px) and (max-width:1570px) {
-    .filter-container{
+@media screen and (min-width:768px) and (max-width:1570px) {
+    .filter-container {
         height: 56px;
         position: relative;
-        right: -54%;
+        //right: -54%;
+        margin: 10px 25px 10px 25px;
         display: flex;
         align-items: center;
         z-index: 2;
         gap: 10px;
+
         // width: 40%;
         .txt-search {
             position: relative;
             display: flex;
             align-items: center;
             width: 350px;
-    
+
             mat-icon {
                 position: absolute;
                 left: 17px;
@@ -1234,7 +1257,7 @@ mat-card {
                 font-size: 32px;
                 color: dimgray;
             }
-    
+
             input {
                 height: 56px;
                 width: 100%;
@@ -1245,27 +1268,29 @@ mat-card {
                 padding: 0px 16px 0px 56px;
             }
         }
-    
+
         .btn-filter {
             height: 100%;
             // width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
+
             // gap: 10px;
             // width: 104px;
             // padding-inline: 8px;
-            button{
+            button {
                 height: 100%;
                 width: 100%;
                 font-size: 18px;
-                mat-icon{
+
+                mat-icon {
                     height: auto;
                     width: auto;
                     font-size: xx-large;
                 }
 
-                .swap-icon{
+                .swap-icon {
                     display: none;
                 }
             }
@@ -1274,7 +1299,7 @@ mat-card {
 }
 
 @media screen and (min-width: 1571px) {
-    .filter-container{
+    .filter-container {
         height: 56px;
         position: absolute;
         right: 35px;
@@ -1283,12 +1308,13 @@ mat-card {
         z-index: 2;
         gap: 10px;
         width: 35%;
+
         .txt-search {
             position: relative;
             display: flex;
             align-items: center;
             width: 100%;
-    
+
             mat-icon {
                 position: absolute;
                 left: 17px;
@@ -1298,7 +1324,7 @@ mat-card {
                 font-size: 32px;
                 color: dimgray;
             }
-    
+
             input {
                 height: 56px;
                 width: 100%; //221px;
@@ -1309,7 +1335,7 @@ mat-card {
                 padding: 0px 16px 0px 56px;
             }
         }
-    
+
         // .btn-filter {
         //     display: flex;
         //     align-items: center;
@@ -1325,21 +1351,23 @@ mat-card {
             display: flex;
             align-items: center;
             justify-content: center;
+
             // gap: 10px;
             // width: 104px;
             // padding-inline: 8px;
-            button{
+            button {
                 height: 100%;
                 width: 100%;
                 font-size: 18px;
-                mat-icon{
+
+                mat-icon {
                     height: auto;
                     width: auto;
                     font-size: xx-large;
                 }
             }
 
-            .swap-icon{
+            .swap-icon {
                 display: none;
             }
         }

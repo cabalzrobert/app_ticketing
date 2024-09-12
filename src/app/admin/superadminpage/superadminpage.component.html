@@ -1,43 +1,44 @@
-<div class="container">
+<div class="container" style="--width: {{sWidth}}, --height: {{sHeight}}">
     <div class="pageheader">
         <label for="">Settings</label>
     </div>
     <div class="pagebody">
         <div class="bodyheader">
-            <div class="menu-nav-bar" *ngIf="collapsed">
-                <ul class="menu-nav">
-                    <li class="menu-nav-item">
-                        <button [ngClass]="department == true ? 'menu-nav-button1' : 'menu-nav-button'"
-                            (click)="hDepartment()">
-                            Department
-                        </button>
-                    </li>
-                    <!-- <li class="menu-nav-item">
+            <!-- <div class="menu-nav-bar" *ngIf="collapsed"> -->
+            <div class="menu-nav-bar">
+                <ul class=" menu-nav">
+                <li class="menu-nav-item">
+                    <button [ngClass]="department == true ? 'menu-nav-button1' : 'menu-nav-button'"
+                        (click)="hDepartment()">
+                        Department
+                    </button>
+                </li>
+                <!-- <li class="menu-nav-item">
                         <button [ngClass]="category == true ? 'menu-nav-button1' : 'menu-nav-button'"
                             (click)="hCategory()">
                             Category
                         </button>
                     </li> -->
-                    <li class="menu-nav-item">
-                        <button [ngClass]="position == true ? 'menu-nav-button1' : 'menu-nav-button'"
-                            (click)="hPosition()">
-                            Position
-                        </button>
-                    </li>
-                    <!-- <li class="menu-nav-item">
+                <li class="menu-nav-item">
+                    <button [ngClass]="position == true ? 'menu-nav-button1' : 'menu-nav-button'" (click)="hPosition()">
+                        Position
+                    </button>
+                </li>
+                <!-- <li class="menu-nav-item">
                         <button [ngClass]="roles == true ? 'menu-nav-button1' : 'menu-nav-button'" (click)="hRoles()">
                             Roles
                         </button>
                     </li> -->
-                    <li class="menu-nav-item">
-                        <button [ngClass]="useraccess == true ? 'menu-nav-button1' : 'menu-nav-button'"
-                            (click)="hUserAccess()">
-                            User Access
-                        </button>
-                    </li>
+                <li class="menu-nav-item">
+                    <button [ngClass]="useraccess == true ? 'menu-nav-button1' : 'menu-nav-button'"
+                        (click)="hUserAccess()">
+                        User Access
+                    </button>
+                </li>
                 </ul>
             </div>
-            <button class="hamburger" [matMenuTriggerFor]="menu" [hidden]="collapsed"><mat-icon>menu</mat-icon></button>
+            <!-- <button class="hamburger" [matMenuTriggerFor]="menu" [hidden]="collapsed"><mat-icon>menu</mat-icon></button> -->
+            <button class="hamburger" [matMenuTriggerFor]="menu" [hidden]="true"><mat-icon>menu</mat-icon></button>
             <mat-menu #menu="matMenu">
                 <div class="menu-nav-bar1" *ngIf="collapsed == false">
 
@@ -58,6 +59,13 @@
                             <button [ngClass]="position == true ? 'menu-nav-button1' : 'menu-nav-button'"
                                 (click)="hPosition()">
                                 Position
+                            </button>
+                        </li>
+
+                        <li class="menu-nav-item">
+                            <button [ngClass]="useraccess == true ? 'menu-nav-button1' : 'menu-nav-button'"
+                                (click)="hUserAccess()">
+                                User Access
                             </button>
                         </li>
 
@@ -211,7 +219,9 @@
                 <div class="header">
                     <div class="searchtab">
                         <div class="searchbar">
-                            <input type="text">
+
+                            <input type="text" placeholder="Search" [formControl]="SearchUserAccess"
+                                (change)="hSearchSettings()" (keyup)="hSearchSettings()">
                             <span>
                                 <div class="button fa fa-filter filter"></div>
                             </span>
@@ -221,7 +231,7 @@
                     </div>
                 </div>
                 <div class="body">
-                    <div class="theader">User Access</div>
+                    <!-- <div class="theader">User Access</div> -->
                     <div class="tabheader">
                         <div class="contentheadercard1">
                             <div class="contentheadercard">

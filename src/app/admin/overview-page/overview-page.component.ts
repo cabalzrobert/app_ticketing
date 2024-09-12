@@ -262,7 +262,7 @@ export class OverviewPageComponent implements OnInit {
     // });
     //console.log('ngOnInt this.subs 1', this.subs);
     this.input = await jUser();
-    console.log('Overview this.input', this.input);
+    //console.log('Overview this.input', this.input);
     let item: any = { isCom: this.input.isCommunicator ? 1 : 0, isDept: this.input.isDeptartmentHead ? 1 : 0 };
     //console.log('let item', item);
     item.DepartmentID = this.input.DEPT_ID

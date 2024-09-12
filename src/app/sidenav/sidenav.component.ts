@@ -107,6 +107,9 @@ export class SidenavComponent implements OnInit {
   onWindowInitialize() {
     this.screenWidth = window.innerWidth;
     this.screenHeight = window.innerHeight;
+    
+    this.authService.sizeWidth = `${window.innerWidth} px`;
+    this.authService.sizeHeight = `${window.innerHeight} px`;
     if (this.screenWidth <= 768) {
       this.collapsed = false;
       this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth, screenHeight: this.screenHeight });
@@ -119,7 +122,7 @@ export class SidenavComponent implements OnInit {
     //   this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth });
   }
   onResize(event: any) {
-    console.log('onResize', window.innerWidth);
+    //console.log('onResize', window.innerWidth);
     this.screenWidth = window.innerWidth;
     this.screenHeight = window.innerHeight;
     if (this.screenWidth <= 768) {
@@ -193,8 +196,8 @@ export class SidenavComponent implements OnInit {
 
     // });
 
-    console.log('URL', this.router.url);
-    console.log('URL SPLIT', this.router.url.split('/')[2]);
+    //console.log('URL', this.router.url);
+    //console.log('URL SPLIT', this.router.url.split('/')[2]);
     let tab = this.router.url.split('/')[2];
     let isAccess: boolean = false;
     this.authService._menutab.forEach((o: any) => {
@@ -206,7 +209,7 @@ export class SidenavComponent implements OnInit {
     else {
 
       this.router.navigateByUrl('/dashboard');
-      console.log('You dont have access on this tab', tab);
+      //console.log('You dont have access on this tab', tab);
       //this.router.navigateByUrl('/overview');
     }
 
@@ -275,7 +278,7 @@ export class SidenavComponent implements OnInit {
     }
     else
       await this.getUserAccessProfile();
-    console.log('NavData', this.navData);
+    //console.log('NavData', this.navData);
 
 
 
@@ -288,7 +291,7 @@ export class SidenavComponent implements OnInit {
     rest.post('useraccess/getuseraccess').subscribe(async (res: any) => {
       if (res.Status == 'ok') {
         this.navData = JSON.parse(res.useraccess[0].MenuTab);
-        console.log('getUserAccessProfile NavData', JSON.parse(res.useraccess[0].MenuTab));
+        //console.log('getUserAccessProfile NavData', JSON.parse(res.useraccess[0].MenuTab));
         return this.navData;
       }
     });

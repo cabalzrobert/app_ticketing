@@ -16,6 +16,7 @@ import { TicketresolveComponent } from '../ticket-main-page/ticketresolve/ticket
 import { TicketProgressModalComponent } from '../modalpage/ticket-progress-modal/ticket-progress-modal.component';
 import { ViewAttachImageModalComponent } from '../modalpage/view-attach-image-modal/view-attach-image-modal.component';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { AuthService } from '../../auth.service';
 //import {MatIconModule} from '@angular/material/icon';
 //const{Object1}:any = {};
 //const Object:Window = window;
@@ -1656,7 +1657,7 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
   resolveEvents: number = 0;
   ticketindex: number = 0;
   ticketstatus: number = 0;
-  constructor(public dialog: MatDialog, @Inject(DOCUMENT) private dom: Document, @Inject(PLATFORM_ID) private platformId: Window, public ls: LocalStorageService, private cd: ChangeDetectorRef) {
+  constructor(public dialog: MatDialog, @Inject(DOCUMENT) private dom: Document, @Inject(PLATFORM_ID) private platformId: Window, public ls: LocalStorageService, private cd: ChangeDetectorRef, private authservice: AuthService) {
     this.selectedTab = "pending"
     this.stompReceivers();
     this.Search = new FormControl();
@@ -1848,6 +1849,8 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
     rest.setBearer(JSON.parse(token).Token);
   }
   onWindowInitialize() {
+    this.sWidth = `${window.innerWidth}px`;
+    this.sHeight = `${window.innerHeight}px`;
     this.screenWidth = window.innerWidth;
     if (this.screenWidth <= 768) {
       this.collapsed = false;
@@ -1866,11 +1869,15 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
 
   collapsed = false;
   screenWidth = 0;
+  sWidth:string = ''
+  sHeight:string = ''
   changeclass = false;
   @HostListener('window:resize', ['$event'])
   //@Output() onToggleSideNav: EventEmitter<MenuNavToggle> = new EventEmitter();
   //screenWidth = 0;
   onResize(event: any) {
+    this.sWidth = `${window.innerWidth}px`;
+    this.sHeight = `${window.innerHeight}px`;
     this.screenWidth = window.innerWidth;
     if (this.screenWidth <= 768) {
       this.collapsed = false;
