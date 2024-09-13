@@ -751,7 +751,7 @@ export class CommunicatorTicketComponent {
     return this.dialog.open(MessageBoxDialog, {
       panelClass: type === 'progress' ? 'mat-dialog-progress' : 'mat-dialog-not-progress',
       disableClose: true,
-      width: type !== 'progress' ? '17%' : 'auto',
+      width: type !== 'progress' ? '320px' : 'auto',
       data: { Type: type, Message: message, TicketDetail: ticketDetail, IsCancel: isCancel, IsForward: isForward }
     });
   }

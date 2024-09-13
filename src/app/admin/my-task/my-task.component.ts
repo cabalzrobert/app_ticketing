@@ -648,7 +648,7 @@ export class MyTaskComponent {
     return this.dialog.open(MessageBoxDialog, {
       panelClass: type !== 'progress' ? 'mat-dialog-not-progress' : 'mat-dialog-progress',
       disableClose: true,
-      width: type !== 'progress' ? '15%' : 'auto',
+      width: type !== 'progress' ? '290px' : 'auto',
       data: { Type: type, Message: message, ticketNo: ticketNo }
     });
   }
@@ -982,7 +982,7 @@ export class MessageBoxDialog {
   showMessageBox(type: string, ticketNo: any, message: any): any {
     return this.dialog.open(MessageBoxDialog, {
       disableClose: true,
-      width: type !== 'progress' ? '20%' : 'auto',
+      width: type !== 'progress' ? '340px' : 'auto',
       data: { Type: type, Message: message, ticketNo: ticketNo }
     });
   }
@@ -1078,7 +1078,7 @@ export class ForwardDialog {
   showMessageBox(type: string, ticketNo: any, message: any): any {
     return this.dialog.open(MessageBoxDialog, {
       disableClose: true,
-      width: type !== 'progress' ? '20%' : 'auto',
+      width: type !== 'progress' ? '340px' : 'auto',
       data: { Type: type, Message: message, ticketNo: ticketNo }
     });
   }
