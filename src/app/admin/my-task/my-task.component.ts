@@ -96,7 +96,17 @@ export class MyTaskComponent {
     }
   }
 
+  IsMobile(): boolean{
+    if(window.innerWidth <= 767)
+      return true;
+    return false;
+  }
 
+  isSideToggle = false;
+  sideToggle(){
+    this.isSideToggle = !this.isSideToggle;
+    console.log('side toggle',this.isSideToggle);
+  }
 
   private async stompWebsocketReceiver() {
     //this.webSocketService.connect();

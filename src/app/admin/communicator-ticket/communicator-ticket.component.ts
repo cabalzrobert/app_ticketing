@@ -125,6 +125,18 @@ export class CommunicatorTicketComponent {
 
   }
 
+  IsMobile(): boolean{
+    if(window.innerWidth <= 767)
+      return true;
+    return false;
+  }
+
+  isSideToggle = false;
+  sideToggle(){
+    this.isSideToggle = !this.isSideToggle;
+    console.log('side toggle',this.isSideToggle);
+  }
+
   getTicketCount(): Observable<any> {
     rest.post('communicator/count').subscribe(async (res: any) => {
       //this.ticketcount.push(res.TicketCount);

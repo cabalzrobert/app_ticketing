@@ -130,7 +130,12 @@
     </mat-step>
     <mat-step>
         <div class="ticket-container">
-            <div class="ticket-content" *ngIf="ticketDetail">
+            <div [class]="!IsMobile()?'ticket-content':'ticket-content-full'" *ngIf="ticketDetail">
+                <div class="side-content-toggle" *ngIf="IsMobile()" (click)="sideToggle()">
+                    <button mat-button>
+                        <mat-icon>arrow_left</mat-icon>
+                    </button>
+                </div>
                 <div class="ticket-header">
                     <p class="ticket-toolbar">
                         <mat-icon (click)="goBack()">arrow_back</mat-icon>
@@ -269,8 +274,13 @@
                     </div>
                 </div>
             </div>
-            <div class="side-info-content">
-                <div class="side-inner-content">
+            <div [class]="!IsMobile()?'side-info-content':isSideToggle?'m-side-info-content show': 'm-side-info-content hide'">
+                <div class="side-inner-content" [class]="IsMobile()&&isSideToggle?'open':IsMobile()&&!isSideToggle?'not-open':''">
+                    <div class="side-inner-toggle" *ngIf="IsMobile()" (click)="sideToggle()">
+                        <button mat-button>
+                            <mat-icon>arrow_right</mat-icon>
+                        </button>
+                    </div>
                     <mat-card class="card-requester-detail">
                         <mat-card-header>
                             <mat-card-title>Requester Detail</mat-card-title>
