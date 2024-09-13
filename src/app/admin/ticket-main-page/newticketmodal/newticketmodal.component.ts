@@ -72,14 +72,14 @@ export class NewticketmodalComponent implements OnInit {
   async ngOnInit() {
     //console.log('this.form.value.TicketAttachment ', this.form.value.TicketAttachment);
     this.userDetail = await jUser();
-    console.log('User Detail',this.userDetail);
-    console.log('Ticket Data',this.ticketdata);
+    //console.log('User Detail',this.userDetail);
+    //console.log('Ticket Data',this.ticketdata);
     this.form.patchValue(this.ticketdata.item);
-    console.log('this.form.value Update Modal', this.form.value);
+    //console.log('this.form.value Update Modal', this.form.value);
     this.GetCategoryList({ num_row: 0, Search: '' });
     this.GetDepartmentList({ num_row: 0, Search: '' });
     this.GetDepartmentPersonnels();
-    console.log('Update Ticket Modal', this.ticketdata);
+    //console.log('Update Ticket Modal', this.ticketdata);
     this.HeaderTitle = this.ticketdata.Title;
     this.SaveButtonText = this.ticketdata.SaveButtonText;
     if (this.ticketdata.item != null) {
@@ -93,9 +93,9 @@ export class NewticketmodalComponent implements OnInit {
       this.form.controls['Department'].setValue(this.userDetail.DEPT_ID);
     }
 
-    console.log('Update Ticket Modal HeaderTitle', this.HeaderTitle);
-    console.log('Update Ticket Modal SaveButtonText', this.SaveButtonText);
-    console.log('Update Ticket Modal this.uploaded', this.uploaded);
+    //console.log('Update Ticket Modal HeaderTitle', this.HeaderTitle);
+    //console.log('Update Ticket Modal SaveButtonText', this.SaveButtonText);
+    //console.log('Update Ticket Modal this.uploaded', this.uploaded);
     if (parseInt(this.uploaded.length) > 0)
       this.outputBoxVisible = true;
 
@@ -109,8 +109,8 @@ export class NewticketmodalComponent implements OnInit {
   createNewTicket(): void {
     this.loader = true;
     if (!this.isValidEntries()) return;
-    console.log('SaveButtonText', this.SaveButtonText);
-    console.log('Create New Ticket', this.form.value);
+    //console.log('SaveButtonText', this.SaveButtonText);
+    //console.log('Create New Ticket', this.form.value);
     let strheader: string = '';
     let strcontent: string = ''
     if (this.SaveButtonText == 'Create Ticket') {
@@ -130,7 +130,7 @@ export class NewticketmodalComponent implements OnInit {
         // this.form.reset();
         return;
       }
-      console.log('Close Ticket Progress', o.item);
+      //console.log('Close Ticket Progress', o.item);
     });
     //this.performSaveTicket();
   }
@@ -141,12 +141,12 @@ export class NewticketmodalComponent implements OnInit {
     // rest.post('category/list', item).subscribe(async (res: any) => {
       if (res.Status == 'ok') {
         this.categorylist = res.category;
-        console.log('GetCategoryList inside subscribe', this.categorylist);
+        //console.log('GetCategoryList inside subscribe', this.categorylist);
         return this.categorylist;
         //this.categorylist;
       }
     });
-    console.log('GetCategoryList outside subscribe', this.categorylist);
+    //console.log('GetCategoryList outside subscribe', this.categorylist);
     return this.categorylist;
   }
 
@@ -156,7 +156,7 @@ export class NewticketmodalComponent implements OnInit {
     if(!this.ticketdata.IsRequiredOtherDepartment) return;
     const search: any = item;
     rest.post('department/list', search).subscribe((res: any) => {
-      console.log('Department',res);
+      //console.log('Department',res);
       if (res.Status === 'ok') {
         this.departments = res.department.filter((o: any) => o.DepartmentID!==this.userDetail.DEPT_ID);
         return;
@@ -171,9 +171,9 @@ export class NewticketmodalComponent implements OnInit {
     if(this.ticketdata.IsRequiredOtherDepartment) return;
     const search: any = { num_row: 0, Search: '' };
     rest.post(`head/personnels?departmentId=${this.userDetail.DEPT_ID}`).subscribe((res: any) => {
-      console.log(res);
+      //console.log(res);
       if (res.Status === 'ok') {
-        console.log(res.personnels)
+        //console.log(res.personnels)
         this.personnels = res.personnels;
         // this.personnels = this.personnels.filter((res: any) => res.userId!==this.ticketDetail?.requestId);
         return;
@@ -279,10 +279,10 @@ export class NewticketmodalComponent implements OnInit {
 
 
   hRemoveItem = (item: any, idx: number) => {
-    console.log('hRemoveItem idx', idx);
-    console.log('hRemoveItem item', item);
+    //console.log('hRemoveItem idx', idx);
+    //console.log('hRemoveItem item', item);
     this.uploaded.splice(idx, 1);
-    console.log('hREmoveItem this.uploaded', this.uploaded);
+    //console.log('hREmoveItem this.uploaded', this.uploaded);
   }
   uploadImage(): void {
 
@@ -313,11 +313,11 @@ export class NewticketmodalComponent implements OnInit {
 
   public onFileSelected1(files: File[]): Observable<any[]> {
     // this.selectedFiles = []; // clear
-    console.log('onFileSelect1 files', files);
+    //console.log('onFileSelect1 files', files);
     const result = new AsyncSubject<any[]>();
     this.toFilesBase64(files, this.selectedFiles).subscribe((res: any[]) => {
       res.forEach((i: any) => this.selectedFiles1.push({ name: i.name, filesize: i.filesize, file: i.file, base64: i.base64, uploadstatus: i.uploadstatus, progress: i.progress, rownum: i.rownum }));
-      console.log('Result selectedFiles1', this.selectedFiles1);
+      //console.log('Result selectedFiles1', this.selectedFiles1);
       this.selectedFiles1.forEach((o: any) => this.uploaded.push(o));
 
       return res;
@@ -329,7 +329,7 @@ export class NewticketmodalComponent implements OnInit {
   async onFileSelected(event: any): Promise<Observable<any>> {
 
     const result = new AsyncSubject<any[]>();
-    console.log('onFileSelect', event);
+    //console.log('onFileSelect', event);
     var cntupload = this.uploaded.length + event.target.files.length;
     if (cntupload > 5) {
       alert("Only 5 files allow");
@@ -341,10 +341,10 @@ export class NewticketmodalComponent implements OnInit {
     this.files = files;
     //await this.onFileSelected1(files);
     device.ready(() => setTimeout(() => this.onFileSelected1(files), 275));
-    console.log('this.selected files base64', this.selectedFiles1);
-    console.log('this.selected files base64', this.uploaded.length);
+    //console.log('this.selected files base64', this.selectedFiles1);
+    //console.log('this.selected files base64', this.uploaded.length);
     if (this.selectedFiles1) {
-      console.log('if(this.selectedFiles1)', this.selectedFiles1.length);
+      //console.log('if(this.selectedFiles1)', this.selectedFiles1.length);
       //this.selectedFiles1.forEach((o: any) => this.uploaded.push(o));
       //this.uploaded = this.selectedFiles1;
       // for (let i = 0; i < this.selectedFiles1.length; i++) {
@@ -369,7 +369,7 @@ export class NewticketmodalComponent implements OnInit {
       //   return this.uploaded;
       // }
     }
-    console.log('Uploaded Files', this.uploaded);
+    //console.log('Uploaded Files', this.uploaded);
 
 
     this.outputBoxVisible = false;
@@ -400,15 +400,15 @@ export class NewticketmodalComponent implements OnInit {
   getBase64 = (file: any) => {
     var reader = new FileReader();
     reader.readAsDataURL(file);
-    console.log('readAsDataURL', reader);
+    //console.log('readAsDataURL', reader);
     reader.onload = function () {
       //console.log('getBase64', reader.result);
       file.base64 = reader.result;
-      console.log('getBase64', file)
+      //console.log('getBase64', file)
       return reader.result;
     };
     reader.onerror = function (error) {
-      console.log('Error: ', error);
+      //console.log('Error: ', error);
     };
   }
   private toFileBase64(item: any) {
@@ -431,7 +431,7 @@ export class NewticketmodalComponent implements OnInit {
     const result = new AsyncSubject<any[]>();
     event.preventDefault();
     event.stopPropagation();
-    console.log('thi.uploaded 352', this.uploaded);
+    //console.log('thi.uploaded 352', this.uploaded);
     if (event.dataTransfer != null) {
       let cntuploaded: number = this.uploaded.length
       let cnt: number = event.dataTransfer.files.length;

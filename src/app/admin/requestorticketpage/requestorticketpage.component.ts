@@ -50,15 +50,15 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
     this.input1.isMessage = false;
     this.input1.FileAttachment = this.base64;
     //this.input1 = { TransactionNo: this.TransactionNo, Message: this.commentform.controls["Message"].value, isImage: true, isFile: false, isRead: false, isMessage: false, FileAttachment: this.attahcment  };
-    console.log('this.input1 38', this.input1);
-    console.log('this.uploaded 38', this.attahcment.length)
+    //console.log('this.input1 38', this.input1);
+    //console.log('this.uploaded 38', this.attahcment.length)
     //this.performSendComment({ TransactionNo: this.TransactionNo, Message: this.commentform.controls["Message"].value, isImage: true, isFile: false, isRead: false, isMessage: false, FileAttachment: this.attahcment  });
     //this.performSendComment(this.input1);
     //this.commentform.reset();
   }
   public isValidEntries(): boolean {
-    console.log('isValidEntries', this.uploaded);
-    console.log('isValidEntries this.uploaded.length', this.uploaded.length);
+    //console.log('isValidEntries', this.uploaded);
+    //console.log('isValidEntries this.uploaded.length', this.uploaded.length);
     this.uploaded.forEach((o: any) => console.log('this.uploaded.forEach', o.base64));
     this.commentform.value.Message = 'IMAGE ATTACHMENT';
     if (this.attahcment.length == 0)
@@ -67,7 +67,7 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
       this.commentform.value.FileAttachment = this.uploaded;
     //this.uploaded.forEach((o:any) => console.log('this.uploaded.forEach', o.base64));
     //this.attahcment = this.uploaded.map((m:any) => m.base64);
-    console.log('hSendAttachment 45', this.commentform.value);
+    //console.log('hSendAttachment 45', this.commentform.value);
     return true;
   }
 
@@ -118,19 +118,19 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
     this.input1.isFile = false;
     this.input1.isMessage = false;
     this.input1.FileAttachment = this.base64;
-    console.log('tthis.uploaded 99', this.selectedFiles1.length);
-    console.log('this.input1 38', this.input1);
+    //console.log('tthis.uploaded 99', this.selectedFiles1.length);
+    //console.log('this.input1 38', this.input1);
     return this.uploaded
   }
 
   public onFileSelected1(files: File[]): Observable<any[]> {
     // this.selectedFiles = []; // clear
-    console.log('onFileSelect1 files', files.length);
+    //console.log('onFileSelect1 files', files.length);
     const result = new AsyncSubject<any[]>();
     this.toFilesBase64(files, this.selectedFiles).subscribe((res: any[]) => {
       res.forEach((i: any) => this.selectedFiles1.push({ name: i.name, filesize: i.filesize, file: i.file, base64: i.base64, uploadstatus: i.uploadstatus, progress: i.progress, rownum: i.rownum }));
       //res.forEach((i:any) => this.attahcment.push(i.base64));
-      console.log('Result selectedFiles1', this.selectedFiles1);
+      //console.log('Result selectedFiles1', this.selectedFiles1);
       if (this.onFileSelected1.length > 0) {
         this.input1.TransactionNo = this.TransactionNo;
         this.input1.Message = 'ATTACH IMAGE';
@@ -138,7 +138,7 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
         this.input1.isFile = false;
         this.input1.isMessage = false;
         this.input1.FileAttachment = this.selectedFiles1.map((m: any) => m.base64);
-        console.log('this.input1 113', this.input1);
+        //console.log('this.input1 113', this.input1);
         //this.performSendComment(this.input1);
       }
 
@@ -176,7 +176,7 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
 
   hViewRequestorPage() {
     clearInterval(this.interval);
-    console.log('hViewRequestorPage', this.LastMessage);
+    //console.log('hViewRequestorPage', this.LastMessage);
     this.viewRequestorPage = false;
     this.viewTicketComment = true;
     if (this.resolveEvents = 1)
@@ -213,8 +213,8 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
   ticketupdate: any = {};
 
   async hViewComment(data: any, idx: number) {
-    console.log('elapsedTimeStart1', timerDone);
-    console.log(data);
+    //console.log('elapsedTimeStart1', timerDone);
+    //console.log(data);
     this.ticketupdate = data;
     this.ticketindex = idx;
     this.viewRequestorPage = true;
@@ -253,7 +253,7 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
     this._hour = parseInt(_h);
     this._minute = parseInt(_m);
     this._second = parseInt(_s);
-    console.log('hViewComment', data.TicketStatusname);
+    //console.log('hViewComment', data.TicketStatusname);
     if (data.TicketStatusname != 'Closed' && data.TicketStatusname != 'Cancel')
       this.getLElapsedTime1();
     else
@@ -342,7 +342,7 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
     } else {
       this.ticketDialogRef = this.dialog.open(NewticketmodalComponent, { data: { item: null, Title: 'Create Ticket', SaveButtonText: 'Create Ticket', IsRequiredOtherDepartment: false } });
       this.ticketDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
-        console.log('openpopnewticket', o);
+        //console.log('openpopnewticket', o);
         // this.ticketpending.unshift(o);
 
         this.ticketlist = this.ticketpending;
@@ -357,7 +357,7 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
 
   }
   hUpdateTicket() {
-    console.log('hUdpate this.ticketupdate', this.ticketupdate);
+    //console.log('hUdpate this.ticketupdate', this.ticketupdate);
     this.ticketDialogRef = this.dialog.open(NewticketmodalComponent, { data: { item: this.ticketupdate, Title: 'Update Ticket', SaveButtonText: 'Update Ticket' } });
     this.ticketDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
       this.ticketupdate.Attachment = o.Attachment;
@@ -375,16 +375,16 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
       this.PriorityLevelname = o.PriorityLevelname;
     });
 
-    console.log('hUdpate this.ticketupdate 272', this.ticketupdate);
+    //console.log('hUdpate this.ticketupdate 272', this.ticketupdate);
   }
   hViewAttachment() {
-    console.log('hViewAttachment', this.ticketupdate.Attachment);
+    //console.log('hViewAttachment', this.ticketupdate.Attachment);
     let viewattachment: any = [];
     viewattachment = JSON.parse(this.ticketupdate.Attachment);
     let attachment: any = [];
     viewattachment.forEach((o: any) => attachment.push({ URL: o.base64 }));
-    console.log('hViewAttachment URL 281', attachment);
-    console.log('hViewAttachment URL 282', attachment[0]);
+    //console.log('hViewAttachment URL 281', attachment);
+    //console.log('hViewAttachment URL 282', attachment[0]);
     this.ticketViewAttachment = this.dialog.open(ViewAttachImageModalComponent, { data: { item: attachment } });
   }
   pending: string = '';
@@ -1747,12 +1747,12 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
     this.ticketpending.forEach((o: any) => {
       this.ticketpendingremove.push(this.ListTicketDetails1(o, idx));
     });
-    console.log('this.ticketpending', this.ticketpendingremove);
+    //console.log('this.ticketpending', this.ticketpendingremove);
     this.ticketpending = [];
     this.ticketpending = this.ticketpendingremove.map((o: any) => this.ListTicketDetails(o))
     this.getTicketPendingList({ Status: 0, num_row: item.NextFilter, Search: this.Search.value, IsReset: false });
     this.ticketpendingremove = [];
-    console.log('this.ticketpending', this.ticketpending);
+    //console.log('this.ticketpending', this.ticketpending);
   }
   ListTicketDetails1(item: any, idx: number) {
     return {
@@ -1844,7 +1844,7 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
     var content = data.content;
     var transaction = data.transactionno;
     if (transaction == this.TransactionNo) {
-      console.log('Received Comment Content', content);
+      //console.log('Received Comment Content', content);
       this.ticketcomment.push(content);
     }
 
@@ -1927,7 +1927,7 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
     }
     // else if(ActionEvent == 1)
     //   _data.Status = 4
-    console.log('openpopticketprogress', _data, title);
+    //console.log('openpopticketprogress', _data, title);
 
 
 
@@ -1935,8 +1935,8 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
     if (this.resolveEvents == 1) {
       this.resolveticketDialogRef.afterClosed().pipe(filter(o => o)).subscribe(o => {
 
-        console.log('Close Ticket Progress', o);
-        console.log('Close Ticket Progress this.ticketindex', this.ticketindex);
+        //console.log('Close Ticket Progress', o);
+        //console.log('Close Ticket Progress this.ticketindex', this.ticketindex);
         this.TicketStatus = 1;
         this.hRemoveItem();
         //this.ticketpending.slice(this.ticketindex,1);
@@ -2007,7 +2007,7 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
     this.ticketstatus = 2;
     this.getTicketPendingList({ Status: (this.ticketstatus == 2 ? null : this.ticketstatus), num_row: 0, Search: this.Search.value });
     this.scrollTabContentTop();
-    console.log('hAll this.this.ticketpending', this.ticketpending);
+    //console.log('hAll this.this.ticketpending', this.ticketpending);
 
   }
   hResolved() {
@@ -2084,7 +2084,7 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
 
     //console.log('hScrollIndexChange', end, basefilter, total);
     if (end == total) {
-      console.log('Total is equal to end', this.ticketstatus);
+      //console.log('Total is equal to end', this.ticketstatus);
 
     }
 
@@ -2204,7 +2204,7 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
   })
 
   hSendComment() {
-    console.log('hSendComment', this.commentform.controls["Message"].value);
+    //console.log('hSendComment', this.commentform.controls["Message"].value);
     if (!this.commentform.value.Message) {
       alert('Invalid Message')
       return;
@@ -2215,7 +2215,7 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
 
 
   performSendCommentImage(item: any) {
-    console.log('performSendComment item', item.FileAttachment);
+    //console.log('performSendComment item', item.FileAttachment);
     rest.post('ticket/msg/send', item).subscribe(async (res: any) => {
       if (res.Status == 'ok') {
         //res.Content.forEach((o:any) => this.ticketImageAttachment.push(this.ticketCommentListDetails(0)));
@@ -2230,10 +2230,10 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
         //this.ticketcommentAttacheImage.forEach((o:any) => this.ticketcomment.push(o));
         //console.log('performSendCommentImage this.ticketImageAttachment 1854', this.ticketcomment);
         //console.log('performSendComment', this.ticketcomment);
-        console.log('performSendComment 1864', this.ticketcomment);
+        //console.log('performSendComment 1864', this.ticketcomment);
         //this.ticketcomment = this.ticketcomment.concat(this.ticketcommentAttacheImage);
         this.ticketcomment = this.ticketcommentAttacheImage;
-        console.log('performSendComment 1864', this.ticketcomment);
+        //console.log('performSendComment 1864', this.ticketcomment);
 
         return this.ticketcomment;
       }
@@ -2244,7 +2244,7 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
   }
 
   performSendComment(item: any) {
-    console.log('performSendComment item', item.FileAttachment);
+    //console.log('performSendComment item', item.FileAttachment);
     rest.post('ticket/msg/send', item).subscribe(async (res: any) => {
       if (res.Status == 'ok') {
         //res.Content.forEach((o:any) => this.ticketImageAttachment.push(this.ticketCommentListDetails(0)));
@@ -2258,7 +2258,7 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
     });
   }
   ticketCommentListDetails(item: any) {
-    console.log('ticketCommentListDetails', item);
+    //console.log('ticketCommentListDetails', item);
     return ({ Branch_ID: item.Branch_ID, CommentDate: item.CommentDate, CommentID: item.CommentID, Company_ID: item.Company_ID, Department: '', DisplayName: item.DisplayName, FileAttachment: item.FileAttachment, ImageAttachment: item.ImageAttachment, IsYou: true, Message: item.Message, ProfilePicture: item.ProfilePicture, SenderID: item.SenderID, TransactionNo: item.TransactionNo, isFile: item.isFile, isImage: item.isImage, isMessage: item.isMessage, isRead: false })
   }
 }
