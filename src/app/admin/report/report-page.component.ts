@@ -72,17 +72,16 @@ export class ReportPageComponent implements OnInit {
     this.filterForm.reset();
     this.istodateDisable = true;
     if (this.filterForm.value.toDate != '')
-      this.GetTicetRequestWIthElapsedTimetList({ From: this.filterForm.value.fromDate, To: this.filterForm.value.toDate });
+      this.GetTicetRequestWIthElapsedTimetList({ From: this.formattedDate(this.filterForm.value.fromDate), To: this.formattedDate(this.filterForm.value.toDate) });
+  }
+  formattedDate(val:any): any{
+    if(val) return moment(val).format('MMMM DD, yyyy');
   }
   hApply() {
     //console.log('hApply', { From: this.range.value.start, To: this.range.value.end });
     //this.GetTicetRequestWIthElapsedTimetList({ From: this.range.value.start, To: this.range.value.end });
-    
-    let sfrom = new Date(this.filterForm.value.fromDate.toString());
-    let sto = new Date(this.filterForm.value.toDate.toString());
-    console.log('Date Range From: ', moment(this.filterForm.value.fromDate, 'yyyy-MM-dd').toDate());
-    console.log('Date Range To: ', this.filterForm.value.toDate);
-    this.GetTicetRequestWIthElapsedTimetList({ From: this.filterForm.value.fromDate, To: this.filterForm.value.toDate, Search: this.filterForm.value.Search });
+    console.log('You Click Apply Button');
+    this.GetTicetRequestWIthElapsedTimetList({ From: this.formattedDate(this.filterForm.value.fromDate), To: this.formattedDate(this.filterForm.value.toDate), Search: this.filterForm.value.Search });
   }
   filterForm = new FormGroup({
     fromDate: new FormControl(),

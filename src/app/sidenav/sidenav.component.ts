@@ -515,5 +515,10 @@ export class SidenavComponent implements OnInit {
       width: '50%'
     })
   }
+  @HostListener('contextmenu', ['$event'])
+  onRightClick(event: MouseEvent): void {
+    event.preventDefault(); // Prevent the default context menu from appearing
+    //console.log('Right-click detected', event);
+  }
 
 }

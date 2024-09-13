@@ -1672,6 +1672,14 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
   prop: any = {};
   Object: any = window;
   input: any = {};
+  @HostListener('window:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (event.ctrlKey && event.key === 'p') {
+      // this.print();
+      // console.log('Ctrl + P is pressed');
+      event.preventDefault();
+    }
+  }
   @Output() itemReady = new EventEmitter();
   async ngOnInit(): Promise<void> {
     //this.screenWidth = window.innerWidth;

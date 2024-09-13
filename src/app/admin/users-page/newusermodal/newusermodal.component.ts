@@ -14,6 +14,7 @@ import { MatOptionSelectionChange } from '@angular/material/core';
 import { SubmitModalComponent } from '../../modalpage/submit-modal/submit-modal.component';
 import { AlertSuccessModalComponent } from '../../modalpage/alert-success-modal/alert-success-modal.component';
 import { NgxImageCompressService } from 'ngx-image-compress';
+import moment from 'moment';
 
 @Component({
   selector: 'app-newusermodal',
@@ -333,6 +334,9 @@ export class NewusermodalComponent implements OnInit {
       });
     })
   }
+  formattedDate(val:any): any{
+    if(val) return moment(val).format('MMMM DD, yyyy');
+  }
   public isValidateEntries(): boolean {
     if (!this.form.value.AccountType) {
       //alert('Please Select Department.');
@@ -412,6 +416,7 @@ export class NewusermodalComponent implements OnInit {
     this.form.value.Role = (!this.rolename ? this.form.value.Role : this.rolename);
     this.form.value.Position = (!this.positionname ? this.form.value.Position : this.positionname);
     this.form.value.Gendername = (!this.gendername ? this.form.value.Gendername : this.gendername);
+    this.form.value.Birthdate = this.formattedDate(this.form.value);
     console.log('isValidEntries this.form', this.form.value);
     return true
   }

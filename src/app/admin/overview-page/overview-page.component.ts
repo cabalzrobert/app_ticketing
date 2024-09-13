@@ -657,6 +657,24 @@ export class OverviewPageComponent implements OnInit {
     if (tmPing) tmPing.unsubscribe();
     if (ping) ping.unsubscribe();
   }
+  @HostListener('window:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (event.ctrlKey && event.key === 'p' || event.ctrlKey && event.key === 'a' || event.ctrlKey && event.key === 's' || event.ctrlKey && event.key === 'c') {
+      // this.print();
+      // console.log('Ctrl + P is pressed');
+      event.preventDefault();
+    }
+  }
+  // @HostListener('mouseenter', ['$event'])
+  // onMouseEnter(event: MouseEvent): void {
+  //   console.log('Mouse entered', event);
+  // }
+
+  @HostListener('contextmenu', ['$event'])
+  onRightClick(event: MouseEvent): void {
+    event.preventDefault(); // Prevent the default context menu from appearing
+    //console.log('Right-click detected', event);
+  }
 
 
 
