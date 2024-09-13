@@ -152,12 +152,14 @@ import { NewUserAccessProfileModalComponent } from './modalpage/new-user-access-
     NgOtpInputModule,
     ScrollingModule,
     MyTaskModule,
-    MatTooltipModule
+    MatTooltipModule,
+    
     //SidenavComponent
 
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports: [MatIconModule, MatSelectModule],
-  providers: [LocalStorageService]
+  providers: [LocalStorageService],
+  
 })
 export class AdminModule { }
