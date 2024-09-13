@@ -812,6 +812,7 @@ export class HeadTicketsComponent {
         }
         else {
           const dialogRef = this.dialog.open(ForwardDialog, {
+            width: '416px',
             panelClass: 'mat-dialog-not-progress',
             data: { TicketDetail: this.ticketDetail, IsRequiredOtherDepartment: result, Department: !result ? this.userDetail.DEPT_ID : null }
           })

@@ -1,10 +1,17 @@
 <mat-toolbar class="mat-dialog-header">
-    <h3>Forward Ticket</h3>
+    @if(this.data.IsRequiredOtherDepartment){
+        <h3>Forward Ticket</h3>
+    }
+    @else {
+        <h3>Assigned Ticket</h3>
+    }
     <!-- <mat-icon mat-dialog-close>close</mat-icon> -->
 </mat-toolbar>
 <mat-dialog-content>
     <div class="dialog-content">
-        <h3>Transfer this ticket to other department</h3>
+        @if(this.data.IsRequiredOtherDepartment){
+            <h3>Transfer this ticket to other department</h3>
+        }
         <div class="tp-category" *ngIf="this.data.IsRequiredOtherDepartment">
             <p class="custom-label"><span style="color:red">*</span> Department</p>
             <div class="custom-select">
