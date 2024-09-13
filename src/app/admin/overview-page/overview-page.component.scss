@@ -597,7 +597,7 @@
 }
 
 .scrolling-container {
-    display: block;
+    //display: block;
     height: 100%;
     // width: 100%;
     //overflow-y: scroll;
@@ -639,5 +639,22 @@
 
     to {
         text-shadow: 0px 0px 40px #fff, 0px 0px 40px #000;
+    }
+}
+
+
+@media print {
+    .cdk-virtual-scroll-viewport{
+        overflow: visible;
+        height: 1000px;
+    }
+    .cdk-virtual-scroll-viewport .scrolling-container {
+        overflow: visible;
+        height: auto;
+    }
+
+    .cdk-virtual-scroll-viewport .scrolling-container .cdk-virtual-scrollable {
+        overflow: visible;
+        height: auto;
     }
 }

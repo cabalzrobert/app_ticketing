@@ -77,12 +77,17 @@ export class ReportPageComponent implements OnInit {
   hApply() {
     //console.log('hApply', { From: this.range.value.start, To: this.range.value.end });
     //this.GetTicetRequestWIthElapsedTimetList({ From: this.range.value.start, To: this.range.value.end });
-    console.log('Date Range: ', this.filterForm.value);
-    this.GetTicetRequestWIthElapsedTimetList({ From: this.filterForm.value.fromDate, To: this.filterForm.value.toDate });
+    
+    let sfrom = new Date(this.filterForm.value.fromDate.toString());
+    let sto = new Date(this.filterForm.value.toDate.toString());
+    console.log('Date Range From: ', moment(this.filterForm.value.fromDate, 'yyyy-MM-dd').toDate());
+    console.log('Date Range To: ', this.filterForm.value.toDate);
+    this.GetTicetRequestWIthElapsedTimetList({ From: this.filterForm.value.fromDate, To: this.filterForm.value.toDate, Search: this.filterForm.value.Search });
   }
   filterForm = new FormGroup({
     fromDate: new FormControl(),
     toDate: new FormControl(),
+    Search:new FormControl()
   });
   fromDateMax: Date = new Date;
   toDateMin!: Date;
@@ -98,7 +103,7 @@ export class ReportPageComponent implements OnInit {
     sdate1 = this.filterForm.get('fromDate')?.value;
     //sdate1 = this.filterForm.value.fromDate;
     //sdate.setDate(sdate1.getDate());
-    console.log('You Click', this.filterForm.value);
+    console.log('You Click', this.filterForm.value.fromDate);
     this.toDateMin = sdate1;
     this.istodateDisable = false;
   }
@@ -233,7 +238,7 @@ export class ReportPageComponent implements OnInit {
     return this.reportlist;
   }
   GetTicetRequestWIthElapsedTimetList(item: any): Observable<any> {
-
+    
     rest.post('report/ticketrequestelapsedtime', item).subscribe(async (res: any) => {
       if (res.Status == 'ok') {
         this.ticketrequestreportlist = res.report;
@@ -354,6 +359,7 @@ export class ReportPageComponent implements OnInit {
     let printContents, popupWin, htmlcontent;
     printContents = document.getElementById('timeelapsedcontent')?.innerHTML;
     popupWin = window.open('Ticket Elapsed Time', '_blank', 'top=0,left=0,height=100%,width=auto');
+    console.log('printContents', printContents);
     htmlcontent = `
 				<html style="overflow:auto;">
 					<head style="overflow:auto;">

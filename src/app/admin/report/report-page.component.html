@@ -147,8 +147,13 @@
                         <mat-datepicker #toDate [disabled]="getisTodateDisable()"></mat-datepicker>
                     </mat-form-field>
                 </div>
+                <div class="date-block__list">
+                    <mat-form-field appearance="outline">
+                        <input matInput type="text" placeholder="Search" formControlName="Search">
+                    </mat-form-field>
+                </div>
                 <div class="primary">
-                    <span><i *ngIf="filterForm.value.fromDate != undefined" style="cursor: pointer;" class="fa fa-times" (click)="hClear()" [matTooltip]="'Clear'"></i><button style="cursor:pointer" mat-button  (click)="hApply()" [matTooltip]="'Apply'">Apply</button></span>
+                    <span><i *ngIf="filterForm.value.fromDate != undefined || filterForm.value.Search !=undefined" style="cursor: pointer;" class="fa fa-times" (click)="hClear()" [matTooltip]="'Clear'"></i><button style="cursor:pointer" mat-button  (click)="hApply()" [matTooltip]="'Apply'">Apply</button></span>
                     <!-- <button mat-button  (click)="hClear()" [matTooltip]="'Clear'"><i class="fa fa-times"></i></button>
                     <button mat-button  (click)="hApply()" [matTooltip]="'Apply'">Apply</button> -->
                 </div>

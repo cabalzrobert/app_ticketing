@@ -1374,6 +1374,28 @@ mat-card {
     }
 }
 
+@media print {
+    .cdk-virtual-scroll-viewport {
+        //display: block;
+        /* Ensure the viewport is displayed */
+        overflow: visible;
+        /* Make sure all content is visible */
+        height: 1000px;
+        /* Remove height restrictions */
+        width: 100%;
+        /* Ensure full width */
+    }
+
+    .cdk-virtual-scroll-viewport .cdk-virtual-scroll-content-wrapper {
+        display: block;
+    }
+
+    /* Hide unnecessary elements during printing */
+    .no-print {
+        display: none;
+    }
+}
+
 
 
 // --mat-tab-header-active-focus-label-text-color: #ff4081;

@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -82,6 +82,22 @@ export class CommunicatorTicketComponent {
   resolved: number = 0
   allticket: number = 0;
   loader = true;
+  @HostListener('window:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (event.ctrlKey && event.key === 'p') {
+      // this.print();
+      // console.log('Ctrl + P is pressed');
+      event.preventDefault();
+    }
+  }
+  @ViewChild(CdkVirtualScrollViewport) viewport?: CdkVirtualScrollViewport;
+  print(){
+    //this.viewport?.detach();
+    this.viewport?.checkViewportSize();
+    setTimeout(() => {
+      window.print();
+    }, 100);
+  }
 
 
   ngOnInit() {
@@ -625,6 +641,7 @@ export class CommunicatorTicketComponent {
   spinner = false;
 
   onForwardTicket() {
+    console.log('Forward Ticket by Robert');
     if (!this.ticketDetail.departmentId) return;
     const dialogRef = this.showMessageBox('progress', null, null, false, false);
     this.ticketDetail.status = 2;

@@ -438,7 +438,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="forward-resolve-container" *ngIf="!ticketDetail?.departmentId">
+                    <div class="forward-resolve-container" *ngIf="ticketDetail?.departmentId">
                         <div [class]="ticketDetail?.status===1?'footer-buttons disabled':'footer-buttons'">
                             <button class="btn-forward" mat-flat-button [disabled]="ticketDetail?.status===1">
                                 <mat-icon iconPositionEnd>east</mat-icon>

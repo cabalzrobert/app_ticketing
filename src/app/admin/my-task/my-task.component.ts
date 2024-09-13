@@ -390,7 +390,7 @@ export class MyTaskComponent {
 
   attachments: any = [];
   next(item: any) {
-    console.log(item);
+    console.log('Next',item);
     // if(item.isAssigned) return;
     this.router.navigate([item.ticketNo], { relativeTo: this.route });
     // this.router.navigateByUrl('/head/dashboard/tickets/sample');
