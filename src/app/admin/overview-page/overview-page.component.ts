@@ -670,11 +670,11 @@ export class OverviewPageComponent implements OnInit {
   //   console.log('Mouse entered', event);
   // }
 
-  @HostListener('contextmenu', ['$event'])
-  onRightClick(event: MouseEvent): void {
-    event.preventDefault(); // Prevent the default context menu from appearing
-    //console.log('Right-click detected', event);
-  }
+  // @HostListener('contextmenu', ['$event'])
+  // onRightClick(event: MouseEvent): void {
+  //   event.preventDefault(); // Prevent the default context menu from appearing
+  //   //console.log('Right-click detected', event);
+  // }
 
 
 
