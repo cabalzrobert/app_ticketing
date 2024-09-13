@@ -37,33 +37,30 @@
         padding: 12px 24px;
         font-weight: bold;
         color: #333;
+        button{
+            border: none;
+            background: none;
+        }
+        button:hover{
+            font-size:18px;
+        }
     }
 
     .modalbody {
-        padding: 12px 24px;
-        height: 90%;
+        // padding: 12px 24px;
+        // height: 90%;
+        height: 96%;
         width: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 10px;
 
-        .arrowleft {
-            width: 5%;
-            cursor: pointer;
-
-            button {
-                width: 100%;
-                font-size: 60px;
-                border: none;
-                background: none;
-                cursor: pointer;
-            }
-        }
+        
 
         .attachimage {
-            width: 90%;
-            height: 95%;
+            width: 100%;
+            height: 100%;
         }
 
         img {
@@ -71,17 +68,60 @@
             width: 100%;
         }
 
-        .arrowright {
-            width: 5%;
-            cursor: pointer;
-
-            button {
-                width: 100%;
-                font-size: 60px;
-                border: none;
-                background: none;
-                cursor: pointer;
-            }
-        }
+        
     }
+}
+.arrowleft {
+    width: 2%;
+    height: 2%;
+    cursor: pointer;
+    position: absolute;
+    left: 0;
+    margin-left: 20px;
+
+    button {
+        width: 100%;
+        font-size: 30px;
+        border: none;
+        background: none;
+        cursor: pointer;
+    }
+    // button:hover{
+    //     font-size: 35px;
+    //     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    // }
+}
+.arrowleft:hover{
+    //border-radius: 50%;
+    width: 4%;
+    background: none;
+    border: none;
+    // box-shadow: 0 8px 16px 0 rgba(243, 243, 243, 0.2), 0 6px 20px 0 rgba(243, 243, 243, 0.19);
+}
+.arrowright {
+    width: 2%;
+    height: 2%;
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    margin-right: 20px;
+
+    button {
+        width: 100%;
+        font-size: 30px;
+        border: none;
+        background: none;
+        cursor: pointer;
+    }
+    // button:hover{
+    //     font-size: 35px;
+    //     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    // }
+}
+.arrowright:hover{
+    //border-radius: 50%;
+    width: 4%;
+    background: none;
+    border: none;
+    // box-shadow: 0 8px 16px 0 rgba(243, 243, 243, 0.2), 0 6px 20px 0 rgba(243, 243, 243, 0.19);
 }

@@ -34,6 +34,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatButton } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { NewUserAccessProfileModalComponent } from './new-user-access-profile-modal/new-user-access-profile-modal.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   declarations: [
     AppComponent,
@@ -65,7 +66,8 @@ import { NewUserAccessProfileModalComponent } from './new-user-access-profile-mo
     MatInputModule,
     NgOtpInputModule,
     MatToolbarModule,
-    ScrollingModule
+    ScrollingModule,
+    NgbModule
   ],
   providers: [
     provideClientHydration(),
