@@ -387,11 +387,24 @@ export class MyTaskComponent {
       alert('System Error!');
     });
   }
-
+  _hour: number = 0;
+  _minute: number = 0;
+  _second: number = 0;
+  _elapsedtime: string = '';
+  interval: any;
   attachments: any = [];
   next(item: any) {
     console.log('Next',item);
     // if(item.isAssigned) return;
+    let elapsedtime: any = (item.elapsedTime).split(" ", 3);
+    let _h: string = (elapsedtime[0]).replace('h', '');
+    let _m: string = (elapsedtime[1]).replace('m', '');
+    let _s: string = elapsedtime[2];
+
+    this._hour = parseInt(_h);
+    this._minute = parseInt(_m);
+    this._second = parseInt(_s);
+    
     this.router.navigate([item.ticketNo], { relativeTo: this.route });
     // this.router.navigateByUrl('/head/dashboard/tickets/sample');
     this.ticketTitle = item.title;
@@ -402,10 +415,55 @@ export class MyTaskComponent {
     //console.log('My Task',this.ticketDetail);
     this.stepper.next();
     this.getCommentList(this.ticketDetail.transactionNo);
+    if (item.ticketStatus != 'Closed' && item.ticketStatus != 'Cancel')
+      this.getLElapsedTime1();
+    else
+      clearInterval(this.interval);
     if (!item.isAssigned)
       setTimeout(() => this.getDepartmentPersonnels());
     
     
+  }
+
+  elapsedTimeStart1() {
+    timer(1000, 1000)
+      .pipe(takeUntil(timerDone))
+      .subscribe({
+        next: () => {
+          this.getLElapsedTime1();
+        },
+        complete: () => {
+          this.getLElapsedTime1();
+        },
+      });
+  }
+
+  getLElapsedTime1() {
+    const dateCreated = new Date(this.ticketDetail.dateCreated);
+    const today = new Date();
+    const hours = this._hour;
+    const minutes = this._minute;
+    const seconds = this._second;
+    let elapsedTime = '';
+    console.log('My Task Elapsed Time', this.ticketDetail.elapsedTime);
+    this.interval = setInterval(() => this.startTime(), 1000);
+  }
+  startTime() {
+    this._second = this._second + 1;
+    if (this._second == 60) {
+      this._minute = this._minute + 1;
+      this._second = 0;
+    }
+    if (this._minute == 60) {
+      this._hour = this._hour + 1;
+      this._minute = 0;
+      this._second = 0;
+    }
+    let _h:string = ((this._hour).toString().length == 1) ? `0${this._hour}` : (this._hour).toString();
+    let _m:string = ((this._minute).toString().length == 1) ? `0${this._minute}` : (this._minute).toString();
+    let _s:string = ((this._second).toString().length == 1) ? `0${this._second}` : (this._second).toString();
+    this._elapsedtime = `${_h}h ${_m}m ${_s}s`;
+    this.ticketDetail.elapsedTime = this._elapsedtime;
   }
 
 
