@@ -1104,7 +1104,7 @@ export class HeadTicketsComponent {
     return this.dialog.open(MessageBoxDialog, {
       panelClass: type === 'progress' || type === 'message' ? 'mat-dialog-progress' : 'mat-dialog-not-progress',
       disableClose: true,
-      width: type === 'progress' ? 'auto' : type === 'message' ? '17%' : '15%',
+      width: type === 'progress' ? 'auto' : type === 'message' ? '320px' : '290px',
       data: { Type: type, Message: message, TicketDetail: ticketDetail, IsCancel: isCancel, IsForward: isForward, IsSuccess: true }
     });
   }
@@ -1493,7 +1493,7 @@ export class MessageBoxDialog {
     return this.dialog.open(MessageBoxDialog, {
       panelClass: type === 'progress' || type === 'message' ? 'mat-dialog-progress' : 'mat-dialog-not-progress',
       disableClose: true,
-      width: type !== 'progress' ? '17%' : 'auto',
+      width: type !== 'progress' ? '320px' : 'auto',
       data: { Type: type, Message: message, TicketDetail: ticketDetail, IsSuccess: true }
     });
   }
@@ -1685,7 +1685,7 @@ export class ForwardDialog {
     return this.dialog.open(MessageBoxDialog, {
       panelClass: type === 'progress' || type === 'message' ? 'mat-dialog-progress' : 'mat-dialog-not-progress',
       disableClose: true,
-      width: type !== 'progress' ? '17%' : 'auto',
+      width: type !== 'progress' ? '320px' : 'auto',
       data: { Type: type, Message: message, IsSuccess: isSuccess }
     });
   }
@@ -1720,7 +1720,7 @@ export class CancelDialog {
     return this.dialog.open(MessageBoxDialog, {
       panelClass: type === 'progress' || type === 'message' ? 'mat-dialog-progress' : 'mat-dialog-not-progress',
       disableClose: true,
-      width: type !== 'progress' ? '15%' : 'auto',
+      width: type !== 'progress' ? '290px' : 'auto',
       data: { Type: type, Message: message, TicketDetail: ticketDetail, IsCancel: isCancel, IsForward: isForward }
     });
   }
