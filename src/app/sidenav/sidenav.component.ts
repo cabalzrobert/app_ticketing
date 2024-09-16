@@ -234,7 +234,7 @@ export class SidenavComponent implements OnInit {
   navData: any = [];
 
   toggleCollapse(): void {
-    //console.log('Collapsed', this.collapsed)
+    console.log('Collapsed Sidenav', this.collapsed)
     if (!this.collapsed)
       this.collapsed = !this.collapsed;
     else
@@ -291,7 +291,7 @@ export class SidenavComponent implements OnInit {
     rest.post('useraccess/getuseraccess').subscribe(async (res: any) => {
       if (res.Status == 'ok') {
         this.navData = JSON.parse(res.useraccess[0].MenuTab);
-        //console.log('getUserAccessProfile NavData', JSON.parse(res.useraccess[0].MenuTab));
+        console.log('getUserAccessProfile NavData', JSON.parse(res.useraccess[0].MenuTab));
         return this.navData;
       }
     });

@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" style="--width: {{sWidth}}, --height: {{sHeight}}">
     <div class="userprofile">
         <div class="header">
             <div [ngClass]="screenWidth>768 ? 'menu' : 'menu1'">
@@ -98,36 +98,39 @@
         </div>
     </div>
     <div class="notification" *ngIf="input.ACT_TYP>2">
-        <div class="notificationheader">
-            <div class="notificationlabel">
-                <mat-icon color="fa-light">settings</mat-icon>
-                <label for="">Notificatons</label>
-            </div>
-
-            <div class="notificationall">
-                <div class="notificationunread" *ngIf="input.RequestNotificationCount > 0">
-                    <label for="">Your have {{input.RequestNotificationCount}} unread notification(s)</label>
+        <div class="notheader">
+            <div class="notificationheader">
+                <div class="notificationlabel">
+                    <mat-icon color="fa-light">settings</mat-icon>
+                    <label for="">Notificatons</label>
                 </div>
-                <div class="notificationunread" *ngIf="input.RequestNotificationCount == 0">
-                    <label for=""> </label>
+    
+                <div class="notificationall">
+                    <div class="notificationunread" *ngIf="input.RequestNotificationCount > 0">
+                        <label for="">Your have {{input.RequestNotificationCount}} unread notification(s)</label>
+                    </div>
+                    <div class="notificationunread" *ngIf="input.RequestNotificationCount == 0">
+                        <label for=""> </label>
+                    </div>
+                    <div class="menu-nav-bar">
+                        <ul class="menu-nav">
+                            <!-- <li class="menu-nav-item " [ngClass]="isall ? 'isActive' : 'isNotActive'" (click)="logNotify()">Add
+                            </li> -->
+                            <li class="menu-nav-item " [ngClass]="isall ? 'isActive' : 'isNotActive'" (click)="hAll()">All
+                            </li>
+                            <li class="menu-nav-item " [ngClass]="isread ? 'isActive' : 'isNotActive'" (click)="hRead()">
+                                Read</li>
+                            <li class="menu-nav-item " [ngClass]="isunread ? 'isActive' : 'isNotActive'"
+                                (click)="hUnread()">Unread</li>
+                            <li class="menu-nav-item markallasread" [ngClass]="ismarkallasread ? 'isActive' : 'isNotActive'"
+                                (click)="hMarkAllAsRead()">Mark all as read</li>
+                        </ul>
+                    </div>
+    
                 </div>
-                <div class="menu-nav-bar">
-                    <ul class="menu-nav">
-                        <!-- <li class="menu-nav-item " [ngClass]="isall ? 'isActive' : 'isNotActive'" (click)="logNotify()">Add
-                        </li> -->
-                        <li class="menu-nav-item " [ngClass]="isall ? 'isActive' : 'isNotActive'" (click)="hAll()">All
-                        </li>
-                        <li class="menu-nav-item " [ngClass]="isread ? 'isActive' : 'isNotActive'" (click)="hRead()">
-                            Read</li>
-                        <li class="menu-nav-item " [ngClass]="isunread ? 'isActive' : 'isNotActive'"
-                            (click)="hUnread()">Unread</li>
-                        <li class="menu-nav-item markallasread" [ngClass]="ismarkallasread ? 'isActive' : 'isNotActive'"
-                            (click)="hMarkAllAsRead()">Mark all as read</li>
-                    </ul>
-                </div>
-
             </div>
         </div>
+        
         <div class="notificationdata">
             <cdk-virtual-scroll-viewport class="scrolling-container" (scrolledIndexChange)="hScrollIndexChange()" [itemSize]="50">
                 <div class="details" *cdkVirtualFor="let data of ticketnotification; let i = index" matRipple>

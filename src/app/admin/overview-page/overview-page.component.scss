@@ -3,454 +3,7 @@
     scroll-behavior: auto;
 }
 
-.container {
-    height: 99%;
-    padding: 30px;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    gap: 20px;
-    min-width: 768px;
 
-    .userprofile {
-        min-height: 140px;
-
-        .header {
-            height: 84px;
-            width: 100%;
-            background: #6880F640;
-            display: flex;
-            justify-content: space-between;
-            border-top-left-radius: 5px;
-            border-top-right-radius: 5px;
-
-            .menu {
-                margin-left: 22px;
-                margin-top: 54px;
-                display: flex;
-                align-items: center;
-                gap: 20px;
-
-                .welcomeback {
-                    color: #4845D2;
-                    font-size: 16px;
-                    font-weight: 400;
-                    line-height: 20px;
-                }
-
-                .menuprofile {
-                    font-size: 14px;
-                    font-weight: 600;
-                    line-height: 17px;
-                }
-
-                .usertype {
-                    font-size: 10px;
-                    font-weight: 400;
-                    line-height: 12px;
-                }
-            }
-
-            .menu1 {
-                margin-left: 22px;
-                margin-top: 54px;
-                display: flex;
-                //align-items: center;
-                gap: 20px;
-                flex-direction: column;
-
-                .welcomeback {
-                    color: #4845D2;
-                    font-size: 16px;
-                    font-weight: 400;
-                    line-height: 20px;
-                }
-
-                .menuprofile {
-                    font-size: 14px;
-                    font-weight: 600;
-                    line-height: 17px;
-                }
-
-                .usertype {
-                    font-size: 10px;
-                    font-weight: 400;
-                    line-height: 12px;
-                }
-            }
-
-            .profilebutton {
-                margin-top: 38px;
-                margin-right: 22px;
-                //background: #4845D2;
-                border: solid 1px #4845D2;
-                border-radius: 6px;
-                width: 127px;
-                height: 32px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                cursor: pointer;
-
-                button {
-                    border: none;
-                    background: none;
-                    cursor: pointer;
-                }
-            }
-
-            .profpic {
-                position: absolute;
-                width: 85%;
-                height: 140px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-
-                img {
-                    border-radius: 50%;
-                    //border: solid 3px white;
-                    height: 99px;
-                    width: 99px;
-                    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-                    background: radial-gradient(circle at 100px 100px, #5cabff, #000);
-                }
-            }
-        }
-    }
-
-    .ticketdata {
-        height: 173px;
-        width: 100%;
-        display: flex;
-        //justify-content: space-between;
-        gap: 14px;
-
-        .totaltickets {
-            width: 33%;
-            border-radius: 5px;
-            border: 0.5px solid var(--text-brand, #6880F6);
-            padding: 18px 8px 18px 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 9px 8px 9px 8px;
-
-            //flex-direction: column;
-            .ticketcounts {
-                width: 80%;
-                height: 80%;
-                display: flex;
-                flex-direction: column;
-                gap: 8px;
-
-                .counts {
-                    color: #0F0F0F;
-                    font-size: 24px;
-                    font-weight: 600;
-                    line-height: 30px;
-                }
-
-                label {
-                    font-size: 14px;
-                    font-weight: 500;
-                    line-height: 21px;
-                    color: #4845D2;
-                }
-            }
-        }
-
-        .assignedtickets {
-            width: 34%;
-            border-radius: 5px;
-            border: 0.5px solid var(--text-brand, #6880F6);
-            padding: 18px 8px 18px 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 18px 8px 18px 8px;
-
-            .assignedticketdetails {
-                width: 70%;
-                height: 80%;
-                display: flex;
-                flex-direction: column;
-                gap: 8px;
-
-                .assignedtotyou {
-                    display: flex;
-                    gap: 5px;
-
-                    .counts {
-                        color: #403D39;
-                        font-size: 14px;
-                        font-weight: 700;
-                        line-height: 21px;
-                    }
-
-                    label {
-                        font-size: 14px;
-                        font-weight: 500;
-                        line-height: 21px;
-                        color: #4845D2;
-                    }
-                }
-            }
-
-            .assignedticketicon {
-                display: flex;
-                width: 30%;
-                height: 100%;
-                flex-direction: column;
-                justify-content: space-between;
-                gap: 10px;
-
-                .assignedicon {
-                    display: flex;
-                    justify-content: end;
-                }
-
-                button {
-                    border: solid 1px #6880F6;
-                    border-radius: 5px;
-                    background: none;
-                    padding: 8px 8px 8px 8px;
-                    font-size: 14px;
-                    font-weight: 600;
-                    line-height: 20px;
-                    color: #4845D2;
-                    cursor: pointer;
-                }
-
-                button:hover {
-                    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-                }
-            }
-        }
-
-        .submittedtickets {
-            width: 34%;
-            border-radius: 5px;
-            border: 0.5px solid var(--text-brand, #6880F6);
-            padding: 18px 8px 18px 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 18px 8px 18px 8px;
-
-            .assignedticketdetails {
-                width: 70%;
-                height: 80%;
-                display: flex;
-                flex-direction: column;
-                gap: 8px;
-
-                .assignedtotyou {
-                    display: flex;
-                    gap: 5px;
-
-                    .counts {
-                        color: #403D39;
-                        font-size: 14px;
-                        font-weight: 700;
-                        line-height: 21px;
-                    }
-
-                    label {
-                        font-size: 14px;
-                        font-weight: 500;
-                        line-height: 21px;
-                        color: #4845D2;
-                    }
-                }
-            }
-
-            .assignedticketicon {
-                display: flex;
-                width: 30%;
-                height: 100%;
-                flex-direction: column;
-                justify-content: space-between;
-
-                .assignedicon {
-                    display: flex;
-                    justify-content: end;
-                }
-
-                button {
-                    border: solid 1px #6880F6;
-                    border-radius: 5px;
-                    background: none;
-                    padding: 8px 8px 8px 8px;
-                    font-size: 14px;
-                    font-weight: 600;
-                    line-height: 20px;
-                    color: #4845D2;
-                    cursor: pointer;
-                }
-
-                button:hover {
-                    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-                }
-            }
-        }
-    }
-
-    .notification {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        gap: 10px;
-        height: calc(100% - (140px + 173px));
-
-        .notificationheader {
-            display: flex;
-            justify-content: space-between;
-            height: 24px;
-
-            .notificationlabel {
-                display: flex;
-                align-items: center;
-                gap: 5px;
-                color: #4845D2;
-            }
-
-            .notificationall {
-
-                width: 85%;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-
-                .notificationunread {
-                    font-size: 16px;
-                    font-weight: 600;
-                    line-height: 20px;
-                }
-            }
-        }
-
-        .notificationdata {
-            //display: flex;
-            width: 100%;
-            height: calc(100% - 24px);
-            overflow: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-
-
-
-            .details {
-                width: 100%;
-                display: flex;
-                gap: 20px;
-                cursor: pointer;
-
-                .isRead {
-                    width: 100%;
-                    display: flex;
-                    gap: 10px;
-                }
-
-                .isUnread {
-                    width: 100%;
-                    display: flex;
-                    background: #e3e0e0;
-                    gap: 10px;
-                }
-
-                .isUnread:hover {
-                    background: #14A44D1A;
-                    cursor: pointer;
-                    gap: 10px;
-                }
-
-                .icon {
-                    border: solid 1px #14A44D40;
-                    width: 100px;
-                    //height: 64px;
-                    color: black;
-                    border-radius: 3px;
-                    background: none;
-                    height: auto;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                }
-
-                .notification {
-                    //width: calc(100% - (100px + 100px + 200px));
-                    width: 100%;
-                    display: flex;
-                    gap: 10px;
-                    //height: 64px;
-
-                    .title {
-                        font-size: 16px;
-                        font-weight: 600;
-                        line-height: 20px;
-                    }
-
-                    .description {
-                        font-size: 16px;
-                        font-weight: 300;
-                        line-height: 20px;
-                    }
-                }
-
-                .notdate {
-                    width: 100px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: start;
-                }
-
-                .status {
-                    width: 200px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: end;
-                    padding: 0px 20px;
-                    gap: 10px;
-
-                    button {
-                        background: none;
-                        border: none;
-                        font-size: 14px;
-                        font-weight: 300;
-                        line-height: 17px;
-                        color: #403D39;
-                        cursor: pointer;
-                    }
-                }
-            }
-
-            .details:hover {
-                background: #14A44D1A;
-                cursor: pointer;
-
-                .icon {
-                    background: #14A44D;
-                }
-            }
-
-            .iconnotification {
-                display: flex;
-                width: 70%;
-                gap: 20px
-            }
-
-            .notdatestatus {
-                display: flex;
-                width: 30%;
-                justify-content: end;
-            }
-
-
-        }
-    }
-}
 
 .menu-nav-bar {
     //background: #e5e4e5;
@@ -644,10 +197,11 @@
 
 
 @media print {
-    .cdk-virtual-scroll-viewport{
+    .cdk-virtual-scroll-viewport {
         overflow: visible;
         height: 1000px;
     }
+
     .cdk-virtual-scroll-viewport .scrolling-container {
         overflow: visible;
         height: auto;
@@ -656,5 +210,919 @@
     .cdk-virtual-scroll-viewport .scrolling-container .cdk-virtual-scrollable {
         overflow: visible;
         height: auto;
+    }
+}
+
+@media screen and (max-width:677px) {
+    .container {
+        height: 99%;
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 20px;
+        max-width: 560px;
+        //min-width: var(--width);
+
+        .userprofile {
+            min-height: 140px;
+
+            .header {
+                height: 84px;
+                width: 100%;
+                background: #6880F640;
+                display: flex;
+                justify-content: space-between;
+                border-top-left-radius: 5px;
+                border-top-right-radius: 5px;
+                max-width: 677px;
+
+                .menu {
+                    margin-left: 22px;
+                    margin-top: 54px;
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+
+                    .welcomeback {
+                        color: #4845D2;
+                        font-size: 16px;
+                        font-weight: 400;
+                        line-height: 20px;
+                    }
+
+                    .menuprofile {
+                        font-size: 14px;
+                        font-weight: 600;
+                        line-height: 17px;
+                    }
+
+                    .usertype {
+                        font-size: 10px;
+                        font-weight: 400;
+                        line-height: 12px;
+                    }
+                }
+
+                .menu1 {
+                    margin-left: 22px;
+                    margin-top: 54px;
+                    display: flex;
+                    //align-items: center;
+                    gap: 20px;
+                    flex-direction: column;
+
+                    .welcomeback {
+                        color: #4845D2;
+                        font-size: 16px;
+                        font-weight: 400;
+                        line-height: 20px;
+                    }
+
+                    .menuprofile {
+                        font-size: 14px;
+                        font-weight: 600;
+                        line-height: 17px;
+                    }
+
+                    .usertype {
+                        font-size: 10px;
+                        font-weight: 400;
+                        line-height: 12px;
+                    }
+                }
+
+                .profilebutton {
+                    margin-top: 38px;
+                    margin-right: 22px;
+                    //background: #4845D2;
+                    border: solid 1px #4845D2;
+                    border-radius: 6px;
+                    width: 127px;
+                    height: 32px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+
+                    button {
+                        border: none;
+                        background: none;
+                        cursor: pointer;
+                    }
+                }
+
+                .profpic {
+                    position: absolute;
+                    width: 85%;
+                    height: 140px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    img {
+                        border-radius: 50%;
+                        //border: solid 3px white;
+                        height: 99px;
+                        width: 99px;
+                        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                        background: radial-gradient(circle at 100px 100px, #5cabff, #000);
+                    }
+                }
+            }
+        }
+
+        .ticketdata {
+            height: 173px;
+            width: 100%;
+            display: flex;
+            //justify-content: space-between;
+            gap: 14px;
+            max-width: 677px;
+
+            .totaltickets {
+                width: 33%;
+                border-radius: 5px;
+                border: 0.5px solid var(--text-brand, #6880F6);
+                padding: 18px 8px 18px 8px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 9px 8px 9px 8px;
+
+                //flex-direction: column;
+                .ticketcounts {
+                    width: 80%;
+                    height: 80%;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 8px;
+
+                    .counts {
+                        color: #0F0F0F;
+                        font-size: 24px;
+                        font-weight: 600;
+                        line-height: 30px;
+                    }
+
+                    label {
+                        font-size: 14px;
+                        font-weight: 500;
+                        line-height: 21px;
+                        color: #4845D2;
+                    }
+                }
+            }
+
+            .assignedtickets {
+                width: 34%;
+                border-radius: 5px;
+                border: 0.5px solid var(--text-brand, #6880F6);
+                padding: 18px 8px 18px 8px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 18px 8px 18px 8px;
+
+                .assignedticketdetails {
+                    width: 70%;
+                    height: 80%;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 8px;
+
+                    .assignedtotyou {
+                        display: flex;
+                        gap: 5px;
+
+                        .counts {
+                            color: #403D39;
+                            font-size: 14px;
+                            font-weight: 700;
+                            line-height: 21px;
+                        }
+
+                        label {
+                            font-size: 14px;
+                            font-weight: 500;
+                            line-height: 21px;
+                            color: #4845D2;
+                        }
+                    }
+                }
+
+                .assignedticketicon {
+                    display: flex;
+                    width: 30%;
+                    height: 100%;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    gap: 10px;
+
+                    .assignedicon {
+                        display: flex;
+                        justify-content: end;
+                    }
+
+                    button {
+                        border: solid 1px #6880F6;
+                        border-radius: 5px;
+                        background: none;
+                        padding: 8px 8px 8px 8px;
+                        font-size: 14px;
+                        font-weight: 600;
+                        line-height: 20px;
+                        color: #4845D2;
+                        cursor: pointer;
+                    }
+
+                    button:hover {
+                        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                    }
+                }
+            }
+
+            .submittedtickets {
+                width: 34%;
+                border-radius: 5px;
+                border: 0.5px solid var(--text-brand, #6880F6);
+                padding: 18px 8px 18px 8px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 18px 8px 18px 8px;
+
+                .assignedticketdetails {
+                    width: 70%;
+                    height: 80%;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 8px;
+
+                    .assignedtotyou {
+                        display: flex;
+                        gap: 5px;
+
+                        .counts {
+                            color: #403D39;
+                            font-size: 14px;
+                            font-weight: 700;
+                            line-height: 21px;
+                        }
+
+                        label {
+                            font-size: 14px;
+                            font-weight: 500;
+                            line-height: 21px;
+                            color: #4845D2;
+                        }
+                    }
+                }
+
+                .assignedticketicon {
+                    display: flex;
+                    width: 30%;
+                    height: 100%;
+                    flex-direction: column;
+                    justify-content: space-between;
+
+                    .assignedicon {
+                        display: flex;
+                        justify-content: end;
+                    }
+
+                    button {
+                        border: solid 1px #6880F6;
+                        border-radius: 5px;
+                        background: none;
+                        padding: 8px 8px 8px 8px;
+                        font-size: 14px;
+                        font-weight: 600;
+                        line-height: 20px;
+                        color: #4845D2;
+                        cursor: pointer;
+                    }
+
+                    button:hover {
+                        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                    }
+                }
+            }
+        }
+
+        .notification {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            gap: 10px;
+            height: calc(100% - (140px + 173px));
+            max-width: 677px;
+
+            .notheader{
+                max-width: 677px;
+                .notificationheader {
+                    display: flex;
+                    justify-content: space-between;
+                    //height: 24px;
+    
+                    .notificationlabel {
+                        display: flex;
+                        align-items: center;
+                        gap: 5px;
+                        color: #4845D2;
+                    }
+    
+                    .notificationall {
+    
+                        width: 85%;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+    
+                        .notificationunread {
+                            font-size: 16px;
+                            font-weight: 600;
+                            line-height: 20px;
+                        }
+                    }
+                }
+            }
+            
+
+            .notificationdata {
+                //display: flex;
+                width: 100%;
+                height: calc(100% - 24px);
+                overflow: auto;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+
+
+
+                .details {
+                    width: 100%;
+                    display: flex;
+                    gap: 20px;
+                    cursor: pointer;
+
+                    .isRead {
+                        width: 100%;
+                        display: flex;
+                        gap: 10px;
+                        max-width: 677px;
+                    }
+
+                    .isUnread {
+                        width: 100%;
+                        display: flex;
+                        background: #e3e0e0;
+                        gap: 10px;
+                        max-width: 677px;
+                    }
+
+                    .isUnread:hover {
+                        background: #14A44D1A;
+                        cursor: pointer;
+                        gap: 10px;
+                    }
+
+                    .icon {
+                        border: solid 1px #14A44D40;
+                        width: 100px;
+                        //height: 64px;
+                        color: black;
+                        border-radius: 3px;
+                        background: none;
+                        height: auto;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+
+                    .notification {
+                        //width: calc(100% - (100px + 100px + 200px));
+                        width: 100%;
+                        display: flex;
+                        gap: 10px;
+                        //height: 64px;
+                        max-width: 677px;
+
+                        .title {
+                            font-size: 16px;
+                            font-weight: 600;
+                            line-height: 20px;
+                        }
+
+                        .description {
+                            font-size: 16px;
+                            font-weight: 300;
+                            line-height: 20px;
+                        }
+                    }
+
+                    .notdate {
+                        width: 100px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: start;
+                    }
+
+                    .status {
+                        width: 200px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: end;
+                        padding: 0px 20px;
+                        gap: 10px;
+
+                        button {
+                            background: none;
+                            border: none;
+                            font-size: 14px;
+                            font-weight: 300;
+                            line-height: 17px;
+                            color: #403D39;
+                            cursor: pointer;
+                        }
+                    }
+                }
+
+                .details:hover {
+                    background: #14A44D1A;
+                    cursor: pointer;
+
+                    .icon {
+                        background: #14A44D;
+                    }
+                }
+
+                .iconnotification {
+                    display: flex;
+                    width: 70%;
+                    gap: 20px
+                }
+
+                .notdatestatus {
+                    display: flex;
+                    width: 30%;
+                    justify-content: end;
+                }
+
+
+            }
+        }
+    }
+}
+
+@media screen and (min-width:678px) {
+    .container {
+        height: 99%;
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 20px;
+        //min-width: 768px;
+        //min-width: var(--width);
+
+        .userprofile {
+            min-height: 140px;
+
+            .header {
+                height: 84px;
+                width: 100%;
+                background: #6880F640;
+                display: flex;
+                justify-content: space-between;
+                border-top-left-radius: 5px;
+                border-top-right-radius: 5px;
+
+                .menu {
+                    margin-left: 22px;
+                    margin-top: 54px;
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+
+                    .welcomeback {
+                        color: #4845D2;
+                        font-size: 16px;
+                        font-weight: 400;
+                        line-height: 20px;
+                    }
+
+                    .menuprofile {
+                        font-size: 14px;
+                        font-weight: 600;
+                        line-height: 17px;
+                    }
+
+                    .usertype {
+                        font-size: 10px;
+                        font-weight: 400;
+                        line-height: 12px;
+                    }
+                }
+
+                .menu1 {
+                    margin-left: 22px;
+                    margin-top: 54px;
+                    display: flex;
+                    //align-items: center;
+                    gap: 20px;
+                    flex-direction: column;
+
+                    .welcomeback {
+                        color: #4845D2;
+                        font-size: 16px;
+                        font-weight: 400;
+                        line-height: 20px;
+                    }
+
+                    .menuprofile {
+                        font-size: 14px;
+                        font-weight: 600;
+                        line-height: 17px;
+                    }
+
+                    .usertype {
+                        font-size: 10px;
+                        font-weight: 400;
+                        line-height: 12px;
+                    }
+                }
+
+                .profilebutton {
+                    margin-top: 38px;
+                    margin-right: 22px;
+                    //background: #4845D2;
+                    border: solid 1px #4845D2;
+                    border-radius: 6px;
+                    width: 127px;
+                    height: 32px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+
+                    button {
+                        border: none;
+                        background: none;
+                        cursor: pointer;
+                    }
+                }
+
+                .profpic {
+                    position: absolute;
+                    width: 85%;
+                    height: 140px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    img {
+                        border-radius: 50%;
+                        //border: solid 3px white;
+                        height: 99px;
+                        width: 99px;
+                        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                        background: radial-gradient(circle at 100px 100px, #5cabff, #000);
+                    }
+                }
+            }
+        }
+
+        .ticketdata {
+            height: 173px;
+            width: 100%;
+            display: flex;
+            //justify-content: space-between;
+            gap: 14px;
+
+            .totaltickets {
+                width: 33%;
+                border-radius: 5px;
+                border: 0.5px solid var(--text-brand, #6880F6);
+                padding: 18px 8px 18px 8px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 9px 8px 9px 8px;
+
+                //flex-direction: column;
+                .ticketcounts {
+                    width: 80%;
+                    height: 80%;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 8px;
+
+                    .counts {
+                        color: #0F0F0F;
+                        font-size: 24px;
+                        font-weight: 600;
+                        line-height: 30px;
+                    }
+
+                    label {
+                        font-size: 14px;
+                        font-weight: 500;
+                        line-height: 21px;
+                        color: #4845D2;
+                    }
+                }
+            }
+
+            .assignedtickets {
+                width: 34%;
+                border-radius: 5px;
+                border: 0.5px solid var(--text-brand, #6880F6);
+                padding: 18px 8px 18px 8px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 18px 8px 18px 8px;
+
+                .assignedticketdetails {
+                    width: 70%;
+                    height: 80%;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 8px;
+
+                    .assignedtotyou {
+                        display: flex;
+                        gap: 5px;
+
+                        .counts {
+                            color: #403D39;
+                            font-size: 14px;
+                            font-weight: 700;
+                            line-height: 21px;
+                        }
+
+                        label {
+                            font-size: 14px;
+                            font-weight: 500;
+                            line-height: 21px;
+                            color: #4845D2;
+                        }
+                    }
+                }
+
+                .assignedticketicon {
+                    display: flex;
+                    width: 30%;
+                    height: 100%;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    gap: 10px;
+
+                    .assignedicon {
+                        display: flex;
+                        justify-content: end;
+                    }
+
+                    button {
+                        border: solid 1px #6880F6;
+                        border-radius: 5px;
+                        background: none;
+                        padding: 8px 8px 8px 8px;
+                        font-size: 14px;
+                        font-weight: 600;
+                        line-height: 20px;
+                        color: #4845D2;
+                        cursor: pointer;
+                    }
+
+                    button:hover {
+                        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                    }
+                }
+            }
+
+            .submittedtickets {
+                width: 34%;
+                border-radius: 5px;
+                border: 0.5px solid var(--text-brand, #6880F6);
+                padding: 18px 8px 18px 8px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 18px 8px 18px 8px;
+
+                .assignedticketdetails {
+                    width: 70%;
+                    height: 80%;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 8px;
+
+                    .assignedtotyou {
+                        display: flex;
+                        gap: 5px;
+
+                        .counts {
+                            color: #403D39;
+                            font-size: 14px;
+                            font-weight: 700;
+                            line-height: 21px;
+                        }
+
+                        label {
+                            font-size: 14px;
+                            font-weight: 500;
+                            line-height: 21px;
+                            color: #4845D2;
+                        }
+                    }
+                }
+
+                .assignedticketicon {
+                    display: flex;
+                    width: 30%;
+                    height: 100%;
+                    flex-direction: column;
+                    justify-content: space-between;
+
+                    .assignedicon {
+                        display: flex;
+                        justify-content: end;
+                    }
+
+                    button {
+                        border: solid 1px #6880F6;
+                        border-radius: 5px;
+                        background: none;
+                        padding: 8px 8px 8px 8px;
+                        font-size: 14px;
+                        font-weight: 600;
+                        line-height: 20px;
+                        color: #4845D2;
+                        cursor: pointer;
+                    }
+
+                    button:hover {
+                        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                    }
+                }
+            }
+        }
+
+        .notification {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            gap: 10px;
+            height: calc(100% - (140px + 173px));
+
+            .notificationheader {
+                display: flex;
+                justify-content: space-between;
+                height: 24px;
+
+                .notificationlabel {
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                    color: #4845D2;
+                }
+
+                .notificationall {
+
+                    width: 85%;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    .notificationunread {
+                        font-size: 16px;
+                        font-weight: 600;
+                        line-height: 20px;
+                    }
+                }
+            }
+
+            .notificationdata {
+                //display: flex;
+                width: 100%;
+                height: calc(100% - 24px);
+                overflow: auto;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+
+
+
+                .details {
+                    width: 100%;
+                    display: flex;
+                    gap: 20px;
+                    cursor: pointer;
+
+                    .isRead {
+                        width: 100%;
+                        display: flex;
+                        gap: 10px;
+                    }
+
+                    .isUnread {
+                        width: 100%;
+                        display: flex;
+                        background: #e3e0e0;
+                        gap: 10px;
+                    }
+
+                    .isUnread:hover {
+                        background: #14A44D1A;
+                        cursor: pointer;
+                        gap: 10px;
+                    }
+
+                    .icon {
+                        border: solid 1px #14A44D40;
+                        width: 100px;
+                        //height: 64px;
+                        color: black;
+                        border-radius: 3px;
+                        background: none;
+                        height: auto;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+
+                    .notification {
+                        //width: calc(100% - (100px + 100px + 200px));
+                        width: 100%;
+                        display: flex;
+                        gap: 10px;
+                        //height: 64px;
+
+                        .title {
+                            font-size: 16px;
+                            font-weight: 600;
+                            line-height: 20px;
+                        }
+
+                        .description {
+                            font-size: 16px;
+                            font-weight: 300;
+                            line-height: 20px;
+                        }
+                    }
+
+                    .notdate {
+                        width: 100px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: start;
+                    }
+
+                    .status {
+                        width: 200px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: end;
+                        padding: 0px 20px;
+                        gap: 10px;
+
+                        button {
+                            background: none;
+                            border: none;
+                            font-size: 14px;
+                            font-weight: 300;
+                            line-height: 17px;
+                            color: #403D39;
+                            cursor: pointer;
+                        }
+                    }
+                }
+
+                .details:hover {
+                    background: #14A44D1A;
+                    cursor: pointer;
+
+                    .icon {
+                        background: #14A44D;
+                    }
+                }
+
+                .iconnotification {
+                    display: flex;
+                    width: 70%;
+                    gap: 20px
+                }
+
+                .notdatestatus {
+                    display: flex;
+                    width: 30%;
+                    justify-content: end;
+                }
+
+
+            }
+        }
     }
 }

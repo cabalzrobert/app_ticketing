@@ -34,37 +34,50 @@ export class NewUserAccessProfileModalComponent implements OnInit {
       routerLink: 'overview',
       icon: 'fa fa-th-large',
       label: 'Overview',
-      isSelect: false
+      isSelect: false,
+      routerLinkActive:true
     },
     {
       routerLink: 'ticket',
       icon: 'fa fa-light fa-ticket-alt',
       label: 'Submitted Tickets',
-      isSelect: false
+      isSelect: false,
+      routerLinkActive:false
     },
     {
       routerLink: 'assignedticket',
       icon: 'fa fa-light fa-ticket-alt',
       label: "Assigned Tickets",
-      isSelect: false
+      isSelect: false,
+      routerLinkActive:false
     },
     {
       routerLink: 'myTask',
       icon: 'fa fa-light fa-ticket-alt',
       label: "My Tasks",
-      isSelect: false
+      isSelect: false,
+      routerLinkActive:false
     },
     {
       routerLink: 'receivedtickets',
       icon: 'fa fa-light fa-ticket-alt',
       label: 'Tickets',
-      isSelect: false
+      isSelect: false,
+      routerLinkActive:false
     },
     {
       routerLink: 'report',
       icon: 'fa fa-light fa-ticket-alt',
       label: 'Report',
-      isSelect: false
+      isSelect: false,
+      routerLinkActive:false
+    },
+    {
+      routerLink: '',
+      icon: '',
+      label: '',
+      isSelect: false,
+      routerLinkActive:false
     },
     // {
     //   routerLink: 'useraccess',

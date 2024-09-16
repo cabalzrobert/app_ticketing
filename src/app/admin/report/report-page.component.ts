@@ -255,6 +255,7 @@ export class ReportPageComponent implements OnInit {
 
   JsonFormatted(data: any, idx: number) {
     if (data == '') return null;
+    //console.log('Json Format', JSON.parse(data));
     return JSON.parse(data);
   }
   ConvertStringToInt(data: any) {
@@ -1023,8 +1024,8 @@ export class ReportPageComponent implements OnInit {
   }
   opeReportDialog?: MatDialogRef<PrintticketelapsedtimePageComponentComponent>
   openDialog(event: any) {
-    console.log(event.clientX);
-    console.log(event.clientY);
+    // console.log(event.clientX);
+    // console.log(event.clientY);
 
     let po: DialogPosition = { top: (event.clientY + 20) + 'px', right: '10px' };
 
@@ -1039,7 +1040,7 @@ export class ReportPageComponent implements OnInit {
       // backdropClass: 
     });
     this.opeReportDialog.afterClosed().pipe(filter(o => o)).subscribe(o => {
-      console.log('Open Report Dialog After Close', o.report);
+      //console.log('Open Report Dialog After Close', o.report);
       if(o.report == "Ticket")
         this.hTicket();
       else if(o.report == "Ticket with elapsed time")

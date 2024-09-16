@@ -311,7 +311,29 @@ export class OverviewPageComponent implements OnInit {
   collapsed = false;
   screenWidth = 0;
   changeclass = false;
+  sWidth:string = ''
+  sHeight:string = ''
   @HostListener('window:resize', ['$event'])
+  //@Output() onToggleSideNav: EventEmitter<MenuNavToggle> = new EventEmitter();
+  //screenWidth = 0;
+  onResize(event: any) {
+    this.sWidth = `${window.innerWidth}px`;
+    this.sHeight = `${window.innerHeight}px`;
+    this.screenWidth = window.innerWidth;
+    if (this.screenWidth <= 768) {
+      this.collapsed = false;
+      this.changeclass = false;
+    }
+    else if (this.screenWidth > 768 && this.screenWidth <= 1300) {
+      this.changeclass = true
+    }
+
+    else {
+
+      this.changeclass = false;
+      this.collapsed = true;
+    }
+  }
   onWindowInitialize() {
     this.screenWidth = window.innerWidth;
     //console.log('Overview Initialize window.innerwidth', window.innerWidth);

@@ -53,6 +53,14 @@
                     <div class="headerlastseen">Cancelled</div>
                     <div class="headerlastseen">Total</div>
                 </div>
+                <div class="contentheadercard2">
+                    <div class="headerpic">Dept</div>
+                    <div class="headername">Pndg</div>
+                    <div class="headerdepartment">Ong</div>
+                    <div class="headerorle">Res</div>
+                    <div class="headerlastseen">Cxl</div>
+                    <div class="headerlastseen">Tot</div>
+                </div>
 
             </div>
 
@@ -130,7 +138,7 @@
                 <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
                 <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
             </mat-form-field> -->
-            <div style="display: flex;gap:10px;" [formGroup]="filterForm">
+            <div class="elapsedfilter" [formGroup]="filterForm">
                 <div class="date-block__list">
                     <mat-form-field appearance="outline">
                         <input matInput [matDatepicker]="fromDate" placeholder="From Date" [max]="fromDateMax"
@@ -183,12 +191,21 @@
                             <div class="headerlastseen">Status</div>
                             <div class="headerlastseen">Elapsed Time</div>
                         </div>
+                        
+                        <div class="contentheadercard2">
+                            <div class="headerpic">Req</div>
+                            <div class="headername">Tkt No.</div>
+                            <div class="headerdepartment">Subj</div>
+                            <div class="headerorle">Date Req</div>
+                            <div class="headerlastseen">Sts</div>
+                            <div class="headerlastseen">ET</div>
+                        </div>
 
                     </div>
 
                 </div>
                 <div class="contentdetails">
-                    <div class="usercard1" *ngFor="let data of ticketrequestreportlist, let i = index">
+                    <div class="usercard1" style="width: 677px;" *ngFor="let data of ticketrequestreportlist, let i = index">
 
                         <div class="usercard2" (click)="hViewTicketRequestEvent(data, i)">
                             <div class="detailspic">

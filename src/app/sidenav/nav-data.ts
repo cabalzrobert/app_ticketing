@@ -61,7 +61,7 @@ export const navbarDataCommunicator = [
         routerLink: 'report',
         icon: 'fa fa-light fa-ticket-alt',
         label: 'Report'
-    },
+    }
 ];
 export const navbarDataDepartmentHead = [
     {

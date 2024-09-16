@@ -54,7 +54,7 @@
                 
                 <div *ngFor="let data of datamenu">
                     <div class="datalist">
-                        <input type="checkbox" [(ngModel)]="data.isSelect" name="list_name" value="{{data.routerLink}}" (change)="isAllSelected()"/>
+                        <input [hidden]="data.label == ''" type="checkbox" [(ngModel)]="data.isSelect" name="list_name" value="{{data.routerLink}}" (change)="isAllSelected()"/>
                         <div style="display: flex;gap:10px;"><i [class]="data.icon"></i> {{data.label}}</div>
                     </div>
                     

@@ -11,17 +11,17 @@ export class PrintticketelapsedtimePageComponentComponent implements OnInit {
   hSelectReport(item: any, idx: number) {
     this.reportlist.forEach((o:any) => o.active = false);
     item.active = true;
-    console.log('Report List', this.reportlist);
+    //console.log('Report List', this.reportlist);
     this.dialogRef.close(item);
   }
   constructor(@Inject(MAT_DIALOG_DATA) public report: { report: any }, public dialog: MatDialog, public dialogRef: MatDialogRef<PrintticketelapsedtimePageComponentComponent>, private fb: FormBuilder) { }
   ngOnInit(): void {
-    console.log('Report', this.report);
+    //console.log('Report', this.report);
     this.reportlist = this.report;
   }
   reportlist: any = [];
   closeddialog(): void {
-    console.log('You close this dialog');
+    //console.log('You close this dialog');
     this.dialogRef.close();
   }
 }

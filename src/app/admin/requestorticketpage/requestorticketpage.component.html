@@ -1,4 +1,4 @@
-<div class="container"  [hidden]="viewRequestorPage" style="--width: {{sWidth}}, --height: {{sHeight}}">
+<div class="container" [hidden]="viewRequestorPage" style="--width: {{sWidth}}, --height: {{sHeight}}">
     <div class="header">
         <div class="headerlabel">
             Tickets
@@ -10,7 +10,7 @@
         </div>
     </div>
     <div class="ticketbody">
-        <div class="bodyheader" >
+        <div class="bodyheader">
             <div class="menu-nav-bar">
                 <ul class="menu-nav">
                     <li class="menu-nav-item ">
@@ -33,7 +33,8 @@
                     </li>
                 </ul>
             </div>
-            <button class="hamburger" style="display: none;" [matMenuTriggerFor]="menu"><mat-icon>menu</mat-icon></button>
+            <button class="hamburger" style="display: none;"
+                [matMenuTriggerFor]="menu"><mat-icon>menu</mat-icon></button>
             <mat-menu #menu="matMenu" class="custom">
 
                 <ul class="menu-nav1">
@@ -179,8 +180,8 @@
                         </div> -->
                         <div class="cardticket">
                             <div class="cardticketcontent" (click)="hViewComment(data, i)">
-        
-        
+
+
                                 <div class="cardheader">
                                     <div class="headertitle">{{data.TitleTicket}}
                                         <span><mat-icon *ngIf="data.Attachment != ''">attach_file</mat-icon></span>
@@ -199,7 +200,7 @@
                         </div>
                     </div>
                 </cdk-virtual-scroll-viewport>
-                
+
             </div>
             <div class="cardcontent" *ngSwitchCase="('all')">
                 <cdk-virtual-scroll-viewport class="scrolling-container" (scrolledIndexChange)="hScrollIndexChange()"
@@ -322,7 +323,8 @@
                                         <div class="message" *ngIf="data.isMessage && !data.isImage">{{data.Message}}
                                         </div>
                                         <div class="attachmFile" *ngIf="data.isImage">
-                                            <img *ngIf="data.ImageAttachment != ''" src={{data.ImageAttachment}} alt="" onerror="">
+                                            <img *ngIf="data.ImageAttachment != ''" src={{data.ImageAttachment}} alt=""
+                                                onerror="">
                                             <img *ngIf="data.ImageAttachment == ''"
                                                 src="assets/image/icon_blank_profile.png" alt="">
                                         </div>
@@ -422,83 +424,95 @@
                 </div>
             </div>
         </div>
+        <div [hidden]="_isticketinfohide" class="unhideTicketdetails" (click)="hUnhideTicketInfor()"><button><i
+                    class="fa fa-caret-left" (click)="hUnhideTicketInfor()"></i></button></div>
 
-        <div class="ticketdetails">
-            <div class="requestticketdetail">
-                <!-- <div class="requestercard">
-                    <div class="cardheader">
-                        Request Detail
-                    </div>
-                    <div class="cardbody">
-                        <div class="profpic">
-                            <img src="assets/image/icon_blank_profile.png" alt="">
-                        </div>
-
-                        <div class="detail">
-                            <label class="requestername">Sona Gupta</label>
-                            <label class="requesteremail">sonal123&#64;gmail.com</label>
-                        </div>
-                    </div>
-                </div> -->
-                <div class="ticketcard">
-                    <div class="ticketinfo">Ticket Info</div>
-                    <div class="ticketid"><label for="">Ticket ID: </label><button>#{{TicketNo}}</button></div>
-                    <div class="created"><label class="title" for="">Created: </label><label
-                            for="">{{CreatedDate}}</label>
-                    </div>
-                    <div class="lastmessage" *ngIf="ticketcomment.length > 0">
-                        <label class="title" for="">Elapsed Time:</label>
-                        <label for="">{{ElapsedTime}}</label>
-                    </div>
-                    <div class="status"><label for="">Status: </label> <button>{{TicketStatusname}}</button></div>
-                    <div class="priority"><label for="">Priority:</label> <button>{{PriorityLevelname}}</button></div>
-                </div>
-                <div>
-
-                </div>
-                <div class="ticketassigninfo" *ngIf="DepartmentName != '' ">
-                    <div *ngIf="DepartmentName != ''">
-                        <div class="assignedto">Assigned to</div>
-                        <div class="departmentinfo">Department</div>
-                        <div class="departmentheadinfo">
-                            <img src="assets/image/icon_blank_profile.png" alt="">
-                            <div class="headinfo">
-                                <div class="depthead">{{DepartmentName}}</div>
-                                <!-- <label for="">{{'teamsneak3&#64;gmail.com'}}</label> -->
-                            </div>
-                        </div>
-                    </div>
-
-                    <div *ngIf="AssignedAccountname != ''">
-                        <div class="personname">{{'Name'}}</div>
-                        <div class="personinchargeinfo">
-                            <div class="profpic">
-                                <img *ngIf="AssignedAccountProfilePicture == ''"
-                                    src="assets/image/icon_blank_profile.png" alt="">
-                                <img *ngIf="AssignedAccountProfilePicture != ''" src={{AssignedAccountProfilePicture}}
-                                    alt="">
-                            </div>
-                            <div class="person">
-                                <div class="name">{{AssignedAccountname}}</div>
-                                <label for="">{{AssignedAccountEmail}}</label>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                <div *ngIf="!(TicketStatus == 1 || TicketStatus == 2)" class="update" (click)="hUpdateTicket()">
-                    <i class="fa fa-regular fa-edit"></i>
-                    <button>Update</button>
-                </div>
-                <div *ngIf="ticketupdate.Attachment != ''" class="viewattachment" (click)="hViewAttachment()">
-                    <i class="fa fa-regular fa-paperclip"></i>
-                    <button>View Attachment</button>
-                </div>
-                <!-- <div class="viewattachment" (click)="logNotify()">
-                    <i class="fa fa-regular fa-paperclip"></i>
-                    <button>Test Notification</button>
-                </div> -->
+        <!-- <div [ngClass]="_isticketinfohide ? 'ticketdetails2': 'ticketdetails show'"> -->
+        <div [ngClass]="_isticketinfohide ? 'ticketdetails2': 'ticketdetails'">
+            <div [hidden]="_isticketinfohide" class="hideTicketdetails" (click)="hhideTicketInfor()">
+                <button><i class="fa fa-caret-right" (click)="hhideTicketInfor()"></i></button>
             </div>
+            <div style="display: flex;height: 100%;width: 100%;gap:10px;">
+
+                <div class="requestticketdetail">
+                    <!-- <div class="requestercard">
+                        <div class="cardheader">
+                            Request Detail
+                        </div>
+                        <div class="cardbody">
+                            <div class="profpic">
+                                <img src="assets/image/icon_blank_profile.png" alt="">
+                            </div>
+    
+                            <div class="detail">
+                                <label class="requestername">Sona Gupta</label>
+                                <label class="requesteremail">sonal123&#64;gmail.com</label>
+                            </div>
+                        </div>
+                    </div> -->
+
+                    <div class="ticketcard">
+                        <div class="ticketinfo">Ticket Info</div>
+                        <div class="ticketid"><label for="">Ticket ID: </label><button>#{{TicketNo}}</button></div>
+                        <div class="created"><label class="title" for="">Created: </label><label
+                                for="">{{CreatedDate}}</label>
+                        </div>
+                        <div class="lastmessage" *ngIf="ticketcomment.length > 0">
+                            <label class="title" for="">Elapsed Time:</label>
+                            <label for="">{{ElapsedTime}}</label>
+                        </div>
+                        <div class="status"><label for="">Status: </label> <button>{{TicketStatusname}}</button></div>
+                        <div class="priority"><label for="">Priority:</label> <button>{{PriorityLevelname}}</button>
+                        </div>
+                    </div>
+                    <div>
+
+                    </div>
+                    <div class="ticketassigninfo" *ngIf="DepartmentName != '' ">
+                        <div *ngIf="DepartmentName != ''">
+                            <div class="assignedto">Assigned to</div>
+                            <div class="departmentinfo">Department</div>
+                            <div class="departmentheadinfo">
+                                <img src="assets/image/icon_blank_profile.png" alt="">
+                                <div class="headinfo">
+                                    <div class="depthead">{{DepartmentName}}</div>
+                                    <!-- <label for="">{{'teamsneak3&#64;gmail.com'}}</label> -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div *ngIf="AssignedAccountname != ''">
+                            <div class="personname">{{'Name'}}</div>
+                            <div class="personinchargeinfo">
+                                <div class="profpic">
+                                    <img *ngIf="AssignedAccountProfilePicture == ''"
+                                        src="assets/image/icon_blank_profile.png" alt="">
+                                    <img *ngIf="AssignedAccountProfilePicture != ''"
+                                        src={{AssignedAccountProfilePicture}} alt="">
+                                </div>
+                                <div class="person">
+                                    <div class="name">{{AssignedAccountname}}</div>
+                                    <label for="">{{AssignedAccountEmail}}</label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div *ngIf="!(TicketStatus == 1 || TicketStatus == 2)" class="update" (click)="hUpdateTicket()">
+                        <i class="fa fa-regular fa-edit"></i>
+                        <button>Update</button>
+                    </div>
+                    <div *ngIf="ticketupdate.Attachment != ''" class="viewattachment" (click)="hViewAttachment()">
+                        <i class="fa fa-regular fa-paperclip"></i>
+                        <button>View Attachment</button>
+                    </div>
+                    <!-- <div class="viewattachment" (click)="logNotify()">
+                        <i class="fa fa-regular fa-paperclip"></i>
+                        <button>Test Notification</button>
+                    </div> -->
+                </div>
+            </div>
+
         </div>
 
 

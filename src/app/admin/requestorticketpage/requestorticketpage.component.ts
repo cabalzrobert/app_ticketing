@@ -179,6 +179,7 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
     //console.log('hViewRequestorPage', this.LastMessage);
     this.viewRequestorPage = false;
     this.viewTicketComment = true;
+    this._isticketinfohide = true;
     if (this.resolveEvents = 1)
       this.ticketpending.slice(this.ticketindex, 1);
   }
@@ -211,6 +212,14 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
   AssignedAccountProfilePicture: String = ''
   ElapsedTime: String = ''
   ticketupdate: any = {};
+  _isticketinfohide: boolean = true;
+
+  hUnhideTicketInfor() {
+    this._isticketinfohide = false;
+  }
+  hhideTicketInfor() {
+    this._isticketinfohide = true;
+  }
 
   async hViewComment(data: any, idx: number) {
     //console.log('elapsedTimeStart1', timerDone);
@@ -306,9 +315,9 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
       this._minute = 0;
       this._second = 0;
     }
-    let _h:string = ((this._hour).toString().length == 1) ? `0${this._hour}` : (this._hour).toString();
-    let _m:string = ((this._minute).toString().length == 1) ? `0${this._minute}` : (this._minute).toString();
-    let _s:string = ((this._second).toString().length == 1) ? `0${this._second}` : (this._second).toString();
+    let _h: string = ((this._hour).toString().length == 1) ? `0${this._hour}` : (this._hour).toString();
+    let _m: string = ((this._minute).toString().length == 1) ? `0${this._minute}` : (this._minute).toString();
+    let _s: string = ((this._second).toString().length == 1) ? `0${this._second}` : (this._second).toString();
     this._elapsedtime = `${_h}h ${_m}m ${_s}s`;
     this.ElapsedTime = this._elapsedtime;
   }
@@ -1723,6 +1732,18 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
 
     this.loader = false;
   }
+  IsMobile(): boolean {
+    if (window.innerWidth <= 767){
+      this._isticketinfohide = true;
+      return true;
+    }
+    else if(window.innerWidth<=500){
+      this._isticketinfohide = true;
+      return true;
+    }
+    this._isticketinfohide = false;
+    return false;
+  }
   dateFormatted(isList: boolean, date: any) {
     if (isList) {
       const formattedDate = moment(date).format('D MMM');
@@ -1877,8 +1898,8 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
 
   collapsed = false;
   screenWidth = 0;
-  sWidth:string = ''
-  sHeight:string = ''
+  sWidth: string = ''
+  sHeight: string = ''
   changeclass = false;
   @HostListener('window:resize', ['$event'])
   //@Output() onToggleSideNav: EventEmitter<MenuNavToggle> = new EventEmitter();
@@ -1887,21 +1908,24 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
     this.sWidth = `${window.innerWidth}px`;
     this.sHeight = `${window.innerHeight}px`;
     this.screenWidth = window.innerWidth;
-    if (this.screenWidth <= 768) {
+    if (this.screenWidth < 768) {
       this.collapsed = false;
       this.changeclass = false;
+      this._isticketinfohide = true;
     }
     else if (this.screenWidth > 768 && this.screenWidth <= 1300) {
       this.changeclass = true
+      this._isticketinfohide = false;
     }
 
     else {
-
+      this._isticketinfohide = false;
       this.changeclass = false;
       this.collapsed = true;
     }
 
 
+    console.log('onResize this._isticketinfohide',this._isticketinfohide);
     console.log('onResize', event, ' this.screenWidth', this.screenWidth);
   }
   @Output() onToggleSideNav: EventEmitter<MenuNavToggle> = new EventEmitter();

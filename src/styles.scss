@@ -227,6 +227,12 @@ app-dashboard .body-trimmed{
   margin-left: 362px;
   min-width: 768px;
 }
+@media screen and (max-width:677px){
+  body{
+    font-size: 14px; /* Smaller font size for mobile */
+    margin: 10px;
+  }
+}
 
 @media print {
 
@@ -257,6 +263,5 @@ app-dashboard .body-trimmed{
   }app-root app-dashboard .body-trimmed app-report-page .container .userbody .timeelapsedheader{
     display: none;
   }
-
 
 }
