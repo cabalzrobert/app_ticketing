@@ -139,7 +139,7 @@
                 <div class="ticket-header">
                     <p class="ticket-toolbar">
                         <mat-icon (click)="goBack()">arrow_back</mat-icon>
-                        <span>
+                        <span class="ticket-title">
                             <h1>{{ticketDetail.title}}</h1>
                         </span>
                         <span class="ticketno">#{{ticketDetail.ticketNo}}</span>
@@ -278,7 +278,7 @@
                 <div class="side-inner-content" [class]="IsMobile()&&isSideToggle?'open':IsMobile()&&!isSideToggle?'not-open':''">
                     <div class="side-inner-toggle" *ngIf="IsMobile()" (click)="sideToggle()">
                         <button mat-button>
-                            <mat-icon>arrow_right</mat-icon>
+                            <mat-icon>close</mat-icon>
                         </button>
                     </div>
                     <mat-card class="card-requester-detail">

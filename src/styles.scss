@@ -227,10 +227,24 @@ app-dashboard .body-trimmed{
   margin-left: 362px;
   min-width: 768px;
 }
+
+.mat-menu-logout{
+  width: 231px;
+  // padding: 0px;
+  margin-top: 5px;
+  .mat-mdc-menu-content{
+    width: 100%;
+    // padding: 0px;
+    button{
+      width: 100%;
+    }
+  }
+}
+
 @media screen and (max-width:677px){
   body{
     font-size: 14px; /* Smaller font size for mobile */
-    margin: 10px;
+    // margin: 10px;
     .full-screen-modal .mat-mdc-dialog-panel {
       /* Your custom styles here */
       width: 100%;
@@ -243,7 +257,7 @@ app-dashboard .body-trimmed{
 @media screen and (min-width:678px){
   body{
     font-size: 14px; /* Smaller font size for mobile */
-    margin: 10px;
+    // margin: 10px;
     .full-screen-modal .mat-mdc-dialog-panel {
       /* Your custom styles here */
       width: 50%;
