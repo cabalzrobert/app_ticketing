@@ -1,18 +1,52 @@
-.appbody{
-    display: flex;
-    height: 100%;
-    overflow: auto;
-    //padding: 60px 30px 60px 30px
-}
+// .appbody{
+//     display: flex;
+//     height: 100%;
+//     overflow: auto;
+//     //padding: 60px 30px 60px 30px
+// }
+
 @media print {
 
   
   
-    .appbody {
-      width: 100%;
-      //height: auto;
-      overflow: visible;
-    }
-  
-  
+  .appbody {
+    width: 100%;
+    //height: auto;
+    overflow: visible;
   }
+
+
+}
+
+
+@media screen and (max-width:480px) {
+
+.dashboard{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.sidenav{
+  width: 100%;
+  // min-width: 200px;
+}
+
+.appbody{
+  display: flex;
+  height: 100%;
+  overflow-y: hidden;
+  width: 100%; // added by jp 
+  //padding: 60px 30px 60px 30px
+}
+
+}
+@media screen and (min-width: 481px) {
+.appbody{
+  display: flex;
+  height: 100%;
+  overflow: auto;
+  //padding: 60px 30px 60px 30px
+}
+
+}

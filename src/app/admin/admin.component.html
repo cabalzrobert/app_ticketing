@@ -1,5 +1,10 @@
 <!-- 
 <router-outlet></router-outlet> -->
 
-<app-sidenav (onToggleSideNav)="onToggleSidvNav($event)"></app-sidenav>
-<app-body class="appbody" [collapsed]="isSideNavCollapsed" [screenWidth]="screenWidth" [screenHeight]="screenHegith"></app-body>
+<!-- <app-sidenav (onToggleSideNav)="onToggleSidvNav($event)"></app-sidenav>
+<app-body class="appbody" [collapsed]="isSideNavCollapsed" [screenWidth]="screenWidth" [screenHeight]="screenHegith"></app-body> -->
+
+<div class="dashboard">
+    <app-sidenav class="sidenav" (onToggleSideNav)="onToggleSidvNav($event)"></app-sidenav>
+    <app-body class="appbody" [collapsed]="isSideNavCollapsed" [screenWidth]="screenWidth" [screenHeight]="screenHegith"></app-body>
+</div>
