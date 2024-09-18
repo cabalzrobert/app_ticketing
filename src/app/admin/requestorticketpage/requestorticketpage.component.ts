@@ -213,12 +213,40 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
   ElapsedTime: String = ''
   ticketupdate: any = {};
   _isticketinfohide: boolean = true;
+  vtdindex: number = 100;
+  vtdcounter: number = 100;
+  vtdfirstcount: number = 100;
+  cthHeight:string = '15%';
+  showtext: string = 'Show more';
+  _sheight:string = '';
+
+  @ViewChild('target') targetElement: any;
 
   hUnhideTicketInfor() {
     this._isticketinfohide = false;
   }
   hhideTicketInfor() {
     this._isticketinfohide = true;
+  }
+
+  toggleSkil() {
+    const _height = this.targetElement.nativeElement.offsetHeight;
+    console.log('toggleSkil() _height', _height);
+    console.log('toggleSkil()', this.vtdindex);
+    if (this.vtdcounter < 101) {
+      this.vtdcounter = this.TicketDescription.length;
+
+      this.showtext = "Show Less";
+
+    }
+
+    else {
+      this.vtdcounter = this.vtdindex;
+
+      this.showtext = "Show More"
+    }
+
+
   }
 
   async hViewComment(data: any, idx: number) {
@@ -251,6 +279,11 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
     //console.log('Ticket data Update')
     //await this.getCommentList(this.TransactionNo);
     //setTimeout(() => this.getCommentList(this.TransactionNo), 725);
+
+    this.vtdindex = (this.TicketDescription.substring(0, 100)).lastIndexOf(' ');
+    if (this.vtdindex > 100)
+      this.vtdindex = 100;
+    this.vtdcounter = this.vtdindex;
 
     device.ready(() => setTimeout(() => this.getCommentList(this.TransactionNo), 275));
 
@@ -1673,7 +1706,7 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
     this.loader = true;
   }
   ngAfterViewChecked(): void {
-    this.scrollToBottom();
+    //this.scrollToBottom();
   }
   filter: any = {};
   Search: any = ''
@@ -1731,13 +1764,14 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
     this.itemReady.emit(true);
 
     this.loader = false;
+    this.IsMobile();
   }
   IsMobile(): boolean {
-    if (window.innerWidth <= 767){
+    if (window.innerWidth <= 767) {
       this._isticketinfohide = true;
       return true;
     }
-    else if(window.innerWidth<=500){
+    else if (window.innerWidth <= 500) {
       this._isticketinfohide = true;
       return true;
     }
@@ -1925,7 +1959,7 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
     }
 
 
-    console.log('onResize this._isticketinfohide',this._isticketinfohide);
+    console.log('onResize this._isticketinfohide', this._isticketinfohide);
     console.log('onResize', event, ' this.screenWidth', this.screenWidth);
   }
   @Output() onToggleSideNav: EventEmitter<MenuNavToggle> = new EventEmitter();

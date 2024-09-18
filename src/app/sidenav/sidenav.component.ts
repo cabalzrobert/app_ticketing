@@ -509,11 +509,29 @@ export class SidenavComponent implements OnInit {
   }
 
   profile() {
+    // console.log('window.innerWidth', window.innerWidth);
+    // if(window.innerWidth<=677){
+    //   const dialogRef = this.dialog.open(ProfileComponent, {
+    //     // maxHeight: '0%',
+    //     height: '80%',
+    //     width: '80%'
+    //   })
+    // }
+    // else{
+    //   const dialogRef = this.dialog.open(ProfileComponent, {
+    //     // maxHeight: '0%',
+    //     height: '80%',
+    //     width: '50%'
+    //   })
+    // }
+
     const dialogRef = this.dialog.open(ProfileComponent, {
       // maxHeight: '0%',
       height: '80%',
-      width: '50%'
-    })
+      //width: '50%',
+      panelClass: 'full-screen-modal'
+    });
+    
   }
   @HostListener('contextmenu', ['$event'])
   onRightClick(event: MouseEvent): void {

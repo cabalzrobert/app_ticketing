@@ -353,11 +353,21 @@ export class OverviewPageComponent implements OnInit {
   }
 
   profile() {
-    const dialogRef = this.dialog.open(ProfileComponent, {
-      // maxHeight: '0%',
-      height: '80%',
-      width: '50%'
-    })
+    if(window.innerWidth <=677){
+      const dialogRef = this.dialog.open(ProfileComponent, {
+        // maxHeight: '0%',
+        height: '80%',
+        width: '80%'
+      })
+    }
+    else{
+      const dialogRef = this.dialog.open(ProfileComponent, {
+        // maxHeight: '0%',
+        height: '80%',
+        width: '50%'
+      })
+    }
+    
   }
 
   getTicketCount(): Observable<any> {

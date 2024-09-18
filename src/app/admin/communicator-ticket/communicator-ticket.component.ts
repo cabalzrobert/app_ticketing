@@ -91,7 +91,7 @@ export class CommunicatorTicketComponent {
     }
   }
   @ViewChild(CdkVirtualScrollViewport) viewport?: CdkVirtualScrollViewport;
-  print(){
+  print() {
     //this.viewport?.detach();
     this.viewport?.checkViewportSize();
     setTimeout(() => {
@@ -125,16 +125,16 @@ export class CommunicatorTicketComponent {
 
   }
 
-  IsMobile(): boolean{
-    if(window.innerWidth <= 767)
+  IsMobile(): boolean {
+    if (window.innerWidth <= 767)
       return true;
     return false;
   }
 
   isSideToggle = false;
-  sideToggle(){
+  sideToggle() {
     this.isSideToggle = !this.isSideToggle;
-    console.log('side toggle',this.isSideToggle);
+    console.log('side toggle', this.isSideToggle);
   }
 
   getTicketCount(): Observable<any> {
@@ -287,17 +287,17 @@ export class CommunicatorTicketComponent {
   }
 
   isFilterAscending = false;
-  filter(){
+  filter() {
     const ascending: any = this.backupCollections;
     const descending: any = this.backupCollections;
-    let _collections: any = []; 
+    let _collections: any = [];
     this.isFilterAscending = !this.isFilterAscending;
-    if(this.isFilterAscending)
-      _collections = [...descending].sort((a,b) => a.rowNum < b.rowNum ? -1: 1);
+    if (this.isFilterAscending)
+      _collections = [...descending].sort((a, b) => a.rowNum < b.rowNum ? -1 : 1);
     else
-      _collections = [...ascending].sort((a,b) => a.rowNum > b.rowNum ? -1 : 1);
+      _collections = [...ascending].sort((a, b) => a.rowNum > b.rowNum ? -1 : 1);
     this.collections = [..._collections];
-    console.log(this.collections,this.backupCollections);
+    console.log(this.collections, this.backupCollections);
   }
 
   // onTabChange(val: any) {
@@ -392,6 +392,8 @@ export class CommunicatorTicketComponent {
   dateFormatted(isList: boolean, date: any) {
     if (isList) {
       const formattedDate = moment(date).format('MMM D yyyy hh:mm A');
+      return formattedDate;
+      /*
       let splitDate = formattedDate.split(' ');
       if (splitDate[1] === '1' || splitDate[1] === '21' || splitDate[1] === '31')
         splitDate[1] = splitDate[1] + 'st';
@@ -406,6 +408,7 @@ export class CommunicatorTicketComponent {
       if (new Date(date).getFullYear() !== new Date().getFullYear())
         return `${splitDate[1]} ${splitDate[0]}, ${splitDate[2]}`;
       return `${splitDate[1]} ${splitDate[0]} ${splitDate[3]} ${splitDate[4]}`;
+      */
     }
     else {
       return moment(date).format('DD MMM yyyy');
@@ -515,9 +518,9 @@ export class CommunicatorTicketComponent {
       this._minute = 0;
       this._second = 0;
     }
-    let _h:string = ((this._hour).toString().length == 1) ? `0${this._hour}` : (this._hour).toString();
-    let _m:string = ((this._minute).toString().length == 1) ? `0${this._minute}` : (this._minute).toString();
-    let _s:string = ((this._second).toString().length == 1) ? `0${this._second}` : (this._second).toString();
+    let _h: string = ((this._hour).toString().length == 1) ? `0${this._hour}` : (this._hour).toString();
+    let _m: string = ((this._minute).toString().length == 1) ? `0${this._minute}` : (this._minute).toString();
+    let _s: string = ((this._second).toString().length == 1) ? `0${this._second}` : (this._second).toString();
     this._elapsedtime = `${_h}h ${_m}m ${_s}s`;
     this.ticketDetail.elapsedTime = this._elapsedtime;
   }

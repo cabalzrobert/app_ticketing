@@ -231,6 +231,24 @@ app-dashboard .body-trimmed{
   body{
     font-size: 14px; /* Smaller font size for mobile */
     margin: 10px;
+    .full-screen-modal .mat-mdc-dialog-panel {
+      /* Your custom styles here */
+      width: 100%;
+      height: 80%;
+    }
+  }
+
+  
+}
+@media screen and (min-width:678px){
+  body{
+    font-size: 14px; /* Smaller font size for mobile */
+    margin: 10px;
+    .full-screen-modal .mat-mdc-dialog-panel {
+      /* Your custom styles here */
+      width: 50%;
+      height: 80%;
+    }
   }
 }
 

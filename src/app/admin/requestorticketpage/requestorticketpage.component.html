@@ -87,7 +87,7 @@
                                     <!-- <div class="headerdate">{{dateFormatted(true, data.CreatedDate)}}</div> -->
                                     <div class="headerdate">{{data.CreatedDate}}</div>
                                 </div>
-                                <div class="cardticketbody">{{data.TicketDescription}}</div>
+                                <div class="cardticketbody"><label for="">{{data.TicketDescription}}</label></div>
                                 <div class="cardticketfooter">
                                     <button>{{data.Statusname}}</button>
                                     <div class="prioritylevel">
@@ -189,7 +189,7 @@
                                     <!-- <div class="headerdate">{{dateFormatted(true, data.CreatedDate)}}</div> -->
                                     <div class="headerdate">{{data.CreatedDate}}</div>
                                 </div>
-                                <div class="cardticketbody">{{data.TicketDescription}}</div>
+                                <div class="cardticketbody"><label for="">{{data.TicketDescription}}</label></div>
                                 <div class="cardticketfooter">
                                     <button>{{data.Statusname}}</button>
                                     <div class="prioritylevel">
@@ -247,7 +247,7 @@
                                     <!-- <div class="headerdate">{{dateFormatted(true, data.CreatedDate)}}</div> -->
                                     <div class="headerdate">{{data.CreatedDate}}</div>
                                 </div>
-                                <div class="cardticketbody">{{data.TicketDescription}}</div>
+                                <div class="cardticketbody"><label for="">{{data.TicketDescription}}</label></div>
                                 <div class="cardticketfooter">
                                     <button>{{data.Statusname}}</button>
                                     <div class="prioritylevel">
@@ -284,7 +284,8 @@
                             <span class="ticketid">#{{TicketNo}}</span>
                         </div>
                     </div>
-                    <div class="cthtitledetails">{{TicketDescription}}
+                    <div #target class="cthtitledetails">{{(TicketDescription.length>vtdfirstcount) ? (TicketDescription | slice:0:vtdcounter) + '...' : (TicketDescription)}}
+                        <span *ngIf="(TicketDescription.length>100)" (click)="toggleSkil()">{{showtext}}</span>
                     </div>
                 </div>
                 <div class="cthbody">
@@ -424,7 +425,7 @@
                 </div>
             </div>
         </div>
-        <div [hidden]="_isticketinfohide" class="unhideTicketdetails" (click)="hUnhideTicketInfor()"><button><i
+        <div [hidden]="_isticketinfohide" *ngIf="_isticketinfohide ? 'unhideTicketdetails1' : 'unhideTicketdetails1'" class="unhideTicketdetails" (click)="hUnhideTicketInfor()"><button><i
                     class="fa fa-caret-left" (click)="hUnhideTicketInfor()"></i></button></div>
 
         <!-- <div [ngClass]="_isticketinfohide ? 'ticketdetails2': 'ticketdetails show'"> -->
@@ -432,7 +433,7 @@
             <div [hidden]="_isticketinfohide" class="hideTicketdetails" (click)="hhideTicketInfor()">
                 <button><i class="fa fa-caret-right" (click)="hhideTicketInfor()"></i></button>
             </div>
-            <div style="display: flex;height: 100%;width: 100%;gap:10px;">
+            <div style="display: flex;height: 100%;width: 100%;gap:10px;justify-content: end;">
 
                 <div class="requestticketdetail">
                     <!-- <div class="requestercard">

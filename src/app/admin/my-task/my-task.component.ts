@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, ViewChild, NgModule } from '@angular/core';
+import { Component, ElementRef, Inject, ViewChild, NgModule, HostListener } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { rest } from '../../+services/services';
 import { AsyncSubject, filter, Observable, Subject, takeUntil, timer } from 'rxjs';
@@ -71,6 +71,15 @@ export class MyTaskComponent {
   alltickets: number = 0;
   subs: any = {};
   prop: any = {};
+  
+  @HostListener('window:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (event.ctrlKey && event.key === 'p') {
+      // this.print();
+      // console.log('Ctrl + P is pressed');
+      event.preventDefault();
+    }
+  }
 
   async ngOnInit() {
 
@@ -362,6 +371,8 @@ export class MyTaskComponent {
   dateFormatted(isList: boolean, date: any) {
     if (isList) {
       const formattedDate = moment(date).format('MMM D yyyy hh:mm A');
+      return formattedDate;
+      /*
       let splitDate = formattedDate.split(' ');
       if (splitDate[1] === '1' || splitDate[1] === '21' || splitDate[1] === '31')
         splitDate[1] = splitDate[1] + 'st';
@@ -376,6 +387,7 @@ export class MyTaskComponent {
       if(new Date(date).getFullYear() !== new Date().getFullYear())
         return `${splitDate[1]} ${splitDate[0]}, ${splitDate[2]}`;
       return `${splitDate[1]} ${splitDate[0]} ${splitDate[3]} ${splitDate[4]}`;
+      */
     }
     else {
       return moment(date).format('DD MMM yyyy');

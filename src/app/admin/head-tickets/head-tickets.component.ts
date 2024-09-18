@@ -491,6 +491,8 @@ export class HeadTicketsComponent {
   dateFormatted(isList: boolean, date: any) {
     if (isList) {
       const formattedDate = moment(date).format('MMM D yyyy hh:mm A');
+      return formattedDate;
+      /*
       let splitDate = formattedDate.split(' ');
       if (splitDate[1] === '1' || splitDate[1] === '21' || splitDate[1] === '31')
         splitDate[1] = splitDate[1] + 'st';
@@ -505,6 +507,7 @@ export class HeadTicketsComponent {
       if (new Date(date).getFullYear() !== new Date().getFullYear())
         return `${splitDate[1]} ${splitDate[0]}, ${splitDate[2]}`;
       return `${splitDate[1]} ${splitDate[0]} ${splitDate[3]} ${splitDate[4]}`;
+      */
     }
     else {
       return moment(date).format('DD MMM yyyy');
