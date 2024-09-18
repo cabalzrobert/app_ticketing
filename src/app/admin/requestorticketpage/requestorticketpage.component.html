@@ -285,8 +285,12 @@
                         </div>
                     </div>
                     <div #target class="cthtitledetails">{{(TicketDescription.length>vtdfirstcount) ? (TicketDescription | slice:0:vtdcounter) + '...' : (TicketDescription)}}
-                        <span *ngIf="(TicketDescription.length>100)" (click)="toggleSkil()">{{showtext}}</span>
+                        <!-- <span *ngIf="(TicketDescription.length>100)" (click)="toggleSkil()">{{showtext}}</span> -->
+                        <span *ngIf="(TicketDescription.length>100)" (click)="viewTicketDetails($event)">{{showtext}}</span>
                     </div>
+                    <!-- <div #target class="cthtitledetails" *ngIf="_swidth>1572" >{{(TicketDescription.length>vtdfirstcount) ? (TicketDescription | slice:0:vtdcounter) + '...' : (TicketDescription)}}
+                        <span *ngIf="(TicketDescription.length>100)" (click)="viewTicketDetails($event)">{{showtext}}</span>
+                    </div> -->
                 </div>
                 <div class="cthbody">
                     <div class="body">

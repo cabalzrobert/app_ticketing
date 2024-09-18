@@ -1,5 +1,5 @@
 import { AfterViewChecked, ChangeDetectorRef, Component, ElementRef, EventEmitter, HostListener, Inject, OnInit, Output, PLATFORM_ID, ViewChild, output } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { DialogPosition, MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { NewticketmodalComponent } from '../ticket-main-page/newticketmodal/newticketmodal.component';
 import { jUser, jUserModify } from '../../+app/user-module';
 import { DOCUMENT } from '@angular/common';
@@ -17,6 +17,7 @@ import { TicketProgressModalComponent } from '../modalpage/ticket-progress-modal
 import { ViewAttachImageModalComponent } from '../modalpage/view-attach-image-modal/view-attach-image-modal.component';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { AuthService } from '../../auth.service';
+import { TicketDescriptionModalComponent } from './modal/ticket-description-modal/ticket-description-modal.component';
 //import {MatIconModule} from '@angular/material/icon';
 //const{Object1}:any = {};
 //const Object:Window = window;
@@ -213,12 +214,13 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
   ElapsedTime: String = ''
   ticketupdate: any = {};
   _isticketinfohide: boolean = true;
-  vtdindex: number = 100;
-  vtdcounter: number = 100;
-  vtdfirstcount: number = 100;
-  cthHeight:string = '15%';
+  vtdindex: number = 0;
+  vtdcounter: number = 0;
+  vtdfirstcount: number = 0;
+  cthHeight: string = '15%';
   showtext: string = 'Show more';
-  _sheight:string = '';
+  _sheight: string = '';
+  _swidth: number = 0;
 
   @ViewChild('target') targetElement: any;
 
@@ -227,6 +229,17 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
   }
   hhideTicketInfor() {
     this._isticketinfohide = true;
+  }
+
+  openTicketDetialsDialog?: MatDialogRef<TicketDescriptionModalComponent>
+  viewTicketDetails(event: any) {
+    let po: DialogPosition = { top: event.clientY + 'px' };
+    this.dialog.closeAll();
+    this.openTicketDetialsDialog = this.dialog.open(TicketDescriptionModalComponent, {
+      data: this.TicketDescription,
+      hasBackdrop: false,
+      position: po
+    });
   }
 
   toggleSkil() {
@@ -279,11 +292,28 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
     //console.log('Ticket data Update')
     //await this.getCommentList(this.TransactionNo);
     //setTimeout(() => this.getCommentList(this.TransactionNo), 725);
-
-    this.vtdindex = (this.TicketDescription.substring(0, 100)).lastIndexOf(' ');
-    if (this.vtdindex > 100)
+    console.log('hViewComment window.innerWidth', window.innerWidth);
+    if (window.innerWidth >= 768 && window.innerWidth <= 1572) {
       this.vtdindex = 100;
-    this.vtdcounter = this.vtdindex;
+      this.vtdcounter = 100;
+      this.vtdfirstcount = 100;
+      this.vtdindex = (this.TicketDescription.substring(0, 100)).lastIndexOf(' ');
+      if (this.vtdindex > 100)
+        this.vtdindex = 100;
+      this.vtdcounter = this.vtdindex;
+    }
+    else{
+      this.vtdindex = 300;
+      this.vtdcounter = 300;
+      this.vtdfirstcount = 300;
+      this.vtdindex = (this.TicketDescription.substring(0, 300)).lastIndexOf(' ');
+      if (this.vtdindex > 300)
+        this.vtdindex = 300;
+      this.vtdcounter = this.vtdindex;
+    }
+
+
+
 
     device.ready(() => setTimeout(() => this.getCommentList(this.TransactionNo), 275));
 
@@ -1939,6 +1969,7 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
   //@Output() onToggleSideNav: EventEmitter<MenuNavToggle> = new EventEmitter();
   //screenWidth = 0;
   onResize(event: any) {
+    this._swidth = window.innerWidth;
     this.sWidth = `${window.innerWidth}px`;
     this.sHeight = `${window.innerHeight}px`;
     this.screenWidth = window.innerWidth;
@@ -1956,6 +1987,24 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
       this._isticketinfohide = false;
       this.changeclass = false;
       this.collapsed = true;
+    }
+    if (window.innerWidth >= 768 && window.innerWidth <= 1572) {
+      this.vtdindex = 100;
+      this.vtdcounter = 100;
+      this.vtdfirstcount = 100;
+      this.vtdindex = (this.TicketDescription.substring(0, 100)).lastIndexOf(' ');
+      if (this.vtdindex > 100)
+        this.vtdindex = 100;
+      this.vtdcounter = this.vtdindex;
+    }
+    else{
+      this.vtdindex = 300;
+      this.vtdcounter = 300;
+      this.vtdfirstcount = 300;
+      this.vtdindex = (this.TicketDescription.substring(0, 300)).lastIndexOf(' ');
+      if (this.vtdindex > 300)
+        this.vtdindex = 300;
+      this.vtdcounter = this.vtdindex;
     }
 
 
