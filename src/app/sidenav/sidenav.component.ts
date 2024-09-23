@@ -286,16 +286,26 @@ export class SidenavComponent implements OnInit {
   }
   todos: string[] = [];
   isConnected: boolean = false;
-
+  totalUnsolvedTickets: number = 0;
   getUserAccessProfile(): Observable<any> {
     rest.post('useraccess/getuseraccess').subscribe(async (res: any) => {
       if (res.Status == 'ok') {
         this.navData = JSON.parse(res.useraccess[0].MenuTab);
         console.log('getUserAccessProfile NavData', JSON.parse(res.useraccess[0].MenuTab));
+        if(this.navData.label === 'Tickets') this.getTicketCount('communicator/count');
+        else if (this.navData.label === 'Assigned Tickets') this.getTicketCount(`head/ticket/count?departmentID=${this.input.DEPT_ID}`);
+        else this.getTicketCount(`head/ticket/count?departmentID=${this.input.DEPT_ID}`);
         return this.navData;
       }
     });
     return this.navData
+  }
+
+  getTicketCount(path: string) {
+    rest.post(path).subscribe(async (res: any) => {
+      this.totalUnsolvedTickets = res.TicketCount.UnsolvedTickets;
+      return;
+    });
   }
 
   private stompReceivers() {

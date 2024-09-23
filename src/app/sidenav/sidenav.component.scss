@@ -222,6 +222,11 @@
         //height: calc(100% - 15.65rem);
         height: calc(100% - (26% + 0.938rem));
         cursor: pointer;
+
+        .ticket-unsolved-counter{
+            --mat-badge-background-color: #ff4081;
+            --mat-badge-text-color: #fff;
+        }
     
         .sidenav-nav-item {
             width: 100%;
