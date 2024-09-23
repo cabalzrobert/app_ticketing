@@ -107,7 +107,7 @@ mat-card {
         p {
             -webkit-box-orient: vertical;
             display: -webkit-box;
-            -webkit-line-clamp: 2;
+            -webkit-line-clamp: 3;
             overflow: hidden;
         }
     }
@@ -223,7 +223,7 @@ mat-card {
     // background-color: red;
 }
 
-.ticket-content-full{
+.ticket-content-full {
     width: 100%;
     background: #F4F3FC;
 }
@@ -234,7 +234,7 @@ mat-card {
     background: #F4F3FC;
 }
 
-.side-content-toggle{
+.side-content-toggle {
     height: 50px;
     width: 30px;
     position: fixed;
@@ -247,13 +247,15 @@ mat-card {
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    button{
+
+    button {
         height: 100%;
         width: 100%;
+
         // border-radius: 50%;
         // display: flex;
         // justify-content: center;
-        mat-icon{
+        mat-icon {
             height: auto;
             width: auto;
             font-size: xx-large;
@@ -263,7 +265,8 @@ mat-card {
 
 }
 
-.side-inner-toggle{
+.side-inner-toggle {
+
     // height: 50px;
     // width: 30px;
     // position: absolute;
@@ -277,7 +280,7 @@ mat-card {
     // justify-content: center;
     // align-items: center;
     // overflow: hidden;
-    button{
+    button {
         // height: 100%;
         // width: 100%;
         // border-radius: 50%;
@@ -286,7 +289,8 @@ mat-card {
         min-width: 30px;
         top: -15px;
         left: -15px;
-        mat-icon{
+
+        mat-icon {
             height: auto;
             width: auto;
             font-size: xx-large;
@@ -300,21 +304,21 @@ mat-card {
     // padding: 25px;
 }
 
-.m-side-info-content{
+.m-side-info-content {
     height: 100%;
     width: 100%;
     position: absolute;
     display: flex;
     flex-direction: row-reverse;
-    background: rgba(#000,0.1);
+    background: rgba(#000, 0.1);
     z-index: -1;
 }
 
-.hide{
+.hide {
     animation: hide 0.5s forwards;
 }
 
-.show{
+.show {
     z-index: 0;
 }
 
@@ -346,7 +350,7 @@ mat-card {
         margin-bottom: unset;
     }
 
-    .ticket-title{
+    .ticket-title {
         margin-left: 50px;
     }
 
@@ -363,10 +367,17 @@ mat-card {
 
 .ticket-description {
     margin: 0 25px;
-    -webkit-box-orient: vertical;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    overflow: hidden;
+
+    // -webkit-box-orient: vertical;
+    // display: -webkit-box;
+    // -webkit-line-clamp: 2;
+    // overflow: hidden;
+    span {
+        color: red;
+        font-style: italic;
+        font-weight: 700;
+        cursor: pointer;
+    }
 }
 
 .ticket-comment {
@@ -1183,10 +1194,11 @@ mat-card {
     }
 }
 
-@keyframes hide{
+@keyframes hide {
     from {
         z-index: 0;
     }
+
     to {
         z-index: -1;
     }
@@ -1196,6 +1208,7 @@ mat-card {
     from {
         right: -100%;
     }
+
     to {
         right: 0;
     }
@@ -1205,6 +1218,7 @@ mat-card {
     from {
         right: 0;
     }
+
     to {
         right: -100%;
     }

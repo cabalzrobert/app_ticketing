@@ -1,6 +1,7 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" class="indexbody">
-   <!-- <div class="logincard" style="--width: {{size}}"> -->
+<!-- <div class="logincard" style="--width: {{size}}"> -->
+
 <head>
   <meta charset="utf-8">
   <title>AppTicketing</title>
@@ -14,8 +15,72 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<body  class="mat-typography">
+<meta name="viewport" content="width=device-width, initial-scale=0.5">
+
+<body class="mat-typography">
+  <!-- <style>
+    body,
+    html {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden !important
+    }
+
+    body {
+      display: flex;
+      position: relative;
+      width: 100%;
+    }
+    body div{
+      width: 100%;
+    }
+  </style> -->
+  <!-- <div>
+    <app-root></app-root>
+  </div> -->
+  <style>
+    @media screen and (min-width:360px) {
+      body {
+        position: relative;
+        width: 360px;
+        height: 640px;
+        margin: auto;
+      }
+    }
+
+    @media screen and (min-width:361px) and (max-width:768px) {
+      body {
+        position: relative;
+        width: 768px;
+        height: 1024px;
+        margin: auto;
+      }
+    }
+
+    @media screen and (min-width:7691px) and (max-width:1366px) {
+      body {
+        -webkit-transform-origin: 0 0;
+        transform-origin: 0 0;
+        -webkit-transform: scale(.6) translate(-50%);
+        /* Scaled down for a better Try-it experience (change to 1 for full scale) */
+        transform: scale(.6) translate(-50%);
+        /* Scaled down for a better Try-it experience (change to 1 for full scale) */
+        left: 50%;
+        position: absolute;
+        width: 1366px;
+        height: 800px;
+        border-radius: 6px;
+        border-style: solid;
+        border-color: black;
+        border-width: 24px 24px 80px;
+        background-color: black;
+      }
+    }
+  </style>
   <app-root></app-root>
+
 </body>
+
 </html>

@@ -1,6 +1,6 @@
 import { Dialog } from '@angular/cdk/dialog';
 import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
+import { DialogPosition, MAT_DIALOG_DATA, MatDialog, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
 import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NewTicketDialogComponent } from './modal/new-ticket-dialog/new-ticket-dialog.component';
@@ -24,6 +24,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { TicketProgressModalComponent } from '../modalpage/ticket-progress-modal/ticket-progress-modal.component';
 import { ViewAttachImageModalComponent } from '../modalpage/view-attach-image-modal/view-attach-image-modal.component';
 import { stringify } from 'node:querystring';
+import { TicketDescriptionModalComponent } from '../requestorticketpage/modal/ticket-description-modal/ticket-description-modal.component';
 const batchDone = new Subject<boolean>();
 const timerDone = new Subject<boolean>();
 
@@ -60,6 +61,7 @@ export class HeadTicketsComponent {
   backupCollections: any = [];
   ticketTitle = '';
   ticketDetail: any;
+  _description:any;
   personnels: any = [];
   // [
   //   {
@@ -533,7 +535,11 @@ export class HeadTicketsComponent {
   _minute: number = 0;
   _second: number = 0;
   _elapsedtime: string = '';
-  interval: any;
+  interval: any;vtdindex: number = 0;
+  vtdcounter: number = 0;
+  vtdfirstcount: number = 0;
+  cthHeight: string = '15%';
+  showtext: string = 'Show more';
 
   next(item: any) {
     // if(item.isAssigned) return;
@@ -552,10 +558,30 @@ export class HeadTicketsComponent {
     this.router.navigate([item.ticketNo], { relativeTo: this.route });
     // this.router.navigateByUrl('/head/dashboard/tickets/sample');
     this.ticketTitle = item.title;
+    this._description = item.description;
     this.ticketDetail = item;
     this.TransactionNo = item.transactionNo;
     //console.log('next',this.ticketDetail);
     this.stepper.next();
+    if (window.innerWidth >= 768 && window.innerWidth <= 1572) {
+      this.vtdindex = 100;
+      this.vtdcounter = 100;
+      this.vtdfirstcount = 100;
+      this.vtdindex = (this._description.substring(0, 100)).lastIndexOf(' ');
+      if (this.vtdindex > 100)
+        this.vtdindex = 100;
+      this.vtdcounter = this.vtdindex;
+    }
+    else{
+      this.vtdindex = 300;
+      this.vtdcounter = 300;
+      this.vtdfirstcount = 300;
+      this.vtdindex = (this._description.substring(0, 300)).lastIndexOf(' ');
+      if (this.vtdindex > 300)
+        this.vtdindex = 300;
+      this.vtdcounter = this.vtdindex;
+    }
+    console.log('next _description', this._description);
     this.getCommentList(this.ticketDetail.transactionNo);
     if (item.ticketStatus != 'Closed' && item.ticketStatus != 'Cancel')
       this.getLElapsedTime1();
@@ -618,6 +644,18 @@ export class HeadTicketsComponent {
           this.performUpdateElapsedTime();
         },
       });
+  }
+
+  
+  openTicketDetialsDialog?: MatDialogRef<TicketDescriptionModalComponent>
+  viewTicketDetails(event: any) {
+    let po: DialogPosition = { top: event.clientY + 'px' };
+    this.dialog.closeAll();
+    this.openTicketDetialsDialog = this.dialog.open(TicketDescriptionModalComponent, {
+      data: this._description,
+      hasBackdrop: false,
+      position: po
+    });
   }
 
   getLElapsedTime() {

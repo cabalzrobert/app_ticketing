@@ -189,7 +189,10 @@
                         </span>
                         <span class="ticketno">#{{ticketDetail.ticketNo}}</span>
                     </p>
-                    <p class="ticket-description">{{ticketDetail?.description}}</p>
+                    <!-- <p class="ticket-description">{{ticketDetail?.description}}</p> -->
+                    <p class="ticket-description">{{(_description.length > vtdfirstcount) ? (_description | slice:0:vtdcounter)+' ...' : (_description)}}
+                        <span *ngIf="(_description.length>100)" (click)="viewTicketDetails($event)">{{showtext}}</span>
+                    </p>
                 </div>
                 <!-- <div class="ticket-comment">
                     <app-ticket [detail]="ticketDetail" [messageHandler]="ticketDetail.messageHandler"></app-ticket>

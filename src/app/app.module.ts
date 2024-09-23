@@ -35,6 +35,7 @@ import { MatButton } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { NewUserAccessProfileModalComponent } from './new-user-access-profile-modal/new-user-access-profile-modal.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { LineClampComponent } from './+lineclamp/line-clamp.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,7 +46,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     NewUserLoginComponent,
     OtpComponent,
     SetPasswordComponent,
-    NewUserAccessProfileModalComponent
+    NewUserAccessProfileModalComponent,
+    LineClampComponent
     //SuperadminpageComponent,
     //SidenavComponent,
     //BodyComponent

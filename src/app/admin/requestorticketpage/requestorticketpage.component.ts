@@ -1,4 +1,4 @@
-import { AfterViewChecked, ChangeDetectorRef, Component, ElementRef, EventEmitter, HostListener, Inject, OnInit, Output, PLATFORM_ID, ViewChild, output } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, Component, ElementRef, EventEmitter, HostListener, Inject, OnInit, Output, PLATFORM_ID, QueryList, ViewChild, ViewChildren, output } from '@angular/core';
 import { DialogPosition, MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { NewticketmodalComponent } from '../ticket-main-page/newticketmodal/newticketmodal.component';
 import { jUser, jUserModify } from '../../+app/user-module';
@@ -302,7 +302,7 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
         this.vtdindex = 100;
       this.vtdcounter = this.vtdindex;
     }
-    else{
+    else {
       this.vtdindex = 300;
       this.vtdcounter = 300;
       this.vtdfirstcount = 300;
@@ -465,6 +465,7 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
   ticketcount: any = [];
   ticketlistcount: any = {};
   ticketpending: any = [];
+  _ticketingpending:any = [];
   ticketlist: any = [];
   ticketpending1: any = [
     {
@@ -1997,7 +1998,7 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
         this.vtdindex = 100;
       this.vtdcounter = this.vtdindex;
     }
-    else{
+    else {
       this.vtdindex = 300;
       this.vtdcounter = 300;
       this.vtdfirstcount = 300;
@@ -2007,9 +2008,99 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
       this.vtdcounter = this.vtdindex;
     }
 
+    this.detectLabelHeightChanges();
+    //console.log('onResize this._isticketinfohide', this._isticketinfohide);
+    //console.log('onResize', event, ' this.screenWidth', this.screenWidth);
+  }
+  detectLabelHeightChanges() {
+    this.ticketpending.forEach((o:any) => this._ticketingpending.push(this.ListTicketDetails(o)))
+    this.ticketpending = [];
+    this.ticketpending = this._ticketingpending;
+    this._ticketingpending = [];
+  }
+  @ViewChildren("innderDescription") innerdescription?: QueryList<ElementRef>;
+  @ViewChildren("showmore") showmore: ElementRef | undefined;
 
-    console.log('onResize this._isticketinfohide', this._isticketinfohide);
-    console.log('onResize', event, ' this.screenWidth', this.screenWidth);
+  _toggleDescriptionDisplay(data: any, idx: number) {
+    setTimeout(() => {
+      const element: any = this.innerdescription?.find((_element, index) => index == idx);
+      const contentHeight = parseInt(
+        window
+          .getComputedStyle(element.nativeElement, undefined)
+          .getPropertyValue('height'), 10
+      );
+      const _lblH = parseFloat(window.getComputedStyle(element.nativeElement).lineHeight);
+      //console.log('_toggleDescriptionDisplay _lblH', _lblH);
+      //console.log('_toggleDescriptionDisplay contentHeight', contentHeight, data);
+      // console.log('_toggleDescriptionDisplay data', data);
+      data.boxHeight = this.getLineHeight(element.nativeElement) + 2;
+
+      const lineH = element.nativeElement.scrollHeight
+      const maxlines = Math.floor(element.nativeElement.clientHeight/ lineH);
+      //console.log('_toggleDescriptionDisplay Max Lines', lineH, element.nativeElement.clientHeight, maxlines, element.nativeElement.innerText);
+
+      if (contentHeight > data.boxHeight) {
+        this.enable(data, idx, lineH);
+        this.cd.detectChanges();
+      }
+
+      
+      
+
+      element.nativeElement.style.visibility = 'visible';
+      this.cd.detectChanges()
+
+    }, 0);
+  }
+  getLineHeight(element: HTMLElement): number {
+    let lineHeight = parseInt(
+      window.getComputedStyle(element, undefined).getPropertyValue('lineHeight'), 10
+    );
+    if (isNaN(lineHeight)) {
+      const clone = element.cloneNode() as HTMLElement;
+      clone.innerHTML = '<br>';
+      element.appendChild(clone);
+      lineHeight = clone.clientHeight;
+      element.removeChild(clone);
+    }
+    return lineHeight;
+  }
+  toggleDescription(data: any, idx: number) {
+    if (data.open == undefined)
+      data.open = false;
+    data.open ? this.close(data, idx) : this.open(data, idx);
+    console.log('toggleDescription data', data);
+    // const element = this.innerdescription?.find((element, index) => index == idx);
+    // console.log('toggleDescription element', element?.nativeElement);
+  }
+  private enable(data: any, idx: number, lineHeight: number = 0) {
+    if (lineHeight < 72){
+      data.enable = false;
+      data.open = false;
+      console.log('enable lineHeight < 72', data.Num_Row, data.Enabled, lineHeight);
+    }
+      
+    else{
+      data.Enabled = true;
+      data.open = false;
+      console.log('enable', data.Num_Row, data.Enabled, lineHeight);
+      this.close(data, idx);
+    }
+      
+    
+  }
+  private open(data: any, idx: number) {
+    data.open = true;
+    const element: any = this.innerdescription?.find((_element, index) => index == idx);
+    console.log('toggleDescription open element', element?.nativeElement);
+    //element?.nativeElement.style['label'] = 'display:block'
+    element.nativeElement.style.display = "block";
+
+  }
+  private close(data: any, idx: number) {
+    data.open = false;
+    const element: any = this.innerdescription?.find((_element, index) => index == idx);
+    element.nativeElement.style.display = "-webkit-box";
   }
   @Output() onToggleSideNav: EventEmitter<MenuNavToggle> = new EventEmitter();
 
@@ -2256,6 +2347,8 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
     return this.ticketpending;
   }
   ListTicketDetails(item: any) {
+    console.log('List TicketDetials');
+    this._toggleDescriptionDisplay(item, parseInt(item.Num_Row) - 1);
     //console.log('ListTicketDetails item', item);
     return item;
   }

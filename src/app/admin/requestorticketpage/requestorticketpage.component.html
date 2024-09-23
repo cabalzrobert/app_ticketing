@@ -79,16 +79,30 @@
                     [itemSize]="50">
                     <div *cdkVirtualFor="let data of ticketpending; let i = index">
                         <div class="cardticket">
-                            <div class="cardticketcontent" (click)="hViewComment(data, i)">
-                                <div class="cardheader">
-                                    <div class="headertitle">{{data.TitleTicket}}
-                                        <span><mat-icon *ngIf="data.Attachment != ''">attach_file</mat-icon></span>
+                            <div class="cardticketcontent">
+                                <div >
+                                    <div class="cardheader" (click)="hViewComment(data, i)">
+                                        <div class="headertitle">{{data.TitleTicket}}
+                                            <span><mat-icon *ngIf="data.Attachment != ''">attach_file</mat-icon></span>
+                                        </div>
+                                        <!-- <div class="headerdate">{{dateFormatted(true, data.CreatedDate)}}</div> -->
+                                        <div class="headerdate">{{data.CreatedDate}}</div>
                                     </div>
-                                    <!-- <div class="headerdate">{{dateFormatted(true, data.CreatedDate)}}</div> -->
-                                    <div class="headerdate">{{data.CreatedDate}}</div>
+                                    <div class="cardticketbody" #innerdescription>
+                                        <label class="lbldescription" #innderDescription for="" (click)="hViewComment(data, i)">{{data.TicketDescription}}
+                                        </label>
+                                        <a style="font-style: italic;" (click)="toggleDescription(data,i)" *ngIf="data.Enabled">
+                                            <div *ngIf="data.Enabled" style="display: block;font-weight: 700;color:red">
+                                                {{data.open ? '[Show Less]' : '[Show More]'}}
+                                            </div>
+                                            
+                                        </a>
+                                        <!-- <line-clamp>{{data.TicketDescription}}</line-clamp> -->
+                                    </div>
                                 </div>
-                                <div class="cardticketbody"><label for="">{{data.TicketDescription}}</label></div>
-                                <div class="cardticketfooter">
+                                
+                                
+                                <div class="cardticketfooter" (click)="hViewComment(data, i)">
                                     <button>{{data.Statusname}}</button>
                                     <div class="prioritylevel">
                                         {{data.PriorityLevelname}}
@@ -284,9 +298,11 @@
                             <span class="ticketid">#{{TicketNo}}</span>
                         </div>
                     </div>
-                    <div #target class="cthtitledetails">{{(TicketDescription.length>vtdfirstcount) ? (TicketDescription | slice:0:vtdcounter) + '...' : (TicketDescription)}}
+                    <div #target class="cthtitledetails">{{(TicketDescription.length>vtdfirstcount) ? (TicketDescription
+                        | slice:0:vtdcounter) + '...' : (TicketDescription)}}
                         <!-- <span *ngIf="(TicketDescription.length>100)" (click)="toggleSkil()">{{showtext}}</span> -->
-                        <span *ngIf="(TicketDescription.length>100)" (click)="viewTicketDetails($event)">{{showtext}}</span>
+                        <span *ngIf="(TicketDescription.length>100)"
+                            (click)="viewTicketDetails($event)">{{showtext}}</span>
                     </div>
                     <!-- <div #target class="cthtitledetails" *ngIf="_swidth>1572" >{{(TicketDescription.length>vtdfirstcount) ? (TicketDescription | slice:0:vtdcounter) + '...' : (TicketDescription)}}
                         <span *ngIf="(TicketDescription.length>100)" (click)="viewTicketDetails($event)">{{showtext}}</span>
@@ -429,8 +445,9 @@
                 </div>
             </div>
         </div>
-        <div [hidden]="_isticketinfohide" *ngIf="_isticketinfohide ? 'unhideTicketdetails1' : 'unhideTicketdetails1'" class="unhideTicketdetails" (click)="hUnhideTicketInfor()"><button><i
-                    class="fa fa-caret-left" (click)="hUnhideTicketInfor()"></i></button></div>
+        <div [hidden]="_isticketinfohide" *ngIf="_isticketinfohide ? 'unhideTicketdetails1' : 'unhideTicketdetails1'"
+            class="unhideTicketdetails" (click)="hUnhideTicketInfor()"><button><i class="fa fa-caret-left"
+                    (click)="hUnhideTicketInfor()"></i></button></div>
 
         <!-- <div [ngClass]="_isticketinfohide ? 'ticketdetails2': 'ticketdetails show'"> -->
         <div [ngClass]="_isticketinfohide ? 'ticketdetails2': 'ticketdetails'">

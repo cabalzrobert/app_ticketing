@@ -241,7 +241,7 @@ app-dashboard .body-trimmed{
   }
 }
 
-@media screen and (max-width:677px){
+@media screen and (min-width:369px) and (max-width:677px){
   body{
     font-size: 14px; /* Smaller font size for mobile */
     // margin: 10px;
