@@ -292,9 +292,10 @@ export class SidenavComponent implements OnInit {
       if (res.Status == 'ok') {
         this.navData = JSON.parse(res.useraccess[0].MenuTab);
         console.log('getUserAccessProfile NavData', JSON.parse(res.useraccess[0].MenuTab));
-        if(this.navData.label === 'Tickets') this.getTicketCount('communicator/count');
-        else if (this.navData.label === 'Assigned Tickets') this.getTicketCount(`head/ticket/count?departmentID=${this.input.DEPT_ID}`);
-        else this.getTicketCount(`head/ticket/count?departmentID=${this.input.DEPT_ID}`);
+        console.log('label',this.navData);
+        if(this.navData.find((o:any)=> o.label === 'Tickets')) { this.getTicketCount('communicator/count');}
+        else if (this.navData.find((o:any)=> o.label === 'Assigned Tickets')) {this.getTicketCount(`head/ticket/count?departmentID=${this.input.DEPT_ID}`);}
+        else {this.getTicketCount(`user/ticket/count?departmentID=${this.input.DEPT_ID}`);}
         return this.navData;
       }
     });
@@ -303,7 +304,8 @@ export class SidenavComponent implements OnInit {
 
   getTicketCount(path: string) {
     rest.post(path).subscribe(async (res: any) => {
-      this.totalUnsolvedTickets = res.TicketCount.UnsolvedTickets;
+      this.totalUnsolvedTickets = Number(res.TicketCount.UnsolvedTickets);
+      console.log('total tickets',res.TicketCount,'path',path);
       return;
     });
   }

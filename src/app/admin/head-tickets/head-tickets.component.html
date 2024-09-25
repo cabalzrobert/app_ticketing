@@ -27,7 +27,7 @@
             <mat-tab class="tab-container">
                 <ng-template class="tab-label" mat-tab-label>
                     <span style="font-size: 20px;">Unassigned</span>
-                    <span class="mat-badge-icon" *ngIf="unassigend > 0 && unassigend <= 99" matBadge={{unassigend}}
+                    <span class="mat-badge-icon" *ngIf="unassigend > 0 && unassigend <= 99" [matBadge]="unassigend"
                         matBadgeColor="accent"></span>
                     <span class="mat-badge-icon" *ngIf="unassigend > 99" matBadge="99+" matBadgeColor="accent"></span>
                 </ng-template>

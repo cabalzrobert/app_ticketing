@@ -95,7 +95,7 @@ export class HeadTicketsComponent {
     console.log('account', this.userDetail);
 
     // this.onTabChange(0);
-    //this.getDepartmentTicketCount();
+    this.getDepartmentTicketCount();
     device.ready(() => this.stompWebsocketReceiver());
     if (Object.keys(this.authService.requesttickect).length > 0) {
       console.log('nisulod', this.authService.requesttickect);
@@ -135,6 +135,7 @@ export class HeadTicketsComponent {
 
 
     this.subs.ws1 = stomp.subscribe(`/requestorhead`, (json: any) => this.receivedRequestTicketCommunicator(json));
+    this.subs.ws1 = stomp.subscribe(`/deptforwardticket`, (json: any) => this.receivedRequestTicketCommunicator(json));
 
     this.subs.ws1 = stomp.subscribe(`/comment`, (json: any) => this.receivedComment(json));
     this.subs.ws1 = stomp.subscribe('/' + iscom + '/ticketrequest/iscommunicator', (json: any) => this.receivedRequestTicketCommunicator(json));
@@ -215,9 +216,11 @@ export class HeadTicketsComponent {
   receivedRequestTicketCommunicator(data: any) {
 
 
-    var content = data.content;
+    if(data.content.departmentId!==this.userDetail.DEPT_ID) return;
+    const forwardedData: any = {} = data.content;
+    forwardedData.rowNum = this.collections.length + 1;
     //this.TicketNo = content.TicketNo;
-    console.log('Requestor Department Head Page', data.content);
+    console.log('Requestor Department Head Page', forwardedData);
     //this.collections.push(data.content);
     //let ticketexist = this.collections.find((o: any) => o.ticketNo == data.ticketNo);
     //let ticketexist = this.collections.find((o: any) => o.ticketNo == data.ticketNo);
@@ -225,11 +228,15 @@ export class HeadTicketsComponent {
     if (ticketexist) return;
 
     this.collectionreceived = this.collections;
-    this.collections = [];
+    // this.collections = [];
 
-    this.collectionreceived.unshift(data.content);
-    this.collections = this.collections.concat(this.collectionreceived);
+    this.collections = this.collections.concat(forwardedData);
+    // console.log('ws data',this.collections);
+    this.collections = [...this.collections].sort((a,b) => a.rowNum < b.rowNum ? 1 : -1);
+    this.backupCollections = this.collections;
+    console.log('ws data sort',this.collections);
     this.collectionreceived = [];
+    this.unassigend = this.unassigend + 1;
     return this.collections;
 
     /*
@@ -345,9 +352,9 @@ export class HeadTicketsComponent {
     rest.post(`head/ticket/count?departmentID=${this.userDetail.DEPT_ID}`).subscribe((res: any) => {
       if (res.Status == 'ok') {
         this.ticketlistcount = res.TicketCount;
-        this.unassigend = res.TicketCount.Unassigned;
-        this.assigned = res.TicketCount.Assigned;
-        this.alltickets = res.TicketCount.AllTickets;
+        this.unassigend = Number(res.TicketCount.Unassigned);
+        this.assigned = Number(res.TicketCount.Assigned);
+        this.alltickets = Number(res.TicketCount.UnsolvedTickets);
       }
       console.log('Department Head Forwarded Ticket Count', this.ticketlistcount, this.unassigend, this.assigned, this.alltickets);
       return this.ticketlistcount;
@@ -876,6 +883,7 @@ export class HeadTicketsComponent {
                 this.ticketDetail.assignedName = result.assignedName;
               }
               else {
+                this.unassigend = this.unassigend - 1;
                 this.goBack();
               }
             }

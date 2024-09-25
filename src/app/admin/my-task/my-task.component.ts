@@ -126,6 +126,7 @@ export class MyTaskComponent {
     this.subs.wsConnect = stomp.subscribe('#connect', () => this.connected());
     this.subs.wsDisconnect = stomp.subscribe('#disconnect', () => this.disconnect());
     this.subs.ws1 = stomp.subscribe(`/forwardticket/depthead/${isdept}`, (json: any) => this.receivedForwardedTicket(json));
+    this.subs.ws1 = stomp.subscribe('/assigned', (json: any) => this.receivedForwardedTicket(json));
     //console.log('Communicator Component', iscom);
     stomp.ready(() => (stomp.refresh(), stomp.connect()));
   }
@@ -134,8 +135,8 @@ export class MyTaskComponent {
   }
   receivedForwardedTicket(data: any) {
     var content = data.content;
-    console.log('Department Head Page', data.content);
-    let ticketexist = this.collections.find((o: any) => o.ticketNo == data.ticketNo);
+    console.log('Member Page', data.content);
+    let ticketexist = this.collections.find((o: any) => o.ticketNo == data.content.ticketNo);
     if (ticketexist) return;
 
     this.collections.forEach((o: any) => {
