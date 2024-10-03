@@ -489,6 +489,13 @@
                     </div>
                     <div class="forward-resolve-container0" *ngIf="ticketDetail?.ticketStatusId===4">
                         <div [class]="ticketDetail?.status===1?'footer-buttons disabled':'footer-buttons'">
+                            <button class="btn-return" mat-flat-button (click)="onReturningTicket()"
+                                [disabled]="ticketDetail?.status===1">
+                                <mat-icon>west</mat-icon>
+                                Return
+                            </button>
+                        </div>
+                        <div [class]="ticketDetail?.status===1?'footer-buttons disabled':'footer-buttons'">
                             <button class="btn-forward" mat-flat-button (click)="forwardingTicket()"
                                 [disabled]="ticketDetail?.status===1">
                                 <mat-icon iconPositionEnd>east</mat-icon>
@@ -501,13 +508,6 @@
                                 <mat-icon iconPositionEnd>check</mat-icon>
                             </button>
                         </div> -->
-                        <div [class]="ticketDetail?.status===1?'footer-buttons disabled':'footer-buttons'">
-                            <button class="btn-return" mat-flat-button (click)="onReturningTicket()"
-                                [disabled]="ticketDetail?.status===1">
-                                <mat-icon>west</mat-icon>
-                                Return
-                            </button>
-                        </div>
                     </div>
                     <div class="forward-resolve-container" *ngIf="!ticketDetail?.isAssigned">
                         <div [class]="ticketDetail?.status===1?'footer-buttons disabled':'footer-buttons'">
@@ -517,12 +517,6 @@
                                 Forward
                             </button>
                         </div>
-                        <!-- <div class="footer-buttons">
-                            <button class="btn-assign" mat-flat-button (click)="onAssigningTicket()">
-                                Assign
-                                <mat-icon iconPositionEnd>edit_square</mat-icon>
-                            </button>
-                        </div> -->
                         <div [class]="ticketDetail?.status===1?'footer-buttons disabled':'footer-buttons'">
                             <button class="btn-resolve" mat-flat-button (click)="onResolvingTicket()"
                                 [disabled]="ticketDetail?.status===1">

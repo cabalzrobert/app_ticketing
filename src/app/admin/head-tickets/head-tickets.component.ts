@@ -136,6 +136,9 @@ export class HeadTicketsComponent {
 
     this.subs.ws1 = stomp.subscribe(`/requestorhead`, (json: any) => this.receivedRequestTicketCommunicator(json));
     this.subs.ws1 = stomp.subscribe(`/deptforwardticket`, (json: any) => this.receivedRequestTicketCommunicator(json));
+    this.subs.ws1 = stomp.subscribe(`/return`, (json: any) => this.receivedMemberReturnNotify(json));
+    this.subs.ws1 = stomp.subscribe(`/approval`, (json: any) => this.receivedMemberApprovalNotify(json));
+    this.subs.ws1 = stomp.subscribe(`/decline`, (json: any) => this.receivedMemberDeclineNotify(json));
 
     this.subs.ws1 = stomp.subscribe(`/comment`, (json: any) => this.receivedComment(json));
     this.subs.ws1 = stomp.subscribe('/' + iscom + '/ticketrequest/iscommunicator', (json: any) => this.receivedRequestTicketCommunicator(json));
@@ -213,6 +216,42 @@ export class HeadTicketsComponent {
     }
 
   }
+
+  receivedMemberReturnNotify(data:any){
+    if(!this.collections.find((o:any) => o.ticketNo === data.content.ticketNo)) return;
+    console.log('return notifcation',data.content);
+    this.ticketDetail.assignedId = data.content.assignedId;
+    this.ticketDetail.assignedName = data.content.assignedName;
+    this.ticketDetail.isAssigned = data.content.isAssigned;
+    this.ticketDetail.status = data.content.status;
+    this.ticketDetail.ticketStatusId = data.content.ticketStatusId;
+    console.log('ticket details',this.ticketDetail);
+    let tempCollections: any = this.collections;
+    this.collections = [...tempCollections].filter((o) => o.ticketNo !== data.content.ticketNo);
+    console.log('collections',this.collections);
+    this.unassigend = this.unassigend + 1;
+    if(this.assigned > 0) this.assigned = this.assigned - 1;
+  }
+
+  receivedMemberApprovalNotify(data:any){
+    console.log('ticket details',this.ticketDetail);
+    if(this.ticketDetail.ticketStatusId === data.content.ticketStatusId) return;
+    console.log('approval notification', data.content);
+    this.ticketDetail.status = data.content.status;
+    this.ticketDetail.ticketStatusId = data.content.ticketStatusId;
+    this.ticketDetail.isRequiredCommunicator = data.content.isRequiredCommunicator;
+    console.log('ticket details',this.ticketDetail);
+  }
+  receivedMemberDeclineNotify(data:any){
+    console.log('ticket details',this.ticketDetail);
+    if(this.ticketDetail.ticketStatusId === data.content.ticketStatusId) return;
+    console.log('decline notification', data.content);
+    this.ticketDetail.status = data.content.status;
+    this.ticketDetail.ticketStatusId = data.content.ticketStatusId;
+    this.ticketDetail.isRequiredCommunicator = data.content.isRequiredCommunicator;
+    console.log('ticket details',this.ticketDetail);
+  }
+
   receivedRequestTicketCommunicator(data: any) {
 
 
@@ -881,9 +920,11 @@ export class HeadTicketsComponent {
                 this.ticketDetail.isAssigned = true;
                 this.ticketDetail.assignedId = result.assignedTo;
                 this.ticketDetail.assignedName = result.assignedName;
+                if(this.unassigend > 0) this.unassigend = this.unassigend - 1;
+                this.assigned = this.assigned + 1;
               }
               else {
-                this.unassigend = this.unassigend - 1;
+                if(this.unassigend > 0) this.unassigend = this.unassigend - 1;
                 this.goBack();
               }
             }

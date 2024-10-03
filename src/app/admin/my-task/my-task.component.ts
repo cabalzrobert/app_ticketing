@@ -66,8 +66,8 @@ export class MyTaskComponent {
 
   tab = 0;
   ticketlistcount: any = {};
-  unassigend: number = 0;
-  assigned: number = 0;
+  pendings: number = 0;
+  resolved: number = 0;
   alltickets: number = 0;
   subs: any = {};
   prop: any = {};
@@ -88,7 +88,7 @@ export class MyTaskComponent {
     console.log('account',this.userDetail);
     
     // this.onTabChange(0);
-    //this.getDepartmentTicketCount();
+    this.getDepartmentTicketCount();
     device.ready(() => this.stompWebsocketReceiver());
     console.log('My Task', this.authService.requesttickect);
     if (Object.keys(this.authService.requesttickect).length > 0) {
@@ -127,12 +127,14 @@ export class MyTaskComponent {
     this.subs.wsDisconnect = stomp.subscribe('#disconnect', () => this.disconnect());
     this.subs.ws1 = stomp.subscribe(`/forwardticket/depthead/${isdept}`, (json: any) => this.receivedForwardedTicket(json));
     this.subs.ws1 = stomp.subscribe('/assigned', (json: any) => this.receivedForwardedTicket(json));
+    this.subs.ws1 = stomp.subscribe('/resolve', (json: any) => this.receivedDeptHeadResolveNotify(json));
     //console.log('Communicator Component', iscom);
     stomp.ready(() => (stomp.refresh(), stomp.connect()));
   }
   collectionListDetails(item: any) {
     return item;
   }
+
   receivedForwardedTicket(data: any) {
     var content = data.content;
     console.log('Member Page', data.content);
@@ -149,7 +151,22 @@ export class MyTaskComponent {
       this.collections.push(this.collectionListDetails(o));
     })
     this.collectionreceived = [];
+    this.pendings = this.pendings + 1;
+    this.alltickets = this.alltickets + 1;
     return this.collections;
+  }
+
+  receivedDeptHeadResolveNotify(data:any){
+    console.log('noification',data.content);
+    console.log('ticket detail',this.ticketDetail);
+    if(this.ticketDetail.ticketStatusId === data.content.ticketStatusId) return;
+    console.log('resolve notification', data.content);
+    this.ticketDetail.status = data.content.status;
+    this.ticketDetail.ticketStatusId = data.content.ticketStatusId;
+    this.ticketDetail.isRequiredCommunicator = data.content.isRequiredCommunicator;
+    if(this.ticketDetail.ticketStatusId === 0)
+      this.ticketDetail.isDone = false;
+    console.log('ticket details',this.ticketDetail);
   }
 
   receiveTicket(item: any): Observable<any> {
@@ -211,19 +228,19 @@ export class MyTaskComponent {
   }
 
   getDepartmentTicketCount(): Observable<any> {
-    rest.post(`head/ticket/count?departmentID=${this.userDetail.DEPT_ID}`).subscribe((res: any) => {
+    rest.post(`user/ticket/count?departmentID=${this.userDetail.DEPT_ID}`).subscribe((res: any) => {
       if (res.Status == 'ok') {
         this.ticketlistcount = res.TicketCount;
-        this.unassigend = res.TicketCount.Unassigned;
-        this.assigned = res.TicketCount.Assigned;
-        this.alltickets = res.TicketCount.AllTickets;
+        this.pendings = Number(res.TicketCount.UnsolvedTickets);
+        this.resolved = Number(res.TicketCount.Resolved);
+        this.alltickets = Number(res.TicketCount.AllTickets);
       }
-      console.log('Department Head Forwarded Ticket Count', this.ticketlistcount, this.unassigend, this.assigned, this.alltickets);
+      console.log('User Task Ticket Count', this.ticketlistcount, this.pendings, this.resolved, this.alltickets);
       return this.ticketlistcount;
     }, (err: any) => {
       alert('System Error');
     });
-    console.log('Department Head Forwarded Ticket Count', this.ticketlistcount, this.unassigend, this.assigned, this.alltickets);
+    console.log('Department Head Forwarded Ticket Count', this.ticketlistcount, this.pendings, this.resolved, this.alltickets);
     return this.ticketlistcount;
 
     // this.onTabChange(0);
@@ -433,8 +450,8 @@ export class MyTaskComponent {
     this.ticketTitle = item.title;
     this.ticketDetail = item;
     this.TransactionNo = item.transactionNo;
-    if(item.attachment !== null)
-      JSON.parse(item.attachment).forEach((e:any) => { this.attachments.push({URL: e.base64}) });
+    // if(item.attachment !== null)
+    //   JSON.parse(item.attachment).forEach((e:any) => { this.attachments.push({URL: e.base64}) });
     //console.log('My Task',this.ticketDetail);
     this.stepper.next();
     this.getCommentList(this.ticketDetail.transactionNo);
@@ -617,6 +634,8 @@ export class MyTaskComponent {
         const dialogRef = this.showMessageBox('message', null, 'Ticket has been returned.');
         dialogRef.afterClosed().subscribe(() => {
           this.goBack();
+          if(this.pendings > 0) this.pendings = this.pendings - 1;
+          if(this.alltickets > 0) this.alltickets = this.alltickets - 1;
           this.collections = [];
           this.virtualScroll.setRenderedRange({ start: 0, end: 0 });
           this.nextBatch(this.tab);
@@ -651,6 +670,7 @@ export class MyTaskComponent {
       console.log(result);
       if (result) {
         this.ticketDetail.isDone = true;
+        this.ticketDetail.ticketStatusId = 3;
         // this.goBack();
         // this.onTabChange(this.tab);
 

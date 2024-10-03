@@ -26,8 +26,8 @@
             <mat-tab class="tab-container">
                 <ng-template class="tab-label" mat-tab-label>
                     <span style="font-size: 20px;">Pending</span>
-                    <span class="mat-badge-icon" *ngIf="unassigend > 0 && unassigend <= 99" matBadge={{unassigend}} matBadgeColor="accent"></span>
-                    <span class="mat-badge-icon" *ngIf="unassigend > 99" matBadge="99+" matBadgeColor="accent"></span>
+                    <span class="mat-badge-icon" *ngIf="pendings > 0 && pendings <= 99" [matBadge]="pendings" matBadgeColor="accent"></span>
+                    <span class="mat-badge-icon" *ngIf="pendings > 99" matBadge="99+" matBadgeColor="accent"></span>
                 </ng-template>
                 <ng-template class="tab-content" matTabContent>
                     <div class="ticket-list-container">
@@ -62,8 +62,8 @@
             <mat-tab>
                 <ng-template mat-tab-label matBadgeColor="accent">
                     <span style="font-size: 20px;">Resolve</span>
-                    <span class="mat-badge-icon" *ngIf="assigned > 0 && assigned <= 99" matBadge={{assigned}} matBadgeColor="accent"></span>
-                    <span class="mat-badge-icon" *ngIf="assigned > 99" matBadge={{assigned}} matBadgeColor="accent"></span>
+                    <span class="mat-badge-icon" *ngIf="resolved > 0 && resolved <= 99" [matBadge]="resolved" matBadgeColor="accent"></span>
+                    <span class="mat-badge-icon" *ngIf="resolved > 99" resolved="99+" matBadgeColor="accent"></span>
                 </ng-template>
                 <ng-template class="tab-content" matTabContent>
                     <div class="ticket-list-container">
@@ -97,7 +97,7 @@
             <mat-tab>
                 <ng-template mat-tab-label>
                     <span style="font-size: 20px;">All</span>
-                    <span class="mat-badge-icon" *ngIf="alltickets>0 && assigned <= 99" matBadge={{alltickets}} matBadgeColor="accent"></span>
+                    <span class="mat-badge-icon" *ngIf="alltickets>0 && alltickets <= 99" [matBadge]="alltickets" matBadgeColor="accent"></span>
                     <span class="mat-badge-icon" *ngIf="alltickets > 99" matBadge="99+" matBadgeColor="accent"></span>
                 </ng-template>
                 <ng-template class="tab-content" matTabContent>
@@ -254,7 +254,7 @@
                     </div>
 
                 </div>
-                <div class="acknoledgefooter" *ngIf="ticketDetail?.isDone&&ticketDetail?.ticketStatus==='Open'">
+                <div class="acknoledgefooter" *ngIf="ticketDetail?.isDone&&ticketDetail.ticketStatusId===3&&ticketDetail?.ticketStatus==='Open'">
                     <div class="acknowledge">
                         <div class="footerbody">
                             <label class="label1" for="">This ticket is closing</label>
@@ -399,8 +399,10 @@
                                 Attachments
                             </button>
                         </div>
-                        <div [class]="ticketDetail?.isDone&&ticketDetail?.requestDepartmentId===userDetail.DEPT_ID?'footer-buttons disabled':'footer-buttons'">
-                            <button class="btn-forward" mat-flat-button (click)="onReturningTicket()" [disabled]="ticketDetail?.isDone&&ticketDetail?.requestDepartmentId===userDetail.DEPT_ID">
+                        <!-- <div [class]="ticketDetail?.isDone&&ticketDetail?.requestDepartmentId===userDetail.DEPT_ID?'footer-buttons disabled':'footer-buttons'"> -->
+                        <div [class]="ticketDetail?.isDone?'footer-buttons disabled':'footer-buttons'">
+                            <!-- <button class="btn-forward" mat-flat-button (click)="onReturningTicket()" [disabled]="ticketDetail?.isDone&&ticketDetail?.requestDepartmentId===userDetail.DEPT_ID"> -->
+                            <button class="btn-forward" mat-flat-button (click)="onReturningTicket()" [disabled]="ticketDetail?.isDone">
                                 <mat-icon>west</mat-icon>
                                 Return
                             </button>
