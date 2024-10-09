@@ -22,6 +22,7 @@ import { NewTicketDialogComponent } from './modal/new-ticket-dialog/new-ticket-d
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 @NgModule({
@@ -52,7 +53,8 @@ import { FormsModule } from '@angular/forms';
     MatDialogModule,
     MatProgressSpinnerModule,
     FormsModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatSnackBarModule
   ]
 })
 export class HeadTicketsModule { }

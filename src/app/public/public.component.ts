@@ -16,7 +16,7 @@ export class PublicComponent implements OnInit {
   }
   sessionNotEmpty() {
     if (this.authService.session) {
-      console.log('SessionNotEmpty', this.authService.session, this.router);
+      // console.log('SessionNotEmpty', this.authService.session, this.router);
       this.zone.run(() => this.router.navigateByUrl('/'));
     }
   }

@@ -1877,6 +1877,8 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
     //this.subs.ws1 = stomp.subscribe('/ticketrequest/iscommunicator', (json: any) => this.receivedRequestTicketCommunicator(json));
     this.subs.ws1 = stomp.subscribe('/' + this.input.isCommunicator + '/ticketrequest/iscommunicator', (json: any) => this.receivedRequestTicketCommunicator(json));
     this.subs.ws1 = stomp.subscribe(`/comment`, (json: any) => this.receivedComment(json));
+    this.subs.ws1 = stomp.subscribe(`/approval`, (json: any) => this.receivedApprovalNotify(json));
+    this.subs.ws1 = stomp.subscribe(`/decline`, (json: any) => this.receivedDeclineNotify(json));
     //console.log('stompReceiver this.subs', this.subs);
     stomp.ready(() => (stomp.refresh(), stomp.connect()));
   }
@@ -1923,6 +1925,20 @@ export class RequestorticketpageComponent implements OnInit, AfterViewChecked {
       return callback();
     });
   }
+  
+  receivedApprovalNotify(data:any){
+    console.log('receivedApprovalNotify', data.content);
+    this.Status = data.content.status;
+    this.TicketStatus = data.content.ticketStatusId;
+  }
+
+  receivedDeclineNotify(data:any){
+    console.log('receivedDeclineNotify', data.content);
+    this.Status = data.content.status;
+    this.TicketStatus = data.content.ticketStatusId;
+  }
+
+
   receivedRequestTicketCommunicator(data: any) {
     console.log('Received Ticket', data);
   }

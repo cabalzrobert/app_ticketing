@@ -16,6 +16,7 @@ import { AuthService } from '../../auth.service';
 import { MatStepper } from '@angular/material/stepper';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { NewTicketDialogComponent } from './modal/new-ticket-dialog/new-ticket-dialog.component';
+import { SidenavComponent } from '../../sidenav/sidenav.component';
 const batchDone = new Subject<boolean>();
 const timerDone = new Subject<boolean>();
 
@@ -125,7 +126,7 @@ export class MyTaskComponent {
     this.subs.wsErr = stomp.subscribe('#error', (err: any) => this.error());
     this.subs.wsConnect = stomp.subscribe('#connect', () => this.connected());
     this.subs.wsDisconnect = stomp.subscribe('#disconnect', () => this.disconnect());
-    this.subs.ws1 = stomp.subscribe(`/forwardticket/depthead/${isdept}`, (json: any) => this.receivedForwardedTicket(json));
+    // this.subs.ws1 = stomp.subscribe(`/forwardticket/depthead/${isdept}`, (json: any) => this.receivedForwardedTicket(json));
     this.subs.ws1 = stomp.subscribe('/assigned', (json: any) => this.receivedForwardedTicket(json));
     this.subs.ws1 = stomp.subscribe('/resolve', (json: any) => this.receivedDeptHeadResolveNotify(json));
     //console.log('Communicator Component', iscom);
@@ -160,12 +161,23 @@ export class MyTaskComponent {
     console.log('noification',data.content);
     console.log('ticket detail',this.ticketDetail);
     if(this.ticketDetail.ticketStatusId === data.content.ticketStatusId) return;
+    this.collections = [...this.collections].filter((o) => o.ticketNo !== data.content.ticketNo);
     console.log('resolve notification', data.content);
     this.ticketDetail.status = data.content.status;
     this.ticketDetail.ticketStatusId = data.content.ticketStatusId;
     this.ticketDetail.isRequiredCommunicator = data.content.isRequiredCommunicator;
     if(this.ticketDetail.ticketStatusId === 0)
       this.ticketDetail.isDone = false;
+
+    if(!this.ticketDetail.isDone){
+      this.pendings = this.pendings + 1;
+      this.resolved = this.resolved - 1;
+    }
+    else
+    {
+      this.resolved = this.resolved - 1;
+      this.alltickets = this.alltickets - 1;
+    }
     console.log('ticket details',this.ticketDetail);
   }
 
@@ -231,7 +243,7 @@ export class MyTaskComponent {
     rest.post(`user/ticket/count?departmentID=${this.userDetail.DEPT_ID}`).subscribe((res: any) => {
       if (res.Status == 'ok') {
         this.ticketlistcount = res.TicketCount;
-        this.pendings = Number(res.TicketCount.UnsolvedTickets);
+        this.pendings = Number(res.TicketCount.Unassigned);
         this.resolved = Number(res.TicketCount.Resolved);
         this.alltickets = Number(res.TicketCount.AllTickets);
       }
@@ -671,6 +683,8 @@ export class MyTaskComponent {
       if (result) {
         this.ticketDetail.isDone = true;
         this.ticketDetail.ticketStatusId = 3;
+        this.pendings = this.pendings - 1;
+        this.resolved = this.resolved + 1;
         // this.goBack();
         // this.onTabChange(this.tab);
 
@@ -683,6 +697,9 @@ export class MyTaskComponent {
       if (res.Status === 'ok') {
         // this.ticketDetail.ticketStatus = 'Open';
         this.ticketDetail.isDone = false;
+        this.ticketDetail.ticketStatusId = 0;
+        this.pendings = this.pendings + 1;
+        this.resolved = this.resolved - 1;
         return;
       }
       alert('Failed');

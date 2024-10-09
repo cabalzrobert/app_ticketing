@@ -414,9 +414,65 @@ export class SidenavComponent implements OnInit {
     this.subs.ws1 = stomp.subscribe('/' + iscom + '/ticketrequest/iscommunicator', (json: any) => this.receivedRequestTicketCommunicator(json));
     this.subs.ws1 = stomp.subscribe('/forwardticket/depthead/' + isdepthead, (json: any) => this.receivedforwardedTicket(json));
     this.subs.ws1 = stomp.subscribe('/forwardticket', (json: any) => this.receivedRequestTicketCommunicator(json));
+    this.subs.ws1 = stomp.subscribe(`/requestorhead`, (json: any) => this.notifyRequest(json));
+    this.subs.ws1 = stomp.subscribe('/assigned', (json: any) => this.notifyAssignee(json));
+    this.subs.ws1 = stomp.subscribe(`/return`, (json: any) => this.notifyReturn(json));
+    this.subs.ws1 = stomp.subscribe('/resolve', (json: any) => this.notifyApproval(json));
+    this.subs.ws1 = stomp.subscribe(`/countticket`, (json: any) => this.notifyTicketCounter(json));
     stomp.ready(() => (stomp.refresh(), stomp.connect()));
     //console.log('stompWebsocketReceiver 250 sidenav.components', this.subs);
   }
+
+  notifyRequest(data:any){
+    console.log('notifyRequest',data.content);
+    if(!data.content || data.content === undefined){
+      console.log('no data');
+      return;
+    }
+    this.totalUnsolvedTickets = this.totalUnsolvedTickets + 1;
+  }
+
+  notifyAssignee(data:any){
+    console.log('notifyAssignee',data.content);
+    if(!data.content || data.content === undefined){
+      console.log('no data');
+      return;
+    }
+
+    this.totalUnsolvedTickets = this.totalUnsolvedTickets + 1;
+    console.log('my task pending tickets',this.totalUnsolvedTickets);
+  }
+  
+  notifyReturn(data:any){
+    console.log('notifyReturn',data.content);
+    if(!data.content || data.content === undefined){
+      console.log('no data');
+      return;
+    }
+    
+  }
+  
+  notifyApproval(data:any){
+    console.log('notifyApproval',data.content);
+    if(!data.content || data.content === undefined){
+      console.log('no data');
+      return;
+    }
+
+    if(data.content.ticketStatusId === 1 || (data.content.status !== 1 && data.content.ticketStatusId === 4))
+      this.totalUnsolvedTickets = this.totalUnsolvedTickets - 1;
+  }
+
+  notifyTicketCounter(data:any){
+    console.log('notifyTicketCounter',data.content);
+    if(!data.content || data.content === undefined){
+      console.log('no data');
+      return;
+    }
+    if(data.content.action === "decrement")
+      this.totalUnsolvedTickets = this.totalUnsolvedTickets - Number(data.content.counter);
+  }
+
   receivedRequestTicketCommunicator(data: any) {
     //console.log('Received Ticket of Communicator Account', data);
     // var content = data.content;

@@ -150,7 +150,7 @@ export class CommunicatorTicketComponent {
       //this.ticketlistcount = ({Pending: res.TicketCount.Pending, Resolve: res.TicketCount.Resolve, AllTicketCount: res.TicketCount.AllTicketCount});
       this.unassigned = res.TicketCount.UnAssigned;
       this.assigned = res.TicketCount.Assigned;
-      this.resolve = res.TicketCount.Ressolved;
+      this.resolved = res.TicketCount.Ressolved;
       this.allticket = res.TicketCount.AllTicketCount;
 
       console.log('this.ticketlistcountt', this.collectioncount);
@@ -172,9 +172,30 @@ export class CommunicatorTicketComponent {
     this.subs.ws1 = stomp.subscribe('/communicator', (json: any) => this.receivedRequestTicketCommunicator(json));
     this.subs.ws1 = stomp.subscribe('/requestorhead', (json: any) => this.receivedRequestTicketCommunicator(json));
     this.subs.ws1 = stomp.subscribe('/forwardticket', (json: any) => this.receivedRequestTicketCommunicator(json));
+    this.subs.ws1 = stomp.subscribe(`/return`, (json: any) => this.receivedDeptHeadReturnNotify(json));
+    this.subs.ws1 = stomp.subscribe(`/resolve`, (json: any) => this.receivedRequestorApprovalNotify(json));
     this.subs.ws1 = stomp.subscribe(`/comment`, (json: any) => this.receivedComment(json));
     console.log('Communicator Component', iscom);
     stomp.ready(() => (stomp.refresh(), stomp.connect()));
+  }
+
+  receivedRequestorApprovalNotify(data:any){
+    console.log('receivedRequestorApprovalNotify', data.content);
+    this.ticketDetail.status = data.content.status;
+    this.ticketDetail.ticketStatusId = data.content.ticketStatusId;
+
+    if(this.ticketDetail.ticketStatusId === 1)
+    {
+      this.assigned = this.assigned - 1;
+      this.allticket = this.allticket - 1;
+      this.resolved = this.resolved + 1;
+    }
+  }
+
+  receivedDeptHeadReturnNotify(data:any){
+    console.log('receivedDeptHeadReturnNotify', data.content);
+    this.ticketDetail.status = data.content.status;
+    this.ticketDetail.ticketStatusId = data.content.ticketStatusId;
   }
 
   receivedComment(data: any) {
@@ -717,6 +738,8 @@ export class CommunicatorTicketComponent {
         ref.close();
         const dialogRef = this.showMessageBox('message', null, 'Ticket has been forwarded', false, false);
         dialogRef.afterClosed().subscribe(() => {
+          this.unassigned = this.unassigned - 1;
+          this.assigned = this.assigned + 1;
           this.goBack();
           // this.collections = [];
           // this.virtualScroll.setRenderedRange({ start: 0, end: 0 });

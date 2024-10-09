@@ -25,6 +25,7 @@ import { TicketProgressModalComponent } from '../modalpage/ticket-progress-modal
 import { ViewAttachImageModalComponent } from '../modalpage/view-attach-image-modal/view-attach-image-modal.component';
 import { stringify } from 'node:querystring';
 import { TicketDescriptionModalComponent } from '../requestorticketpage/modal/ticket-description-modal/ticket-description-modal.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 const batchDone = new Subject<boolean>();
 const timerDone = new Subject<boolean>();
 
@@ -46,7 +47,7 @@ export interface DialogData {
 })
 export class HeadTicketsComponent {
 
-  constructor(private route: ActivatedRoute, private router: Router, private dialog: MatDialog, private ls: LocalStorageService, private authService: AuthService) {
+  constructor(private route: ActivatedRoute, private router: Router, private dialog: MatDialog, private ls: LocalStorageService, private authService: AuthService, private snackbar: MatSnackBar) {
     this.userDetail = ls.getItem1('UserAccount');
   }
   @ViewChild('stepper') stepper!: MatStepper;
@@ -111,6 +112,14 @@ export class HeadTicketsComponent {
     }
   }
 
+  openSnackBar(message: string) {
+    this.snackbar.open(message, 'close', {
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+      duration: 5000
+    });
+  }
+
   IsMobile(): boolean{
     if(window.innerWidth <= 767)
       return true;
@@ -139,6 +148,7 @@ export class HeadTicketsComponent {
     this.subs.ws1 = stomp.subscribe(`/return`, (json: any) => this.receivedMemberReturnNotify(json));
     this.subs.ws1 = stomp.subscribe(`/approval`, (json: any) => this.receivedMemberApprovalNotify(json));
     this.subs.ws1 = stomp.subscribe(`/decline`, (json: any) => this.receivedMemberDeclineNotify(json));
+    this.subs.ws1 = stomp.subscribe(`/resolve`, (json: any) => this.receivedRequestorNotify(json));
 
     this.subs.ws1 = stomp.subscribe(`/comment`, (json: any) => this.receivedComment(json));
     this.subs.ws1 = stomp.subscribe('/' + iscom + '/ticketrequest/iscommunicator', (json: any) => this.receivedRequestTicketCommunicator(json));
@@ -218,16 +228,28 @@ export class HeadTicketsComponent {
   }
 
   receivedMemberReturnNotify(data:any){
-    if(!this.collections.find((o:any) => o.ticketNo === data.content.ticketNo)) return;
     console.log('return notifcation',data.content);
+    let tempCollections: any = this.collections;
     this.ticketDetail.assignedId = data.content.assignedId;
     this.ticketDetail.assignedName = data.content.assignedName;
     this.ticketDetail.isAssigned = data.content.isAssigned;
     this.ticketDetail.status = data.content.status;
     this.ticketDetail.ticketStatusId = data.content.ticketStatusId;
     console.log('ticket details',this.ticketDetail);
-    let tempCollections: any = this.collections;
-    this.collections = [...tempCollections].filter((o) => o.ticketNo !== data.content.ticketNo);
+    if(this.tab === 1){
+      if(!this.collections.find((o:any) => o.ticketNo === data.content.ticketNo)) return;
+      console.log('return notifcation',data.content);
+      this.collections = [...tempCollections].filter((o) => o.ticketNo !== data.content.ticketNo);
+    }
+    if(this.tab === 0){
+      if(this.collections.find((o:any) => o.ticketNo === data.content.ticketNo)) return;
+      const forwardedData: any = {} = data.content;
+      forwardedData.rowNum = this.collections.length + 1;
+      this.collections = this.collections.concat(forwardedData);
+      this.collections = [...this.collections].sort((a,b) => a.rowNum < b.rowNum ? 1 : -1);
+      this.backupCollections = this.collections;
+      this.isFilterAscending = !this.isFilterAscending;
+    }
     console.log('collections',this.collections);
     this.unassigend = this.unassigend + 1;
     if(this.assigned > 0) this.assigned = this.assigned - 1;
@@ -242,6 +264,7 @@ export class HeadTicketsComponent {
     this.ticketDetail.isRequiredCommunicator = data.content.isRequiredCommunicator;
     console.log('ticket details',this.ticketDetail);
   }
+
   receivedMemberDeclineNotify(data:any){
     console.log('ticket details',this.ticketDetail);
     if(this.ticketDetail.ticketStatusId === data.content.ticketStatusId) return;
@@ -252,6 +275,48 @@ export class HeadTicketsComponent {
     console.log('ticket details',this.ticketDetail);
   }
 
+  receivedRequestorNotify(data:any){
+    console.log('ticket details',this.ticketDetail);
+    if(this.ticketDetail.ticketStatusId === data.content.ticketStatusId) return;
+    console.log('requestor notification', data.content);
+    this.ticketDetail.status = data.content.status;
+    this.ticketDetail.ticketStatusId = data.content.ticketStatusId;
+    this.ticketDetail.isAssigned = data.content.isAssigned;
+    let tempCollections: any = this.collections;
+    if(this.ticketDetail.ticketStatusId === 1)
+    {
+      if(!this.collections.find((o:any) => o.ticketNo === data.content.ticketNo)) return;
+      console.log('return notifcation',data.content);
+      this.collections = [...tempCollections].filter((o) => o.ticketNo !== data.content.ticketNo);
+      this.assigned = this.assigned - 1;
+      this.alltickets = this.alltickets - 1;
+    }
+    else{
+      if(this.tab === 1)
+      {
+        if(!this.collections.find((o:any) => o.ticketNo === data.content.ticketNo)) return;
+        console.log('return notifcation',data.content);
+        this.collections = [...tempCollections].filter((o) => o.ticketNo !== data.content.ticketNo);
+      }
+      if(this.tab === 0)
+      {
+        if(this.collections.find((o:any) => o.ticketNo === data.content.ticketNo)) return;
+        const forwardedData: any = {} = data.content;
+        forwardedData.rowNum = this.collections.length + 1;
+        this.collections = this.collections.concat(forwardedData);
+        this.collections = [...this.collections].sort((a,b) => a.rowNum < b.rowNum ? 1 : -1);
+        this.backupCollections = this.collections;
+        this.isFilterAscending = !this.isFilterAscending;
+      }
+      this.unassigend = this.unassigend + 1;
+      this.assigned = this.assigned - 1;
+    }
+    // this.ticketDetail.isRequiredCommunicator = data.content.isRequiredCommunicator;
+    console.log('ticket details',this.ticketDetail);
+  }
+
+
+  
   receivedRequestTicketCommunicator(data: any) {
 
 
@@ -276,6 +341,8 @@ export class HeadTicketsComponent {
     console.log('ws data sort',this.collections);
     this.collectionreceived = [];
     this.unassigend = this.unassigend + 1;
+    this.alltickets = this.alltickets + 1;
+    // this.openSnackBar("Sent Notification "+ data.content.title);
     return this.collections;
 
     /*
@@ -839,6 +906,8 @@ export class HeadTicketsComponent {
         ref.close();
         const dialogRef = this.showMessageBox('message', null, 'Ticket has been returned.', false, false);
         dialogRef.afterClosed().subscribe(() => {
+          this.assigned = this.assigned - 1;
+          this.alltickets = this.alltickets - 1;
           this.goBack();
           // this.collections = [];
           // this.virtualScroll.setRenderedRange({ start: 0, end: 0 });
@@ -1046,6 +1115,8 @@ export class HeadTicketsComponent {
           this.ticketDetail.isAssigned = true;
           this.ticketDetail.assignedId = this.userDetail.USR_ID;
           this.ticketDetail.assignedName = this.userDetail.FLL_NM;
+          this.unassigend = this.unassigend - 1;
+          this.assigned = this.assigned + 1;
         });
         return;
       }
@@ -1093,6 +1164,8 @@ export class HeadTicketsComponent {
           this.ticketDetail.ticketStatusId = 0;
           this.ticketDetail.isAssigned = false;
           this.ticketDetail.assignedName = null;
+          this.unassigend = this.unassigend + 1;
+          this.assigned = this.assigned - 1;
         }
         else
           this.ticketDetail.isDone = false;

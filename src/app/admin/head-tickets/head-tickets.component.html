@@ -310,8 +310,7 @@
                                 <img [src]="(ticketDetail?.requestProfImage||'assets/image/icon_blank_profile.png')">
                             </div>
                             <div class="requester-name">
-                                <span [matTooltip]="ticketDetail?.requestName">{{ticketDetail?.requestName??'Arnold
-                                    Schwarzenegger'}}</span>
+                                <span [matTooltip]="ticketDetail?.requestName">{{ticketDetail?.requestName??'ArnoldSchwarzenegger'}}</span>
                                 <span class="username">&#64;{{ticketDetail?.requestNickname??'terminator'}}</span>
                                 <!-- <span>Arnold Schwarzenegger</span><br>
                                 <span class="username">{{'\@terminator'}}</span> -->
@@ -361,8 +360,7 @@
                                 </div>
                                 <div class="requester-name">
                                     <span>{{ticketDetail?.departmentName}}</span>
-                                    <span class="username">&#64;{{(ticketDetail?.categoryName??'Department
-                                        Head').toLowerCase().replace(' ','')}}</span>
+                                    <span class="username">&#64;{{(ticketDetail?.categoryName??'DepartmentHead').toLowerCase().replace(' ','')}}</span>
                                 </div>
                             </div>
                             <span *ngIf="ticketDetail?.isAssigned">
