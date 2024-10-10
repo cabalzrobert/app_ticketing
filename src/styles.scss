@@ -86,6 +86,32 @@ body {
   justify-content: center;
 }
 
+::-webkit-scrollbar {
+  width: 15px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #fff;
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 20px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  border-radius: 20px;
+  background: rgba(104, 128, 246, 0.2509803922);
+}
+::-webkit-scrollbar-button{
+  width: 15px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #8b7ae4;
+}
+
+
 html,
 body {
   height: 100%;
@@ -222,28 +248,33 @@ body {
 .mat-dialog-progress {
   --mdc-dialog-container-shape: 4px;
 }
-app-dashboard .body-trimmed{
+
+app-dashboard .body-trimmed {
   width: calc(100% - 362px);
   margin-left: 362px;
   min-width: 768px;
 }
 
-.mat-menu-logout{
+.mat-menu-logout {
   width: 231px;
   // padding: 0px;
   margin-top: 5px;
-  .mat-mdc-menu-content{
+
+  .mat-mdc-menu-content {
     width: 100%;
+
     // padding: 0px;
-    button{
+    button {
       width: 100%;
     }
   }
 }
 
-@media screen and (min-width:369px) and (max-width:677px){
-  body{
-    font-size: 14px; /* Smaller font size for mobile */
+@media screen and (min-width:369px) and (max-width:677px) {
+  body {
+    font-size: 14px;
+
+    /* Smaller font size for mobile */
     // margin: 10px;
     .full-screen-modal .mat-mdc-dialog-panel {
       /* Your custom styles here */
@@ -252,11 +283,14 @@ app-dashboard .body-trimmed{
     }
   }
 
-  
+
 }
-@media screen and (min-width:678px){
-  body{
-    font-size: 14px; /* Smaller font size for mobile */
+
+@media screen and (min-width:678px) {
+  body {
+    font-size: 14px;
+
+    /* Smaller font size for mobile */
     // margin: 10px;
     .full-screen-modal .mat-mdc-dialog-panel {
       /* Your custom styles here */
@@ -290,9 +324,11 @@ app-dashboard .body-trimmed{
 
   }
 
-  app-root app-dashboard .body-trimmed app-report-page .container .userbody1 .timeelapsedheader{
+  app-root app-dashboard .body-trimmed app-report-page .container .userbody1 .timeelapsedheader {
     display: none;
-  }app-root app-dashboard .body-trimmed app-report-page .container .userbody .timeelapsedheader{
+  }
+
+  app-root app-dashboard .body-trimmed app-report-page .container .userbody .timeelapsedheader {
     display: none;
   }
 
