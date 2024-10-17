@@ -99,7 +99,7 @@ export class ProfileComponent {
     disableAutoFocus: true,
     placeholder: '',
     inputStyles: {
-      'width': '48px',
+      'width': '42px',
       'height': '56px',
       'border': '#4B6CB7 1px solid',
       'border-radius': '8px',

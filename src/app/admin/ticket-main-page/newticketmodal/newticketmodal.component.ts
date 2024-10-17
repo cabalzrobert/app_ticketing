@@ -12,6 +12,7 @@ import { AlertSuccessModalComponent } from '../../modalpage/alert-success-modal/
 import { device } from '../../../tools/plugins/device';
 import { LocalStorageService } from '../../../tools/plugins/localstorage';
 import { jUser } from '../../../+app/user-module';
+import { DataUrl, NgxImageCompressService, UploadResponse } from 'ngx-image-compress';
 
 export interface SelectedFiles {
   name: string;
@@ -66,7 +67,10 @@ export class NewticketmodalComponent implements OnInit {
     TicketNo: null,
     Attachment: null
   });
-  constructor(@Inject(MAT_DIALOG_DATA) public ticketdata: { item: any, Title: String, SaveButtonText: String, IsRequiredOtherDepartment: boolean }, public dialog: MatDialog, public generalSerive: GeneralService, private authService: AuthService, private fb: FormBuilder, public dialogRef: MatDialogRef<NewticketmodalComponent>, private ls: LocalStorageService) { }
+
+  constructor(@Inject(MAT_DIALOG_DATA) public ticketdata: { item: any, Title: String, SaveButtonText: String, IsRequiredOtherDepartment: boolean }, 
+  public dialog: MatDialog, public generalSerive: GeneralService, private authService: AuthService, private fb: FormBuilder, 
+  public dialogRef: MatDialogRef<NewticketmodalComponent>, private ls: LocalStorageService, private imgCompress: NgxImageCompressService) { }
   HeaderTitle: String = '';
   SaveButtonText: String = '';
   async ngOnInit() {
@@ -325,6 +329,22 @@ export class NewticketmodalComponent implements OnInit {
     return result;
   }
 
+  uploadMultipleImages(){
+    this.imgCompress
+    .uploadMultipleFiles()
+    .then((multipleOrientedImages: UploadResponse[]) => {
+      multipleOrientedImages.forEach(async (i,counter) => 
+        this.imgCompress
+        .compressFile(i.image, i.orientation, 50, 50)
+        .then((result: DataUrl) => {
+          this.uploaded.push({ name: i.fileName, filesize: `${(this.imgCompress.byteCount(result) / 1024).toFixed(2)} KB`, file: multipleOrientedImages[counter], base64: result, uploadstatus: 200, progress: 200, rownum: counter + 1 });
+          this.outputBoxVisible = true;
+        })
+      );
+      console.log('imageCompressed upload',this.uploaded)
+    });
+  }
+
 
   async onFileSelected(event: any): Promise<Observable<any>> {
 
@@ -341,6 +361,7 @@ export class NewticketmodalComponent implements OnInit {
     this.files = files;
     //await this.onFileSelected1(files);
     device.ready(() => setTimeout(() => this.onFileSelected1(files), 275));
+    console.log(this.uploaded);
     //console.log('this.selected files base64', this.selectedFiles1);
     //console.log('this.selected files base64', this.uploaded.length);
     if (this.selectedFiles1) {

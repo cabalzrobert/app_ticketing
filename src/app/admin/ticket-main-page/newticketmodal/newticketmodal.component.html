@@ -69,7 +69,7 @@
             <label for="">Attachment</label>
             <div class="upload-form">
 
-                <label for="file">
+                <label for="file" (click)="uploadMultipleImages()">
 
                     <div class="fa fa-regular fa-upload"></div>
                     <span>
@@ -82,8 +82,8 @@
 
                 </label>
 
-                <input *ngIf="uploaded.length < 5" id="file" type="file" multiple="multiple" accept=".png, .jpg, .gif"
-                    name="file" (change)="onFileSelected($event)" />
+                <!-- <input *ngIf="uploaded.length < 5" id="file" type="file" multiple="multiple" accept=".png, .jpg, .gif"
+                    name="file" (change)="onFileSelected($event)" /> -->
 
                 <div class="result" *ngIf="uploaded.length" [style.display]="outputBoxVisible ? 'flex' : 'none'">
                     <i class="ph ph-file"></i>
@@ -91,7 +91,7 @@
                         <li *ngFor="let data of uploaded; index as i">
                             <div class="file-details">
                                 <div class="filecontent">
-                                    <span><img src={{data.base64}} alt=""></span>
+                                    <span><img [src]="data.base64" alt=""></span>
                                     <!-- <span class="file-name">{{ data.rownum }} </span> -->
                                     <span class="file-name">{{ data.name }}</span>
                                     <span class="file-size">{{ data.filesize }}</span>
