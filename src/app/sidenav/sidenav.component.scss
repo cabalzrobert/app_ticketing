@@ -208,8 +208,8 @@
         //width: 16.5325rem;
         width: 362px;
         height: 100%;
-        overflow: auto;
-    
+        overflow-y: auto;
+        scrollbar-width: none;
     }
     
     .sidenav-nav {
@@ -354,7 +354,7 @@
 
     .logout-panel{
         // width: 100%;
-        position: fixed;
+        position: absolute;
         right: 25px;
         display: flex;
         align-items: center;

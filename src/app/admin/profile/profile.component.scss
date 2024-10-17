@@ -63,7 +63,8 @@
 
 .detail-content{
     width: 75%;
-    overflow-y: scroll;
+    overflow-y: auto;
+    scrollbar-width: none;
     .basic-info-content{
         .prof-img-container{
             height: 275px;
@@ -484,4 +485,9 @@
     --mat-icon-button-hover-state-layer-opacity: 0;
     --mat-icon-button-focus-state-layer-opacity: 0;
     --mat-icon-button-pressed-state-layer-opacity: 0;
+}
+
+
+@media screen and (max-width:679px) {
+    
 }

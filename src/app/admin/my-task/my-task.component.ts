@@ -474,7 +474,22 @@ export class MyTaskComponent {
     if (!item.isAssigned)
       setTimeout(() => this.getDepartmentPersonnels());
     
-    
+    if (item.isOpened) return;
+    // this.performCommunicatorSeenTicket(item.transactionNo);
+    this.performSeenTicket(item.notificationId);
+    this.ticketDetail.isOpened = true;
+  }
+
+  performSeenTicket(NotificationID: any) {
+    console.log('performCommunicatorsSeenTicket transactionNo', NotificationID)
+    this.subs.s2 = rest.post('notification/' + NotificationID + '/seen').subscribe(async (res: any) => {
+      if ((res || {}).status != 'error') {
+        console.log('seen ticket', res);
+        //if (callback != null) callback();
+        return;
+      }
+      console.log('failed');
+    });
   }
 
   elapsedTimeStart1() {

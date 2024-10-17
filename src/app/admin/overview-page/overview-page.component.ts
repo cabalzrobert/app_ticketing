@@ -262,6 +262,7 @@ export class OverviewPageComponent implements OnInit {
     // });
     //console.log('ngOnInt this.subs 1', this.subs);
     this.input = await jUser();
+    console.log('user details',this.input);
     //console.log('Overview this.input', this.input);
     let item: any = { isCom: this.input.isCommunicator ? 1 : 0, isDept: this.input.isDeptartmentHead ? 1 : 0 };
     //console.log('let item', item);
@@ -353,20 +354,23 @@ export class OverviewPageComponent implements OnInit {
   }
 
   profile() {
-    if(window.innerWidth <=677){
-      const dialogRef = this.dialog.open(ProfileComponent, {
-        // maxHeight: '0%',
-        height: '80%',
-        width: '80%'
-      })
-    }
-    else{
-      const dialogRef = this.dialog.open(ProfileComponent, {
-        // maxHeight: '0%',
-        height: '80%',
-        width: '50%'
-      })
-    }
+    // if(window.innerWidth <=677){
+    //   const dialogRef = this.dialog.open(ProfileComponent, {
+    //     // maxHeight: '0%',
+    //     panelClass: 'full-screen-profile'
+    //   })
+    // }
+    // else{
+    //   const dialogRef = this.dialog.open(ProfileComponent, {
+    //     // maxHeight: '0%',
+    //     height: '80%',
+    //     width: '50%'
+    //   })
+    // }
+
+    const dialogRef = this.dialog.open(ProfileComponent,{
+      panelClass: 'full-screen-profile'
+    });
     
   }
 
@@ -402,11 +406,15 @@ export class OverviewPageComponent implements OnInit {
   getTicketList(item: any, callback: Function = mtCb): Observable<any> {
     if (!this.subs) return this.ticketnotification;
     if (this.subs.s1) this.subs.s1.unsubscribe();
-    item.isCom = this.iscom;
-    item.isDept = this.isdepthead;
+
+    item.isCom = this.input.ACT_TYP==4?1:0;
+    item.isDept = this.input.ACT_TYP==5?1:0;
+    // item.isCom = this.iscom;
+    // item.isDept = this.isdepthead;
     item.DepartmentID = this.input.DEPT_ID;
 
     this.subs.s1 = rest.post('notification', item).subscribe(async (res: any) => {
+      console.log('overview notifications',res);
       this.ticketnotification = [];
       if (res != null) {
         var cnt = parseInt(res.length);
@@ -578,7 +586,7 @@ export class OverviewPageComponent implements OnInit {
   }
 
   receivedRequestTicketCommunicator(data: any) {
-
+    // console.log('overview requesthead', data.notification);
     //console.log('receivedRequestTicketCommunicator', data);
     // var notification = data.notification;
     // this.lastnotificationid = notification.NotificationID;

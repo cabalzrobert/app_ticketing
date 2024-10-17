@@ -84,6 +84,8 @@ body {
   width: 100%;
   display: flex;
   justify-content: center;
+  overflow-y: auto;
+  scrollbar-width: none;
 }
 
 ::-webkit-scrollbar {
@@ -166,6 +168,12 @@ body {
       height: 24px;
     }
   }
+  
+  // .full-screen-profile{
+  //   height: 80%;
+  //   width: 836px;
+  //   --mat-dialog-container-max-width: 80vw;
+  // }
 }
 
 @-webkit-keyframes sk-bouncedelay {
@@ -196,6 +204,20 @@ body {
   }
 }
 
+@media screen and (min-width: 300px) and (max-width: 769px) {
+  .full-screen-profile{
+    height: 100%;
+    width: 100%;
+    --mat-dialog-container-max-width: 100vw;
+  }
+}
+@media screen and (min-width: 770px) {
+  .full-screen-profile{
+    height: 80%;
+    width: 831px;
+    --mat-dialog-container-max-width: 80vw;
+  }
+}
 
 
 
@@ -270,34 +292,8 @@ app-dashboard .body-trimmed {
   }
 }
 
-@media screen and (min-width:369px) and (max-width:677px) {
-  body {
-    font-size: 14px;
-
-    /* Smaller font size for mobile */
-    // margin: 10px;
-    .full-screen-modal .mat-mdc-dialog-panel {
-      /* Your custom styles here */
-      width: 100%;
-      height: 80%;
-    }
-  }
-
-
-}
-
-@media screen and (min-width:678px) {
-  body {
-    font-size: 14px;
-
-    /* Smaller font size for mobile */
-    // margin: 10px;
-    .full-screen-modal .mat-mdc-dialog-panel {
-      /* Your custom styles here */
-      width: 50%;
-      height: 80%;
-    }
-  }
+.cdk-overlay-pane.mat-mdc-dialog-panel {
+  // min-width: var(--mat-dialog-container-min-width, 0);
 }
 
 @media print {

@@ -160,6 +160,10 @@ export class ProfileComponent {
     this.select(0);
   }
 
+  close(){
+    this.dialogRef.close(false);
+  }
+
   updateMobileNumber(){
     this.update.mobileNumber = !this.update.mobileNumber;
     this.isOtpSuccess = false;

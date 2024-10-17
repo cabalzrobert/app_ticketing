@@ -30,7 +30,7 @@
                 <ng-template class="tab-content" matTabContent>
                     <div class="ticket-list-container">
                         <cdk-virtual-scroll-viewport class="scrolling-container" [itemSize]="196" (scrolledIndexChange)="nextBatch({tab:tabRef.selectedIndex, IsReset: false})">
-                            <mat-card *cdkVirtualFor="let item of collections; index as i" matRipple (click)="next(item, i)" [ngClass]="item.S_OPN ? '' : 'isnotOpen'"> 
+                            <mat-card *cdkVirtualFor="let item of collections; index as i" matRipple (click)="next(item, i)" [ngClass]="item.isOpened ? 'opened': ''"> 
                                 <mat-card-header>
                                     <mat-card-title>{{item.title}}
                                         <span><mat-icon *ngIf="item.attachment != null">attach_file</mat-icon></span>
@@ -140,7 +140,7 @@
                 <ng-template class="tab-content" matTabContent>
                     <div class="ticket-list-container">
                         <cdk-virtual-scroll-viewport class="scrolling-container" [itemSize]="196" (scrolledIndexChange)="nextBatch({tab:tabRef.selectedIndex, IsReset: true})">
-                            <mat-card *cdkVirtualFor="let item of collections index as i" (click)="next(item, i)">
+                            <mat-card *cdkVirtualFor="let item of collections index as i" (click)="next(item, i)" [ngClass]="item.isOpened ? '' : 'isnotOpen'">
                                 <mat-card-header>
                                     <mat-card-title>{{item.title}}
                                         <span><mat-icon *ngIf="item.attachment != null">attach_file</mat-icon></span>

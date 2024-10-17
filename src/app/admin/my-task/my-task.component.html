@@ -33,7 +33,7 @@
                     <div class="ticket-list-container">
                         <cdk-virtual-scroll-viewport class="scrolling-container" [itemSize]="196" (scrolledIndexChange)="nextBatch({tab: tabRef.selectedIndex})">
                             <!-- <mat-spinner class="spinner" *ngIf="showProgress"></mat-spinner> -->
-                            <mat-card *cdkVirtualFor="let item of collections" matRipple (click)="next(item)">
+                            <mat-card *cdkVirtualFor="let item of collections" matRipple (click)="next(item)" [ngClass]="item.isOpened ? 'opened': ''">
                                 <mat-card-header>
                                     <mat-card-title>{{item.title}}</mat-card-title>
                                     <span style="font-size: 18px;">{{dateFormatted(true,item.assignedDate)}}</span>
@@ -103,7 +103,7 @@
                 <ng-template class="tab-content" matTabContent>
                     <div class="ticket-list-container">
                         <cdk-virtual-scroll-viewport class="scrolling-container" [itemSize]="196" (scrolledIndexChange)="nextBatch({tab: tabRef.selectedIndex})">
-                            <mat-card *cdkVirtualFor="let item of collections" (click)="next(item)">
+                            <mat-card *cdkVirtualFor="let item of collections" (click)="next(item)" [ngClass]="item.isOpened ? 'opened': ''">
                                 <mat-card-header>
                                     <mat-card-title>{{item.title}}</mat-card-title>
                                     <span style="font-size: 18px;">{{dateFormatted(true,item.assignedDate)}}</span>
@@ -831,7 +831,7 @@
         </div>
     </mat-step>
 </mat-stepper> -->
-<div class="nodata" *ngIf="collections.length == 0">No data</div>
+<div class="nodata" *ngIf="collections.length == 0 && stepper.selectedIndex === 0">No data</div>
 <div class="loader" *ngIf="loader"></div>
 
 <!-- <mat-tab *ngIf="isTicketContentShow">

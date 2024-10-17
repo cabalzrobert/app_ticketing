@@ -148,10 +148,10 @@ export class CommunicatorTicketComponent {
       //res.TicketCount.foreach((o:any) => console.log('foreach', 0));
       this.collectioncount = res.TicketCount;
       //this.ticketlistcount = ({Pending: res.TicketCount.Pending, Resolve: res.TicketCount.Resolve, AllTicketCount: res.TicketCount.AllTicketCount});
-      this.unassigned = res.TicketCount.UnAssigned;
-      this.assigned = res.TicketCount.Assigned;
-      this.resolved = res.TicketCount.Ressolved;
-      this.allticket = res.TicketCount.AllTicketCount;
+      this.unassigned = Number(res.TicketCount.UnAssigned);
+      this.assigned = Number(res.TicketCount.Assigned);
+      this.resolved = Number(res.TicketCount.Ressolved);
+      this.allticket = Number(res.TicketCount.AllTicketCount);
 
       console.log('this.ticketlistcountt', this.collectioncount);
       return this.collectioncount;
@@ -215,7 +215,7 @@ export class CommunicatorTicketComponent {
     //this.TicketNo = content.TicketNo;
     console.log('Communication Page', data.content);
     //this.collections.push(data.content);
-    let ticketexist = this.collections.find((o: any) => o.ticketNo == data.ticketNo);
+    let ticketexist = this.collections.find((o: any) => o.ticketNo == data.content.ticketNo);
     if (ticketexist) return;
 
     this.collections.forEach((o: any) => {
@@ -395,7 +395,7 @@ export class CommunicatorTicketComponent {
         if (res.length > 0)
           this.collections = this.collections.concat(res);
         this.backupCollections = this.collections;
-        //console.log('collections batch = ',this.batch,this.collections);
+        console.log('collections batch = ',this.batch,this.collections);
         let cnt = parseInt((this.collections).length);
         //console.log('collections batch 285 = ',this.collections[cnt-1]);
         this.loader = false;
@@ -514,17 +514,31 @@ export class CommunicatorTicketComponent {
     // });
     //item.pipe(filter(o => o)).subscribe()
     //this.collections[idx] = o;
-    if (item.S_OPN) return;
-    this.performCommunicatorSeenTicket(item.transactionNo);
+    if (item.isOpened) return;
+    // this.performCommunicatorSeenTicket(item.transactionNo);
+    this.performSeenTicket(item.notificationId);
     this.collections[idx] = item;
-    item.S_OPN = true;
-    additionalNotification(-1);
+    this.ticketDetail.isOpened = true;
+    // additionalNotification(-1);
     //console.log('next ths.collections', this.collections);
     // if(item.ticketStatusId == 0){
     //   this.elapsedTimeStart1();
     // }
 
   }
+
+  performSeenTicket(NotificationID: any) {
+    console.log('performCommunicatorsSeenTicket transactionNo', NotificationID)
+    this.subs.s2 = rest.post('notification/' + NotificationID + '/seen').subscribe(async (res: any) => {
+      if ((res || {}).status != 'error') {
+        console.log('seen ticket', res);
+        //if (callback != null) callback();
+        return;
+      }
+      console.log('failed');
+    });
+  }
+
   elapsedTimeStart1() {
     timer(1000, 1000)
       .pipe(takeUntil(timerDone))

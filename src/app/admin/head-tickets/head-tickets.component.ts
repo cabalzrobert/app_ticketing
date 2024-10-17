@@ -700,10 +700,27 @@ export class HeadTicketsComponent {
       this.getLElapsedTime1();
     else
       clearInterval(this.interval);
+
+    if (item.isOpened) return;
+    // this.performCommunicatorSeenTicket(item.transactionNo);
+    this.performSeenTicket(item.notificationId);
+    this.ticketDetail.isOpened = true;
     this.scrollToBottom();
     // if (!item.isAssigned)
     //   setTimeout(() => this.getDepartmentPersonnels());
 
+  }
+
+  performSeenTicket(NotificationID: any) {
+    console.log('performCommunicatorsSeenTicket transactionNo', NotificationID)
+    this.subs.s2 = rest.post('notification/' + NotificationID + '/seen').subscribe(async (res: any) => {
+      if ((res || {}).status != 'error') {
+        console.log('seen ticket', res);
+        //if (callback != null) callback();
+        return;
+      }
+      console.log('failed');
+    });
   }
 
   elapsedTimeStart1() {
@@ -962,6 +979,8 @@ export class HeadTicketsComponent {
 
       dialogRef.afterClosed().subscribe((result: any) => {
         if (result) {
+          this.assigned = this.assigned - 1;
+          this.alltickets = this.alltickets - 1;
           this.goBack();
           // this.collections = [];
           // this.virtualScroll.setRenderedRange({ start: 0, end: 0 });

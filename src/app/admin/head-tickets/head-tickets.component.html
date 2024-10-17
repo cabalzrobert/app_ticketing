@@ -36,7 +36,7 @@
                         <cdk-virtual-scroll-viewport class="scrolling-container" [itemSize]="196"
                             (scrolledIndexChange)="nextBatch({tab: tabRef.selectedIndex})">
                             <!-- <mat-spinner class="spinner" *ngIf="showProgress"></mat-spinner> -->
-                            <mat-card *cdkVirtualFor="let item of collections" matRipple (click)="next(item)">
+                            <mat-card *cdkVirtualFor="let item of collections" matRipple (click)="next(item)" [ngClass]="item.isOpened ? 'opened': ''">
                                 <mat-card-header>
                                     <mat-card-title>{{item.title}}
                                         <span><mat-icon *ngIf="item.attachment != null">attach_file</mat-icon></span>
@@ -109,7 +109,7 @@
                     <div class="ticket-list-container">
                         <cdk-virtual-scroll-viewport class="scrolling-container" [itemSize]="196"
                             (scrolledIndexChange)="nextBatch({tab: tabRef.selectedIndex})">
-                            <mat-card *cdkVirtualFor="let item of collections" (click)="next(item)">
+                            <mat-card *cdkVirtualFor="let item of collections" (click)="next(item)" [ngClass]="item.isOpened ? 'opened': ''">
                                 <mat-card-header>
                                     <mat-card-title>{{item.title}}
                                         <span><mat-icon *ngIf="item.attachment != null">attach_file</mat-icon></span>

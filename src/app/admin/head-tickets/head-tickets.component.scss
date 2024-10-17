@@ -69,6 +69,10 @@ mat-card {
     cursor: pointer;
 }
 
+.opened{
+    color: gray;
+}
+
 .card-section {
     display: flex;
     gap: 10px;
@@ -129,7 +133,8 @@ mat-card {
     display: block;
     height: 100%;
     // width: 100%;
-    overflow-y: scroll;
+    overflow-y: auto;
+    scrollbar-width: none;
 }
 
 
@@ -752,7 +757,8 @@ mat-card {
             border-bottom-right-radius: 10px;
             padding: 16px 30px 16px 30px;
             //overflow: auto;
-            overflow: auto;
+            overflow-y: auto;
+            scrollbar-width: none;
 
             .commentlist {
                 display: flex;

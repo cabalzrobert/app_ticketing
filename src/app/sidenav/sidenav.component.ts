@@ -474,6 +474,7 @@ export class SidenavComponent implements OnInit {
   }
 
   receivedRequestTicketCommunicator(data: any) {
+    console.log('sidenav forwardticket received',data.content);
     //console.log('Received Ticket of Communicator Account', data);
     // var content = data.content;
     // if (this.TicketNo == content.TicketNo) {
@@ -595,9 +596,9 @@ export class SidenavComponent implements OnInit {
 
     const dialogRef = this.dialog.open(ProfileComponent, {
       // maxHeight: '0%',
-      height: '80%',
-      //width: '50%',
-      panelClass: 'full-screen-modal'
+      // height: '80%',
+      // width: '679px',
+      panelClass: 'full-screen-profile'
     });
     
   }

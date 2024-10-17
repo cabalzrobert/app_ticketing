@@ -45,7 +45,8 @@
 .appbody{
   display: flex;
   height: 100%;
-  overflow: auto;
+  overflow-y: auto;
+  scrollbar-width: none;
   //padding: 60px 30px 60px 30px
 }
 
