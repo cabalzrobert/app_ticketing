@@ -11,6 +11,8 @@ export class ViewAttachImageModalComponent implements OnInit {
   
   ngOnInit(): void {
     this.cnt = (this.attahcment.item).length
+    if(this.cnt == 1)
+      this.isright = true;
     console.log('View-attach-image-modal.components attahcment', this.attahcment.item[0]);
     this.linked = this.attahcment.item[this.index].URL;
     console.log('View-attach-image-modal.components this.cnt', this.cnt);

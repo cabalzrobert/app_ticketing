@@ -459,7 +459,7 @@
                                 <div class="footer-buttons0" *ngIf="ticketDetail?.attachment != null">
                                     <button class="btn-attachment" mat-flat-button (click)="hViewAttachment()">
                                         <mat-icon iconPositionEnd>photo_library</mat-icon>
-                                        Attachments
+                                        Attachment ({{_attachment}})
                                     </button>
                                 </div>
                                 <div class="footer-buttons" *ngIf="ticketDetail?.status===1&&!(ticketDetail?.ticketStatusId===3||ticketDetail?.ticketStatusId==1)">

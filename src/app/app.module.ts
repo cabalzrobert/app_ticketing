@@ -36,6 +36,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { NewUserAccessProfileModalComponent } from './new-user-access-profile-modal/new-user-access-profile-modal.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LineClampComponent } from './+lineclamp/line-clamp.component';
+import { MatTab, MatTabGroup } from '@angular/material/tabs';
+import { MatStepperModule } from '@angular/material/stepper';
 @NgModule({
   declarations: [
     AppComponent,
@@ -69,7 +71,10 @@ import { LineClampComponent } from './+lineclamp/line-clamp.component';
     NgOtpInputModule,
     MatToolbarModule,
     ScrollingModule,
-    NgbModule
+    NgbModule,
+    MatTabGroup,
+    MatTab,
+    MatStepperModule
   ],
   providers: [
     provideClientHydration(),

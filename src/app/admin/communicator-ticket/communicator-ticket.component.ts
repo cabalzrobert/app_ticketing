@@ -52,7 +52,7 @@ export class CommunicatorTicketComponent {
   collectionreceived: any = [];
   ticketTitle = '';
   ticketDetail: any;
-  _description:any;
+  _description: any;
   searchValue: any;
   // categories = [
   //   {
@@ -179,20 +179,19 @@ export class CommunicatorTicketComponent {
     stomp.ready(() => (stomp.refresh(), stomp.connect()));
   }
 
-  receivedRequestorApprovalNotify(data:any){
+  receivedRequestorApprovalNotify(data: any) {
     console.log('receivedRequestorApprovalNotify', data.content);
     this.ticketDetail.status = data.content.status;
     this.ticketDetail.ticketStatusId = data.content.ticketStatusId;
 
-    if(this.ticketDetail.ticketStatusId === 1)
-    {
+    if (this.ticketDetail.ticketStatusId === 1) {
       this.assigned = this.assigned - 1;
       this.allticket = this.allticket - 1;
       this.resolved = this.resolved + 1;
     }
   }
 
-  receivedDeptHeadReturnNotify(data:any){
+  receivedDeptHeadReturnNotify(data: any) {
     console.log('receivedDeptHeadReturnNotify', data.content);
     this.ticketDetail.status = data.content.status;
     this.ticketDetail.ticketStatusId = data.content.ticketStatusId;
@@ -395,7 +394,7 @@ export class CommunicatorTicketComponent {
         if (res.length > 0)
           this.collections = this.collections.concat(res);
         this.backupCollections = this.collections;
-        console.log('collections batch = ',this.batch,this.collections);
+        console.log('collections batch = ', this.batch, this.collections);
         let cnt = parseInt((this.collections).length);
         //console.log('collections batch 285 = ',this.collections[cnt-1]);
         this.loader = false;
@@ -444,7 +443,7 @@ export class CommunicatorTicketComponent {
   _second: number = 0;
   _elapsedtime: string = '';
   interval: any;
-  
+
   vtdindex: number = 0;
   vtdcounter: number = 0;
   vtdfirstcount: number = 0;
@@ -452,10 +451,14 @@ export class CommunicatorTicketComponent {
   showtext: string = 'Show more';
   _sheight: string = '';
   _swidth: number = 0;
+  _attachment: number = 0
 
   next(item: any, idx: number) {
     // if(item.departmentId) return;
     console.log('next idx', idx, item);
+    this._attachment = 0;
+    if (item.attachment != '')
+      this._attachment = JSON.parse(item.attachment).length;
     let elapsedtime: any = (item.elapsedTime).split(" ", 3);
     let _h: string = (elapsedtime[0]).replace('h', '');
     let _m: string = (elapsedtime[1]).replace('m', '');
@@ -472,7 +475,7 @@ export class CommunicatorTicketComponent {
     this.ticketDetail = item;
     this.TransactionNo = item.transactionNo;
 
-    
+
     if (window.innerWidth >= 768 && window.innerWidth <= 1572) {
       this.vtdindex = 100;
       this.vtdcounter = 100;
@@ -482,7 +485,7 @@ export class CommunicatorTicketComponent {
         this.vtdindex = 100;
       this.vtdcounter = this.vtdindex;
     }
-    else{
+    else {
       this.vtdindex = 300;
       this.vtdcounter = 300;
       this.vtdfirstcount = 300;
